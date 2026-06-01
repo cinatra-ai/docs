@@ -81,7 +81,7 @@ When a primitive needs token-only changes, consult the design skill. When a prim
 
 ## When the spec drifts
 
-The HTML at `design-system.html` is byte-identical to the upstream `../cinatra-design/docs/design-system.html`. When the upstream updates, copy it over and rerun the harness. The five evidence files in `docs/design/operational/` remain authoritative for agents — if the new HTML conflicts with a recorded resolution, the resolution wins until the owner updates the resolutions doc.
+When the spec (`design-system.html`) is updated, rerun the harness. The five evidence files in `docs/design/operational/` remain authoritative for agents — if the new HTML conflicts with a recorded resolution, the resolution wins until the owner updates the resolutions doc.
 
 ---
 

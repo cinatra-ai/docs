@@ -29,7 +29,7 @@ This is the Cinatra design-system reference for contributors, alongside the [Use
 
 ## How this guide stays current
 
-The design system spec (`design-system.html`) is **copied byte-identical** from `../cinatra-design/docs/design-system.html` (the "Claude Design" repository's output). When the spec updates upstream, copy it over and re-run the validation harness in this repo:
+When the spec is updated, re-run the validation harness in this repo:
 
 ```bash
 node scripts/design/snapshot-tokens.mjs --check   # warns if token retune is needed
