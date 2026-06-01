@@ -106,7 +106,7 @@ Anything that would make the README read as developer documentation:
 - Approval-gate enumerations or human-in-the-loop checklists
 - One-line italic taglines under the H1
 
-Developer / maintainer content has a home: `docs/developer/<topic>.md`. The extension README is not that home.
+Developer / maintainer content has a home in the developer documentation. The extension README is not that home.
 
 ## Staged debt
 

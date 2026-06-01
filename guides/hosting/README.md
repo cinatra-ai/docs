@@ -17,6 +17,8 @@ If you are an end user, see the [User Guide](../user/README.md). If you administ
 - [MCP public URL & tunnels](mcp-public-url.md) — why a local install needs a public URL for the AI chat, local vs. remote services, Tailscale Funnel (a public-internet tunnel) setup
 - [Error reporting](error-reporting.md) — Sentry-compatible error reporting: when it fires, what's redacted, how to wire it up
 - [Troubleshooting](troubleshooting.md) — common failure modes, how to read the logs, when to restart what
+- [Operations](operations.md) — how a release is built and deployed (and why merging is not deploying)
+- [Connector access migration runbook](connector-migration-runbook.md) — the one-shot operator migration off the legacy connector-access table
 
 ---
 

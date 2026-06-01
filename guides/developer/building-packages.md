@@ -60,7 +60,7 @@ Not every package needs every directory. The minimum is `src/index.ts` plus what
 - **Functions:** camelCase. Common prefixes: `read*` / `write*` / `update*` / `delete*` for store access; `build*` for data-structure assembly; `handle*` for event handlers; `create*` for factory functions.
 - **Types and components:** PascalCase. Props types end with `Props`; port types end with `Port`; store types end with `Store`.
 - **MCP primitives:** underscore-separated, prefixed by the package's domain (`accounts_create`, `objects_save`, `agent_run`).
-- **Package name:** the scoped npm-style package name puts the kind last (e.g. `@cinatra-ai/email-drafting-agent`, `@cinatra-ai/assistant-skills`) — see [Naming conventions](../../references/platform/extensions.md#naming-conventions).
+- **Package name:** the scoped npm-style package name puts the kind last (e.g. `@cinatra-ai/email-drafting-agent`, `@cinatra-ai/assistant-skills`).
 
 ### TypeScript
 

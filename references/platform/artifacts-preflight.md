@@ -32,7 +32,7 @@ After the surface stage the following must return **no matches** outside this pr
 ```bash
 grep -rn "SavedMediaRecord\|/assets/media\|blog_media_" \
   --include='*.ts' --include='*.tsx' src/ packages/ \
-  | grep -v 'docs/developer/artifacts-preflight' || echo "PURGE CLEAN"
+  | grep -v 'artifacts-preflight' || echo "PURGE CLEAN"
 ```
 
 **Scope of the blocking gate:** only the **`/assets/media` surface** (route, nav, plugins-routes mount, the saved-media new-URL map) must be gone at the gate close — verified by `grep -rn "assets/media" src packages | grep -v artifacts-preflight` returning **no matches** (route deleted, nav repointed to `/artifacts`, revalidate path swapped). `SavedMediaRecord` / `blog_media_*` legitimately **remain** until asset-blog deliverable conversion — they are NOT part of the surface gate.
