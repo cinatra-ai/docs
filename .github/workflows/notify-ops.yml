@@ -1,0 +1,49 @@
+name: Notify cinatra-ops on docs push
+
+# Fires repository_dispatch(cinatra-docs-pushed) at cinatra-ops so its
+# build-deploy-docs.yml rebuilds + redeploys docs.cinatra.ai immediately
+# (instead of waiting for the scheduled fallback). The whole repo is docs
+# content, so any push to main is a docs change — no path filter needed.
+#
+# Requires the CINATRA_OPS_DISPATCH_TOKEN repo secret (a fine-grained PAT
+# scoped to cinatra-ai/cinatra-ops with Contents: write). Until that secret
+# is set, this job no-ops gracefully and docs deploy via the cinatra-ops
+# "Build + deploy docs.cinatra.ai" manual workflow_dispatch / schedule.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: notify-docs
+  cancel-in-progress: true
+
+jobs:
+  notify:
+    name: Dispatch cinatra-docs-pushed
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fire repository_dispatch to cinatra-ops
+        env:
+          GH_TOKEN: ${{ secrets.CINATRA_OPS_DISPATCH_TOKEN }}
+          SHA: ${{ github.sha }}
+          REF: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "CINATRA_OPS_DISPATCH_TOKEN not set — skipping dispatch."
+            echo "Operator: add the secret to enable auto-deploy; until then use the"
+            echo "cinatra-ops 'Build + deploy docs.cinatra.ai' manual workflow_dispatch."
+            exit 0
+          fi
+          curl -fsSL -X POST \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/cinatra-ai/cinatra-ops/dispatches \
+            -d "$(jq -nc --arg sha "$SHA" --arg ref "$REF" \
+                  '{event_type:"cinatra-docs-pushed",client_payload:{sha:$sha,ref:$ref}}')"

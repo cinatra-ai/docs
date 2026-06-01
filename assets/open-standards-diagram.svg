@@ -1,0 +1,66 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="13">
+
+  <rect width="800" height="500" fill="#f8f9fa" rx="8"/>
+
+  <!-- Center: Cinatra platform box -->
+  <rect x="290" y="180" width="220" height="140" rx="10" fill="#1a1a2e" stroke="#444" stroke-width="1.5"/>
+  <text x="400" y="218" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="bold">Cinatra</text>
+  <text x="400" y="240" text-anchor="middle" fill="#a0a0c0" font-size="10">OAS compiler</text>
+  <text x="400" y="256" text-anchor="middle" fill="#a0a0c0" font-size="10">WayFlow runtime</text>
+  <text x="400" y="272" text-anchor="middle" fill="#a0a0c0" font-size="10">Redis event log</text>
+  <text x="400" y="296" text-anchor="middle" fill="#8a8aaa" font-size="9">objects store + durable execution</text>
+
+  <!-- Lane: OAS (top-left) - agent packages feed in -->
+  <rect x="30" y="30" width="200" height="80" rx="8" fill="#e8f4f8" stroke="#5b9bd5" stroke-width="1.5"/>
+  <text x="130" y="56" text-anchor="middle" fill="#1a4a6b" font-size="12" font-weight="bold">OAS</text>
+  <text x="130" y="74" text-anchor="middle" fill="#2a5a7b" font-size="10">agents/&lt;vendor&gt;/&lt;slug&gt;/</text>
+  <text x="130" y="88" text-anchor="middle" fill="#2a5a7b" font-size="10">cinatra/oas.json (26.1.0)</text>
+  <text x="130" y="102" text-anchor="middle" fill="#2a5a7b" font-size="9">authoring format</text>
+  <path d="M230 70 L295 200" stroke="#5b9bd5" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+  <text x="252" y="142" fill="#5b9bd5" font-size="10" transform="rotate(-58, 252, 142)">compile + load</text>
+
+  <!-- Lane: A2A (bottom-left) - bidirectional -->
+  <rect x="30" y="390" width="200" height="80" rx="8" fill="#e8f8ee" stroke="#4caf50" stroke-width="1.5"/>
+  <text x="130" y="416" text-anchor="middle" fill="#1a4a2b" font-size="12" font-weight="bold">A2A</text>
+  <text x="130" y="434" text-anchor="middle" fill="#2a5a3b" font-size="10">POST /api/a2a</text>
+  <text x="130" y="448" text-anchor="middle" fill="#2a5a3b" font-size="10">JSON-RPC 2.0</text>
+  <text x="130" y="462" text-anchor="middle" fill="#2a5a3b" font-size="9">@a2a-js/sdk 0.3</text>
+  <path d="M230 410 L295 300" stroke="#4caf50" stroke-width="2" fill="none" marker-end="url(#arrowGreen)"/>
+  <path d="M295 308 L230 425" stroke="#4caf50" stroke-width="1.5" stroke-dasharray="5,3" fill="none" marker-end="url(#arrowGreen)"/>
+  <text x="200" y="365" fill="#4caf50" font-size="10" transform="rotate(-58, 200, 365)">inbound + outbound</text>
+
+  <!-- Lane: AG-UI (top-right) - SSE stream -->
+  <rect x="570" y="30" width="200" height="80" rx="8" fill="#fef9e7" stroke="#f39c12" stroke-width="1.5"/>
+  <text x="670" y="56" text-anchor="middle" fill="#6b4000" font-size="12" font-weight="bold">AG-UI</text>
+  <text x="670" y="74" text-anchor="middle" fill="#7b5000" font-size="10">/api/agents/runs/</text>
+  <text x="670" y="88" text-anchor="middle" fill="#7b5000" font-size="10">[runId]/stream (SSE)</text>
+  <text x="670" y="102" text-anchor="middle" fill="#7b5000" font-size="9">@ag-ui/core 0.0.52</text>
+  <path d="M510 200 L568 90" stroke="#f39c12" stroke-width="2" fill="none" marker-end="url(#arrowOrange)"/>
+  <text x="540" y="148" fill="#f39c12" font-size="10" transform="rotate(58, 540, 148)">typed events</text>
+
+  <!-- Lane: A2UI (bottom-right) - HITL surfaces over separate channel -->
+  <rect x="570" y="390" width="200" height="80" rx="8" fill="#fce4ec" stroke="#e91e8c" stroke-width="1.5"/>
+  <text x="670" y="416" text-anchor="middle" fill="#6b0030" font-size="12" font-weight="bold">A2UI v0.9</text>
+  <text x="670" y="434" text-anchor="middle" fill="#7b0040" font-size="10">cinatra:a2ui:run:{id}</text>
+  <text x="670" y="448" text-anchor="middle" fill="#7b0040" font-size="10">declarative HITL UI</text>
+  <text x="670" y="462" text-anchor="middle" fill="#7b0040" font-size="9">parallel to AG-UI</text>
+  <path d="M510 300 L568 410" stroke="#e91e8c" stroke-width="2" fill="none" marker-end="url(#arrowPink)"/>
+  <text x="540" y="362" fill="#e91e8c" font-size="10" transform="rotate(-58, 540, 362)">surface payloads</text>
+
+  <defs>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#5b9bd5"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#4caf50"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#f39c12"/>
+    </marker>
+    <marker id="arrowPink" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#e91e8c"/>
+    </marker>
+  </defs>
+
+  <rect x="30" y="488" width="740" height="1" fill="#cccccc"/>
+</svg>

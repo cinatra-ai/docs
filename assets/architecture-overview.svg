@@ -1,0 +1,164 @@
+<svg width="1200" height="980" viewBox="0 0 1200 980" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>Cinatra Architecture Overview</title>
+  <desc>Architectural diagram of Cinatra, the open source AI workspace for teams, featuring a unified workspace, protocol gateways, virtual runtime, and durable multi-tier storage.</desc>
+
+  <!-- Background -->
+  <rect width="1200" height="980" rx="28" fill="#F8FAFC"/>
+
+  <!-- Humans & Applications (Top) -->
+  <g id="actors">
+    <!-- Humans -->
+    <rect x="190" y="74" width="300" height="70" rx="18" fill="#EEF6FF" stroke="#C4DCF8" stroke-width="2"/>
+    <text x="340" y="115" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="18" fill="#102033">Humans</text>
+
+    <!-- Applications -->
+    <rect x="710" y="74" width="300" height="70" rx="18" fill="#E8F0FE" stroke="#B7CCF7" stroke-width="2"/>
+    <text x="860" y="115" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="18" fill="#102033">Applications</text>
+  </g>
+
+  <!-- Connecting Lines to Runtime -->
+  <path d="M340 144V200" stroke="#8AA5D6" stroke-width="3" stroke-linecap="round"/>
+  <path d="M860 144V200" stroke="#8AA5D6" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Main Runtime Container -->
+  <rect x="150" y="200" width="900" height="750" rx="28" fill="#FFFFFF" stroke="#D9E1EC" stroke-width="2"/>
+  <text x="600" y="225" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="600" font-size="20" fill="#102033">Cinatra</text>
+
+  <!-- Protocol Layer (Secure Gateway) -->
+  <g id="gateways">
+    <rect x="210" y="290" width="260" height="92" rx="18" fill="#F3F7FB" stroke="#D9E1EC" stroke-width="2"/>
+    <text x="340" y="325" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="18" fill="#102033">Collaborative Workspace</text>
+    <text x="340" y="349" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="500" font-size="14" fill="#45556B">
+      <tspan x="340" dy="0">User interfaces for teams</tspan>
+      <tspan x="340" dy="18">in various business areas</tspan>
+    </text>
+
+    <rect x="500" y="290" width="260" height="92" rx="18" fill="#EEF6FF" stroke="#C4DCF8" stroke-width="2"/>
+    <text x="630" y="325" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="18" fill="#102033">MCP</text>
+    <text x="630" y="349" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="500" font-size="14" fill="#45556B">
+      <tspan x="630" dy="0">Model Context Protocol tools</tspan>
+      <tspan x="630" dy="18">and resource discovery</tspan>
+    </text>
+
+    <rect x="790" y="290" width="200" height="92" rx="18" fill="#FFF5E8" stroke="#F2D0A1" stroke-width="2"/>
+    <text x="890" y="325" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="18" fill="#102033">A2A</text>
+    <text x="890" y="349" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="500" font-size="14" fill="#45556B">
+      <tspan x="890" dy="0">Task delegation for</tspan>
+      <tspan x="890" dy="18">agent orchestration</tspan>
+    </text>
+  </g>
+
+  <!-- Connections from Top -->
+  <path d="M340 200V290" stroke="#B6C7DE" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M860 200V250" stroke="#B6C7DE" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M630 250H890" stroke="#B6C7DE" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M630 250V290" stroke="#B6C7DE" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M890 250V290" stroke="#B6C7DE" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Packages Section (Virtual Runtime) -->
+  <rect x="200" y="430" width="800" height="230" rx="22" fill="#F8FAFC" stroke="#D9E1EC" stroke-width="2"/>
+  <text x="600" y="462" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="18" fill="#102033">Agents</text>
+  <text x="600" y="486" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="500" font-size="14" fill="#45556B">Autonomous functionality owning its own state, UI, and logic</text>
+
+  <!-- Package Cards -->
+  <g id="packages">
+    <!-- Chat -->
+    <rect x="220" y="520" width="140" height="110" rx="16" fill="#FFFFFF" stroke="#DCE5F0" stroke-width="2"/>
+    <text x="290" y="552" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="18" fill="#102033">Chat</text>
+    <text x="290" y="576" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="500" font-size="12" fill="#5F6E82">
+      <tspan x="290" dy="0">Conversational and</tspan>
+      <tspan x="290" dy="15">interactive AI</tspan>
+      <tspan x="290" dy="15">assistants</tspan>
+    </text>
+
+    <!-- Builder -->
+    <rect x="375" y="520" width="140" height="110" rx="16" fill="#FFFFFF" stroke="#DCE5F0" stroke-width="2"/>
+    <text x="445" y="552" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="18" fill="#102033">Builder</text>
+    <text x="445" y="576" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="500" font-size="12" fill="#5F6E82">
+      <tspan x="445" dy="0">Create new agents</tspan>
+      <tspan x="445" dy="15">inside Cinatra's</tspan>
+      <tspan x="445" dy="15">chat</tspan>
+    </text>
+
+    <!-- Skills -->
+    <rect x="530" y="520" width="140" height="110" rx="16" fill="#FFFFFF" stroke="#DCE5F0" stroke-width="2"/>
+    <text x="600" y="556" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="18" fill="#102033">Skills</text>
+    <text x="600" y="578" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="500" font-size="12" fill="#5F6E82">
+      <tspan x="600" dy="0">Default and custom</tspan>
+      <tspan x="600" dy="16">SKILL.md instructions</tspan>
+    </text>
+
+    <!-- Connectors -->
+    <rect x="685" y="520" width="140" height="110" rx="16" fill="#FFFFFF" stroke="#DCE5F0" stroke-width="2"/>
+    <text x="755" y="552" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="18" fill="#102033">Connectors</text>
+    <text x="755" y="576" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="500" font-size="12" fill="#5F6E82">
+      <tspan x="755" dy="0">Nango, Gmail,</tspan>
+      <tspan x="755" dy="15">Apollo, WordPress,</tspan>
+      <tspan x="755" dy="15">and more</tspan>
+    </text>
+
+    <!-- Assets -->
+    <rect x="840" y="520" width="140" height="110" rx="16" fill="#FFFFFF" stroke="#DCE5F0" stroke-width="2"/>
+    <text x="910" y="556" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="18" fill="#102033">Assets</text>
+    <text x="910" y="578" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="500" font-size="12" fill="#5F6E82">
+      <tspan x="910" dy="0">Generated work</tspan>
+      <tspan x="910" dy="16">product &amp; artifacts</tspan>
+    </text>
+  </g>
+
+  <!-- Connectors from Layers to Packages -->
+  <path d="M340 382V430" stroke="#B6C7DE" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M630 382V430" stroke="#B6C7DE" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M890 382V430" stroke="#DDB887" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Infrastructure & Storage Section -->
+  <rect x="200" y="690" width="800" height="230" rx="22" fill="#F8FAFC" stroke="#D9E1EC" stroke-width="2"/>
+
+  <!-- LLM Gateway -->
+  <rect x="210" y="720" width="180" height="140" rx="18" fill="#F0F7F3" stroke="#C5DEC9" stroke-width="2"/>
+  <text x="300" y="763" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="16" fill="#102033">LLM Gateway</text>
+  <text x="300" y="789" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="500" font-size="12" fill="#45556B">
+    <tspan x="300" dy="0">Multi-provider</tspan>
+    <tspan x="300" dy="15">orchestrator</tspan>
+    <tspan x="300" dy="15">(OpenAI, Anthropic,</tspan>
+    <tspan x="300" dy="15">Gemini)</tspan>
+  </text>
+  <path d="M300 660V720" stroke="#B6C7DE" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Objects -->
+  <rect x="410" y="720" width="180" height="140" rx="18" fill="#FFFFFF" stroke="#D9E1EC" stroke-width="2"/>
+  <text x="500" y="763" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="16" fill="#102033">Objects</text>
+  <text x="500" y="789" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="500" font-size="12" fill="#5F6E82">
+    <tspan x="500" dy="0">Typed object store</tspan>
+    <tspan x="500" dy="15">for runs, entities,</tspan>
+    <tspan x="500" dy="15">assets, audit</tspan>
+    <tspan x="500" dy="16" font-size="11" fill="#7C8896">PostgreSQL-backed</tspan>
+  </text>
+  <path d="M500 660V720" stroke="#B6C7DE" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Graphiti -->
+  <rect x="610" y="720" width="180" height="140" rx="18" fill="#FFFFFF" stroke="#D9E1EC" stroke-width="2"/>
+  <text x="700" y="763" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="16" fill="#102033">Graphiti</text>
+  <text x="700" y="789" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="500" font-size="12" fill="#5F6E82">
+    <tspan x="700" dy="0">Object graph</tspan>
+    <tspan x="700" dy="15">indexer for typed</tspan>
+    <tspan x="700" dy="15">retrieval and</tspan>
+    <tspan x="700" dy="15">embeddings</tspan>
+  </text>
+  <path d="M700 660V720" stroke="#B6C7DE" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Redis + BullMQ -->
+  <rect x="810" y="720" width="180" height="140" rx="18" fill="#FFFFFF" stroke="#D9E1EC" stroke-width="2"/>
+  <text x="900" y="763" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="16" fill="#102033">Redis &amp; BullMQ</text>
+  <text x="900" y="789" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="500" font-size="12" fill="#5F6E82">
+    <tspan x="900" dy="0">Durable job queue,</tspan>
+    <tspan x="900" dy="15">event log,</tspan>
+    <tspan x="900" dy="15">pub/sub for live</tspan>
+    <tspan x="900" dy="15">UI updates</tspan>
+  </text>
+  <path d="M900 660V720" stroke="#B6C7DE" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Durable Persistence label below cards -->
+  <text x="600" y="890" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700" font-size="18" fill="#102033">Durable Persistence &amp; Execution</text>
+
+</svg>

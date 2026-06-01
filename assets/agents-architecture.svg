@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 680" width="920" height="680">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <polygon points="0 0, 8 3.5, 0 7" fill="#484f58"/>
+    </marker>
+    <marker id="arr-blue" markerWidth="8" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <polygon points="0 0, 8 3.5, 0 7" fill="#1f6feb"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="920" height="680" fill="#0d1117" rx="12"/>
+
+  <!-- Title -->
+  <text x="460" y="32" text-anchor="middle"
+        font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="13" font-weight="700" fill="#e6edf3" letter-spacing="3">
+    CINATRA · AGENTS ARCHITECTURE
+  </text>
+
+  <!-- ── ROW 1: External Surface ────────────────────────── y 48–110 -->
+  <text x="16" y="48" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="9" font-weight="600" fill="#484f58" letter-spacing="1.5">EXTERNAL SURFACE</text>
+
+  <!-- Cinatra UI -->
+  <rect x="16" y="54" width="185" height="54" rx="5" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="108" y="76" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="12" font-weight="600" fill="#e6edf3">Cinatra UI</text>
+  <text x="108" y="94" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="10" fill="#8b949e">browser · Next.js</text>
+
+  <!-- MCP Clients -->
+  <rect x="215" y="54" width="195" height="54" rx="5" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="312" y="76" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="12" font-weight="600" fill="#e6edf3">MCP Clients</text>
+  <text x="312" y="94" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="10" fill="#8b949e">Claude Code · third-party</text>
+
+  <!-- A2A Clients -->
+  <rect x="424" y="54" width="236" height="54" rx="5" fill="#0d2236" stroke="#1f6feb" stroke-width="1.2"/>
+  <text x="542" y="76" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="12" font-weight="600" fill="#58a6ff">A2A Clients</text>
+  <text x="542" y="94" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="10" fill="#388bfd">LangGraph · CrewAI · ADK · Bedrock</text>
+
+  <!-- AG-UI Consumers -->
+  <rect x="674" y="54" width="230" height="54" rx="5" fill="#0c2e2e" stroke="#0d6b6b" stroke-width="1.2"/>
+  <text x="789" y="76" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="12" font-weight="600" fill="#39d353">AG-UI Consumers</text>
+  <text x="789" y="94" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="10" fill="#3fb950">useCoAgent · custom</text>
+
+  <!-- Arrows from row 1 → row 2 -->
+  <line x1="460" y1="108" x2="460" y2="128" stroke="#484f58" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ── ROW 2: CinatraAgentSpec ─────────────────────── y 132–200 -->
+  <text x="16" y="130" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="9" font-weight="600" fill="#484f58" letter-spacing="1.5">AGENT DEFINITION LAYER</text>
+
+  <rect x="16" y="136" width="888" height="64" rx="5" fill="#1a1228" stroke="#6e40c9" stroke-width="1.2"/>
+  <text x="460" y="159" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,monospace"
+        font-size="12" font-weight="700" fill="#a371f7">
+    CinatraAgentSpec&lt;TInput, TOutput&gt;
+  </text>
+  <!-- fields row -->
+  <text x="75"  y="180" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="#8b949e">name</text>
+  <text x="218" y="180" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="#8b949e">inputSchema: ZodSchema</text>
+  <text x="390" y="180" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="#8b949e">outputSchema: ZodSchema</text>
+  <text x="568" y="180" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="#8b949e">handoffs: CinatraHandoff[]</text>
+  <text x="724" y="180" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="#8b949e">durable | hitlRequired</text>
+  <text x="862" y="180" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="#8b949e">provider</text>
+  <!-- dividers between fields -->
+  <line x1="148" y1="170" x2="148" y2="190" stroke="#3d2f5a" stroke-width="1"/>
+  <line x1="302" y1="170" x2="302" y2="190" stroke="#3d2f5a" stroke-width="1"/>
+  <line x1="480" y1="170" x2="480" y2="190" stroke="#3d2f5a" stroke-width="1"/>
+  <line x1="652" y1="170" x2="652" y2="190" stroke="#3d2f5a" stroke-width="1"/>
+  <line x1="800" y1="170" x2="800" y2="190" stroke="#3d2f5a" stroke-width="1"/>
+
+  <!-- Arrow → row 3 -->
+  <line x1="460" y1="200" x2="460" y2="220" stroke="#484f58" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ── ROW 3: Execution Router ─────────────────────── y 222–270 -->
+  <rect x="280" y="222" width="360" height="48" rx="5" fill="#1a1d27" stroke="#30363d" stroke-width="1"/>
+  <text x="460" y="244" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="12" font-weight="600" fill="#e6edf3">Execution Router</text>
+  <text x="460" y="261" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="10" fill="#8b949e">durable=true or hitlRequired=true → distributed · else → in-process</text>
+
+  <!-- Split arrows: left branch -->
+  <path d="M 370,270 L 370,292 L 195,292 L 195,308"
+        stroke="#e3b341" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <!-- Split arrows: right branch -->
+  <path d="M 550,270 L 550,292 L 730,292 L 730,308"
+        stroke="#3fb950" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <!-- A2A direct path label -->
+  <text x="740" y="289" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="9" fill="#1f6feb">A2A always →</text>
+
+  <!-- ── ROW 4: Two Tiers ─────────────────────────────── y 308–435 -->
+
+  <!-- In-Process Tier (left) -->
+  <rect x="16" y="308" width="358" height="127" rx="5" fill="#1b1700" stroke="#e3b341" stroke-width="1.2"/>
+  <text x="32" y="327" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="9" font-weight="600" fill="#e3b341" letter-spacing="1.5">IN-PROCESS TIER</text>
+  <text x="195" y="346" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="12" font-weight="700" fill="#d29922">@openai/agents · run() + RunHooks</text>
+  <line x1="32" y1="353" x2="358" y2="353" stroke="#332700" stroke-width="1"/>
+  <text x="32" y="369" font-family="ui-monospace,monospace" font-size="10" fill="#8b949e">• typed handoffs — inputFilter / outputType (Zod)</text>
+  <text x="32" y="386" font-family="ui-monospace,monospace" font-size="10" fill="#8b949e">• RunHooks → HITL interception + budget tracking</text>
+  <text x="32" y="403" font-family="ui-monospace,monospace" font-size="10" fill="#8b949e">• OpenTelemetry tracing built-in</text>
+  <text x="32" y="420" font-family="ui-monospace,monospace" font-size="10" fill="#8b949e">• short chains only  ·  no BullMQ hop</text>
+
+  <!-- Distributed Tier (right) -->
+  <rect x="546" y="308" width="358" height="127" rx="5" fill="#0b1e0b" stroke="#3fb950" stroke-width="1.2"/>
+  <text x="562" y="327" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="9" font-weight="600" fill="#3fb950" letter-spacing="1.5">DISTRIBUTED TIER</text>
+  <text x="725" y="346" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="12" font-weight="700" fill="#56d364">BullMQ workers · agentic-execution.ts</text>
+  <line x1="562" y1="353" x2="888" y2="353" stroke="#0d2e0d" stroke-width="1"/>
+  <text x="562" y="369" font-family="ui-monospace,monospace" font-size="10" fill="#8b949e">• durable state across worker restarts (Postgres)</text>
+  <text x="562" y="386" font-family="ui-monospace,monospace" font-size="10" fill="#8b949e">• HITL pause / resume  ·  pending_approval state</text>
+  <text x="562" y="403" font-family="ui-monospace,monospace" font-size="10" fill="#8b949e">• AG-UI adapter → Redis pub/sub events</text>
+  <text x="562" y="420" font-family="ui-monospace,monospace" font-size="10" fill="#8b949e">• multi-level orchestration via BullMQ Flow</text>
+
+  <!-- Merge arrows → row 5 -->
+  <path d="M 195,435 L 195,455 L 460,455 L 460,468"
+        stroke="#484f58" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <path d="M 725,435 L 725,455 L 460,455"
+        stroke="#484f58" stroke-width="1.5" fill="none"/>
+
+  <!-- ── ROW 5: LLM Orchestration ──────────────────── y 470–566 -->
+  <text x="16" y="468" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="9" font-weight="600" fill="#484f58" letter-spacing="1.5">
+    LLM ORCHESTRATION LAYER  ·  @cinatra/llm-orchestration
+  </text>
+
+  <!-- OpenAI -->
+  <rect x="16" y="474" width="278" height="90" rx="5" fill="#001f35" stroke="#1f6feb" stroke-width="1.2"/>
+  <text x="155" y="496" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="12" font-weight="700" fill="#58a6ff">OpenAI</text>
+  <text x="155" y="514" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="10" fill="#388bfd">@openai/agents · Responses API</text>
+  <text x="155" y="531" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="10" fill="#8b949e">run() replaces manual loop</text>
+  <text x="155" y="548" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="10" fill="#8b949e">RunHooks: HITL · budget · tracing</text>
+
+  <!-- Anthropic -->
+  <rect x="321" y="474" width="278" height="90" rx="5" fill="#180f2e" stroke="#6e40c9" stroke-width="1.2"/>
+  <text x="460" y="496" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="12" font-weight="700" fill="#a371f7">Anthropic</text>
+  <text x="460" y="514" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="10" fill="#8957e5">@anthropic-ai/sdk · Messages API</text>
+  <text x="460" y="531" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="10" fill="#8b949e">manual tool loop (unchanged)</text>
+  <text x="460" y="548" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="10" fill="#8b949e">native MCP beta · function tools</text>
+
+  <!-- Gemini -->
+  <rect x="626" y="474" width="278" height="90" rx="5" fill="#091e10" stroke="#196c2e" stroke-width="1.2"/>
+  <text x="765" y="496" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="12" font-weight="700" fill="#3fb950">Gemini</text>
+  <text x="765" y="514" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="10" fill="#2ea043">@google/genai · adapter pattern</text>
+  <text x="765" y="531" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="10" fill="#8b949e">no agent SDK — manual loop</text>
+  <text x="765" y="548" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="10" fill="#8b949e">media generation · function tools</text>
+
+  <!-- Arrow → row 6 -->
+  <line x1="460" y1="564" x2="460" y2="582" stroke="#484f58" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ── ROW 6: Cross-cutting ───────────────────────── y 585–660 -->
+  <text x="16" y="582" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="9" font-weight="600" fill="#484f58" letter-spacing="1.5">CROSS-CUTTING CONCERNS</text>
+
+  <!-- MCP Injection -->
+  <rect x="16" y="588" width="278" height="70" rx="5" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="155" y="610" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="11" font-weight="600" fill="#e6edf3">MCP Server Tool Injection</text>
+  <text x="155" y="628" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="10" fill="#8b949e">native type on every OpenAI call</text>
+  <text x="155" y="645" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="10" fill="#8b949e">function fallback for Anthropic</text>
+
+  <!-- Skills -->
+  <rect x="321" y="588" width="278" height="70" rx="5" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="460" y="610" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="11" font-weight="600" fill="#e6edf3">Skills · SKILL.md</text>
+  <text x="460" y="628" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="10" fill="#8b949e">loaded from DB via MCP</text>
+  <text x="460" y="645" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="10" fill="#8b949e">delivered as read_skill function tools</text>
+
+  <!-- OTel -->
+  <rect x="626" y="588" width="278" height="70" rx="5" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="765" y="610" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="11" font-weight="600" fill="#e6edf3">OpenTelemetry Tracing</text>
+  <text x="765" y="628" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="10" fill="#8b949e">in-process: @openai/agents built-in</text>
+  <text x="765" y="645" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="10" fill="#8b949e">distributed: custom OTel spans</text>
+</svg>

@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 580" width="880" height="580">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <polygon points="0 0, 8 3.5, 0 7" fill="#6e7681"/>
+    </marker>
+    <marker id="arr-opt" markerWidth="8" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <polygon points="0 0, 8 3.5, 0 7" fill="#30363d"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="880" height="580" fill="#0d1117" rx="12"/>
+
+  <!-- Title -->
+  <text x="440" y="28" text-anchor="middle"
+        font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="13" font-weight="700" fill="#e6edf3" letter-spacing="2">
+    CINATRA · OBJECTS LAYER
+  </text>
+  <text x="440" y="46" text-anchor="middle"
+        font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="10" fill="#6e7681">
+    cinatra.objects  —  every registered type shadow-upserts one row here on every write
+  </text>
+
+  <!-- ── cinatra.objects outer table ─────────────────────────── -->
+  <rect x="12" y="56" width="856" height="432" rx="8"
+        fill="none" stroke="#21262d" stroke-width="1.5" stroke-dasharray="6 3"/>
+  <text x="440" y="74" text-anchor="middle"
+        font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="9" fill="#484f58" letter-spacing="1">
+    id · type · parent_id · parent_type · data · org_id
+  </text>
+
+  <!-- ── Section dividers ─────────────────────────────────────── -->
+  <line x1="196" y1="80" x2="196" y2="482" stroke="#161b22" stroke-width="1"/>
+  <line x1="512" y1="80" x2="512" y2="482" stroke="#161b22" stroke-width="1"/>
+
+  <!-- Section labels -->
+  <text x="104" y="90" text-anchor="middle"
+        font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="700" fill="#388bfd" letter-spacing="1.5">PROFILES</text>
+  <text x="354" y="90" text-anchor="middle"
+        font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="700" fill="#3fb950" letter-spacing="1.5">CONTENT CHAIN</text>
+  <text x="694" y="90" text-anchor="middle"
+        font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="700" fill="#8b949e" letter-spacing="1.5">STANDALONE</text>
+
+  <!-- ══════════════════════════════════════════════════════════
+       PROFILES  (x: 18–192)
+  ══════════════════════════════════════════════════════════════ -->
+
+  <!-- account -->
+  <rect x="22" y="100" width="162" height="56" rx="6" fill="#0d2236" stroke="#1f6feb" stroke-width="1.5"/>
+  <text x="30" y="117" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="600" fill="#388bfd" letter-spacing="1">OBJECT TYPE</text>
+  <text x="103" y="135" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="14" font-weight="700" fill="#58a6ff">account</text>
+  <text x="103" y="150" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="8" fill="#388bfd">entity-accounts:account</text>
+
+  <!-- arrow account → contact -->
+  <line x1="103" y1="156" x2="103" y2="174" stroke="#6e7681" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- contact -->
+  <rect x="22" y="176" width="162" height="56" rx="6" fill="#0d2236" stroke="#1f6feb" stroke-width="1.5"/>
+  <text x="30" y="193" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="600" fill="#388bfd" letter-spacing="1">OBJECT TYPE</text>
+  <text x="103" y="211" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="14" font-weight="700" fill="#58a6ff">contact</text>
+  <text x="103" y="226" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="8" fill="#388bfd">entity-contacts:contact</text>
+
+  <!-- note: synthesized -->
+  <text x="103" y="254" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="9" fill="#484f58">synthesized from startup data</text>
+  <text x="103" y="267" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="9" fill="#484f58">account id = startup id</text>
+
+  <!-- ══════════════════════════════════════════════════════════
+       CONTENT CHAIN  (x: 202–508)
+  ══════════════════════════════════════════════════════════════ -->
+
+  <!-- transcript-generator  (category: project) -->
+  <rect x="257" y="100" width="192" height="56" rx="6" fill="#1a1228" stroke="#a371f7" stroke-width="1.5"/>
+  <text x="265" y="117" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="600" fill="#a371f7" letter-spacing="1">OBJECT TYPE</text>
+  <text x="353" y="135" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#c8b3f5">transcript-generator</text>
+  <text x="353" y="150" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="8" fill="#a371f7">agent-transcript:transcript-generator</text>
+
+  <!-- arrow → transcript -->
+  <line x1="353" y1="156" x2="353" y2="174" stroke="#6e7681" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- transcript  (category: content) -->
+  <rect x="257" y="176" width="192" height="56" rx="6" fill="#0c2e2e" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="265" y="193" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="600" fill="#3fb950" letter-spacing="1">OBJECT TYPE</text>
+  <text x="353" y="211" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="14" font-weight="700" fill="#56d364">transcript</text>
+  <text x="353" y="226" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="8" fill="#3fb950">agent-transcript:transcript</text>
+
+  <!-- arrow → blog-post-idea  (optional, dashed) -->
+  <line x1="353" y1="232" x2="353" y2="250" stroke="#30363d" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr-opt)"/>
+  <text x="362" y="245" font-family="ui-sans-serif,system-ui,sans-serif" font-size="8" fill="#30363d">optional</text>
+
+  <!-- blog-post-idea  (category: idea) -->
+  <rect x="257" y="252" width="192" height="56" rx="6" fill="#1a1207" stroke="#e3b341" stroke-width="1.5"/>
+  <text x="265" y="269" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="600" fill="#d29922" letter-spacing="1">OBJECT TYPE</text>
+  <text x="353" y="287" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="14" font-weight="700" fill="#e3b341">blog-post-idea</text>
+  <text x="353" y="302" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="8" fill="#d29922">asset-blog:blog-post-idea</text>
+
+  <!-- arrow → blog-post  (optional, dashed) -->
+  <line x1="353" y1="308" x2="353" y2="326" stroke="#30363d" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr-opt)"/>
+  <text x="362" y="321" font-family="ui-sans-serif,system-ui,sans-serif" font-size="8" fill="#30363d">optional</text>
+
+  <!-- blog-post  (category: content) -->
+  <rect x="206" y="328" width="192" height="56" rx="6" fill="#0c2e2e" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="214" y="345" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="600" fill="#3fb950" letter-spacing="1">OBJECT TYPE</text>
+  <text x="302" y="363" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="14" font-weight="700" fill="#56d364">blog-post</text>
+  <text x="302" y="378" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="8" fill="#3fb950">asset-blog:blog-post</text>
+
+  <!-- saved-media  (category: content, standalone) -->
+  <rect x="308" y="404" width="192" height="56" rx="6" fill="#0c2e2e" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="316" y="421" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="600" fill="#3fb950" letter-spacing="1">OBJECT TYPE</text>
+  <text x="404" y="439" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="14" font-weight="700" fill="#56d364">saved-media</text>
+  <text x="404" y="454" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="8" fill="#3fb950">asset-blog:saved-media</text>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STANDALONE  (x: 518–862)
+  ══════════════════════════════════════════════════════════════ -->
+
+  <!-- campaign  (project) -->
+  <rect x="522" y="100" width="158" height="56" rx="6" fill="#1a1228" stroke="#a371f7" stroke-width="1.5"/>
+  <text x="530" y="117" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="600" fill="#a371f7" letter-spacing="1">OBJECT TYPE</text>
+  <text x="601" y="135" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="14" font-weight="700" fill="#c8b3f5">campaign</text>
+  <text x="601" y="150" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="8" fill="#a371f7">campaigns:campaign</text>
+
+  <!-- agent-template  (project) -->
+  <rect x="692" y="100" width="162" height="56" rx="6" fill="#1a1228" stroke="#a371f7" stroke-width="1.5"/>
+  <text x="700" y="117" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="600" fill="#a371f7" letter-spacing="1">OBJECT TYPE</text>
+  <text x="773" y="135" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#c8b3f5">agent-template</text>
+  <text x="773" y="150" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="8" fill="#a371f7">agent-builder:agent-template</text>
+
+  <!-- scrape-result  (report) -->
+  <rect x="522" y="192" width="158" height="56" rx="6" fill="#1a1207" stroke="#e3b341" stroke-width="1.5"/>
+  <text x="530" y="209" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="600" fill="#d29922" letter-spacing="1">OBJECT TYPE</text>
+  <text x="601" y="227" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#e3b341">scrape-result</text>
+  <text x="601" y="242" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="8" fill="#d29922">agent-scrape:scrape-result</text>
+
+  <!-- research-result  (report) -->
+  <rect x="692" y="192" width="162" height="56" rx="6" fill="#1a1207" stroke="#e3b341" stroke-width="1.5"/>
+  <text x="700" y="209" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="600" fill="#d29922" letter-spacing="1">OBJECT TYPE</text>
+  <text x="773" y="227" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#e3b341">research-result</text>
+  <text x="773" y="242" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="8" fill="#d29922">agent-research:research-result</text>
+
+  <!-- enrichment-result  (report) -->
+  <rect x="522" y="284" width="158" height="56" rx="6" fill="#1a1207" stroke="#e3b341" stroke-width="1.5"/>
+  <text x="530" y="301" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="600" fill="#d29922" letter-spacing="1">OBJECT TYPE</text>
+  <text x="601" y="319" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="12" font-weight="700" fill="#e3b341">enrichment-result</text>
+  <text x="601" y="334" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="8" fill="#d29922">agent-enrichment:enrichment-result</text>
+
+  <!-- ross-run  (report) -->
+  <rect x="692" y="284" width="162" height="56" rx="6" fill="#1a1207" stroke="#e3b341" stroke-width="1.5"/>
+  <text x="700" y="301" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="8" font-weight="600" fill="#d29922" letter-spacing="1">OBJECT TYPE</text>
+  <text x="773" y="319" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="14" font-weight="700" fill="#e3b341">ross-run</text>
+  <text x="773" y="334" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+        font-size="8" fill="#d29922">agent-ross-index:ross-run</text>
+
+  <!-- ── Legend ───────────────────────────────────────────────── -->
+  <rect x="518" y="380" width="346" height="94" rx="6" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+  <text x="534" y="398" font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="9" font-weight="700" fill="#8b949e" letter-spacing="1">CATEGORY</text>
+
+  <!-- profile -->
+  <rect x="534" y="406" width="10" height="10" rx="2" fill="#1f6feb"/>
+  <text x="550" y="416" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9" fill="#8b949e">profile</text>
+  <!-- project -->
+  <rect x="534" y="422" width="10" height="10" rx="2" fill="#a371f7"/>
+  <text x="550" y="432" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9" fill="#8b949e">project</text>
+  <!-- idea -->
+  <rect x="534" y="438" width="10" height="10" rx="2" fill="#d29922"/>
+  <text x="550" y="448" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9" fill="#8b949e">idea</text>
+  <!-- content -->
+  <rect x="630" y="406" width="10" height="10" rx="2" fill="#3fb950"/>
+  <text x="646" y="416" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9" fill="#8b949e">content</text>
+  <!-- report -->
+  <rect x="630" y="422" width="10" height="10" rx="2" fill="#e3b341"/>
+  <text x="646" y="432" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9" fill="#8b949e">report</text>
+
+  <line x1="534" y1="456" x2="855" y2="456" stroke="#21262d" stroke-width="1"/>
+  <text x="534" y="469" font-family="ui-sans-serif,system-ui,sans-serif" font-size="8.5" fill="#484f58">─── required parent_id</text>
+  <text x="534" y="482" font-family="ui-sans-serif,system-ui,sans-serif" font-size="8.5" fill="#484f58">- - - optional parent_id</text>
+
+  <!-- ── Footer ───────────────────────────────────────────────── -->
+  <text x="440" y="536" text-anchor="middle"
+        font-family="ui-sans-serif,system-ui,sans-serif"
+        font-size="9" fill="#30363d">
+    13 object types  ·  5 categories  ·  all types share one table  ·  see docs/objects-layer.md
+  </text>
+</svg>
