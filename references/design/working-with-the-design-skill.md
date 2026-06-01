@@ -21,7 +21,7 @@ The HTML spec ([`design-system.html`](./design-system.html)) is the **normative 
 These rules are gating. The scanners enforce them; CI fails when they're violated.
 
 1. **No UI removal.** Never delete or restyle-by-guess a UI element because it does not fit the spec. Add a register row first (in the monorepo design skill's `operational/05-uncovered-ui-register.md`).
-2. **Running = indigo** (R1). Red is destructive-only. The §IV "red running" label is stale; do not apply it.
+2. **Running = indigo** (R1). Red is destructive-only.
 3. **No colors outside tokens.** Every color in `src/**` must be a semantic token (`bg-primary`, `text-foreground`, `border-line`, etc.) or an allowlisted exception in `scripts/design/allowlist-raw-colors.json`. Raw hex codes in `.tsx`/`.ts`/`.css` outside the allowlist will fail `pnpm design:scan:raw`.
 4. **JetBrains Mono for microcopy / IDs / table headers** (R4 + spec §IX 3). Use `font-mono`.
 5. **Inter body deviation** (D1). Do NOT introduce Archivo as body text. Use `font-display` for headlines, the wordmark, drop-caps, brand mark, and italic 800 numerics only.
