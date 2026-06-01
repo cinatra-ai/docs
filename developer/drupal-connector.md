@@ -28,7 +28,7 @@ Drupal page (browser)
 | `src/app/api/drupal/bundle.js/route.ts` | IIFE bundle served as JS |
 | `src/app/settings/connectors/drupal-widget/page.tsx` | Admin credential management RSC |
 | `agents/drupal-content-editor/` | WayFlow (Cinatra's OAS Flow agent runtime) leaf agent (natural language → node diff) |
-| `drupal-module/cinatra/` | PHP Drupal module (widget injection) |
+| `dev/drupal-module/cinatra/` | PHP Drupal module (widget injection) |
 | `docker/drupal/Dockerfile` | Drupal 11 + Drush 13 + mcp_tools image |
 | `scripts/drupal-entrypoint.sh` | Runtime bootstrap (site install, mcp_tools config, API key) |
 
@@ -101,7 +101,7 @@ admin / cinatra
 localhost:3308 — drupal / drupal
 ```
 
-The entrypoint installs Drupal, enables `mcp_tools_remote`, configures it (enabled + uid + allow_uid1), and generates an API key on first boot. The cinatra module is bind-mounted from `drupal-module/cinatra/` for live PHP editing without rebuilding the image.
+The entrypoint installs Drupal, enables `mcp_tools_remote`, configures it (enabled + uid + allow_uid1), and generates an API key on first boot. The cinatra module is bind-mounted from `dev/drupal-module/cinatra/` for live PHP editing without rebuilding the image.
 
 ## Adding a new connector that mirrors this pattern
 

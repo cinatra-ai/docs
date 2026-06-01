@@ -17,13 +17,13 @@ Auth, CORS, and the widget bundle live in the Cinatra app. The CMS-side code is 
 
 ## The CMS-side artifact
 
-For Drupal: `drupal-module/cinatra/` — a PHP module installable via Composer or manual placement in the Drupal `modules/custom/` tree. Its `cinatra.module` and supporting `src/` directory:
+For Drupal: `dev/drupal-module/cinatra/` — a PHP module installable via Composer or manual placement in the Drupal `modules/custom/` tree. Its `cinatra.module` and supporting `src/` directory:
 
 - Register an admin settings form at `/admin/config/services/cinatra` (`cinatra.routing.yml`). The form captures Cinatra URL, API key, and instance ID.
 - Implement `cinatra_page_attachments()` to inject the widget bundle on **node canonical view, node edit form, and the site front page** — and only for authenticated Drupal users (`!\Drupal::currentUser()->isAuthenticated()` early-returns).
 - Pass the configured Cinatra URL + widget API key + instance ID to the bundle via `drupalSettings.cinatra`.
 
-For WordPress: `wordpress-plugin/cinatra.php` — a single-file WordPress plugin that:
+For WordPress: `dev/wordpress-plugin/cinatra.php` — a single-file WordPress plugin that:
 
 - Adds a **Settings → Cinatra** admin page capturing Cinatra URL, API key, instance ID, and an optional webhook secret.
 - Enqueues the widget bundle on **WordPress admin pages, only for users with the `manage_options` capability** (administrator-level). It does not load on the public front-end and is not visible to lower-privileged editors.
@@ -141,8 +141,8 @@ The repo's two existing CMS connector extensions (drupal-connector, wordpress-co
 
 When you need to verify a specific claim on this page:
 
-- Drupal module: `drupal-module/cinatra/`
-- WordPress plugin: `wordpress-plugin/cinatra.php`
+- Drupal module: `dev/drupal-module/cinatra/`
+- WordPress plugin: `dev/wordpress-plugin/cinatra.php`
 - Drupal widget bundle: `src/app/api/drupal/bundle.js/route.ts`
 - WordPress widget bundle: `src/app/api/wordpress/bundle.js/route.ts`
 - Stream route: `src/app/api/agents/[agentSlug]/stream/route.ts`

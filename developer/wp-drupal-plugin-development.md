@@ -8,33 +8,33 @@ The Cinatra WordPress plugin and Drupal module live in **their own repositories*
 
 For local development the dev docker stack consumes them as **clones** inside
 this tree. `cinatra setup {dev,branch,clone}` clones / fast-forwards them from
-the config in `package.json` (`cinatra.devMarketplacePlugins`) into:
+the config in `package.json` (`cinatra.devApps`) into:
 
-- `wordpress-plugin/` — the WordPress plugin (repo root maps to the plugin dir;
+- `dev/wordpress-plugin/` — the WordPress plugin (repo root maps to the plugin dir;
   docker bind-mounts it to `/wp-content/plugins/cinatra/`)
-- `drupal-module/cinatra/` — the Drupal module (docker bind-mounts it to
+- `dev/drupal-module/cinatra/` — the Drupal module (docker bind-mounts it to
   `/modules/custom/cinatra/`)
 
-Both clone paths are **gitignored** in this repo; only `drupal-module/.gitkeep`
-is tracked. See [LINKING.md](../../LINKING.md) for the Apache-2.0 ↔
+Both clone paths are **gitignored** in the cinatra repo (they sit under `dev/`
+alongside the other dev-only clones; nothing is tracked). See [LINKING.md](../../LINKING.md) for the Apache-2.0 ↔
 GPL-2.0-or-later HTTP-only boundary.
 
 ## Where does my commit go?
 
 | You changed… | Commit in… | PR in… |
 |---|---|---|
-| Plugin/module PHP, YAML, readme | the clone (`wordpress-plugin/` or `drupal-module/cinatra/`) | the **extracted repo** — no cinatra PR needed |
+| Plugin/module PHP, YAML, readme | the clone (`dev/wordpress-plugin/` or `dev/drupal-module/cinatra/`) | the **extracted repo** — no cinatra PR needed |
 | Cinatra core (bundle route, contracts, setup, docs) | the cinatra repo | the **cinatra repo** |
 | The wire contract (both sides) | both — see "Contract-version bumps" | two coordinated PRs |
 
 `git status` makes it obvious which tree you're in: run it inside
-`wordpress-plugin/` (or `drupal-module/cinatra/`) and you'll see the **extracted
+`dev/wordpress-plugin/` (or `dev/drupal-module/cinatra/`) and you'll see the **extracted
 repo's** status (its own `origin`, its own `main`). Run it at the cinatra root
 and the clone paths don't appear at all (they're gitignored).
 
 ## Pure plugin/module change
 
-1. `cd wordpress-plugin` (or `drupal-module/cinatra`).
+1. `cd dev/wordpress-plugin` (or `dev/drupal-module/cinatra`).
 2. Edit, commit, push to the extracted repo's `main` via a PR there.
 3. Back in cinatra, `cinatra setup dev` fast-forwards the local clone to the new
    `main`. No cinatra PR is involved.
@@ -62,15 +62,15 @@ under `contracts/wp-drupal-assistant/`.
 `cinatra setup` never destroys local work. If a clone has uncommitted changes it
 is **skipped with a warning** naming the dirty repo. To proceed:
 
-- **Keep your work:** `cd wordpress-plugin && git commit -am "wip"` (or `git
+- **Keep your work:** `cd dev/wordpress-plugin && git commit -am "wip"` (or `git
   stash`), then re-run `cinatra setup dev`.
-- **Discard your work:** `cd wordpress-plugin && git checkout . && git clean -fd`,
+- **Discard your work:** `cd dev/wordpress-plugin && git checkout . && git clean -fd`,
   then re-run.
 - **Force fast-forward (stashes first):** `cinatra setup dev
-  --force-dev-marketplace-plugins` — stashes local changes, then hard-resets the
+  --force-dev-apps` — stashes local changes, then hard-resets the
   clone to `origin/main`. A clone pointing at the **wrong origin or branch** is
   never auto-reset, even with `--force`; fix the remote or move the dir aside.
-- **Skip the sync entirely:** `cinatra setup dev --skip-marketplace-plugins`
+- **Skip the sync entirely:** `cinatra setup dev --skip-dev-apps`
   (e.g. on CI / contributors without access to the private repos pre-launch).
 
 Per-repo URL overrides (for a fork or an SSH remote) without editing
