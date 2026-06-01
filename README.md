@@ -1,6 +1,6 @@
 # Cinatra Documentation
 
-Cinatra is the open source AI workspace for teams, built on [open AI standards](developer/open-standards.md) — a workspace where people, AI assistants, and autonomous agents work together on durable workflows.
+Cinatra is the open source AI workspace for teams, built on [open AI standards](references/platform/open-standards.md) — a workspace where people, AI assistants, and autonomous agents work together on durable workflows.
 
 > [!WARNING]
 > **Cinatra is not production ready. We strongly recommend you do not use it in production.**
@@ -10,28 +10,25 @@ Cinatra is the open source AI workspace for teams, built on [open AI standards](
 
 ## New here?
 
-Run your first agent with the [Quickstart](hosting/quickstart.md), or read [Why Cinatra](why-cinatra.md) for what the platform unlocks.
+Run your first agent with the [Quickstart](guides/hosting/quickstart.md), or read [Why Cinatra](resources/why-cinatra.md) for what the platform unlocks.
 
 ---
 
-## Audience guides
+## [Guides](guides/README.md) — task-based docs, by role
 
-- [User Guide](user/README.md) — running agents, chat, human-in-the-loop (HITL) review, dashboards, skills, cross-instance collaboration
-- [Admin Guide](admin/README.md) — the `/configuration/*` area: marketplace, extensions, permissions, providers, telemetry, instance settings
-- [Developer Guide](developer/README.md) — architecture, writing agents, open standards, extensions, the Model Context Protocol (MCP) surface, contributing
-- [Hosting Guide](hosting/README.md) — installation, configuration, troubleshooting; what an operator needs to know
+- [User Guide](guides/user/README.md) — running agents, chat, human-in-the-loop (HITL) review, dashboards, skills, cross-instance collaboration
+- [Admin Guide](guides/admin/README.md) — the `/configuration/*` area: marketplace, extensions, permissions, providers, telemetry, instance settings
+- [Developer Guide](guides/developer/README.md) — authoring agents and extensions, the contributor workflow, and the day-to-day developer loop
+- [Hosting Guide](guides/hosting/README.md) — installation, configuration, troubleshooting; what an operator needs to know
 
----
+## [References](references/README.md) — stable specs, contracts, and architecture
 
-## References
+- [Platform](references/platform/README.md) — architecture, subsystem contracts, the objects layer, security, connectors, artifacts, workflows, open standards, and CI policy
+- [MCP](references/mcp/README.md) — the Model Context Protocol server (external + internal), authentication, primitives, and clients
+- [Design](references/design/README.md) — the Cinatra design system: the normative spec, the design skill, and the operational rulebook
+- [Glossary](references/glossary.md) — canonical concepts and terminology
 
-- [Design system](design/README.md) — the Cinatra design system: palette, typography, contrast, components, and the design skill that enforces it
+## [Resources](resources/README.md) — positioning and evaluation
 
----
-
-## How Cinatra compares
-
-- [ChatGPT Workspace Agents vs Cinatra](comparisons/chatgpt-workspace-agents-vs-cinatra.md)
-- [Claude Cowork vs Cinatra](comparisons/claude-cowork-vs-cinatra.md)
-- [Vercel Open Agents vs Cinatra](comparisons/vercel-open-agents-vs-cinatra.md)
-- [Managed Agents (Anthropic) vs Cinatra](comparisons/managed-agents-vs-cinatra.md)
+- [Why Cinatra](resources/why-cinatra.md) — what the platform unlocks
+- [Comparisons](resources/comparisons/README.md) — Cinatra vs ChatGPT Workspace Agents, Claude Cowork, Vercel Open Agents, and Managed Agents
