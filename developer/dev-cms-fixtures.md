@@ -36,7 +36,7 @@ auth dependency:
 |----------|--------|-----------|
 | Drupal | `docker/drupal/seed-content.php` (drush `php:script`) | `scripts/drupal-entrypoint.sh` bootstrap (container boot) |
 | WordPress | `docker/wordpress/seed-content.php` (`wp eval-file`) | `scripts/wordpress-entrypoint.sh` bootstrap (container boot) |
-| Twenty | `scripts/fixtures/seed-twenty-content.mjs` (MCP catalog tools) | `scripts/v614/twenty-bootstrap-proof.mjs` step 13 (operator-run) |
+| Twenty | `scripts/fixtures/seed-twenty-content.mjs` (MCP catalog tools) | operator-run, after the Twenty bootstrap |
 
 The seed script + manifest are bind-mounted into the Drupal and WordPress
 containers (under `/opt/cinatra-dev-content/`, outside the web root) by

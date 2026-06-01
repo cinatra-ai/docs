@@ -1,4 +1,4 @@
-# v6.28 Connector Access Migration — Operator Runbook
+# Connector Access Migration — Operator Runbook
 
 Moves connector access off the legacy `connector_access_policy` table onto the
 uniform polymorphic model (`installed_extension` + `extension_access_policy`).
@@ -8,7 +8,7 @@ to production is an operator action under the release-tag-gated deploy).
 
 ## Preconditions
 
-- The v6.28 code is deployed (the broadened `resource_kind` CHECK ships via
+- The migration code is deployed (the broadened `resource_kind` CHECK ships via
   `buildCreateStoreSchemaQueries` on `cinatra setup`, and via migration 640).
 - A fresh backup exists: `cinatra backup create` (defensive — the migration is
   non-destructive, but back up before any prod data migration).
@@ -65,4 +65,4 @@ pre-deploy backup is the hard rollback.
 
 Once production is verified on the canonical model, a later removal migration can
 DROP `connector_access_policy` and delete the absence-only fallback branch in
-`src/lib/connector-policy.ts`. Tracked as a deprecation; not part of v6.28.
+`src/lib/connector-policy.ts`. Tracked as a deprecation.

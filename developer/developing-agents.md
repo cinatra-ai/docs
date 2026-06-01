@@ -226,7 +226,7 @@ The Verdaccio publish step must run **before** the DB transaction — if publish
 
 By default the startup scanner and all `agent_source_*` MCP tools resolve agents relative to `<repo-root>/extensions/` (the helper's `DEFAULT_PATH`). The stored value is the contents of the `agent_install_path` metadata row; if it is unset or blank, the default is used.
 
-The in-app UI for editing this setting was retired in the v6.19 third wave (decision #38). The helpers below remain available as a typed surface for tooling that needs to read or programmatically set the path; there is no operator-facing form for it today, and the helper itself performs only read/write/resolve mechanics — any path-traversal validation must happen at the call site.
+The in-app UI for editing this setting was retired. The helpers below remain available as a typed surface for tooling that needs to read or programmatically set the path; there is no operator-facing form for it today, and the helper itself performs only read/write/resolve mechanics — any path-traversal validation must happen at the call site.
 
 **Key functions** (sub-path export `@cinatra-ai/agents/agent-install-path`):
 

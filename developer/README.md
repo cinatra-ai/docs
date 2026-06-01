@@ -38,6 +38,9 @@ For end-user material, see the [User Guide](../user/README.md). For platform-adm
 - [Extension lifecycle and distribution](extension-lifecycle.md) — the canonical manifest, lifecycle states, and distribution
 - [Extension permissions](extension-permissions.md) — the permissions architecture for extensions
 - [Extension README contract](extension-readme.md) — the marketplace-ready README every extension ships, plus the CI gate that enforces it
+- [Workflow extension doctrine](workflow-extension-doctrine.md) — the four contracts a workflow extension must define before it can replace and retire a legacy surface
+- [Workflow extensions as app surfaces](workflow-extension-surfaces.md) — the typed-portlet `cinatra/dashboard.json` operator surface, never a bespoke route tree
+- [Cinatra BPMN Profile 1.0](cinatra-bpmn-profile.md) — the `cinatra/workflow.bpmn` authoring profile: supported constructs, the 12 `cinatra:` elements, and the BPMN→WorkflowSpec mapping
 
 ## Building and extending
 

@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 
 <style>
   :root {
@@ -34,7 +34,8 @@
     --stripe-mid:     #b8c4d4;
     --stripe-light:   #e3e8ee;
 
-    --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+    --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;   /* display: headlines, wordmark, italic numerics, UI chrome */
+    --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;     /* body prose: paragraphs, card text, tables, liner-notes */
     --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   }
 
@@ -43,7 +44,7 @@
   body {
     background: var(--paper);
     color: var(--ink);
-    font-family: var(--font-sans);
+    font-family: var(--font-body);
     font-size: 14px; line-height: 1.5;
   }
   .wrap { max-width: 1180px; margin: 0 auto; padding: 56px 48px 96px; }
@@ -52,7 +53,7 @@
   .mast { display: grid; grid-template-columns: auto 1fr auto; gap: 24px; align-items: center; padding-bottom: 22px; }
   .brand { display: flex; align-items: center; gap: 12px; }
   .brand .mark { color: var(--logo); }
-  .brand .word { font-style: italic; font-weight: 800; font-size: 30px; color: var(--logo); letter-spacing: -0.022em; line-height: 1; text-shadow: 0 1px 0 rgba(122, 58, 30, 0.2); }
+  .brand .word { font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 30px; color: var(--logo); letter-spacing: -0.022em; line-height: 1; text-shadow: 0 1px 0 rgba(122, 58, 30, 0.2); }
   .bulbs { display: flex; gap: 9px; margin-top: 6px; }
   .bulbs .bulb {
     width: 5px; height: 5px; border-radius: 50%;
@@ -72,7 +73,7 @@
   @keyframes bulb-flicker { 48% { opacity: 0.55; box-shadow: 0 0 1.5px rgba(236,202,126,0.4); } }
 
   .kicker { font-size: 10.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
-  h1 { margin: 6px 0 6px; font-style: italic; font-weight: 800; font-size: 44px; letter-spacing: -0.018em; line-height: 1.05; }
+  h1 { margin: 6px 0 6px; font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 44px; letter-spacing: -0.018em; line-height: 1.05; }
   .lede { font-size: 15px; color: var(--muted); max-width: 60ch; }
   .lede b { color: var(--ink); font-weight: 600; }
   .mast .meta { text-align: right; font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; line-height: 1.6; }
@@ -82,7 +83,7 @@
   /* ── Section header ───────────────────────────────────────── */
   .sect { margin: 40px 0 18px; display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: baseline; }
   .sect:first-of-type { margin-top: 0; }
-  .sect h2 { margin: 0; font-style: italic; font-weight: 700; font-size: 24px; letter-spacing: -0.01em; }
+  .sect h2 { margin: 0; font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 24px; letter-spacing: -0.01em; }
   .sect .rule { height: 1px; background: var(--line-strong); align-self: center; }
   .sect .source { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
   .sect .source b { color: var(--ink); }
@@ -112,7 +113,7 @@
     text-transform: uppercase;
   }
   .swatch .info { padding: 12px 14px 14px; }
-  .swatch .info .role { font-style: italic; font-weight: 700; font-size: 16px; line-height: 1.15; }
+  .swatch .info .role { font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 16px; line-height: 1.15; }
   .swatch .info .token { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; color: var(--muted); margin-top: 2px; }
   .swatch .info .use { font-size: 12.5px; color: var(--muted); margin-top: 8px; line-height: 1.45; text-wrap: pretty; }
 
@@ -161,7 +162,7 @@
     background: var(--bg, var(--ink)); color: var(--surface-strong);
     border-radius: 10px;
     display: grid; place-items: center;
-    font-style: italic; font-weight: 800; font-size: 26px;
+    font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 26px;
     position: relative;
   }
   .sq .avatar.light { color: var(--ink); }
@@ -173,7 +174,7 @@
     transform: rotate(-12deg);
     box-shadow: 1px 1px 0 rgba(0,0,0,0.15);
   }
-  .sq .name { font-style: italic; font-weight: 700; font-size: 17px; line-height: 1; }
+  .sq .name { font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 17px; line-height: 1; }
   .sq .pair { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.06em; }
 
   /* ── Pills + buttons demo ─────────────────────────────────── */
@@ -181,7 +182,7 @@
   .pill {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 3px 10px; border-radius: 9999px;
-    font-size: 12px; font-weight: 600;
+    font-family: var(--font-sans); font-size: 12px; font-weight: 600;
     border: 1px solid;
   }
   .pill .dot { width: 7px; height: 7px; border-radius: 50%; }
@@ -204,6 +205,23 @@
   .btn.ghost { background: transparent; border-color: transparent; }
   .btn.link { background: transparent; border-color: transparent; color: var(--blue); text-decoration: underline; text-underline-offset: 3px; padding: 7px 4px; }
 
+  /* ── Callouts (info / note / warning / success / danger) ──── */
+  .callout { display: grid; gap: 5px; max-width: 64ch; padding: 12px 15px 13px; border-radius: 8px; border: 1px solid; }
+  .callout-label { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+  .callout-label svg { width: 13px; height: 13px; flex: none; }
+  .callout p { margin: 0; font-family: var(--font-body); font-weight: 400; font-size: 13px; line-height: 1.55; color: var(--ink); text-wrap: pretty; }
+  .callout p code { font-family: var(--font-mono); font-size: 0.92em; }
+  .callout.note    { background: rgba(21,33,58,0.04);   border-color: rgba(21,33,58,0.18); }
+  .callout.note    .callout-label { color: var(--muted); }
+  .callout.info    { background: rgba(54,78,129,0.08);  border-color: rgba(54,78,129,0.30); }
+  .callout.info    .callout-label { color: var(--blue); }
+  .callout.success { background: rgba(63,110,107,0.10); border-color: rgba(63,110,107,0.32); }
+  .callout.success .callout-label { color: var(--green); }
+  .callout.warning { background: rgba(199,149,69,0.14); border-color: rgba(199,149,69,0.42); }
+  .callout.warning .callout-label { color: #7a5a1f; }
+  .callout.danger  { background: rgba(166,56,79,0.09);  border-color: rgba(166,56,79,0.34); }
+  .callout.danger  .callout-label { color: var(--red); }
+
   /* ── Contrast matrix ──────────────────────────────────────── */
   .matrix { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
   .matrix table { width: 100%; border-collapse: separate; border-spacing: 0; }
@@ -219,7 +237,7 @@
   .v-large { background: rgba(199,149,69,0.18); color: #7a5a1f; }
   .v-fail { background: rgba(166,56,79,0.12); color: var(--red); }
   .matrix td.note { color: var(--muted); font-size: 12.5px; max-width: 320px; }
-  .matrix .preview { padding: 4px 10px; font-style: italic; font-weight: 700; font-size: 13px; border-radius: 4px; display: inline-block; }
+  .matrix .preview { padding: 4px 10px; font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 13px; border-radius: 4px; display: inline-block; }
 
   code { font-family: var(--font-mono); font-size: 12px; background: var(--surface-muted); padding: 1px 5px; border-radius: 3px; }
 
@@ -629,7 +647,7 @@
       <div class="info">
         <div class="role">Navy ink</div>
         <div class="token">--ink · --foreground</div>
-        <div class="use">All primary text. Filled-pill "failed" status. Section rules, hairline border-strong, and table head underlines all use this navy.</div>
+        <div class="use">All primary text. Section rules, hairline border-strong, and table-head underlines all use this navy. White-on-navy is the inverted pairing for dark grounds like the app icon — never the "failed" pill, which is red.</div>
       </div>
     </div>
     <div class="swatch" style="--swatch: var(--blue);">
@@ -694,8 +712,8 @@
       <div class="chip"><span class="hex" style="--label-color: #f1f1ed">#A6384F</span></div>
       <div class="info">
         <div class="role">Brand red</div>
-        <div class="token">--red · running · destructive</div>
-        <div class="use">"Running" status. Destructive buttons. Critical notifications. The single saturated red in the system.</div>
+        <div class="token">--red · destructive</div>
+        <div class="use">Destructive buttons (Decline / Tear stub) and terminal failures. Critical notifications. The single saturated red in the system — never "running", which is indigo.</div>
       </div>
     </div>
     <div class="swatch" style="--swatch: var(--green);">
@@ -1014,8 +1032,8 @@
           <td><code>#15213A</code> ink</td>
           <td class="ratio">14.1 : 1</td>
           <td><span class="verdict v-aaa">AAA</span></td>
-          <td><span class="preview" style="background:var(--ink);color:#fff">Failed</span></td>
-          <td class="note">Navy reserved for the filled "failed" status pill and for the table-head underline — not for routine buttons; those use the indigo above.</td>
+          <td><span class="preview" style="background:var(--ink);color:#fff">App icon</span></td>
+          <td class="note">White-on-navy is the inverted pairing for dark grounds — the app icon, the collapsed sidebar rail. Navy itself carries all primary text and the structural lines (rules, strong hairline, table-head underline); it is not a button or status colour. The "failed" pill is red.</td>
         </tr>
       </tbody>
     </table>
@@ -1087,20 +1105,20 @@
   </div>
 
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 10px; color: var(--ink);">1. Paragraphs</h3>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 14px;">Text never spans the full page or card width — prose is sized to a comfortable reading measure, and the same widths are reused across every surface. The rules below are the ones the design system enforces; copy that exceeds them breaks the rhythm of the page.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 14px;">Text never spans the full page or card width — prose is sized to a comfortable reading measure, and the same widths are reused across every surface. The rules below are the ones the design system enforces; copy that exceeds them breaks the rhythm of the page.</p>
   <div style="display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 28px; align-items: start; margin: 0 0 8px;"><div><div style="font-family: var(--font-mono); font-size: 12px; line-height: 1.65;"><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">font-family</span><span style="color: var(--ink);">Inter, ui-sans-serif</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">font-weight</span><span style="color: var(--ink);">400</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">font-size</span><span style="color: var(--ink);">13.5–14px</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">line-height</span><span style="color: var(--ink);">1.55–1.6</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">color</span><span style="color: var(--ink);">slate muted / ink</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">max-width</span><span style="color: var(--ink);">60ch / 64ch / 65ch</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">text-wrap</span><span style="color: var(--ink);">pretty (body only)</span></div></div></div><div><div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
     <div style="padding: 18px 20px;">
-      <p style="max-width: 60ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 14px;">Lede — supporting paragraph beneath a heading. Sixty characters per line. Single column. Muted slate.</p>
-      <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 14px;">Section intro — slightly wider, sixty-four characters per line. Sets up the section before its grid.</p>
-      <p style="max-width: 65ch; font-family: var(--font-sans); font-weight: 400; font-size: 14px; line-height: 1.6; color: var(--ink); margin: 0; text-wrap: pretty;">Body prose — the main reading material, navy ink at fourteen pixels on one-point-six line-height. Sixty-five characters cap. Always pair with text-wrap: pretty. Emphasis comes from structure, never from inline bold or italic — every paragraph runs at Inter 400 from start to finish.</p>
+      <p style="max-width: 60ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 14px;">Lede — supporting paragraph beneath a heading. Sixty characters per line. Single column. Muted slate.</p>
+      <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 14px;">Section intro — slightly wider, sixty-four characters per line. Sets up the section before its grid.</p>
+      <p style="max-width: 65ch; font-family: var(--font-body); font-weight: 400; font-size: 14px; line-height: 1.6; color: var(--ink); margin: 0; text-wrap: pretty;">Body prose — the main reading material, navy ink at fourteen pixels on one-point-six line-height. Sixty-five characters cap. Always pair with text-wrap: pretty. Emphasis comes from structure, never from inline bold or italic — every paragraph runs at Inter 400 from start to finish.</p>
     </div>
   </div></div></div>
 <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 10px; color: var(--ink);">2. Card use-text</h3>
   <div style="display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 28px; align-items: start; margin: 0 0 8px;"><div><div style="font-family: var(--font-mono); font-size: 12px; line-height: 1.65;"><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">font-family</span><span style="color: var(--ink);">Inter, ui-sans-serif</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">font-weight</span><span style="color: var(--ink);">400</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">font-size</span><span style="color: var(--ink);">12.5–13px</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">line-height</span><span style="color: var(--ink);">1.5</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">color</span><span style="color: var(--ink);">slate muted</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">max-width</span><span style="color: var(--ink);">56ch</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">container</span><span style="color: var(--ink);">240–320px card</span></div></div></div><div><div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
     <div style="padding: 18px 20px;">
-      <p style="max-width: 56ch; font-family: var(--font-sans); font-weight: 400; font-size: 12.5px; line-height: 1.5; color: var(--muted); margin: 0;">Descriptions inside swatch cards, tooltips, agent tiles. The card sets its own width; the text inside never breaks out past fifty-six characters.</p>
+      <p style="max-width: 56ch; font-family: var(--font-body); font-weight: 400; font-size: 12.5px; line-height: 1.5; color: var(--muted); margin: 0;">Descriptions inside swatch cards, tooltips, agent tiles. The card sets its own width; the text inside never breaks out past fifty-six characters.</p>
     </div>
   </div></div></div>
 
@@ -1124,7 +1142,7 @@
   <div style="display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 28px; align-items: start; margin: 0 0 8px;"><div><div style="font-family: var(--font-mono); font-size: 12px; line-height: 1.65;"><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">font-family</span><span style="color: var(--ink);">Inter</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">font-weight</span><span style="color: var(--ink);">400</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">font-size</span><span style="color: var(--ink);">12.5px</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">line-height</span><span style="color: var(--ink);">1.55</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">color</span><span style="color: var(--ink);">ink</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">columns</span><span style="color: var(--ink);">2 (≥80ch)</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">column-rule</span><span style="color: var(--ink);">1px solid navy</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">drop-cap</span><span style="color: var(--ink);">italic 800 burgundy 34px</span></div></div></div><div><div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
     <div style="padding: 18px 20px;">
-      <div style="columns: 2; column-gap: 22px; column-rule: 1px solid var(--line-strong); font-family: var(--font-sans); font-size: 12.5px; line-height: 1.55; color: var(--ink); margin: 0; max-width: 86ch; text-wrap: pretty;">
+      <div style="columns: 2; column-gap: 22px; column-rule: 1px solid var(--line-strong); font-family: var(--font-body); font-size: 12.5px; line-height: 1.55; color: var(--ink); margin: 0; max-width: 86ch; text-wrap: pretty;">
         <p style="margin: 0 0 6px;"><span style="float: left; font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 34px; line-height: 0.85; padding: 2px 6px 0 0; color: var(--burgundy);">W</span>hen a single editorial paragraph would stretch past 80ch, set it in two equal columns. A navy rule between them. Drop-cap on the first paragraph, burgundy, italic 800.</p>
         <p style="margin: 0;">The body stays Inter 400 at 12.5px on 1.55 line-height; the only ornamentation is the rule and the cap. Use sparingly — once per run summary, not as a general body style.</p>
       </div>
@@ -1135,7 +1153,7 @@
   <div style="display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 28px; align-items: start; margin: 0 0 8px;"><div><div style="font-family: var(--font-mono); font-size: 12px; line-height: 1.65;"><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">header</span><span style="color: var(--ink);">JetBrains Mono 700 10px 0.18em uppercase slate</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">body</span><span style="color: var(--ink);">Inter 400 13–14px ink</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">IDs / times</span><span style="color: var(--ink);">JetBrains Mono 11px slate</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">cell padding</span><span style="color: var(--ink);">10–14px</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">alignment</span><span style="color: var(--ink);">left (text) · right (numerics)</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">underline</span><span style="color: var(--ink);">1px navy below header row</span></div></div></div><div><div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
     <div style="padding: 18px 20px;">
-      <div style="font-family: var(--font-sans); font-size: 13px; max-width: 86ch; margin: 0;">
+      <div style="font-family: var(--font-body); font-size: 13px; max-width: 86ch; margin: 0;">
         <div style="display: grid; grid-template-columns: 1fr auto auto; gap: 14px; padding: 6px 0; border-bottom: 1px solid var(--ink); font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);">
           <span>Agent</span><span>Run</span><span style="text-align:right">Started</span>
         </div>
@@ -1165,7 +1183,35 @@
         <span style="font-family: var(--font-mono); font-size: 16px; color: var(--red); flex: none;">✗</span>
         <h4 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 24px; letter-spacing: -0.018em; line-height: 1.1; margin: 0; color: var(--muted);">Rules of the road.</h4>
       </div>
-      <p style="max-width: 56ch; font-family: var(--font-sans); font-weight: 400; font-size: 12.5px; line-height: 1.5; color: var(--muted); margin: 0;">Headings name a thing; they are not sentences, so they take no closing period — even when the heading reads as a full clause. The period after a section or item numeral (<code>I.</code>, <code>1.</code>) is part of the numbering, not the heading, and stays.</p>
+      <p style="max-width: 56ch; font-family: var(--font-body); font-weight: 400; font-size: 12.5px; line-height: 1.5; color: var(--muted); margin: 0;">Headings name a thing; they are not sentences, so they take no closing period — even when the heading reads as a full clause. The period after a section or item numeral (<code>I.</code>, <code>1.</code>) is part of the numbering, not the heading, and stays.</p>
+    </div>
+  </div></div></div>
+
+  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 10px; color: var(--ink);">8. Callouts</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 14px;">When a paragraph needs to be lifted out of the reading flow — a note, a caveat, a warning — set it as a callout. Callouts borrow the status-pill construction at block scale: a tinted ground, a hairline border one step stronger, and a mono uppercase label led by its icon. There is no left accent bar; the label row carries the semantics. Reserve them for genuine asides — a page wall-to-wall with callouts has none.</p>
+  <div style="display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 28px; align-items: start; margin: 0 0 8px;"><div><div style="font-family: var(--font-mono); font-size: 12px; line-height: 1.65;"><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">label</span><span style="color: var(--ink);">JetBrains Mono 700 10px 0.18em uppercase</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">icon</span><span style="color: var(--ink);">13px lucide, leads label, status colour</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">body</span><span style="color: var(--ink);">Inter 400 13px / 1.55 ink</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">background</span><span style="color: var(--ink);">status tint 4–14%</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">border</span><span style="color: var(--ink);">status colour 18–42%</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">radius</span><span style="color: var(--ink);">8px · padding 12–15px</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">max-width</span><span style="color: var(--ink);">64ch</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">no</span><span style="color: var(--ink);">left accent bar</span></div></div></div><div><div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
+    <div style="padding: 18px 20px; display: grid; gap: 12px;">
+      <div class="callout note">
+        <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Note</span>
+        <p>Runs are retained for 90 days, then archived to cold storage. Pin a run to keep it on the active board indefinitely.</p>
+      </div>
+      <div class="callout info">
+        <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>Info</span>
+        <p>The <code>Enricher</code> agent inherits its connector credentials from the workspace. You don't need to re-authorise it per campaign.</p>
+      </div>
+      <div class="callout success">
+        <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Success</span>
+        <p>All twelve drafts were approved and scheduled. The sequence begins sending at 09:00 in each recipient's local time.</p>
+      </div>
+      <div class="callout warning">
+        <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Warning</span>
+        <p>This connector is approaching its daily send limit. Runs queued past the cap will hold until the window resets at midnight UTC.</p>
+      </div>
+      <div class="callout danger">
+        <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>Danger</span>
+        <p>Deleting an agent removes every run it has produced. This cannot be undone — export the run history first if you need it.</p>
+      </div>
     </div>
   </div></div></div>
 
@@ -1174,7 +1220,7 @@
   <div class="sect">
     <h2>X. Components</h2>
     <div class="rule"></div>
-    <div class="source">shadcn/ui · full roster</div>
+    <div class="source">shadcn/ui · full roster + nesting</div>
   </div>
 
   <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 22px; max-width: 64ch; line-height: 1.55;">
@@ -1196,7 +1242,7 @@
   </div>
   </div>
   <p style="margin: 0 0 6px; font-family: var(--font-mono); font-size: 11px; color: var(--muted);">7 variants · 5 sizes · cva</p>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Primary, default, outline, secondary, destructive, ghost, link. Sizes: default, xs, sm, lg, icon (xs/sm/lg). Indigo primary, ink default border, destructive uses red-on-tint not solid red.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Primary, default, outline, secondary, destructive, ghost, link. Sizes: default, xs, sm, lg, icon (xs/sm/lg). Indigo primary, ink default border, destructive uses red-on-tint not solid red.</p>
 
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Card</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Card /&gt; · @/components/ui/card</p>
@@ -1209,7 +1255,7 @@
           <div style="font-style: italic; font-weight: 800; font-size: 14px;">Clickable card.</div>
           <div style="font-size: 11.5px; color: var(--muted); margin-top: 2px;">Hover lifts it 1px.</div>
         </div></div></div>
-  </div><p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Non-interactive cards use <code>--surface</code>. Clickable cards (agent tiles, run rows, popovers, anything with hover or focus) use <code>--surface-strong</code> per rule #8.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Input / Textarea</h3>
+  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Non-interactive cards use <code>--surface</code>. Clickable cards (agent tiles, run rows, popovers, anything with hover or focus) use <code>--surface-strong</code> per rule #8.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Input / Textarea</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Input /&gt;, &lt;Textarea /&gt; · @/components/ui/input</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">surface-strong</div><div style="padding: 1px 0;">line-strong border</div><div style="padding: 1px 0;">7px radius</div><div style="padding: 1px 0;">focus = ring indigo</div></div>
@@ -1220,7 +1266,7 @@
     </div>
   </div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Always pure white background. Border is the strong navy hairline. Focus ring picks up <code>--ring</code> (indigo). Use InputGroup for compound inputs with addons.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Select / Dropdown</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Always pure white background. Border is the strong navy hairline. Focus ring picks up <code>--ring</code> (indigo). Use InputGroup for compound inputs with addons.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Select / Dropdown</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Select /&gt;, &lt;DropdownMenu /&gt; · @/components/ui/select</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">popover token</div><div style="padding: 1px 0;">surface-strong</div><div style="padding: 1px 0;">inherits input chrome</div><div style="padding: 1px 0;">scrollbar-thin</div></div>
@@ -1231,7 +1277,7 @@
     </div>
   </div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Trigger mirrors Input chrome. Open popover sits on <code>--surface-strong</code> with the same hairline border, slightly higher shadow. Use <code>scrollbar-thin</code> on long lists.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Dialog / Sheet</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Trigger mirrors Input chrome. Open popover sits on <code>--surface-strong</code> with the same hairline border, slightly higher shadow. Use <code>scrollbar-thin</code> on long lists.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Dialog / Sheet</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Dialog /&gt;, &lt;Sheet /&gt; · @/components/ui/dialog</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">surface-strong</div><div style="padding: 1px 0;">starts below 4rem navbar</div><div style="padding: 1px 0;">dim overlay</div><div style="padding: 1px 0;">etched header rule</div></div>
@@ -1242,7 +1288,7 @@
           <div style="font-style: italic; font-weight: 800; font-size: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line-strong); margin-bottom: 8px;">Approve drafts.</div>
           <div style="font-size: 11.5px; color: var(--muted);">Twelve drafts pending your read.</div>
         </div></div></div>
-  </div><p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Modal dialogs use <code>--popover</code>; right-side sheets sit at full-height. Overlay <code>top: 4rem</code> so it doesn't cover the navbar. Dialog header uses an etched paired-line rule for separation.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Badge / Pill</h3>
+  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Modal dialogs use <code>--popover</code>; right-side sheets sit at full-height. Overlay <code>top: 4rem</code> so it doesn't cover the navbar. Dialog header uses an etched paired-line rule for separation.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Badge / Pill</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Badge /&gt;, &lt;LifecycleBadge /&gt; · @/components/ui/badge</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">surface-muted bg</div><div style="padding: 1px 0;">line border</div><div style="padding: 1px 0;">9999px radius</div><div style="padding: 1px 0;">icon-led</div></div>
@@ -1255,7 +1301,7 @@
     </div>
   </div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Status pills (see VI) use bg tinted from the status colour, text in the same colour, border at higher alpha. Use icon-led pills; never just dots.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Tabs</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Status pills (see VI) use bg tinted from the status colour, text in the same colour, border at higher alpha. Use icon-led pills; never just dots.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Tabs</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Tabs /&gt;, &lt;TabsList /&gt;, &lt;TabsTrigger /&gt; · @/components/ui/tabs</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">underline tabs</div><div style="padding: 1px 0;">active = indigo 2px</div><div style="padding: 1px 0;">inactive = slate</div><div style="padding: 1px 0;">paired with section rule</div></div>
@@ -1271,14 +1317,14 @@
           </div>
           <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
         </div></div></div>
-  </div><p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Tab labels are 13px sans, slate when inactive, indigo when selected with a 2px indigo underline. No pill tabs; underline only. When tabs appear under a section heading, the etched paired-line rule begins to the right of the last tab and stretches to the page edge — the tablist takes the left portion of the row, the rule the right.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Toolbar</h3>
+  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Tab labels are 13px sans, slate when inactive, indigo when selected with a 2px indigo underline. No pill tabs; underline only. When tabs appear under a section heading, the etched paired-line rule begins to the right of the last tab and stretches to the page edge — the tablist takes the left portion of the row, the rule the right.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Toolbar</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Toolbar /&gt; · @/components/ui/toolbar (composition)</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
-    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">ground #e6e7e2</div><div style="padding: 1px 0;">8px radius · no border</div><div style="padding: 1px 0; color: var(--blue);">embedded controls: borderless</div><div style="padding: 1px 0;">48–56px tall</div><div style="padding: 1px 0;">40px / 7px controls</div><div style="padding: 1px 0;">24px hairline separators</div></div>
+    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">ground #dcddd5</div><div style="padding: 1px 0;">8px radius · no border</div><div style="padding: 1px 0; color: var(--blue);">embedded controls: borderless</div><div style="padding: 1px 0;">48–56px tall</div><div style="padding: 1px 0;">40px / 7px controls</div><div style="padding: 1px 0;">24px hairline separators</div></div>
     <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 10px; max-width: 720px;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
     <div style="padding: 18px 20px;">
-      <div style="display:flex;align-items:center;background:#e6e7e2;border-radius:8px;height:48px;overflow:hidden;">
+      <div style="display:flex;align-items:center;background:#dcddd5;border-radius:8px;height:48px;overflow:hidden;">
         <div style="display:flex;align-items:center;padding:7px;flex-shrink:0;">
           <button style="padding:0 12px;height:34px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:transparent;border:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px; background:rgba(54,78,129,.14);">All <span style="font-size:10px;font-weight:500;padding:1px 5px;border-radius:4px;background:rgba(54,78,129,.15);color:var(--blue);font-family:var(--font-mono);">412</span></button>
         </div>
@@ -1302,7 +1348,78 @@
           <button style="padding:0 12px;height:34px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:transparent;border:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px; color:var(--ink);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Upload</button>
         </div>
       </div></div></div>
-  </div><p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Controls inside a toolbar must look different from standalone ones: they carry no individual border. The toolbar ground is their container, so a button, tab, or field placed inside it drops the border (and the fill) it would have on its own and reads only as a tinted region of the bar. A horizontal bar that groups related view controls — tablist, search, primary view action. The toolbar provides the chrome, so controls inside it carry no individual borders: the toolbar ground is their container. Hover and selected states are background tints on a rounded rectangle (7px radius, same geometry as the search pill); the font weight and colour never change between states. Vertical hairlines (24px tall, centred) separate logical groups: between the tablist and search, and between search and the action button. The search field keeps its white interactive surface — the only white element inside the toolbar. The toolbar sits directly below the page header and replaces the section rule for that view — never stack a toolbar and the etched paired rule.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Sidebar</h3>
+  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Controls inside a toolbar must look different from standalone ones: they carry no individual border. The toolbar ground is their container, so a button, tab, or field placed inside it drops the border (and the fill) it would have on its own and reads only as a tinted region of the bar. A horizontal bar that groups related view controls — tablist, search, primary view action. The toolbar provides the chrome, so controls inside it carry no individual borders: the toolbar ground is their container. Hover and selected states are background tints on a rounded rectangle (7px radius, same geometry as the search pill); the font weight and colour never change between states. Vertical hairlines (24px tall, centred) separate logical groups: between the tablist and search, and between search and the action button. The search field keeps its white interactive surface — the only white element inside the toolbar. The toolbar sits directly below the page header and replaces the section rule for that view — never stack a toolbar and the etched paired rule.</p>
+
+  <!-- ── Nested toolbar ──────────────────────────────────────── -->
+  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Nested toolbar</h3>
+  <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Toolbar /&gt; → &lt;Toolbar.Child /&gt; · @/components/ui/toolbar (composition)</p>
+  <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
+    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">depth: 3 levels max</div><div style="padding: 1px 0;">parent ground #dcddd5</div><div style="padding: 1px 0;">each child +6L lighter</div><div style="padding: 1px 0;">deepest stays darker than paper</div><div style="padding: 1px 0;">child inset 20px / level</div><div style="padding: 1px 0;">6px stack gap</div></div>
+    <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 10px; max-width: 720px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
+    <div style="padding: 18px 20px;">
+      <div style="display:flex;flex-direction:column;gap:6px;">
+
+        <!-- L1 · parent toolbar -->
+        <div style="display:flex;align-items:center;background:#dcddd5;border-radius:8px;height:44px;overflow:hidden;">
+          <div style="display:flex;align-items:center;padding:6px;flex-shrink:0;">
+            <button style="padding:0 12px;height:32px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:rgba(54,78,129,.14);border:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;">Campaigns <span style="font-size:10px;font-weight:500;padding:1px 5px;border-radius:4px;background:rgba(54,78,129,.15);color:var(--blue);font-family:var(--font-mono);">12</span></button>
+          </div>
+          <div style="width:1px;height:24px;background:rgba(21,33,58,.22);flex-shrink:0;align-self:center;"></div>
+          <div style="display:flex;align-items:center;padding:6px;flex-shrink:0;">
+            <button style="padding:0 12px;height:32px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:transparent;border:0;cursor:pointer;white-space:nowrap;">Agents</button>
+          </div>
+          <div style="width:1px;height:24px;background:rgba(21,33,58,.22);flex-shrink:0;align-self:center;"></div>
+          <div style="display:flex;align-items:center;padding:6px;flex-shrink:0;">
+            <button style="padding:0 12px;height:32px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:transparent;border:0;cursor:pointer;white-space:nowrap;">Connectors</button>
+          </div>
+          <div style="flex:1;min-width:0;"></div>
+          <div style="display:flex;align-items:center;padding:6px;flex-shrink:0;">
+            <button style="padding:0 12px;height:32px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--ink);background:transparent;border:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M12 5v14"/><path d="M5 12h14"/></svg> New</button>
+          </div>
+        </div>
+
+        <!-- L2 · child of "Campaigns" -->
+        <div style="margin-left:20px;display:flex;align-items:center;">
+          <div style="display:flex;align-items:center;background:#e3e4dc;border-radius:8px;height:42px;overflow:hidden;flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;padding:6px;flex-shrink:0;">
+              <button style="padding:0 12px;height:30px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:rgba(54,78,129,.14);border:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;">Active <span style="font-size:10px;font-weight:500;padding:1px 5px;border-radius:4px;background:rgba(54,78,129,.15);color:var(--blue);font-family:var(--font-mono);">4</span></button>
+            </div>
+            <div style="width:1px;height:22px;background:rgba(21,33,58,.2);flex-shrink:0;align-self:center;"></div>
+            <div style="display:flex;align-items:center;padding:6px;flex-shrink:0;">
+              <button style="padding:0 12px;height:30px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:transparent;border:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;">Drafts <span style="font-size:10px;font-weight:500;padding:1px 5px;border-radius:4px;background:rgba(21,33,58,.06);color:var(--muted);font-family:var(--font-mono);">7</span></button>
+            </div>
+            <div style="display:flex;align-items:center;padding:6px;flex-shrink:0;">
+              <button style="padding:0 12px;height:30px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:transparent;border:0;cursor:pointer;white-space:nowrap;">Scheduled</button>
+            </div>
+            <div style="display:flex;align-items:center;padding:6px;flex-shrink:0;">
+              <button style="padding:0 12px;height:30px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:transparent;border:0;cursor:pointer;white-space:nowrap;">Archived</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- L3 · child of "Active" -->
+        <div style="margin-left:40px;display:flex;align-items:center;">
+          <div style="display:flex;align-items:center;background:#e9eae2;border-radius:8px;height:40px;overflow:hidden;flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;padding:5px;flex-shrink:0;">
+              <button style="padding:0 11px;height:30px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:rgba(54,78,129,.14);border:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;color:var(--blue);"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> Sequence</button>
+            </div>
+            <div style="display:flex;align-items:center;padding:5px;flex-shrink:0;">
+              <button style="padding:0 11px;height:30px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:transparent;border:0;cursor:pointer;white-space:nowrap;">Audience</button>
+            </div>
+            <div style="display:flex;align-items:center;padding:5px;flex-shrink:0;">
+              <button style="padding:0 11px;height:30px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:transparent;border:0;cursor:pointer;white-space:nowrap;">Schedule</button>
+            </div>
+            <div style="width:1px;height:20px;background:rgba(21,33,58,.18);flex-shrink:0;align-self:center;"></div>
+            <div style="display:flex;align-items:center;padding:5px;flex-shrink:0;">
+              <button style="padding:0 11px;height:30px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--ink);background:transparent;border:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Add step</button>
+            </div>
+          </div>
+        </div>
+
+      </div></div></div>
+  </div>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">When a selected toolbar item has its own sub-controls, they open in a <em>child toolbar</em> directly beneath the parent rather than in a menu — and that child can in turn carry a third. Each level inherits every toolbar rule (borderless controls, hairline group separators, the lone white search field) and adds three of its own. <strong style="color:var(--ink);">Ground steps lighter with depth</strong> — the parent sits on the darkest chrome (<code>#dcddd5</code>) and each child lightens ~6L toward the page, so the deepest row reads as the one nearest the content it edits. The lightening stops short of the paper: even the deepest ground stays a clear step darker than the page, so every level remains legible as its own bar. <strong style="color:var(--ink);">Each child is inset 20px</strong> from the level above and stacked 6px beneath it, so the active path reads top-to-bottom at a glance — the inset and the lightening carry the lineage; no connectors are drawn. <strong style="color:var(--ink);">Cap the depth at three.</strong> A fourth level means the navigation is too deep for a toolbar — move it into the page body or a sidebar instead. Only one item per level is selected, and selecting a different item replaces every level below it.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Sidebar</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Sidebar /&gt;, &lt;AppSidebar /&gt; · @/components/ui/sidebar</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">surface --sidebar</div><div style="padding: 1px 0;">~240px wide</div><div style="padding: 1px 0;">brand head: fedora + wordmark</div><div style="padding: 1px 0;">active = indigo 6%</div><div style="padding: 1px 0;">labels: mono 10px</div><div style="padding: 1px 0;">collapses to 56px rail</div></div>
@@ -1315,7 +1432,7 @@
         </div>
         <div style="font-size: 12px; padding: 5px 8px; background: rgba(54,78,129,0.08); border-radius: 5px; color: var(--blue); font-weight: 600;">Agents</div>
         <div style="font-size: 12px; padding: 5px 8px; color: var(--ink); margin-top: 2px;">Chat</div>
-    </div></div></div><p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Cinatra's sidebar from <code>app-sidebar.tsx</code>. Mustard fedora + Archivo wordmark in the brand head. Active item is indigo bg at 6% alpha; section labels are 10px mono uppercase.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Sidebar group label</h3>
+    </div></div></div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Cinatra's sidebar from <code>app-sidebar.tsx</code>. Mustard fedora + Archivo wordmark in the brand head. Active item is indigo bg at 6% alpha; section labels are 10px mono uppercase.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Sidebar group label</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;SidebarGroupLabel /&gt; · @/components/ui/sidebar</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">Inter · 600 · 10px</div><div style="padding: 1px 0;">letter-spacing 0.18em</div><div style="padding: 1px 0;">uppercase · slate</div><div style="padding: 1px 0;">padding 8px 12px 4px</div></div>
@@ -1328,7 +1445,7 @@
       <div style="padding: 8px 12px 4px; font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-top: 8px;">Management</div>
       <div style="padding: 7px 10px; font-size: 13px; color: var(--ink);">Desk</div>
     </div></div>
-  </div><p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Group labels in the sidebar — the small uppercase mono-spaced tag that sits above a cluster of nav items (Intelligence, Management, Information, Tools). Slate-muted slate at 10px with 0.18em letter-spacing reads as a quiet section break rather than a clickable item. Always above its group, never indented to match its children.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Tooltip / Popover</h3>
+  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Group labels in the sidebar — the small uppercase mono-spaced tag that sits above a cluster of nav items (Intelligence, Management, Information, Tools). Slate-muted slate at 10px with 0.18em letter-spacing reads as a quiet section break rather than a clickable item. Always above its group, never indented to match its children.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Tooltip / Popover</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Tooltip /&gt;, &lt;Popover /&gt; · @/components/ui/tooltip</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">ink ground · cream text</div><div style="padding: 1px 0;">200ms delay</div><div style="padding: 1px 0;">12px tooltip · 13–14px popover</div></div>
@@ -1340,7 +1457,7 @@
           <span style="position: absolute; left: -5px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-right: 5px solid var(--ink);"></span>
         </div>
     </div></div>
-  </div><p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Tooltips are navy with cream type; popovers are surface-strong with navy text. Tooltips read at 12px; popovers at 13–14px.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Avatar</h3>
+  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Tooltips are navy with cream type; popovers are surface-strong with navy text. Tooltips read at 12px; popovers at 13–14px.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Avatar</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Avatar /&gt;, &lt;AvatarImage /&gt;, &lt;AvatarFallback /&gt; · @/components/ui/avatar</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">36–40px square</div><div style="padding: 1px 0;">random accent ground</div><div style="padding: 1px 0;">italic 800 initial</div></div>
@@ -1351,7 +1468,7 @@
         <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--green); color: var(--paper); display: grid; place-items: center; font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 16px;">E</div>
         <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--plum); color: var(--paper); display: grid; place-items: center; font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 16px;">R</div>
         <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--burgundy); color: var(--paper); display: grid; place-items: center; font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 16px;">M</div></div></div></div>
-  </div><p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">User avatars carry the user's initials in Archivo italic 800 on a random categorical accent (never indigo or navy). Per-extension instances same pattern (see V).</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Form / Field / Label</h3>
+  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">User avatars carry the user's initials in Archivo italic 800 on a random categorical accent (never indigo or navy). Per-extension instances same pattern (see V).</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Form / Field / Label</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Form /&gt;, &lt;Field /&gt;, &lt;Label /&gt; · @/components/ui/form</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">Label · 12px · 600</div><div style="padding: 1px 0;">Helper · 11px · muted</div><div style="padding: 1px 0;">gap 4–8px</div><div style="padding: 1px 0;">error swaps helper red</div></div>
@@ -1359,7 +1476,7 @@
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
     <div style="padding: 18px 20px;">
       <div><label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--ink);">Campaign name</label><input type="text" value="Q2 Outreach" style="width:100%;max-width:280px;height:32px;padding:0 12px;background:var(--surface-strong);border:1px solid var(--line-strong);border-radius:7px;font:13px var(--font-sans);color:var(--ink);"/><div style="font-size:11px;color:var(--muted);margin-top:4px;">Visible only to your team.</div></div></div></div>
-  </div><p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Form scaffolding — labels above inputs, helper or error text below. Errors swap helper text colour to brand red and add aria-invalid to the input.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Checkbox / Radio / Switch</h3>
+  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Form scaffolding — labels above inputs, helper or error text below. Errors swap helper text colour to brand red and add aria-invalid to the input.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Checkbox / Radio / Switch</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Checkbox /&gt;, &lt;RadioGroup /&gt;, &lt;Switch /&gt; · @/components/ui</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">control 16–18px</div><div style="padding: 1px 0;">indigo when on</div><div style="padding: 1px 0;">surface-muted when off</div></div>
@@ -1368,7 +1485,7 @@
     <div style="padding: 18px 20px;">
       <div style="display:flex;gap:16px;align-items:center;font-size:13px;color:var(--ink);"><label style="display:flex;gap:8px;align-items:center;"><input type="checkbox" checked style="accent-color:var(--blue);"/>Email me</label><label style="display:flex;gap:8px;align-items:center;"><input type="radio" name="r" checked style="accent-color:var(--blue);"/>Daily</label><label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><span style="width:32px;height:18px;background:var(--blue);border-radius:9999px;position:relative;"><span style="position:absolute;right:2px;top:2px;width:14px;height:14px;background:#fff;border-radius:50%;"></span></span>Live</label></div>
     </div></div>
-  </div><p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Single-select (radio), multi-select (checkbox), and instant-binary (switch). Indigo for active state. Switches are reserved for immediate-effect settings; checkboxes for confirmable form choices.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Alert / Alert dialog</h3>
+  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Single-select (radio), multi-select (checkbox), and instant-binary (switch). Indigo for active state. Switches are reserved for immediate-effect settings; checkboxes for confirmable form choices.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Alert / Alert dialog</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Alert /&gt;, &lt;AlertDialog /&gt; · @/components/ui/alert</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">tinted bg + border</div><div style="padding: 1px 0;">12–14px text</div><div style="padding: 1px 0;">icon-led</div><div style="padding: 1px 0;">destructive = red</div></div>
@@ -1378,7 +1495,7 @@
       <div style="border:1px solid rgba(166,56,79,0.30);background:rgba(166,56,79,0.08);border-radius:8px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;max-width:380px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;color:var(--red);flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><div><div style="font-size:13px;font-weight:600;color:var(--ink);">Approval expired.</div><div style="font-size:12px;color:var(--muted);margin-top:2px;">The hold window closed at 15:30.</div></div></div></div>
   </div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Inline alerts for warnings and errors; AlertDialog for destructive confirmations. Use the destructive variant (red) for terminal failures, warning (mustard) for cautions, info (indigo) for neutral notices.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Toast / Sonner</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Inline alerts for warnings and errors; AlertDialog for destructive confirmations. Use the destructive variant (red) for terminal failures, warning (mustard) for cautions, info (indigo) for neutral notices.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Toast / Sonner</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Sonner /&gt;, toast() · @/components/ui/sonner</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">popover bg</div><div style="padding: 1px 0;">status-coloured text + border</div><div style="padding: 1px 0;">5 variants</div><div style="padding: 1px 0;">icon led</div><div style="padding: 1px 0;">close + optional copy</div></div>
@@ -1408,7 +1525,7 @@
         </div>
       </div></div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Transient confirmations and async progress. Five variants — default · success · warning · error · info — each on the popover surface with a status-coloured border and matching text; an icon on the left identifies the type. Every toast carries a Copy action and a Close (X) on the right, so the user can grab the message text or dismiss the toast. Never block on a toast; use Dialog when the user must acknowledge. Stack vertically, newest on top.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Table</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Transient confirmations and async progress. Five variants — default · success · warning · error · info — each on the popover surface with a status-coloured border and matching text; an icon on the left identifies the type. Every toast carries a Copy action and a Close (X) on the right, so the user can grab the message text or dismiss the toast. Never block on a toast; use Dialog when the user must acknowledge. Stack vertically, newest on top.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Table</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Table /&gt;, &lt;PaginatedTable /&gt; · @/components/ui/table</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">header mono 10px 700 uppercase</div><div style="padding: 1px 0;">body 13–14px ink</div><div style="padding: 1px 0;">IDs/times mono 11px slate</div><div style="padding: 1px 0;">cell padding 10–14px</div></div>
@@ -1417,7 +1534,7 @@
     <div style="padding: 18px 20px;">
       <div style="font-size:12.5px;font-family:var(--font-sans);"><div style="display:grid;grid-template-columns:1fr auto auto;gap:14px;padding:6px 0;border-bottom:1px solid var(--ink);font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;"><span>Agent</span><span>Run</span><span style="text-align:right">Started</span></div><div style="display:grid;grid-template-columns:1fr auto auto;gap:14px;padding:8px 0;border-bottom:1px solid var(--line);color:var(--ink);"><span>Outreach</span><span style="font-family:var(--font-mono);color:var(--muted);font-size:11px;">#2,318</span><span style="font-family:var(--font-mono);color:var(--muted);font-size:11px;text-align:right;">14:21</span></div></div></div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">PaginatedTable handles offset, sort, and selection; Table is the dumb DOM primitive. Headers always uppercase mono with the navy underline; never centre body cells; right-align numerics and timestamps.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Command menu</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">PaginatedTable handles offset, sort, and selection; Table is the dumb DOM primitive. Headers always uppercase mono with the navy underline; never centre body cells; right-align numerics and timestamps.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Command menu</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Command /&gt;, &lt;CommandDialog /&gt; · @/components/ui/command</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">cmdk-style</div><div style="padding: 1px 0;">⌘K trigger</div><div style="padding: 1px 0;">indigo selected row</div><div style="padding: 1px 0;">mono section labels</div></div>
@@ -1427,7 +1544,7 @@
       <div style="background:var(--surface-strong);border:1px solid var(--line);border-radius:8px;max-width:380px;box-shadow:0 12px 32px -8px rgba(21,33,58,0.2);"><div style="padding:10px 14px;border-bottom:1px solid var(--line);"><input placeholder="Search agents, runs, skills…" style="width:100%;border:0;outline:none;font:13px var(--font-sans);background:transparent;color:var(--ink);"/></div><div style="padding:6px 8px;"><div style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.16em;color:var(--muted);text-transform:uppercase;padding:6px 8px 4px;">Suggestions</div><div style="padding:7px 10px;border-radius:5px;background:rgba(54,78,129,0.06);font-size:13px;color:var(--ink);">Open Outreach agent</div><div style="padding:7px 10px;font-size:13px;color:var(--ink);">New campaign</div></div></div></div>
   </div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Global cmd+K palette and inline pickers. Section labels in 10px mono; rows at 13px; the selected row uses the indigo soft-tint background, not a border.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Breadcrumb</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Global cmd+K palette and inline pickers. Section labels in 10px mono; rows at 13px; the selected row uses the indigo soft-tint background, not a border.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Breadcrumb</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Breadcrumb /&gt; · @/components/ui/breadcrumb</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">chevron 12px 50% opacity</div><div style="padding: 1px 0;">slate links · ink current</div><div style="padding: 1px 0;">max 3–4 crumbs</div></div>
@@ -1437,7 +1554,7 @@
       <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);"><span>Intelligence</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;opacity:0.5;"><path d="m9 18 6-6-6-6"/></svg><span>Agents</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;opacity:0.5;"><path d="m9 18 6-6-6-6"/></svg><span style="color:var(--ink);font-weight:600;">Run #2,318</span></div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Always in the topbar. Three to four crumbs maximum; truncate the middle with an ellipsis if longer. Never combine with tabs.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Pagination</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Always in the topbar. Three to four crumbs maximum; truncate the middle with an ellipsis if longer. Never combine with tabs.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Pagination</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Pagination /&gt; · @/components/ui/pagination</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">mono 13px</div><div style="padding: 1px 0;">active = ink fill</div><div style="padding: 1px 0;">prev/next chevrons</div></div>
@@ -1447,7 +1564,7 @@
       <div style="display:flex;gap:4px;align-items:center;font-size:13px;font-family:var(--font-mono);"><button style="padding:5px 8px;border:1px solid var(--line);border-radius:5px;background:var(--surface-strong);">‹</button><button style="padding:5px 10px;border:1px solid var(--ink);border-radius:5px;background:var(--ink);color:var(--paper);">1</button><button style="padding:5px 10px;border:1px solid var(--line);border-radius:5px;background:var(--surface-strong);">2</button><button style="padding:5px 10px;border:1px solid var(--line);border-radius:5px;background:var(--surface-strong);">3</button><span style="padding:0 4px;color:var(--muted);">…</span><button style="padding:5px 8px;border:1px solid var(--line);border-radius:5px;background:var(--surface-strong);">›</button></div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">For long lists and tabular data. Active page is ink-filled; surrounding pages are line-bordered on white. Always pair with a "X of N" caption in mono slate.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Skeleton / Spinner</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">For long lists and tabular data. Active page is ink-filled; surrounding pages are line-bordered on white. Always pair with a "X of N" caption in mono slate.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Skeleton / Spinner</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Skeleton /&gt;, &lt;Spinner /&gt; · @/components/ui/skeleton</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">Skeleton: surface-muted bars</div><div style="padding: 1px 0;">Spinner: indigo arc</div><div style="padding: 1px 0;">1s linear</div></div>
@@ -1457,7 +1574,7 @@
       <div style="display:flex;gap:14px;align-items:center;"><div style="display:grid;gap:6px;"><div style="height:10px;width:120px;background:var(--surface-muted);border-radius:4px;"></div><div style="height:8px;width:80px;background:var(--surface-muted);border-radius:4px;"></div></div></div></div>
   </div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Skeletons mirror the layout they're replacing; never use a global spinner overlay when a skeleton would do. Spinner only for short (&lt;500ms) inline waits inside buttons or icons.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Empty state</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Skeletons mirror the layout they're replacing; never use a global spinner overlay when a skeleton would do. Spinner only for short (&lt;500ms) inline waits inside buttons or icons.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Empty state</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Empty /&gt; · @/components/ui/empty</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">centred</div><div style="padding: 1px 0;">dashed circle icon</div><div style="padding: 1px 0;">14px headline · 12px helper</div><div style="padding: 1px 0;">primary action</div></div>
@@ -1466,7 +1583,7 @@
     <div style="padding: 18px 20px;">
       <div style="text-align:center;padding:24px 16px;color:var(--muted);"><div style="width:40px;height:40px;border:2px dashed var(--line-strong);border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;color:var(--muted);"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div style="font-size:14px;color:var(--ink);font-weight:600;margin-bottom:4px;">No runs yet.</div><div style="font-size:12px;">Roll a campaign to see runs here.</div></div></div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Use whenever a list, table, or section has zero content. Always include a single primary action button — never just empty text.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Accordion / Collapsible</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Use whenever a list, table, or section has zero content. Always include a single primary action button — never just empty text.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Accordion / Collapsible</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Accordion /&gt;, &lt;Collapsible /&gt; · @/components/ui/accordion</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">navy hairline rows</div><div style="padding: 1px 0;">rotating chevron</div><div style="padding: 1px 0;">200ms ease</div></div>
@@ -1475,7 +1592,7 @@
     <div style="padding: 18px 20px;">
       <div style="border-top:1px solid var(--line);"><div style="padding:10px 0;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);"><span style="font-weight:600;font-size:13px;color:var(--ink);">Run details</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:var(--muted);"><path d="M6 9l6 6 6-6"/></svg></div><div style="padding:10px 0 14px;font-size:12.5px;color:var(--muted);max-width:48ch;">Step 3 of 7 · 12 drafts pending review.</div><div style="padding:10px 0;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);"><span style="font-weight:600;font-size:13px;color:var(--ink);">Tool calls</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:var(--muted);transform:rotate(-90deg);"><path d="M6 9l6 6 6-6"/></svg></div></div></div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Use for sectioned settings panels and FAQ-style content. Default to single-open; allow multi-open only when items are truly independent.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Separator</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Use for sectioned settings panels and FAQ-style content. Default to single-open; allow multi-open only when items are truly independent.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Separator</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Separator /&gt; · @/components/ui/separator</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">paired-line for sections</div><div style="padding: 1px 0;">1px low-alpha hairline for rows</div></div>
@@ -1484,7 +1601,7 @@
     <div style="padding: 18px 20px;">
       <div><div style="font-size:13px;color:var(--ink);">Section A</div><hr style="border:0;height:5px;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);margin:10px 0;"/><div style="font-size:13px;color:var(--ink);">Section B</div></div></div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Section breaks use the etched paired-line (the spec's signature divider). It stretches edge-to-edge of the content column by default. If a tablist is present in the same row, the rule starts immediately to the right of the last tab and runs to the page edge — never overlap a tablist with the rule, and never stack them. If a toolbar sits below the page header, the toolbar replaces the section rule entirely; never stack both.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Section breaks use the etched paired-line (the spec's signature divider). It stretches edge-to-edge of the content column by default. If a tablist is present in the same row, the rule starts immediately to the right of the last tab and runs to the page edge — never overlap a tablist with the rule, and never stack them. If a toolbar sits below the page header, the toolbar replaces the section rule entirely; never stack both.</p>
 
   <style>
     @keyframes ds-indet { 0% { left: -42%; } 100% { left: 100%; } }
@@ -1508,7 +1625,7 @@
       </div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Single-value and range. Track is the muted surface, the filled portion indigo, the thumb a white interactive disc with an indigo ring (white per rule #8). Pair with a mono value readout; never label the thumb itself.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Single-value and range. Track is the muted surface, the filled portion indigo, the thumb a white interactive disc with an indigo ring (white per rule #8). Pair with a mono value readout; never label the thumb itself.</p>
 
   <!-- ── Progress ────────────────────────────────────────────── -->
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Progress</h3>
@@ -1530,7 +1647,7 @@
       </div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Determinate for known-length work (a run with N steps), indeterminate for open-ended waits. Same geometry as the slider track. Show the percentage in mono above the bar; never render text inside it.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Determinate for known-length work (a run with N steps), indeterminate for open-ended waits. Same geometry as the slider track. Show the percentage in mono above the bar; never render text inside it.</p>
 
   <!-- ── Toggle / Toggle group ───────────────────────────────── -->
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Toggle / Toggle group</h3>
@@ -1553,7 +1670,7 @@
       <button style="height: 32px; padding: 0 12px; display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line-strong); border-radius: 7px; background: rgba(54,78,129,0.10); color: var(--blue); font: 500 12.5px var(--font-sans); cursor: pointer;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;"><path d="m12 2 3 7h7l-5.5 4.5 2 7L12 17l-6.5 3.5 2-7L2 9h7z"/></svg> Starred</button>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A two-state button. Pressed state is the indigo soft-tint with ink/indigo content; rest is transparent with slate content. As a single-select group it becomes a segmented control — the canonical way to choose one of two or more options (the List / Board / Timeline view switcher above); as a multi-select group it toggles several at once (the formatting icons). Either way the buttons share one outer border with hairlines between segments — no gaps, exactly one or any number pressed. Use for view modes and inline formatting, not for settings that take immediate effect (use Switch).</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A two-state button. Pressed state is the indigo soft-tint with ink/indigo content; rest is transparent with slate content. As a single-select group it becomes a segmented control — the canonical way to choose one of two or more options (the List / Board / Timeline view switcher above); as a multi-select group it toggles several at once (the formatting icons). Either way the buttons share one outer border with hairlines between segments — no gaps, exactly one or any number pressed. Use for view modes and inline formatting, not for settings that take immediate effect (use Switch).</p>
 
   <!-- ── Calendar / Date picker ──────────────────────────────── -->
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Calendar / Date picker</h3>
@@ -1581,7 +1698,7 @@
       </div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Month grid on the white popover surface. Weekday heads are mono uppercase; the selected day is an indigo-filled disc; today carries an indigo ring; a date range fills the in-between days with the indigo soft-tint. DatePicker is the calendar inside a Popover triggered from an Input-styled button.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Month grid on the white popover surface. Weekday heads are mono uppercase; the selected day is an indigo-filled disc; today carries an indigo ring; a date range fills the in-between days with the indigo soft-tint. DatePicker is the calendar inside a Popover triggered from an Input-styled button.</p>
 
   <!-- ── Combobox ────────────────────────────────────────────── -->
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Combobox</h3>
@@ -1604,7 +1721,7 @@
       </div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A Select crossed with the Command menu: an Input-chrome trigger opens a type-to-filter list. The current value carries an indigo check; the highlighted row uses the indigo soft-tint. Reach for it over Select whenever the option count passes ~8.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A Select crossed with the Command menu: an Input-chrome trigger opens a type-to-filter list. The current value carries an indigo check; the highlighted row uses the indigo soft-tint. Reach for it over Select whenever the option count passes ~8.</p>
 
   <!-- ── Hover card ──────────────────────────────────────────── -->
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Hover card</h3>
@@ -1625,7 +1742,7 @@
       </div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A preview card on hover — for people, agents, and links. Sits on the white popover surface with a softer, longer open delay than a tooltip (≈700ms). Use when the preview carries structure (an avatar, stats); for a one-line hint use Tooltip instead.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A preview card on hover — for people, agents, and links. Sits on the white popover surface with a softer, longer open delay than a tooltip (≈700ms). Use when the preview carries structure (an avatar, stats); for a one-line hint use Tooltip instead.</p>
 
   <!-- ── Context menu ────────────────────────────────────────── -->
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Context menu</h3>
@@ -1643,7 +1760,7 @@
       </div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Right-click context menus and the chevron DropdownMenu share this surface. Rows highlight on the indigo soft-tint; keyboard shortcuts sit right-aligned in mono slate; destructive items take brand red. Group with the 1px hairline, never the etched paired rule.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Right-click context menus and the chevron DropdownMenu share this surface. Rows highlight on the indigo soft-tint; keyboard shortcuts sit right-aligned in mono slate; destructive items take brand red. Group with the 1px hairline, never the etched paired rule.</p>
 
   <!-- ── Menubar ─────────────────────────────────────────────── -->
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Menubar</h3>
@@ -1667,7 +1784,7 @@
       </div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A persistent horizontal menu bar (desktop-app style) on the toolbar ground. The open trigger takes the indigo soft-tint; its dropdown reuses the context-menu surface. Reserve it for dense editor surfaces; most product chrome should prefer the Toolbar or a DropdownMenu.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A persistent horizontal menu bar (desktop-app style) on the toolbar ground. The open trigger takes the indigo soft-tint; its dropdown reuses the context-menu surface. Reserve it for dense editor surfaces; most product chrome should prefer the Toolbar or a DropdownMenu.</p>
 
   <!-- ── Navigation menu ─────────────────────────────────────── -->
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Navigation menu</h3>
@@ -1690,7 +1807,7 @@
       </div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Top-level site/product navigation with optional mega-panels. The active top link takes the 2px indigo underline (same as Tabs); the dropdown panel is a white card holding a two-column grid of titled links. Distinct from the left Sidebar — use this only for marketing or horizontal product shells.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Top-level site/product navigation with optional mega-panels. The active top link takes the 2px indigo underline (same as Tabs); the dropdown panel is a white card holding a two-column grid of titled links. Distinct from the left Sidebar — use this only for marketing or horizontal product shells.</p>
 
   <!-- ── Scroll area ─────────────────────────────────────────── -->
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Scroll area</h3>
@@ -1712,7 +1829,7 @@
       </div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Replaces the OS scrollbar inside scrollable panels — command lists, sidebars, long popovers. A 6px overlay track with a low-alpha navy thumb that fades when idle. Same <code>scrollbar-thin</code> treatment referenced by Select.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Replaces the OS scrollbar inside scrollable panels — command lists, sidebars, long popovers. A 6px overlay track with a low-alpha navy thumb that fades when idle. Same <code>scrollbar-thin</code> treatment referenced by Select.</p>
 
   <!-- ── Input OTP ───────────────────────────────────────────── -->
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Input OTP</h3>
@@ -1733,7 +1850,7 @@
       </div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">One-time-code and verification entry. Each digit is a 40px white slot with the strong navy border; the focused slot picks up the indigo ring and a blinking caret. Digits set in mono. Split groups with a short navy dash, never a vertical line.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">One-time-code and verification entry. Each digit is a 40px white slot with the strong navy border; the focused slot picks up the indigo ring and a blinking caret. Digits set in mono. Split groups with a short navy dash, never a vertical line.</p>
 
   <!-- ── Drawer ──────────────────────────────────────────────── -->
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Drawer</h3>
@@ -1752,7 +1869,7 @@
       </div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A bottom-anchored sheet for mobile and touch flows. Carries the grab handle, white surface, and a 14px top radius; the overlay dims everything below the 4rem navbar like Dialog. On desktop prefer the right-side Sheet; reserve Drawer for narrow viewports.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A bottom-anchored sheet for mobile and touch flows. Carries the grab handle, white surface, and a 14px top radius; the overlay dims everything below the 4rem navbar like Dialog. On desktop prefer the right-side Sheet; reserve Drawer for narrow viewports.</p>
 
   <!-- ── Resizable ───────────────────────────────────────────── -->
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Resizable</h3>
@@ -1769,7 +1886,7 @@
       </div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Draggable split panes for master-detail layouts (a runs list beside a run detail). The handle is the strong navy hairline with a small grip; it brightens to indigo while dragging. Supports nested horizontal and vertical groups.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Draggable split panes for master-detail layouts (a runs list beside a run detail). The handle is the strong navy hairline with a small grip; it brightens to indigo while dragging. Supports nested horizontal and vertical groups.</p>
 
   <!-- ── Aspect ratio ────────────────────────────────────────── -->
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Aspect ratio</h3>
@@ -1789,7 +1906,7 @@
       </div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Locks a child (image, embed, map, chart) to a fixed width-to-height ratio so layouts don't jump before media loads. Unfilled, it shows the seersucker-striped placeholder with a mono label naming the expected ratio. Clip the child with the 8px radius.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Locks a child (image, embed, map, chart) to a fixed width-to-height ratio so layouts don't jump before media loads. Unfilled, it shows the seersucker-striped placeholder with a mono label naming the expected ratio. Clip the child with the 8px radius.</p>
 
   <!-- ── Carousel ────────────────────────────────────────────── -->
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Carousel</h3>
@@ -1816,7 +1933,7 @@
       </div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Horizontal slide track for stat tiles, onboarding steps, or media. Arrows are white interactive discs placed outside the frame so they never cover content; the dot pager marks the current slide with an elongated indigo pill. Keep slide counts low and never auto-advance critical content.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Horizontal slide track for stat tiles, onboarding steps, or media. Arrows are white interactive discs placed outside the frame so they never cover content; the dot pager marks the current slide with an elongated indigo pill. Keep slide counts low and never auto-advance critical content.</p>
 
   <!-- ── Chart ───────────────────────────────────────────────── -->
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Chart</h3>
@@ -1849,7 +1966,7 @@
       </div>
     </div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-sans); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A thin wrapper over Recharts with the tokens pre-mapped: indigo for the primary series (faded indigo for prior periods), sea-green for positive trends and brand red for negative, the navy hairline for gridlines, and mono ticks. Keep charts quiet — one or two series, no drop shadows or gradients beyond a faint area fill.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A thin wrapper over Recharts with the tokens pre-mapped: indigo for the primary series (faded indigo for prior periods), sea-green for positive trends and brand red for negative, the navy hairline for gridlines, and mono ticks. Keep charts quiet — one or two series, no drop shadows or gradients beyond a faint area fill.</p>
 
   <style>@keyframes ds-blink { 50% { opacity: 0; } }</style>
 <footer>

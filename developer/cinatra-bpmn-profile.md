@@ -1,15 +1,10 @@
 # Cinatra BPMN Profile 1.0
 
-> **Doctrine (v6.20 P603 DOC-02).** Workflow extensions author their template
-> DAG as a `cinatra/workflow.bpmn` sidecar in **Cinatra BPMN Profile 1.0** — a
-> deliberately narrow subset of BPMN 2.0 extended with a small set of
-> `cinatra:`-namespaced elements. The compiler (`packages/workflows/src/bpmn/`)
-> parses + validates the sidecar and produces a lossless `WorkflowSpec`.
-> Inline JSON workflow definitions are forbidden (BPMN-05).
+> **Doctrine.** Workflow extensions author their template DAG as a `cinatra/workflow.bpmn` sidecar in **Cinatra BPMN Profile 1.0** — a deliberately narrow subset of BPMN 2.0 extended with a small set of `cinatra:`-namespaced elements. The compiler (`packages/workflows/src/bpmn/`) parses + validates the sidecar and produces a lossless `WorkflowSpec`. Inline JSON workflow definitions are forbidden.
 
 Namespace: `xmlns:cinatra="http://cinatra.ai/schema/bpmn/profile-1.0"`.
 
-## Supported BPMN constructs (BPMN-03, locked set)
+## Supported BPMN constructs (locked set)
 
 The profile accepts exactly these BPMN elements:
 
@@ -25,22 +20,18 @@ The profile accepts exactly these BPMN elements:
 | `bpmn:sequenceFlow` | Task dependency edge (`dependsOn`). |
 | `bpmn:documentation` | Workflow `description`. |
 
-Anything else (gateways, scriptTask, callActivity, intermediateCatchEvent, …)
-rejects with `bpmn_unsupported_construct`. The narrow set is intentional —
-v6.20 ships the smallest surface that covers real customer workflows; gateways
-and timer events are scheduled for later profile revisions.
+Anything else (gateways, scriptTask, callActivity, intermediateCatchEvent, …) rejects with `bpmn_unsupported_construct`. The narrow set is intentional — the profile ships the smallest surface that covers real customer workflows; gateways and timer events are planned for later profile revisions.
 
-## Cinatra extension elements (BPMN-02, the 12)
+## Cinatra extension elements (the 12)
 
-These extension elements live under `<bpmn:extensionElements>` inside the
-process or each task:
+These extension elements live under `<bpmn:extensionElements>` inside the process or each task:
 
 | Element | Scope | Carries |
 |---|---|---|
 | `cinatra:workflowMeta` | process | `name`, `product` attributes (sometimes templated with `{{placeholder}}`). |
 | `cinatra:placeholders` | process | container for `cinatra:placeholder` children. |
 | `cinatra:placeholder` | process | `name`, `type` (`string`\|`number`\|`date`\|`boolean`), `required`, `description`, `default`. May carry a `cinatra:placeholderHint` child. |
-| `cinatra:placeholderHint` | placeholder | `kind` attribute (drives the launcher's typed picker — see DOC-01). |
+| `cinatra:placeholderHint` | placeholder | `kind` attribute (drives the launcher's typed picker). |
 | `cinatra:taskKind` | userTask | `value` (`"checkpoint"` or `"approval"`). |
 | `cinatra:approvalConfig` | userTask (approval) | `level`, `rejectionPolicy`. |
 | `cinatra:agentRef` | serviceTask | `package` / `name` / `version` / `templateId`. |
@@ -50,7 +41,7 @@ process or each task:
 | `cinatra:messageBody` | sendTask | notification body (text; supports `{{placeholder}}`). |
 | `cinatra:transitionOutcome` | sequenceFlow | `outcome` (e.g. `"success"`). |
 
-## BPMN → WorkflowSpec mapping (BPMN-04)
+## BPMN → WorkflowSpec mapping
 
 The compiler walks the sidecar and emits a `WorkflowSpec`:
 
@@ -58,28 +49,20 @@ The compiler walks the sidecar and emits a `WorkflowSpec`:
 - `bpmn:documentation` → `WorkflowSpec.description`.
 - `cinatra:workflowMeta@product` → `WorkflowSpec.product`.
 - `cinatra:placeholders/cinatra:placeholder[]` → `WorkflowSpec.placeholders: Record<name, PlaceholderDecl>`.
-- Each `cinatra:placeholder/cinatra:placeholderHint@kind` → `WorkflowSpec.metadata.placeholderHints[name] = { kind }` (v6.20 — the launcher reads this to pick a typed picker).
+- Each `cinatra:placeholder/cinatra:placeholderHint@kind` → `WorkflowSpec.metadata.placeholderHints[name] = { kind }` (the launcher reads this to pick a typed picker).
 - Each task → `TaskSpec` keyed by the BPMN id; type derived from BPMN element + `cinatra:taskKind`.
 - Each sequenceFlow → `dependsOn` edge on the target task.
 
-The mapping is **lossless** — round-tripping BPMN → spec → BPMN preserves every
-construct that the profile recognizes.
+The mapping is **lossless** — round-tripping BPMN → spec → BPMN preserves every construct that the profile recognizes.
 
 ## Examples
 
-- `extensions/cinatra-ai/blog-content-workflow/cinatra/workflow.bpmn` — the
-  v6.20 reference: three required placeholders with typed hints
-  (`blog-project` / `blog-post` / `wordpress-instance`), an approval gate, a
-  serviceTask invoking the `@cinatra-ai/blog-wordpress-publish-agent`, a
-  manualTask, and a sendTask notification.
-- `extensions/cinatra-ai/major-release-workflow/cinatra/workflow.bpmn` — the
-  P599 reference: a single string placeholder (`product`) and four tasks
-  demonstrating `cinatra:taskSchedule` (absolute + relative).
+- `extensions/cinatra-ai/blog-content-workflow/cinatra/workflow.bpmn` — a reference example: three required placeholders with typed hints (`blog-project` / `blog-post` / `wordpress-instance`), an approval gate, a serviceTask invoking the `@cinatra-ai/blog-wordpress-publish-agent`, a manualTask, and a sendTask notification.
+- `extensions/cinatra-ai/major-release-workflow/cinatra/workflow.bpmn` — a second reference: a single string placeholder (`product`) and four tasks demonstrating `cinatra:taskSchedule` (absolute + relative).
 
 ## Error catalog (5 structured errors)
 
-The install gate (`scripts/audit/workflow-bpmn-gate.mjs`) and the compiler
-emit exactly these structured errors:
+The install gate (`scripts/audit/workflow-bpmn-gate.mjs`) and the compiler emit exactly these structured errors:
 
 | Code | Cause |
 |---|---|
@@ -91,7 +74,5 @@ emit exactly these structured errors:
 
 ## See also
 
-- `07-workflow-extensions-as-app-surfaces.md` — the operator-surface side
-  (`cinatra/dashboard.json` + portlets).
-- `06-workflow-doctrine.md` — workflow lifecycle invariants the profile
-  encodes.
+- [`workflow-extension-surfaces.md`](./workflow-extension-surfaces.md) — the operator-surface side (`cinatra/dashboard.json` + portlets).
+- [`workflow-extension-doctrine.md`](./workflow-extension-doctrine.md) — workflow lifecycle invariants the profile encodes.

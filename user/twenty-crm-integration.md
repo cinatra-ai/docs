@@ -8,9 +8,8 @@ experience lives in Twenty itself.
 
 This page explains how the two fit together from a user's point of view.
 
-For the connector mechanics, see the developer references
-[CRM connector](../developer/crm-connector.md) and
-[Twenty transport matrix](../developer/twenty-transport-matrix.md).
+For the connector mechanics, see the developer reference
+[CRM connector](../developer/crm-connector.md).
 
 ---
 
@@ -97,4 +96,4 @@ whatever Twenty exposes.
 - [User Guide home](README.md)
 - [Data and objects](data-and-objects.md) — the unified Data surface and how Lists act as agent inputs and outputs
 - [A connected ecosystem of capabilities](connected-ecosystem.md) — how connectors, agents, and data compose
-- Developer references: [CRM connector](../developer/crm-connector.md), [Twenty transport matrix](../developer/twenty-transport-matrix.md)
+- Developer reference: [CRM connector](../developer/crm-connector.md)
