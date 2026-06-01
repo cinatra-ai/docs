@@ -37,8 +37,6 @@ For the Twenty side specifically — bootstrap, transport, the Layer A/Layer B a
 - [`packages/twenty-connector/src/`](../../packages/twenty-connector/src/) — Twenty implementation: per-method `execute_tool` calls against Twenty's MCP catalog (see [`twenty-mcp-tools.json`](twenty-mcp-tools.json) for the catalog snapshot).
 - [`extensions/cinatra-ai/crm-connector/src/chat-widgets/crm-contact-finder.tsx`](../../extensions/cinatra-ai/crm-connector/src/chat-widgets/crm-contact-finder.tsx) — the chat widget that resolves a contact by email through `crmFacade.contact.findByEmail` (auth-gated). This is the only cinatra-side UI touching CRM data; the previous browse routes + deeplink card were deleted in v6.14.2.
 - [`scripts/audit/crm-pointer-gate.mjs`](../../scripts/audit/crm-pointer-gate.mjs) + [`scripts/audit/oas-banned-primitives-gate.mjs`](../../scripts/audit/oas-banned-primitives-gate.mjs) — the two CI gates that keep the retirement from regressing. Both run in [`.github/workflows/crm-migration-gate.yml`](../../.github/workflows/crm-migration-gate.yml) on every PR.
-- [`docs/runbooks/twenty-cutover.md`](../runbooks/twenty-cutover.md) — the operator runbook for the one-shot wipe of cinatra-side CRM pointer rows.
-
 ## The contract
 
 Three top-level resource types and one fact about how they're persisted.
@@ -75,7 +73,7 @@ If you find a doc, comment, or LLM-visible description that still names a retire
 
 ## Cutover (one-shot wipe of cinatra-side pointer rows)
 
-After the retired code is live, an operator runs the one-shot destructive cutover to delete the residual CRM pointer rows from `cinatra.objects` and let the facade own the data forever after. The script is `scripts/v614/cutover-wipe-and-reseed.mjs`; the procedure (dry-run → schema-scoped snapshot → stop workers → wipe with `--yes`) is in [`docs/runbooks/twenty-cutover.md`](../runbooks/twenty-cutover.md). CI never runs the destructive path.
+After the retired code is live, an operator runs the one-shot destructive cutover to delete the residual CRM pointer rows from `cinatra.objects` and let the facade own the data forever after. The script is `scripts/v614/cutover-wipe-and-reseed.mjs`; the procedure is dry-run → schema-scoped snapshot → stop workers → wipe with `--yes`. CI never runs the destructive path.
 
 After the wipe, `pnpm seed` no longer populates CRM fixtures through the pointer rows; CRM-native reseeding flows through the `crm_*` facade.
 
@@ -91,4 +89,4 @@ The Twenty implementation is the reference. To add a second provider:
 6. **CI gate** — extend `crm-pointer-gate.mjs`'s scanner if the new provider introduces new banned patterns; otherwise it's already covered (the gate's strict mode catches any new code path reading heavy fields off `cinatra.objects` for CRM types).
 7. **Deprecation-stub-style retirement** is reserved for the legacy in-cinatra surface; adding a new provider does NOT need it.
 
-See also: [`twenty-bootstrap.md`](twenty-bootstrap.md), [`twenty-transport-matrix.md`](twenty-transport-matrix.md), [`docs/runbooks/twenty-cutover.md`](../runbooks/twenty-cutover.md), [`email-connector.md`](email-connector.md) (the parallel email facade), [`drupal-connector.md`](drupal-connector.md) (the parallel CMS connector with a dispatcher-style MCP).
+See also: [`twenty-bootstrap.md`](twenty-bootstrap.md), [`twenty-transport-matrix.md`](twenty-transport-matrix.md), [`email-connector.md`](email-connector.md) (the parallel email facade), [`drupal-connector.md`](drupal-connector.md) (the parallel CMS connector with a dispatcher-style MCP).
