@@ -24,8 +24,7 @@ This is the Cinatra design-system reference for contributors, alongside the [Use
 ## What's NOT in here
 
 - **Code-level styling rules** — those live in `.agents/skills/design/SKILL.md` (the design skill, user-invocable via `/design`). The page in this guide describes how that skill works; the skill itself is the operational source.
-- **The spec defect resolutions** (R1 running=indigo, R2 navy hairlines, R3 status retune, R4 fonts) — those live in `references/design/operational/01-resolutions.md`. The HTML below carries one known stale label (§IV red swatch's "running" tag). Designers reading the HTML should treat that label as drift and use indigo for running per [§VIII rule 4](./design-system.html) and the [design skill](./working-with-the-design-skill.md).
-- **The token map** — see `references/design/operational/02-token-map.md`.
+- **The spec defect resolutions** (R1 running=indigo, R2 navy hairlines, R3 status retune, R4 fonts) and the rest of the operational rulebook (token map, conformance matrix, exception policy, uncovered-UI register) now live with the code, in the monorepo design skill (`cinatra/.agents/skills/design/operational/`). The [`design-system.html`](./design-system.html) spec is the normative reference; see the [operational pointer](operational/README.md).
 
 ## How this guide stays current
 
@@ -37,4 +36,4 @@ node scripts/design/scan-raw-colors.mjs           # warns if a new raw-color lea
 node scripts/design/scan-status-render.mjs        # warns if a new ad-hoc status renderer appears
 ```
 
-The design skill (`.agents/skills/design/SKILL.md`) is the **operational source** when the HTML and the resolutions conflict. The HTML carries one known stale label (§IV red swatch); the skill + resolutions doc are the binding rule when an agent is making a styling decision.
+The [`design-system.html`](./design-system.html) spec is the **normative reference**. The monorepo design skill (`cinatra/.agents/skills/design/SKILL.md`) applies it to code and records the owner deviations + resolutions; on a genuine conflict between the two, stop and request owner reconciliation.
