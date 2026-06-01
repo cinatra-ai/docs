@@ -101,5 +101,15 @@ sentinel re-runs the cleanup.
   baked into the Twenty image. We keep it and layer generic content on top;
   making Twenty's built-in seed generic would require forking Twenty.
 - Full live verification across all three requires the heavy docker profiles
-  (incl. the ~2 GB Twenty stack) and, for Twenty, the operator-gated API-key
-  mint in the bootstrap script.
+  (incl. the ~2 GB Twenty stack).
+- The Twenty connector **API key now auto-mints + attaches** at dev-auto-setup
+  (`src/lib/dev-auto-setup.ts` → `autoSetupLocalTwenty`) when the Twenty
+  container is up and Nango is configured (`cinatra setup nango`): it reuses a
+  working bearer, else mints a fresh workspace key via `docker exec`, imports it
+  into Nango, and readback-verifies — no operator setup-page step. Twenty
+  *content* (companies/people/views) still seeds via the bootstrap step 13,
+  because that path owns the row-accumulation / cleanup concerns.
+  - The minted key is stored as the `twenty-workspace` Nango connection under the
+    `cinatra-external-mcp` provider config key, so subsequent boots reuse it; a
+    new key is minted only on a definite `401/403`, never on a transient probe or
+    Nango outage (avoids key sprawl).
