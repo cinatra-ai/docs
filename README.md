@@ -14,21 +14,21 @@ Run your first agent with the [Quickstart](guides/hosting/quickstart.md), or rea
 
 ---
 
-## [Guides](guides/README.md) — task-based docs, by role
+## [Guides](guides/README.md)
 
 - [User Guide](guides/user/README.md) — running agents, chat, human-in-the-loop (HITL) review, dashboards, skills, cross-instance collaboration
 - [Admin Guide](guides/admin/README.md) — the `/configuration/*` area: marketplace, extensions, permissions, providers, telemetry, instance settings
 - [Developer Guide](guides/developer/README.md) — authoring agents and extensions, the contributor workflow, and the day-to-day developer loop
 - [Hosting Guide](guides/hosting/README.md) — installation, configuration, troubleshooting; what an operator needs to know
 
-## [References](references/README.md) — stable specs, contracts, and architecture
+## [References](references/README.md)
 
 - [Platform](references/platform/README.md) — architecture, subsystem contracts, the objects layer, security, connectors, artifacts, workflows, open standards, and CI policy
 - [MCP](references/mcp/README.md) — the Model Context Protocol server (external + internal), authentication, primitives, and clients
 - [Design](references/design/README.md) — the Cinatra design system: the normative spec, the design skill, and the operational rulebook
 - [Glossary](references/glossary.md) — canonical concepts and terminology
 
-## [Resources](resources/README.md) — positioning and evaluation
+## [Resources](resources/README.md)
 
 - [Why Cinatra](resources/why-cinatra.md) — what the platform unlocks
 - [Comparisons](resources/comparisons/README.md) — Cinatra vs ChatGPT Workspace Agents, Claude Cowork, Vercel Open Agents, and Managed Agents
