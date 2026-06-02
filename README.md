@@ -16,10 +16,10 @@ Run your first agent with the [Quickstart](guides/hosting/quickstart.md), or rea
 
 ## [Guides](guides/README.md)
 
-- [User Guide](guides/user/README.md) — running agents, chat, human-in-the-loop (HITL) review, dashboards, skills, cross-instance collaboration
-- [Admin Guide](guides/admin/README.md) — the `/configuration/*` area: marketplace, extensions, permissions, providers, telemetry, instance settings
-- [Developer Guide](guides/developer/README.md) — authoring agents and extensions, the contributor workflow, and the day-to-day developer loop
-- [Hosting Guide](guides/hosting/README.md) — installation, configuration, troubleshooting; what an operator needs to know
+- [User](guides/user/README.md) — running agents, chat, human-in-the-loop (HITL) review, dashboards, skills, cross-instance collaboration
+- [Admin](guides/admin/README.md) — the `/configuration/*` area: marketplace, extensions, permissions, providers, telemetry, instance settings
+- [Developer](guides/developer/README.md) — authoring agents and extensions, the contributor workflow, and the day-to-day developer loop
+- [Hosting](guides/hosting/README.md) — installation, configuration, troubleshooting; what an operator needs to know
 
 ## [References](references/README.md)
 
