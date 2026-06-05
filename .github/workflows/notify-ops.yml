@@ -44,6 +44,6 @@ jobs:
             -H "Authorization: Bearer ${GH_TOKEN}" \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/cinatra-ai/cinatra-ops/dispatches \
+            https://api.github.com/repos/cinatra-ai/ops/dispatches \
             -d "$(jq -nc --arg sha "$SHA" --arg ref "$REF" \
                   '{event_type:"cinatra-docs-pushed",client_payload:{sha:$sha,ref:$ref}}')"
