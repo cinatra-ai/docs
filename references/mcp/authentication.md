@@ -62,5 +62,9 @@ For dev workflows that need a public URL, bring your own tunnel (Tailscale Funne
 ## Where to go next
 
 - Connecting Claude Code with `mcp-remote`: [Connecting Claude Code](clients/claude-code.md)
+- Connecting Claude Desktop as a custom remote connector over HTTPS `/api/mcp`: [Connecting Claude Desktop](clients/claude-desktop.md)
+- Connecting Codex with `codex mcp add --url` + `codex mcp login`: [Connecting Codex](clients/codex.md)
+- The user-facing walkthrough for all four clients: [Use Cinatra from Claude Desktop, Codex, and other MCP clients](../../guides/user/mcp-clients.md)
+- Where an admin lists and revokes connected OAuth clients: open the MCP Client Registry connector setup page (`/connectors/cinatra-ai/mcp-client-registry-connector/setup`) in your instance
 - The actor envelope every primitive sees: [Primitives](primitives.md)
 - The shared auth model with A2A: [Cross-instance collaboration](../platform/cross-instance-collaboration.md)

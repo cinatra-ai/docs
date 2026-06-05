@@ -223,6 +223,8 @@ Before publishing, satisfy the gates the platform holds every extension to:
 - **Discovery conformance** (`packages/extensions/src/__tests__/extension-discovery-conformance.test.ts`) — if you add a new kind's reader facet, it must satisfy the golden discovery contract (lifecycle suppression, visibility authority, reader-throw isolation).
 - **Manifest validity** — `requestedHostPorts` must be real port names, `sdkAbiRange` must be a supported range, and `dependencies` edges must be well-formed; the manifest generator flags unknown values at generation time.
 
+Beyond these author-time gates, the production loader applies a runtime trust check before importing your code in-process: it verifies the tarball's integrity and — in the signature-required window — an Ed25519 signature against a host-trusted key. An unsigned package is import-denied once enforcement is on, and a package that declares host migrations cannot import unless it is signed. See [Extension signing and the activation trust root](extension-publishing.md#extension-signing-and-the-activation-trust-root).
+
 The IoC review contract every change is held to is in [Extension IoC safeguards](../../references/platform/extension-ioc-safeguards.md).
 
 ---

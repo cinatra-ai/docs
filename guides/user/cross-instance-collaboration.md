@@ -13,7 +13,7 @@ Every Cinatra instance can publish agents and skill extensions to a registry. Th
 - **Private** — your own registry, typically a self-hosted Verdaccio (an npm-compatible registry). Packages published here are visible only to your instance (and to anything else you explicitly grant the read credential to).
 - **Public** — a shared registry that any connected Cinatra instance can read. Today the canonical public registry is hosted at <https://registry.cinatra.ai>.
 
-Once your instance is connected to the public registry (set up under **Administration → Environment → Registries**), Administration → Marketplace shows every extension published there. You browse the same listing other connected instances see. Whether an extension is `public` or `private` is set at publish time and enforced server-side at every read path — your instance never sees another instance's `private` extensions.
+Once your instance is connected to the public registry (set up under **Administration → Environment → Registries**), Administration → Marketplace shows every extension published there. You browse the same listing other connected instances see. The marketplace **browse** listing is served by the storefront at <https://marketplace.cinatra.ai>; the actual package you **install** is pulled from the registry (<https://registry.cinatra.ai>). Whether an extension is `public` or `private` is set at publish time and enforced server-side at every read path — your instance never sees another instance's `private` extensions.
 
 For the user-facing flow (install / archive / restore / upload from GitHub), see [Marketplace](../admin/marketplace.md).
 

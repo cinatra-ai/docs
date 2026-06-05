@@ -44,6 +44,7 @@ If a teammate has an agent, connector, or skill that you cannot see, it is almos
 - **It is archived.** An admin can archive an extension to pause it. While archived, its features stop appearing for normal use, but any work it already produced stays available. If you need it back, ask an admin to restore it.
 - **Its visibility or permissions exclude you.** Each extension carries an access level — and individual agents carry their own permissions. An agent might be visible to everyone in the workspace, scoped to a team or organisation, or limited to specific people and their co-owners. If you are outside that scope, the feature is hidden from you even though it is installed.
 - **A connector is installed but not connected.** A connector extension can be present without a working credential. Until someone completes its setup screen, the actions it enables will not work.
+- **Its code did not pass the host activation check.** Beyond visibility and permissions, an extension's features only appear once its code has activated on the running workspace. If the install did not clear the host's activation-trust check, the extension can be present without its features being live. An admin can confirm whether it activated.
 
 When in doubt, ask an admin: they can tell you whether something is installed, archived, or simply scoped away from you, and they can grant access or finish setup.
 

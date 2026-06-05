@@ -179,6 +179,37 @@ Nango (the OAuth gateway brokering connector credentials) handles third-party co
 
 ---
 
+## Extensions and registry
+
+Cinatra installs extensions — agents, connectors, skills, artifacts, and workflows — from a package registry, and verifies the trustworthiness of any extension whose code activates in-process. The app talks to two hosted endpoints for this: the public registry `registry.cinatra.ai` for extension package, manifest, and install reads, and the storefront `marketplace.cinatra.ai` for marketplace browse and detail. Your self-host stack also runs a **local, private** Verdaccio registry (see [Installation](installation.md)) where extensions you author and publish from this instance land.
+
+The instance's deployment registry configuration also drives extension **activation trust**: the host allowlist for in-process activation is derived from the configured public registry URL. Only extensions resolved from the configured registry host are eligible for in-process activation; code from an instance-local or otherwise untrusted host is denied (fail-closed).
+
+The two environment variables below are the operator-facing levers for extension signature verification. Both are **consumer-side**: they control how *this* instance verifies the extensions it consumes. They do not sign anything.
+
+### `CINATRA_EXTENSION_REQUIRE_SIGNATURES`
+
+Whether a verified Ed25519 signature is required before an extension's code is activated in-process.
+
+- **Unset (the default) — signatures are not required.** During the transition period an extension from the configured registry host may activate in-process without a signature (a `trusted-bootstrap` posture). A signature that *is* present but does not verify against a configured public key is still refused.
+- **`"true"` — a verified signature is mandatory** for in-process activation (`trusted-signed`). An extension from the registry host that has no signature will not activate in-process; one whose signature does not verify is refused.
+
+Set it to the literal string `true` to require signatures. Only flip this on once the packages you install actually carry verifiable signatures, otherwise extensions will stop activating in-process. This is a consumer-side verification lever, not a statement about how packages are produced or signed.
+
+### `CINATRA_EXTENSION_SIGNING_PUBLIC_KEYS`
+
+Comma-separated list of base64-encoded SPKI DER **public** keys that this instance trusts as signature roots. A signature on an installed extension is accepted only if it verifies against one of these keys.
+
+These are **public keys — not secrets.** They are safe to ship in your environment configuration. The corresponding private signing key never lives on the instance; it stays in operator custody (e.g. a secrets manager). If `CINATRA_EXTENSION_REQUIRE_SIGNATURES=true` but no usable public key is configured, no extension can reach the signed-trust state.
+
+### A note on the capability split
+
+In-process import trust is decoupled from privileged host capability. A `trusted-bootstrap` extension (registry-host-trusted but unsigned, in the transition period) may import its code, but it is **not** auto-granted privileged host ports, and it is **not** permitted to run host database migrations (DDL). Those privileged capabilities require `trusted-signed` — a verified signature — or an explicit admin grant. In particular, a `trusted-bootstrap` extension that *declares* host migrations is refused import entirely until it is signed, because running host DDL is gated on a verified signature.
+
+How extensions are produced and signed is out of scope here; this section covers only the consumer-side verification this instance performs.
+
+---
+
 ## Public base URL (development)
 
 External MCP and A2A clients need a public HTTPS endpoint that maps to your local dev server. Cinatra does **not** manage a tunnel for you — operators run their own (Tailscale Funnel (a public-internet tunnel), a named Cloudflare Tunnel, ngrok with a reserved domain, etc.) pointing at `http://localhost:3000`, then paste the resulting public URL into `/configuration/development?tab=tunnel`.

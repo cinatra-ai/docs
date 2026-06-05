@@ -28,6 +28,8 @@ Connectors are the bridges to third-party services. Each connector wraps a vendo
 
 Authentication for connectors is brokered through Nango (the OAuth gateway brokering connector credentials). You click "connect" in the workspace, hand off through OAuth, and the connector becomes available to every agent that declares it. The credential is stored once and reused across agents — you don't paste an API key into each one.
 
+These connectors reach *outward* — Cinatra calling third-party services. The inverse direction also works: Cinatra is itself reachable as an MCP server, so external MCP clients (Claude Desktop, Claude.ai, ChatGPT, or any custom client) can connect *in* and drive your workspace over MCP. That inbound side is its own registry — the in-app **Claude Desktop** / MCP Clients page — and is not the same thing as these outbound Nango connectors. See [Use Cinatra from Claude Desktop](mcp-clients.md).
+
 ## Skills
 
 A skill is a declarative `SKILL.md` file an agent can reach for at runtime. Skills come in two shapes:
@@ -69,4 +71,5 @@ No part of that workflow lives outside the platform. The lists, the connectors, 
 
 - The chat surface that drives most of this: [Workspace features](workspace-features.md)
 - The MCP primitive shape that ties it together: [Cinatra over MCP](../../references/mcp/external-server.md)
+- Connecting an external MCP client to your workspace: [Use Cinatra from Claude Desktop](mcp-clients.md)
 - The composability of agents under the open standards: [Open standards](../../references/platform/open-standards.md)
