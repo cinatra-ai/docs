@@ -1,13 +1,13 @@
-name: Notify cinatra-ops on docs push
+name: Notify ops on docs push
 
-# Fires repository_dispatch(cinatra-docs-pushed) at cinatra-ops so its
+# Fires repository_dispatch(cinatra-docs-pushed) at ops so its
 # build-deploy-docs.yml rebuilds + redeploys docs.cinatra.ai immediately
 # (instead of waiting for the scheduled fallback). The whole repo is docs
 # content, so any push to main is a docs change — no path filter needed.
 #
 # Requires the CINATRA_OPS_DISPATCH_TOKEN repo secret (a fine-grained PAT
-# scoped to cinatra-ai/cinatra-ops with Contents: write). Until that secret
-# is set, this job no-ops gracefully and docs deploy via the cinatra-ops
+# scoped to cinatra-ai/ops with Contents: write). Until that secret
+# is set, this job no-ops gracefully and docs deploy via the ops
 # "Build + deploy docs.cinatra.ai" manual workflow_dispatch / schedule.
 
 on:
@@ -27,7 +27,7 @@ jobs:
     name: Dispatch cinatra-docs-pushed
     runs-on: ubuntu-latest
     steps:
-      - name: Fire repository_dispatch to cinatra-ops
+      - name: Fire repository_dispatch to ops
         env:
           GH_TOKEN: ${{ secrets.CINATRA_OPS_DISPATCH_TOKEN }}
           SHA: ${{ github.sha }}
@@ -37,7 +37,7 @@ jobs:
           if [ -z "${GH_TOKEN:-}" ]; then
             echo "CINATRA_OPS_DISPATCH_TOKEN not set — skipping dispatch."
             echo "Operator: add the secret to enable auto-deploy; until then use the"
-            echo "cinatra-ops 'Build + deploy docs.cinatra.ai' manual workflow_dispatch."
+            echo "ops 'Build + deploy docs.cinatra.ai' manual workflow_dispatch."
             exit 0
           fi
           curl -fsSL -X POST \
