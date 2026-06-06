@@ -167,6 +167,19 @@ For each problem: what you see, why it happens, how to fix it.
 
 **Fix:** Bump the `version` in the package's `package.json` before publishing.
 
+### Extension installs but its features do not activate (trust / signature gate)
+
+**Symptom:** An extension installs, but its code does not activate in-process, or the install/activation is refused. This is the consumer-side **activation-trust** gate the app applies before importing extension code. There are four distinct cases:
+
+**Cause and fix, by case:**
+
+- **No signature, and `CINATRA_EXTENSION_REQUIRE_SIGNATURES=true`.** A package with no signature is allowed during the transition period (when signatures are not required), but is **denied** once signature enforcement is on. *Fix:* install a signed build of the package, or keep `CINATRA_EXTENSION_REQUIRE_SIGNATURES` unset until the packages you consume carry signatures.
+- **Invalid / non-verifying signature.** A package whose signature does not verify against any configured trusted key is **refused in all cases**, regardless of the enforcement flag. This is distinct from an absent signature: absent is sometimes allowed, invalid never is. *Fix:* configure the correct trust-root public key in [`CINATRA_EXTENSION_SIGNING_PUBLIC_KEYS`](configuration.md#cinatra_extension_signing_public_keys), or obtain a package signed by a key you trust.
+- **Registry host not trusted.** The resolved registry host the package came from is not in the instance's trusted-activation allowlist (which is derived from the configured public registry URL). In-process activation is **fail-closed** denied. *Fix:* install the extension from the configured public registry (`registry.cinatra.ai`) rather than an instance-local or unrecognized host.
+- **Bootstrap-trusted package that declares host migrations.** A registry-host-trusted but unsigned (`trusted-bootstrap`) package that declares host database migrations is **refused import entirely** until it is signed — running host DDL requires a verified signature, even during the transition period. *Fix:* install a signed build of that package; no flag change will permit it.
+
+See [Configuration → Extensions and registry](configuration.md#extensions-and-registry) for the trust model and the two signature-verification environment variables.
+
 ---
 
 ## Diagnostic commands

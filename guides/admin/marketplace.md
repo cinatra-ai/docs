@@ -23,7 +23,16 @@ A separate axis exists for what is *published* versus what is *installed*. Regis
 
 ### Connect a registry
 
-The marketplace reads from a registry. When no remote registry is connected, the Marketplace screen shows a "registry not connected" empty state and points you to the registry-connection settings under the **Environment → Registries** tab. Connecting a registry is the prerequisite for browsing anything beyond what your own instance has published. The shared registry uses the `@cinatra-ai/*` npm scope; your instance also publishes under its own namespace scope (see [The instance namespace](#the-instance-namespace)).
+Browsing the marketplace is served by the storefront, but *installing* needs registry access: the per-package manifest reads and the install download come from the registry. Connect one under the **Environment → Registries** tab so installs (and reads of anything beyond what your own instance has published) resolve. The shared registry uses the `@cinatra-ai/*` npm scope; your instance also publishes under its own namespace scope (see [The instance namespace](#the-instance-namespace)).
+
+#### Browse versus install: two endpoints
+
+The marketplace separates *what you browse* from *what you install*, and they are served by different endpoints:
+
+- **Browse and detail come from the storefront.** The Marketplace screen (`/configuration/marketplace`) lists cards sourced from the live storefront, and the per-extension detail page (`/configuration/marketplace/<scope>/<name>`) is storefront-sourced too — its source of truth returns the extension's visibility, kind, and version. The storefront lists *visible, published* products, not raw registry packages. If the storefront is unreachable or your marketplace credential is missing, the screen surfaces that loudly rather than silently falling back to a registry listing.
+- **Manifest, package reads, and the install download come from the registry.** When you install, the agent manifest and the package tarball are pulled from the registry.
+
+Keep this split in mind when diagnosing: a blank or erroring *browse* screen is a storefront/credential problem, whereas a failed *install download* is a registry-reachability problem.
 
 ### Review what the extension requests
 
@@ -66,7 +75,27 @@ The marketplace card CTA reflects the installed state:
 | **Installed** | The extension is installed at the current version (disabled). |
 | **Restore** | The extension was archived and can be re-activated. |
 
-The detail page for an extension is at `/configuration/marketplace/<scope>/<name>`. Agent extensions render a full detail view; the other kinds render a summary with an install path while their kind-specific detail views are built out.
+The detail page for an extension is at `/configuration/marketplace/<scope>/<name>`, and is sourced from the storefront (see [Browse versus install](#browse-versus-install-two-endpoints)). Agent extensions render a full detail view; the other kinds render a summary with an install path while their kind-specific detail views are built out.
+
+---
+
+## In-process activation trust
+
+Installing an extension records it and registers its surfaces, but the host applies a separate gate before it will run an extension's **code** in-process. The code activates in-process only when **all** of the following hold:
+
+- the package's tarball **integrity is verified** (its content matches the recorded digest),
+- the host has a **persisted trust decision** for it (an explicit decision recorded at install; a revocation always wins), and
+- it was resolved from the **configured marketplace host** — the registry host the deployment trusts for activation.
+
+What this means in practice:
+
+- **Code from outside the configured marketplace host is always denied for in-process activation.** A package resolved from a private Verdaccio, an instance-local registry, or any other non-trusted host will not have its code imported in-process. This is fail-closed.
+- **With signature enforcement off (the default), an unsigned package from the marketplace host still activates** — at a transition-window trust tier (`trusted-bootstrap`). It runs, but it does **not** receive privileged ports or run host database migrations: those privileged capabilities require a verified signature (`trusted-signed`) or an explicit admin grant.
+- **A package with a verified Ed25519 signature** against a host-trusted key activates as `trusted-signed` and is eligible for the privileged capabilities above.
+
+The single operator lever is the environment variable `CINATRA_EXTENSION_REQUIRE_SIGNATURES`. It is **off by default**: unsigned marketplace-host code is allowed to activate (as `trusted-bootstrap`) during the transition. Set it to the string `true` to require a verified signature for in-process activation — at which point an unsigned package from the marketplace host no longer activates. (A *present-but-invalid* signature is refused in either case; only an *absent* signature is what the lever governs.)
+
+The trust model is vendor-agnostic — no package scope or vendor name confers trust; the trust root is the persisted decision, integrity, the marketplace host, and the signature. For the operator-side configuration of these levers, see [Configuration → Extensions and registry](../hosting/configuration.md). For the author-side view (how signatures are produced and served, framed as a rollout in progress), see [Extension publishing](../developer/extension-publishing.md).
 
 ---
 
@@ -174,7 +203,7 @@ Every Cinatra instance picks a namespace during setup, under **Administration �
 
 ## Troubleshooting install and setup
 
-- **The marketplace is empty or shows "registry not connected."** Connect a remote registry under **Environment → Registries**. Until a registry is connected, you can only see what your own instance has published.
+- **The marketplace browse screen is blank or errors.** Browse and detail come from the storefront, so this is a storefront-reachability or marketplace-credential problem, not a registry one — the screen surfaces that loudly rather than falling back. (An *install download* that fails, by contrast, points at registry reachability: connect a registry under **Environment → Registries**.)
 - **An install is rejected for compatibility.** The extension was built for an incompatible platform version, or is missing a required dependency. Update the extension to a compatible version, satisfy the missing dependency, or wait for a compatible release — the host rejects rather than half-activating.
 - **A connector is installed but nothing works.** Installation activates the connector's surfaces, but the connector still needs a credential. Open its setup screen and complete the connection.
 - **A feature did not appear after install.** Confirm the extension activated (it shows on the **Active** tab), and check its visibility and per-resource access — an installed extension scoped to a team or to specific people is hidden from everyone else even though it is active.

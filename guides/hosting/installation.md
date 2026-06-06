@@ -79,6 +79,18 @@ The first user to register becomes the initial admin and the owner of the defaul
 | `pnpm setup:status` | Inspect current setup state |
 | `pnpm backup:create` | Create a backup bundle of the running instance |
 
+### Extension CLI commands
+
+A few extension-related operations are available from the `cinatra` CLI:
+
+| Command | Purpose |
+|---------|---------|
+| `cinatra agents install [<name>[@<range>]]` | Install an agent extension tree from the local Verdaccio registry. Writes a `cinatra-agents.lock`. |
+| `cinatra extensions submit <tarball.tgz>` | Submit a built extension tarball to the Cinatra Marketplace for review. Requires `MARKETPLACE_INSTANCE_TOKEN` in the shell env. |
+| `cinatra extensions purge <packageName>` | Remove an extension's installed state from this instance — its database rows and on-disk files. The registry is left untouched (purge never unpublishes a published version; version cleanup is a separate operation). |
+
+**There is no general `cinatra extensions install` command.** The only install-style CLI command is `cinatra agents install`, which installs an agent tree from Verdaccio. General extensions — connectors, skills, artifacts, and workflows — are installed through the UI and MCP surface (browse at `/configuration/marketplace`, manage installed extensions at `/configuration/extensions`), not the CLI.
+
 ---
 
 ## What is running after setup
@@ -90,7 +102,7 @@ Once `make dev` is up, the local processes are:
 - **Redis** on the default port — BullMQ (a Redis-backed job queue), Agent-User Interaction Protocol (AG-UI)/agent-to-UI (A2UI) protocol event log, pub/sub
 - **WayFlow** on `http://localhost:3010` — agent runtime container
 - **Nango** on `http://localhost:3003` — OAuth gateway for third-party connector auth
-- **Verdaccio** on its configured port — local agent-package registry
+- **Verdaccio** on `http://localhost:4873` — the **local, private npm-compatible registry** in the self-host stack. This is where extensions you author and publish from this instance land, and what `cinatra agents install` pulls from locally. It is distinct from the hosted endpoints the app talks to for the marketplace experience: the storefront `marketplace.cinatra.ai` powers marketplace **browse and detail**, and the public registry `registry.cinatra.ai` backs the **package/manifest reads and install download** for first-party extensions. The app references those two hosted endpoints by URL; you do not host or operate them — you only run your own local Verdaccio.
 - **Graphiti** on `http://localhost:8000` — typed object graph indexer
 - **Test CMS instances** (WordPress, Drupal) on their compose-defined ports — used by the CMS connectors during development
 

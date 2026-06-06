@@ -8,10 +8,10 @@ Registry actions affect published versions; lifecycle actions affect installed s
 
 ## The registry model
 
-Cinatra speaks to a Verdaccio registry (`registry.cinatra.ai`) under the `@cinatra-ai/*` npm scope, with two destination roles:
+Cinatra speaks to an npm registry under the `@cinatra-ai/*` scope, with two destination roles:
 
-- **Private** — the destination the publishing instance writes its own packages to (typically a self-hosted Verdaccio vhost). Credentials live encrypted in the destinations table, keyed by an opaque destination pointer with per-field AAD bindings; tokens are never written into the `origin` record.
-- **Public** — the shared registry every connected Cinatra instance can read from. An instance connects under **Administration → Environment** (the registries tab): it submits a request, receives a single-use npm token after admin approval, and the token is stored in the Nango OAuth gateway — never in Cinatra's own database.
+- **Private** — the destination the publishing instance writes its own packages to (typically a self-hosted Verdaccio vhost — the local/private registry that ships with the self-host docker stack). Credentials live encrypted in the destinations table, keyed by an opaque destination pointer with per-field AAD bindings; tokens are never written into the `origin` record.
+- **Public** — the shared public registry endpoint (`registry.cinatra.ai`) every connected Cinatra instance can read from. An instance connects under **Administration → Environment** (the registries tab): it submits a request, receives a single-use npm token after admin approval, and the token is stored in the Nango OAuth gateway — never in Cinatra's own database.
 
 **Private is the default publish destination.** An instance with no vendor namespace cannot publish and cannot see another instance's private extensions.
 
@@ -48,7 +48,7 @@ Reaching the **public** shared registry goes through a moderated marketplace pip
 
 1. **Submit.** A vendor instance submits the extension to the marketplace. The submission lands `pending` in the moderator queue. A vendor may withdraw their own pending submission.
 2. **Approve.** A marketplace moderator approves the submission (`extensionSubmissionApprove`, admin-gated on the Cinatra side and capability-gated on the marketplace side). Approval starts the asynchronous promotion saga.
-3. **Promote.** The promotion saga lands the package in Verdaccio and flips the submission to `promoted`. Because the saga is async, an approve result may still be `in_flight` and settle afterward; a stuck row exposes a "Retry promotion" path.
+3. **Promote.** The promotion saga lands the package on the public registry endpoint and flips the submission to `promoted`. Because the saga is async, an approve result may still be `in_flight` and settle afterward; a stuck row exposes a "Retry promotion" path.
 4. **Registry-sync.** On an on-track approval, the platform enqueues a single-package catalog-sync job (`MARKETPLACE_CATALOG_SYNC`) so the marketplace catalog table picks up the new package without waiting for the periodic full-sweep. The job uses bounded attempts with backoff to tolerate the saga still finishing on the marketplace side; if the per-package enqueue fails, the periodic sweep reconciles the catalog on its next tick.
 
 A later, equal-version republish of an already-promoted package supersedes the prior submission row (`superseded`), preserving the moderation history.
@@ -76,9 +76,9 @@ Both loaders normalize to the same `NormalizedExtensionRecord` and run the ident
 
 Keep the two axes distinct:
 
-- **Registry actions affect published versions.** `extensions_registry_unpublish` deprecates/yanks one version (history retained); `extensions_registry_delete` hard-removes one version. These are kind-agnostic Verdaccio operations with no DB / disk / installed-state semantics.
+- **Registry actions affect published versions.** `extensions_registry_unpublish` deprecates/yanks one version (history retained); `extensions_registry_delete` hard-removes one version. These are kind-agnostic registry operations with no DB / disk / installed-state semantics.
 - **Lifecycle actions affect installed state.** `archive` (reversible suspension), `restore`, `update`, `uninstall`, and `force-delete` change an instance's `installed_extension` row and per-kind native stores — they do not touch the registry. `force-delete` removes one installed version's DB + on-disk dir but leaves the package re-installable in the registry.
-- **`purge`** is the one combined "gone everywhere" path — registry (all versions) plus installed state. The dry-run `extensions_purge` MCP tool returns the blast radius and a `digest`; execution runs through the admin-gated `extensions_purge_execute` MCP tool (which requires that exact `digest` plus `confirmDestructive: true`) or the equivalent `cinatra extensions purge` CLI, with a quarantine recovery hedge.
+- **`purge`** is the deepest installed-state removal path — it deletes an extension's database rows and on-disk files from this instance. It leaves the registry untouched (purge never unpublishes a published version; version cleanup is a separate operation). The dry-run `extensions_purge` MCP tool returns the blast radius and a `digest`; execution runs through the admin-gated `extensions_purge_execute` MCP tool (which requires that exact `digest` plus `confirmDestructive: true`) or the equivalent `cinatra extensions purge` CLI, with a quarantine recovery hedge.
 
 In short: removing a published version does not uninstall it from instances that already installed it, and uninstalling/archiving on an instance does not retract a marketplace release. Use the lifecycle operations to manage installed state and the registry operations to manage published versions — do not hand-edit manifest rows or delete package-store files.
 
@@ -86,6 +86,42 @@ In short: removing a published version does not uninstall it from instances that
 
 - **Update** installs a newer published version over the current one, applying what the new version declares (new object types, new skill bundles) and bumping the persisted version, while preserving run history and HITL state. It consumes the same registry/package-store path as install.
 - **Restore** reverses an archive — it flips the installed row back to `active` from the instance's existing state. It is a lifecycle action and does not re-fetch from the registry.
+
+---
+
+## Extension signing and the activation trust root
+
+Beyond the integrity (digest) gate, consuming instances can verify an **Ed25519 signature** over a published version before activating its code in-process. This is a consumer-side verification: the app checks a signature on what it received — it is not something the in-repo publish/submit path performs today.
+
+### The verification mechanism (consumer-side)
+
+A consuming instance verifies a signature over a canonical payload that binds the package identity to the tarball it received:
+
+- **What is signed** — a newline-delimited payload (scheme `cinatra-extension-signature/v1`) binding `packageName` + `version` + the **sha512 SRI** of the tarball bytes (the same `integrity` the materializer verifies before extraction). Signing the SRI binds the signature to the exact bytes, so a tampered tarball fails verification even with a valid-looking signature.
+- **Where it lives** — the signature is expected on the packument as `dist.cinatraSignature` (a base64 Ed25519 signature; non-secret). The consuming instance reads it alongside the version's `dist.integrity`.
+- **The trust root** — the host's configured public key(s) in `CINATRA_EXTENSION_SIGNING_PUBLIC_KEYS` (comma-separated base64 SPKI DER). **These are public keys, not secrets** — the consuming instance only ever holds public keys, never the private signing key. Only Ed25519 keys are trusted.
+
+Verification distinguishes three cases:
+
+- a signature that is **present and verifies** against a trusted key → a trust signal (`trusted-signed`);
+- a signature that is **present but does not verify** (tampered, or signed with a key not configured on the host) → **refused in all windows**, regardless of whether signatures are required — an invalid signature is a red flag, never a soft pass;
+- **no signature at all** (absent) → allowed during the transition windows under bootstrap-trust, and denied only once signatures are required.
+
+Distinguish absent from invalid: an absent signature is tolerated during transition; an invalid one is always refused.
+
+### `cinatra extensions submit` does not sign
+
+Signing a published package is **not** wired into the in-repo publish path. The `cinatra extensions submit` command submits the built **tarball and digest metadata only** — it does **not** sign packages, and publishing does not attach a signature. Producer-side signing at publish time is a separate, owner-gated rollout step, not a property of `cinatra extensions submit` today. Do not read "publishing now signs the tarball" into this page — it does not.
+
+Consumer-side enforcement is governed by a single operator lever, `CINATRA_EXTENSION_REQUIRE_SIGNATURES`. It is **off by default**: a consuming instance tolerates an absent signature (bootstrap-trust) until an operator sets it to the string `true`, at which point a verified Ed25519 signature becomes the sole in-process trust root. Do not assume signatures are mandatory on any given instance — the default is enforcement off. The operator levers (`CINATRA_EXTENSION_REQUIRE_SIGNATURES` and `CINATRA_EXTENSION_SIGNING_PUBLIC_KEYS`) are documented in [Configuration](../hosting/configuration.md).
+
+### What this means for authors
+
+- Once signature enforcement is on, an **unsigned** package from the marketplace host will **not activate in-process** on consuming instances — its `register(ctx)` hook is never called, so its surfaces never appear, even though the install row exists.
+- A package that **declares host migrations** (`cinatra.migrations[]`) is held to a higher bar: running host DDL is a privileged capability gated on a verified signature, so such a package **cannot import in-process at all** unless it is `trusted-signed` — this holds even before enforcement is globally required. If you ship migrations, your package must be signed to activate.
+- An invalid or wrong-key signature is refused regardless of the enforcement flag, so a mis-signed build fails on every instance, not just enforcing ones.
+
+Authors do not sign their own builds in the current flow; producing the signature served on `dist.cinatraSignature` is the owner-gated step above. Until then, build and submit as documented; the trust gate is a consumer-side verification an instance applies to what it received.
 
 ---
 

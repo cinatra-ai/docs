@@ -77,7 +77,12 @@ local `/api/mcp`** — and it refuses to start a chat session it knows the
 provider could never complete, which is the error above.
 
 The same public URL is reused for external MCP clients connecting *to* your
-instance and for the OAuth audience the MCP server validates.
+instance and for the OAuth audience the MCP server validates. For example, an
+external client like **Claude Desktop** or **Codex** is pointed at
+`https://<your-tunnel>/api/mcp` — the public origin you set below, with the
+`/api/mcp` path appended — and connects back over OAuth. Without a public URL,
+those external clients have nothing reachable to point at, exactly as the chat
+does not.
 
 ### What works without it, and what doesn't
 
@@ -235,3 +240,13 @@ for the underlying metadata field and env-var fallbacks.
   `publicBaseUrlSource: "manual"`) rather than hand-editing the database.
 - **Tailscale daemon won't start on macOS.** `tailscaled` needs root — use
   `sudo brew services start tailscale`, not the plain user-level command.
+
+---
+
+## Where to go next
+
+Once the public URL is set, end users can connect external MCP clients —
+Claude Desktop, Codex, Claude.ai, or ChatGPT — to your workspace and drive
+Cinatra over MCP. They copy the `<public-url>/api/mcp` endpoint from the in-app
+**Claude Desktop** / MCP Clients connector page and complete the OAuth sign-in.
+See [Connect MCP clients](../user/mcp-clients.md) for the end-user walkthrough.

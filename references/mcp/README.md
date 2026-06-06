@@ -15,6 +15,8 @@ This guide covers both. The external-server pages are how-to material for connec
 - [The external MCP server](external-server.md) — what `/api/mcp` exposes, transport, primitive catalog overview
 - [Authentication](authentication.md) — Better Auth (the auth server library Cinatra uses) OAuth-provider flow, bearer JWTs, local vs production
 - [Connecting Claude Code](clients/claude-code.md) — `mcp-remote`, OAuth callback, local-dev flow
+- [Connecting Claude Desktop](clients/claude-desktop.md) — custom remote connector, HTTPS `/api/mcp`, OAuth sign-in
+- [Connecting Codex](clients/codex.md) — `codex mcp add --url` + `codex mcp login`, `~/.codex/config.toml`
 - [Connecting ChatGPT connectors](clients/chatgpt-connectors.md) — connector setup, supported behavior
 - [Testing assistants locally](clients/testing-assistants-locally-with-claude.md) — running through built-in chat surfaces with the same MCP server
 - [Primitives](primitives.md) — naming, validation, actor context, capability categories

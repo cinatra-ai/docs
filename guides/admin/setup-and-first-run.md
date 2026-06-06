@@ -38,12 +38,13 @@ The full provider, model-selection, prompt-caching, and MCP-tool-access controls
 
 ## 4. Connect registry access
 
-The marketplace reads from a registry. Until a registry is connected, the Marketplace screen shows a "registry not connected" state.
+Browsing the marketplace is served by the storefront; *installing* an extension is what needs registry access — the manifest reads and the install download come from the registry.
 
 - Submit a registry-connection request and verify the credential round-trip under **Administration → Environment → Registries**.
 - The shared registry has a reserved Cinatra namespace; your instance publishes under its own namespace.
+- Two endpoints are in play: marketplace **browse** (and the per-extension detail page) is served by the storefront, while the package you **install** is pulled from the registry. Both are reached through the same Registries tab.
 
-Connecting a registry is the prerequisite for browsing and installing anything beyond what your own instance has published. See [Registry and marketplace](marketplace.md).
+Connecting a registry is the prerequisite for installing anything beyond what your own instance has published. See [Registry and marketplace](marketplace.md).
 
 ---
 
@@ -71,6 +72,8 @@ To install one:
 3. Review what it requests: the capabilities it asks for, its declared dependencies, and its compatibility. Approve only the capabilities it genuinely needs.
 4. Choose the install access (who in your workspace can use it).
 5. Install. The extension activates on the running instance and approved surfaces appear without a redeploy. An installed agent shows up under **Agents**; a connector exposes its setup screen; skills populate the catalog and become matchable.
+
+Installed code only activates in-process once it passes the host's activation-trust gate — it must be integrity-verified, have a recorded host trust decision, and come from the configured marketplace host. The full gate (and the signature-enforcement lever) is covered in [Registry and marketplace](marketplace.md).
 
 The full lifecycle — install, update, archive (reversible), restore, and hard removal — is in [Registry and marketplace](marketplace.md). Archive preserves history and configuration; hard removal removes scoped settings and secrets.
 

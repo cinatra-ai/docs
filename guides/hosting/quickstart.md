@@ -36,7 +36,7 @@ For the rest of this guide, OpenAI is enough.
 
 ## 4. Install a sample agent
 
-Visit **Administration → Marketplace** (`/configuration/marketplace`). The hosted public registry at `registry.cinatra.ai` ships a handful of starter agents. Pick one that looks simple — for example, **URL Title Fetcher** (a deterministic agent that fetches a URL and returns its title) or **Summarize and Review Page** (an LLM-backed page summarizer).
+Visit **Administration → Marketplace** (`/configuration/marketplace`). The marketplace installs the full set of extension kinds — agents, connectors, skills, artifacts, and workflows — not just agents. For this walkthrough we install an agent. Pick one that looks simple — for example, **URL Title Fetcher** (a deterministic agent that fetches a URL and returns its title) or **Summarize and Review Page** (an LLM-backed page summarizer).
 
 Click **Install**. The platform downloads the agent extension, validates its `oas.json`, persists it locally, and makes it available under **Agents** (`/agents`).
 
@@ -84,12 +84,14 @@ The chat surface at `/chat` (linked from the main nav) is a built-in AI assistan
 
 The assistant walks through the OAS Flow scaffolding interactively, validates the result, and offers to publish it to your local registry. You can install and run the new agent the same way as any other.
 
+The chat needs the public MCP URL set — see [MCP public URL & tunnels](mcp-public-url.md). The same `/api/mcp` endpoint lets external MCP clients (Claude Desktop, Codex, Claude.ai, ChatGPT) drive Cinatra; see [Connect MCP clients](../user/mcp-clients.md).
+
 ---
 
 ## What to do next
 
 - Author your own agent: [Developing agents](../developer/developing-agents.md)
 - Understand the architecture: [Architecture](../../references/platform/architecture.md)
-- Hook external assistants (ChatGPT, Gemini, Claude) into Cinatra: see the assistant-specific guides under the [docs index](README.md)
+- Drive Cinatra from an external MCP client (Claude Desktop, Codex, Claude.ai, ChatGPT): [Connect MCP clients](../user/mcp-clients.md)
 - Review the full configuration surface for non-default setups: [Configuration](configuration.md)
 - Diagnose problems: [Troubleshooting](troubleshooting.md)
