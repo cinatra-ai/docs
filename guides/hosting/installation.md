@@ -22,7 +22,7 @@ Cinatra runs the app on your host machine and the supporting services (PostgreSQ
 ## Clone the repo
 
 ```bash
-git clone https://github.com/Cinatra-ai/cinatra.git
+git clone https://github.com/cinatra-ai/cinatra.git
 cd cinatra
 ```
 
@@ -63,11 +63,25 @@ The first user to register becomes the initial admin and the owner of the defaul
 
 ---
 
+## Keeping your checkout up to date
+
+After pulling new code, reconcile your dev environment — dependencies and the dev database schema — to match it:
+
+```bash
+git pull
+make refresh
+```
+
+`make refresh` is dev-only and never touches git: you manage branches, it brings dependencies and the dev database in sync with the code on disk. It applies **additive** schema changes automatically; transformational one-shot migrations (renames/backfills) are run by hand only when a release's notes say so. Restart with `make dev` afterwards.
+
+---
+
 ## Other commands
 
 | Command | Purpose |
 |---------|---------|
 | `make dev` | Start infrastructure and the app |
+| `make refresh` | After `git pull`, reconcile dependencies + the dev database schema to the code on disk |
 | `make check` | Validate that every supporting service is reachable |
 | `make down` | Stop infrastructure; keep data |
 | `make logs` | Tail Docker service logs |
