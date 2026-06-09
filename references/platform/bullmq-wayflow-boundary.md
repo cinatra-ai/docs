@@ -30,8 +30,9 @@ The TypeScript agent execution layer has been retired. The files
 `agentic-execution.ts`, `agentic-resume.ts`, `agentic-tools.ts`,
 `tool-interceptor.ts`, and `resume.ts` have been deleted.
 
-`execution.ts` dispatches agent runs exclusively to WayFlow via
-`createExternalA2AClient`. The `planned_actions` and `review_tasks` tables are
+`execution.ts` dispatches agent runs via `createExternalA2AClient` — to the
+template's external A2A server when `template.sourceType === "external"`,
+otherwise to WayFlow. The `planned_actions` and `review_tasks` tables are
 not part of the current schema. All HITL routing uses synthetic ID prefixes:
 `setup-{runId}` and `lg-{runId}`.
 
@@ -143,8 +144,9 @@ One row per code span that is either current or intentionally absent.
 | `assertOrchestratorReady` | Validates all declared `agentDependencies` are installed; orchestrator gate | Kept |
 | Version pinning block | Reads `agent_template_versions` snapshot for `run.packageVersion` | Kept |
 | Setup Interrupt Loop | For each required `inputSchema` field missing from `run.inputParams`: sets `pending_approval` and emits AG-UI INTERRUPT with synthetic `setup-{runId}` ID; no DB writes | Kept |
-| Runtime dispatch | Dispatches WayFlow runs | Kept as the only dispatch branch |
-| Unsupported provider throw | Throws for null or unknown `executionProvider` | Kept |
+| External-template short-circuit | `template.sourceType === "external"` dispatches to the external A2A server (`template.agentUrl` + saved connection) before the WayFlow branch | Kept |
+| Runtime dispatch | Dispatches WayFlow runs unconditionally for non-external templates; throws when `template.packageName` is null (cannot derive the WayFlow URL) | Kept as the only non-external dispatch branch |
+| Unsupported provider throw | Threw for null or unknown `executionProvider` | Deleted — dispatch no longer discriminates on `executionProvider` |
 | Orchestrator dispatch | Direct `runOrchestratorJob` dispatch | Deleted |
 | Agentic dispatch | Direct `runAgentBuilderAgenticJob` dispatch | Deleted |
 | Deterministic step loop | Sequential step iteration with approval gates | Deleted |
@@ -214,11 +216,12 @@ runAgentBuilderExecutionJob (BullMQ worker)
   ├─ assertOrchestratorReady  (orchestrator dep-check)
   ├─ Setup Interrupt Loop     (emits INTERRUPT per pending inputSchema field; no DB writes)
   └─ Dispatch:
-       ├─ executionProvider: "wayflow" | "default"  → WayFlow runtime dispatch
-       └─ anything else                              → throws "Unsupported executionProvider..."
+       ├─ template.sourceType === "external"  → external A2A dispatch (template.agentUrl + saved connection)
+       └─ everything else                     → WayFlow runtime dispatch via resolveWayflowUrl(template.packageName)
+                                                (throws when template.packageName is null)
 ```
 
-All other dispatch branches are deleted.
+Dispatch does not discriminate on `executionProvider`. All other dispatch branches are deleted.
 
 ## HITL surface
 

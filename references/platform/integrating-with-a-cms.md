@@ -91,7 +91,7 @@ For the wider Cinatra auth model (Better Auth (the auth server library Cinatra u
 
 The connector extensions each register a small primitive set the content-editor agent (and any other Cinatra surface) can call.
 
-`@cinatra-ai/drupal-connector` registers:
+`@cinatra-ai/drupal-mcp-connector` registers:
 
 - `drupal_status` — connection status for a configured instance.
 - `drupal_instances_list` — every configured Drupal instance on this Cinatra deployment.
@@ -100,7 +100,7 @@ The connector extensions each register a small primitive set the content-editor 
 - `drupal_node_update`, `drupal_node_publish` — write the draft, then publish.
 - `drupal_content_editor_run` — dispatch a high-level edit task to the `drupal-content-editor` WayFlow agent.
 
-`@cinatra-ai/wordpress-connector` registers an analogous but slightly larger set:
+`@cinatra-ai/wordpress-mcp-connector` registers an analogous but slightly larger set:
 
 - `wordpress_status`, `wordpress_instances_list` — metadata.
 - `wordpress_post_get`, `wordpress_posts_list`, `wordpress_post_get_latest`, `wordpress_post_status` — read.
@@ -117,12 +117,12 @@ Even with symmetric integrations the underlying CMSes diverge in places the agen
 | Concern | Drupal | WordPress |
 |---|---|---|
 | Draft-before-edit | True draft revision (`drupal_node_create_draft_revision`) | Demote-then-edit pattern (`wordpress_post_update` with `status: "draft"`) |
-| Read with edit context | Via `mcp_tools` search proxy | Direct REST lookup (`/wp/v2/posts/{id}?context=edit`) |
-| Auth to the CMS-side endpoint | Bearer JSON Web Token (JWT) against the `mcp_tools` module | HTTP basic (username + application password) |
-| ID type | `string` (alphanumeric node IDs supported) | `number` (positive integer, coerced at schema level) |
+| Read with edit context | Recent-content list (`mcp_tools_get_recent_content`) filtered by node ID — `mcp_tools` has no get-by-ID tool | Direct REST lookup (`/wp/v2/posts/{id}?context=edit`) |
+| Auth to the CMS-side endpoint | Bearer token (`mcp_tools` remote key) | HTTP basic (username + application password) |
+| ID type | `string` at the schema level; handlers parse it to a positive integer and send `nid` as a string (works around a `strtolower()` type quirk in `mcp_tools`) | `number` (positive integer, coerced at schema level) |
 | Media | Inline in the node structure | Separate `wordpress_media_upload` primitive |
 
-The WordPress connector also enforces an "at least one field" refinement on `wordpress_post_update` to prevent silent no-ops. See `extensions/cinatra-ai/wordpress-connector/AGENTS.md` for the connector-package-internal conventions.
+The WordPress connector also enforces an "at least one field" refinement on `wordpress_post_update` to prevent silent no-ops. See `wordpress-mcp-connector/AGENTS.md` for the connector-package-internal conventions.
 
 ## Adding a third CMS
 

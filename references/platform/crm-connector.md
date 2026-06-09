@@ -1,6 +1,6 @@
 # CRM Connector — Provider-Neutral Facade (Twenty)
 
-cinatra's CRM is a thin provider-agnostic facade over an external CRM system. The current — and only — provider is **Twenty CRM**, shipped as a docker container in dev and reached over MCP. The facade lives in `packages/crm-connector`; the Twenty implementation lives in `packages/twenty-connector` (which speaks Twenty's `/mcp` server through the workspace-scoped `twenty-workspace` external-MCP row).
+cinatra's CRM is a thin provider-agnostic facade over an external CRM system. The current — and only — provider is **Twenty CRM**, shipped as a docker container in dev and reached over MCP. The facade lives in the standalone `@cinatra-ai/crm-connector` package; the Twenty implementation lives in `@cinatra-ai/twenty-connector` (which speaks Twenty's `/mcp` server through the workspace-scoped `twenty-workspace` external-MCP row).
 
 Twenty is the source of truth for accounts, contacts, and lists. cinatra holds **pointer rows** for accounts/contacts in `cinatra.objects` (id + a couple of identity-key fields) and reads heavy fields on demand through the facade; lists are not materialized in cinatra at all — they live as Twenty Views.
 
@@ -81,7 +81,7 @@ After the wipe, `pnpm seed` no longer populates CRM fixtures through the pointer
 
 The Twenty implementation is the reference. To add a second provider:
 
-1. **Build the provider package** alongside `packages/twenty-connector` (e.g. `packages/hubspot-connector`). Implement the `CrmConnector` port: each method calls the provider's API (preferably its MCP server when available, falling back to REST/SDK).
+1. **Build the provider package** as a standalone connector package alongside `@cinatra-ai/twenty-connector` (e.g. a `hubspot-connector` package). Implement the `CrmConnector` port: each method calls the provider's API (preferably its MCP server when available, falling back to REST/SDK).
 2. **Per-method argument shapes are provider contracts.** Pin them with a proof script that captures real upstream calls, so test fixtures derive from actual responses, not TypeScript intuition.
 3. **Pointer-row identity keys** stay the same (`websiteHost` for accounts, `email` → `linkedinUrl` → `apolloPersonId` for contacts) so the cinatra-side `cinatra.objects` schema doesn't need to change.
 4. **Wire the chooser** — the facade resolves which provider to use from the workspace's connector row. The pattern is the same as the email-connector + blog-connector families (see [`email-connector.md`](email-connector.md)).
