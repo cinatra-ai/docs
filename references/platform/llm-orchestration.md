@@ -156,9 +156,9 @@ The `LlmShellTool` type is translated to a standard `bash` function tool on Anth
 
 ## `executionProvider` — single runtime, no routing
 
-LangGraph has been retired as an execution provider. Agent templates carry an `executionProvider` column that now defaults to `"wayflow"` (`packages/agents/src/schema.ts`), and `runAgentBuilderExecutionJob` in `packages/agents/src/execution.ts` dispatches every run unconditionally to WayFlow (Cinatra's OAS Flow agent runtime) over the agent-to-agent (A2A) protocol — the upstream URL is derived from `template.packageName` via `resolveWayflowUrl` (`${WAYFLOW_BASE_URL}/agents/<vendor>/<slug>/`). There is no `isLangGraph` branch, no `AGENT_BUILDER_LANGGRAPH_EXECUTION` / `AGENT_BUILDER_RESUME` job pair — the BullMQ (a Redis-backed job queue) job is `AGENT_BUILDER_EXECUTION` (`src/lib/background-jobs.ts`).
+LangGraph has been retired as an execution provider. Agent templates carry an `executionProvider` column that now defaults to `"wayflow"` (`packages/agents/src/schema.ts`), and `runAgentBuilderExecutionJob` in `packages/agents/src/execution.ts` no longer discriminates on it: external-source templates (`template.sourceType === "external"`) short-circuit to their external agent-to-agent (A2A) server, and every other run dispatches to WayFlow (Cinatra's OAS Flow agent runtime) over A2A — the upstream URL is derived from `template.packageName` via `resolveWayflowUrl` (`${WAYFLOW_BASE_URL}/agents/<vendor>/<slug>/`). There is no `isLangGraph` branch, no `AGENT_BUILDER_LANGGRAPH_EXECUTION` / `AGENT_BUILDER_RESUME` job pair — the BullMQ (a Redis-backed job queue) job is `AGENT_BUILDER_EXECUTION` (`src/lib/background-jobs.ts`).
 
-Legacy DB rows that still carry older `executionProvider` values continue to dispatch — the runtime routes to WayFlow unconditionally — but the agent MCP write surface rejects any input value other than `"wayflow"`. See [BullMQ ↔ WayFlow boundary](bullmq-wayflow-boundary.md) for the full current runtime state.
+Legacy DB rows that still carry older `executionProvider` values continue to dispatch — dispatch does not read the column — but the agent MCP write surface rejects any input value other than `"wayflow"`. See [BullMQ ↔ WayFlow boundary](bullmq-wayflow-boundary.md) for the full current runtime state.
 
 ## Unified LLM bridge — `/api/llm-bridge`
 

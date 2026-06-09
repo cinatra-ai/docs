@@ -42,9 +42,9 @@ the runtime dispatch. A second BullMQ retry that dequeues the same job fails the
 compare-and-swap (CAS) and returns early without entering the runtime.
 
 The `agent_update` Model Context Protocol (MCP) tool does not accept `"default"` as an
-`executionProvider` value. Existing DB rows that still carry `"default"` route
-through the runtime alias in `execution.ts`; input validation and runtime
-backward compatibility are separate concerns.
+`executionProvider` value. Existing DB rows that still carry `"default"` still
+execute — dispatch in `execution.ts` does not read `executionProvider`; input
+validation and runtime backward compatibility are separate concerns.
 
 The REST polling route `/runs/[runId]` returns the actual
 `template.inputSchema` in setup-fallback `hitlContext` so REST polling clients
@@ -399,8 +399,8 @@ primitive. Keep the kill switch at the worker boundary.
 - Running the agent runtime in the same process as Next.js. The runtime is a
   separate service.
 - Treating `"default"` as valid MCP input for `executionProvider`. Existing DB
-  rows with `"default"` may still route through the runtime alias in
-  `execution.ts`; do not conflate MCP input validation with runtime dispatch.
+  rows with `"default"` still execute (dispatch does not read the column); do
+  not conflate MCP input validation with runtime dispatch.
 - Calling the runtime dispatch from `runAgentBuilderExecutionJob` without a
   preceding `updateAgentRunStatusConditional` CAS. Two concurrent BullMQ retries
   can both pass a stale read-check before either writes anything; the CAS is the

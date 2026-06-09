@@ -22,10 +22,10 @@ Execution worker
        └─ publishA2UiEvent → Redis Streams → client STATE_SNAPSHOT
 ```
 
-`A2UiAdapter` is wired in parallel at every lifecycle site in:
-- `packages/agents/src/agentic-execution.ts`
-- `packages/agents/src/langgraph-execution.ts`
-- `packages/agents/src/agentic-resume.ts`
+`A2UiAdapter` is wired in parallel at every lifecycle site in
+`packages/agents/src/execution.ts` (the per-execution-path files it used to be
+wired in — agentic execution, LangGraph execution, agentic resume — were
+deleted along with those execution paths).
 
 ---
 
@@ -99,13 +99,13 @@ To adopt: add `"x-renderer": "@cinatra/agent-builder:grouped-setup-form"` to one
 
 ## Mid-Run HITL Surfaces
 
-Three mid-run review screens use the A2UI layer. Unlike the grouped setup form (which fires before the run starts), these surfaces fire during an already-running LangGraph execution when a `build_hitl_gate` node emits an interrupt.
+Three mid-run review screens use the A2UI layer. Unlike the grouped setup form (which fires before the run starts), these surfaces fire during an already-running agent execution when the runtime emits a mid-run interrupt.
 
 ### Overview
 
 A2UI v0.9 has no DataTable primitive. Mid-run review screens use: `Column` wrapping a title `Text`, a `List` with a row template (or a `Card` for summary views), and a `Row` of Approve + Reject `Button` components.
 
-The three translator functions in `packages/agent-ui-protocol/src/server.ts` build these trees and are keyed in `A2UiAdapter.MID_RUN_TRANSLATORS` by xRenderer ID.
+The three translator functions in `packages/agent-ui-protocol/src/a2ui-translator.ts` (re-exported via `server.ts`) build these trees and are keyed in `MID_RUN_TRANSLATORS` (`packages/agent-ui-protocol/src/a2ui-adapter.ts`) by xRenderer ID.
 
 ### Recipe 1: Row-table — Recipients Review
 

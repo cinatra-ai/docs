@@ -130,12 +130,12 @@ The integration shape is replicable. To integrate Cinatra with another CMS (e.g.
 
 1. **Write a connector extension** at `extensions/cinatra-ai/<cms>-connector/` (kind-at-end naming; declare `cinatra.kind: "connector"` in `package.json` so the `ConnectorExtensionTypeHandler` recognises it — see `references/platform/extensions.md` § Connector extension) that registers the CRUD primitives the CMS supports (`<cms>_status`, `<cms>_post_get`, etc.) plus a `<cms>_content_editor_run` primitive that dispatches a WayFlow agent. If the connector needs host-internal `@/lib/*` modules (database, mcp-pagination, etc.), inject them via a `register<Cms>Connector(deps)` factory wired in `src/lib/register-transport-connectors.ts` rather than importing `@/lib/*` directly (dependency injection keeps the package host-agnostic).
 2. **Build the content-editor agent** under `agents/<vendor>/<cms>-content-editor/` — a WayFlow flow that reads the current document, produces a diff, and writes it back through the CMS's primitives.
-3. **Author the widget-chat function tool** at `@cinatra-ai/<cms>-connector/widget-chat-tool` so `/api/agents/[agentSlug]/stream` can call it.
+3. **Author the widget-chat function tool** as a `widget-chat-tool` subpath export of the connector package (the existing two are `@cinatra-ai/drupal-mcp-connector/widget-chat-tool` and `@cinatra-ai/wordpress-mcp-connector/widget-chat-tool`) so `/api/agents/[agentSlug]/stream` can call it.
 4. **Add a new entry** to the per-slug agent stream registry — no new route file is needed; the catch-all already routes by `agentSlug`.
 5. **Implement the CMS-side artifact** — a plugin, module, or app installable on the target CMS that loads the widget bundle and holds the credentials.
 6. **Add admin pages** at `/configuration/connectors/<cms>-widget` and `/configuration/assistants/<cms>-widget` to manage the widget credentials and the assistant configuration.
 
-The repo's two existing CMS connector extensions (drupal-connector, wordpress-connector) are the canonical reference for the shape. Read `extensions/cinatra-ai/drupal-connector/AGENTS.md` first — its conventions are documented for exactly this case.
+The two existing CMS connector extensions (`drupal-mcp-connector`, `wordpress-mcp-connector`) are the canonical reference for the shape. Read `drupal-mcp-connector/AGENTS.md` first — its conventions are documented for exactly this case.
 
 ## Source-of-truth files
 
@@ -148,10 +148,10 @@ When you need to verify a specific claim on this page:
 - Stream route: `src/app/api/agents/[agentSlug]/stream/route.ts`
 - Drupal widget auth: `src/lib/drupal-widget-auth.ts`
 - WordPress widget auth: `src/lib/wordpress-widget-auth.ts`
-- Drupal connector: `extensions/cinatra-ai/drupal-connector/src/`
-- WordPress connector: `extensions/cinatra-ai/wordpress-connector/src/`
-- Drupal widget-chat tool: `extensions/cinatra-ai/drupal-connector/src/widget-chat-tool.ts`
-- WordPress widget-chat tool: `extensions/cinatra-ai/wordpress-connector/src/widget-chat-tool.ts`
+- Drupal connector: `drupal-mcp-connector/src/`
+- WordPress connector: `wordpress-mcp-connector/src/`
+- Drupal widget-chat tool: `drupal-mcp-connector/src/widget-chat-tool.ts`
+- WordPress widget-chat tool: `wordpress-mcp-connector/src/widget-chat-tool.ts`
 
 ---
 

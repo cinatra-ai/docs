@@ -168,7 +168,7 @@ Related docs:
 | `component_type` | `"Flow"` (literal) | Yes | Identifies the compact OAS envelope. |
 | `id` | `string` | Yes | Stable human-readable id (convention: `<slug>-flow`). |
 | `name` | `string` | Yes | Display name. |
-| `metadata.cinatra.type` | `"leaf" \| "orchestrator"` | Yes | Determines compile topology. Other classifications (`proxy`, `parallel`, `supervisor`, `iterative`) are runtime concerns of the LangGraph type graphs, not the compiler. |
+| `metadata.cinatra.type` | `"leaf" \| "orchestrator" \| "node" \| "flow"` | Yes | Determines compile topology. The compiler accepts both the legacy values (`leaf` / `orchestrator`) and the OAS-aligned ones (`node` / `flow`). |
 | `metadata.cinatra.hitlScreens` | `string[]` | No | Namespaced `@cinatra-agents/<slug>:<renderer-id>` ids of human-in-the-loop (HITL) renderers this agent may emit. |
 | `inputs` | `PropertySchema[]` | Yes | Flat JSON Schema property list — compiler derives `inputSchema` from this + StartNode. |
 | `outputs` | `PropertySchema[]` | Yes | Flat JSON Schema property list — compiler derives `outputSchema` from EndNode. |
@@ -182,7 +182,7 @@ Related docs:
 
 | Field | Type | Required | Notes |
 |-------|------|----------|-------|
-| `required` | `string[]` | No | Input ids that must be present in `agent_runs.inputParams` before the setup interrupt loop falls through to LangGraph dispatch. |
+| `required` | `string[]` | No | Input ids that must be present in `agent_runs.inputParams` before the setup interrupt loop falls through to runtime (WayFlow) dispatch. |
 | `hidden` | `string[]` | No | Input ids suppressed from the setup form UI. Compiler still threads them into `inputSchema`. |
 | `inputRenderers` | `Record<string, string>` | No | Maps input id → namespaced `x-renderer` id (e.g. `@cinatra-agents/email-outreach:cta`). |
 | `inputTitles` | `Record<string, string>` | No | Human-readable label overrides per input id, shown in the setup UI. |
