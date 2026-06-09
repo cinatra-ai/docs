@@ -148,7 +148,7 @@ Set the variable on both the Next.js app and the WayFlow container; the two valu
 
 ### Shell tool sandboxing
 
-Agents can be configured with shell tool access for executing local commands. The shell tool runs inside a dedicated OpenAI-style sandbox container built from `extensions/cinatra-ai/openai-connector/runtime` (the `@cinatra-ai/openai-connector` package) — the agent does not get arbitrary shell access on the host.
+Agents can be configured with shell tool access for executing local commands. The shell tool runs inside a dedicated OpenAI-style sandbox container built from the `runtime/` directory of the `@cinatra-ai/openai-connector` package — the agent does not get arbitrary shell access on the host.
 
 The sandbox container has its own filesystem snapshot, no host network mounts by default, and limited capabilities. Agents that need filesystem access read from a host directory mounted explicitly into the sandbox.
 
