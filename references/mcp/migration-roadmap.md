@@ -46,7 +46,7 @@ These deferrals are not philosophical objections; they are scope decisions. The 
 
 ## How to think about this when contributing
 
-Two practical guidelines if you're working on a feature that might want to be a separate service one day:
+Contribution work is planned with GSD ("Git. Ship. Done", the open-gsd spec-driven development framework) — see [Contributing](../../guides/developer/contributing.md#planning). Beyond that, two practical guidelines if you're working on a feature that might want to be a separate service one day: <!-- source-leak-allow -->
 
 1. **Don't bake the deployment topology into the package.** A package's primitives should be callable without assuming the caller is in the same Node process. The deterministic-client wrapper makes this trivially the case today; future you will thank present you for not adding "if (sameProcess()) shortcut" branches.
 
