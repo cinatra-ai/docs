@@ -47,7 +47,7 @@ without explicit review and a planned cutover.**
    A2A part as a JSON envelope `{text, attachments?}` — never as native
    file parts.
 
-6. **`llm-orchestration` stays `@/lib`-free** in `attachments/` and
+6. **`llm` stays `@/lib`-free** in `attachments/` and
    `providers/`. All app-side dependencies (cache, blob store, provider
    upload, run lookup) are injected via the `AttachmentResolverPorts`
    contract. `rg "from ['\"]@/lib"` in those directories must stay empty.
@@ -196,11 +196,11 @@ correct URI.
 
 | Concern | File |
 |---|---|
-| Pure provider-part builders | `packages/llm-orchestration/src/attachments/provider-parts.ts` |
-| Capability gate (per provider × mime/size) | `packages/llm-orchestration/src/attachments/capability-registry.ts` |
-| Resolver (cache-first, manifest-on-failure) | `packages/llm-orchestration/src/attachments/resolve-attachments.ts` |
-| Orchestration entry step | `packages/llm-orchestration/src/attachments/entry-resolve.ts` |
-| Provider native emission | `packages/llm-orchestration/src/providers/{openai,anthropic,gemini}.ts` |
+| Pure provider-part builders | `packages/llm/src/attachments/provider-parts.ts` |
+| Capability gate (per provider × mime/size) | `packages/llm/src/attachments/capability-registry.ts` |
+| Resolver (cache-first, manifest-on-failure) | `packages/llm/src/attachments/resolve-attachments.ts` |
+| Orchestration entry step | `packages/llm/src/attachments/entry-resolve.ts` |
+| Provider native emission | `packages/llm/src/providers/{openai,anthropic,gemini}.ts` |
 | Bridge resolver ports | `src/app/api/llm-bridge/attachment-resolver-ports.ts` |
 | Bridge user envelope | `src/app/api/llm-bridge/user-envelope.ts` |
 | Bridge route wiring | `src/app/api/llm-bridge/route.ts` |

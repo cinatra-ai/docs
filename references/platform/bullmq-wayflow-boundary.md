@@ -271,7 +271,7 @@ The key invariant preserved:
 
 ### Stays TypeScript regardless
 
-- `packages/llm-orchestration` permanent components (`registry.ts`,
+- `packages/llm` permanent components (`registry.ts`,
   `mcp-access.ts`, `telemetry.ts`, `tools/skills.ts`) are used by TypeScript
   connector packages independently of the agent execution layer.
 - `packages/connector-*` — all connectors stay TypeScript.

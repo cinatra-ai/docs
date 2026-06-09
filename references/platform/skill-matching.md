@@ -175,5 +175,5 @@ These helpers are pure (no side effects, no `import "server-only"`, no transitiv
 
 - `packages/skills/src/llm-matching/` — evaluator core, prompt template, hashes, response parser, cost estimator, batch JSONL builder, persistence stores
 - `packages/skills/src/llm-matching/__tests__/__fixtures__/README.md` — golden-fixture schema, category coverage, curation method, two-expert labelling rationale
-- `packages/llm-orchestration/src/types.ts` — `LlmProviderAdapter` batch surface
+- `packages/llm/src/types.ts` — `LlmProviderAdapter` batch surface
 - [OpenAI Batch API](https://platform.openai.com/docs/guides/batch) — upstream provider documentation

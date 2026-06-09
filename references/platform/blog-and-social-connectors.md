@@ -4,18 +4,18 @@ Documents the `@cinatra-ai/social-media-connector` + `@cinatra-ai/blog-connector
 
 ## Why it exists
 
-`packages/asset-blog/` owns transport + generation + project state. The connector split isolates the **transport spine** along the connector-facade pattern: generic facades own the routing/contract; concrete + vendor-scoped connectors own the provider/site specifics.
+`src/lib/blog/` owns transport + generation + project state. The connector split isolates the **transport spine** along the connector-facade pattern: generic facades own the routing/contract; concrete + vendor-scoped connectors own the provider/site specifics.
 
 ## Architecture overview
 
 ```
-LinkedIn publish (asset-blog generation.ts)
+LinkedIn publish (src/lib/blog/generation.ts)
   └─ publishSocialMediaPostThroughSystem(post, opts)   @cinatra-ai/social-media-connector/facade
        ├─ resolveConnectorId(opts)                       src/lib/register-social-providers.ts
        │    1. explicit connectorId  2. first registered
        └─ connector.publish(post)   linkedInSocialMediaConnector → publishLinkedInPost (host @/lib/linkedin-api)
 
-WordPress draft-write (asset-blog wordpress.ts)
+WordPress draft-write (src/lib/blog/wordpress.ts)
   └─ buildBlogDraftPayloadThroughSystem(input, {instanceBlogConnectorId})  @cinatra-ai/blog-connector/facade
        ├─ resolveConnectorId                              src/lib/register-blog-providers.ts
        │    1. explicit connectorId

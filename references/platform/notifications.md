@@ -7,16 +7,16 @@ Cinatra ships a Postgres-backed per-user notifications layer. Inserts trigger a 
 | Concern | Module |
 |---|---|
 | Schema (typed columns + 3 partial indexes + trigger fn) | `src/lib/drizzle-store.ts` — bundled in `buildCreateStoreSchemaQueries()`, applied by `ensurePostgresSchema()` |
-| Server-only service (CRUD, fan-out, dedupe) | `src/lib/notifications/service.ts` |
-| Recipient discriminated union + job→recipient policy | `src/lib/notifications/recipient-policy.ts` |
-| Request-scope ActorContext helper | `src/lib/notifications/request-actor.ts` |
-| Process-level `LISTEN` singleton + EventEmitter fanout | `src/lib/notifications/realtime.ts` |
+| Server-only service (CRUD, fan-out, dedupe) | `packages/notifications/src/service.ts` |
+| Recipient discriminated union + job→recipient policy | `packages/notifications/src/recipient-policy.ts` |
+| Request-scope ActorContext helper | `packages/notifications/src/request-actor.ts` |
+| Process-level `LISTEN` singleton + EventEmitter fanout | `packages/notifications/src/realtime.ts` |
 | Legacy 5-function compat surface (preserves pre-2026-05 callers) | `src/lib/notifications.ts` |
 | SSE endpoint | `src/app/api/notifications/stream/route.ts` |
 | API CRUD endpoint | `src/app/api/notifications/route.ts` |
 | Full-page list view | `src/app/notifications/page.tsx` |
 | Flyout subscription + poll backstop | `src/components/app-shell.tsx` |
-| Pure SSE dedupe-prepend helper (`applySseNotification`) | `src/lib/notifications/flyout-state.ts` — testable without mounting the component; the flyout must reuse this helper |
+| Pure SSE dedupe-prepend helper (`applySseNotification`) | `packages/notifications/src/flyout-state.ts` — testable without mounting the component; the flyout must reuse this helper |
 | Import-guard regression test pinning helper usage in `app-shell.tsx` | `src/components/__tests__/app-shell-flyout-state-import.test.ts` |
 | BullMQ (a Redis-backed job queue) worker lifecycle hook | `src/lib/background-jobs.ts` (`notifyJobLifecycle` private helper) |
 
@@ -90,7 +90,7 @@ Partial unique index `notifications_dedupe_job_kind_idx` on `(user_id, source_jo
 
 1. `getAuthSession()` (server actions, route handlers, server components)
 2. `getActorContext()` ALS frame (worker context)
-3. Falls back to a platform-admins fan-out when neither is present, so system-context legacy callers in `packages/asset-blog/src/generation.ts` keep producing visible notifications.
+3. Falls back to a platform-admins fan-out when neither is present, so system-context legacy callers in `src/lib/blog/generation.ts` keep producing visible notifications.
 
 When you have an explicit recipient (BullMQ hook, scheduler, system event), use `createNotificationForRecipient(recipient, input)` directly instead.
 

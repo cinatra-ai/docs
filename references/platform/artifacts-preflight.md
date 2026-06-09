@@ -19,10 +19,10 @@ The legacy "Media" surface is **removed outright, not migrated**. Conversion of 
 
 | Caller | Location | Disposition |
 |---|---|---|
-| `SavedMediaRecord` (base64 store) | `packages/asset-blog/src/store.ts` (~L70) | Removed; replaced by `file` artifact + blob storage |
-| `saveBlogPostImageToMediaLibrary()` writes `imageBase64` + shadow-writes `@cinatra-ai/asset-blog:saved-media` | `packages/asset-blog/src/store.ts` (~L1097, ~L1126) | Rewired to the artifact service after asset-blog conversion |
+| SavedMediaRecord (legacy metadata/ref record; base64 stripped) | src/lib/blog/store.ts (~L102) | Legacy shape remains; bytes live in blog-image artifacts |
+| saveBlogPostImageToMediaLibrary() retired throwing stub | src/lib/blog/store.ts (~L1242) | No imageBase64/shadow-write; remove with blog_media_* cleanup |
 | Object-type registration `@cinatra-ai/asset-blog:saved-media` + `/assets/media` nav/URL | `src/lib/register-all-object-types.ts` (~L13, ~L36) | De-registered; route deleted |
-| Blog Model Context Protocol (MCP) primitives `blog_media_image_save`, `blog_media_list` | `packages/asset-blog/src/mcp/*` | Superseded by artifact MCP CRUD; kept until asset-blog conversion |
+| Blog Model Context Protocol (MCP) primitives `blog_media_image_save`, `blog_media_list` | `src/lib/blog/mcp/*` | Retired/delete-as-superseded; handlers remain as cleanup bridge until route/use-case removal |
 | `/assets/media` page + nav entry | `src/app/assets/media/*`, `src/components/app-sidebar.tsx` | Replaced by `/artifacts` |
 
 ### Purge guard (cheap, runnable)

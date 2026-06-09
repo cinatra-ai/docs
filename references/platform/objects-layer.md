@@ -54,17 +54,17 @@ CREATE TABLE cinatra.objects (
 
 ## Object categories and types
 
-Every registered type belongs to one of five categories. All type IDs are namespaced as `@cinatra/<package>:<local-id>`:
+Every registered type belongs to one of five categories. All type IDs are namespaced as `@cinatra-ai/<package>:<local-id>`:
 
 | Category | Types | Notes |
 |----------|-------|-------|
 | **profile** | `@cinatra-ai/entity-accounts:account`, `@cinatra-ai/entity-contacts:contact` | Thin pointer rows for CRM identity records. Canonical records live in Twenty CRM and are reached via the `crm_*` MCP facade; cinatra holds only the pointer needed for substrate scoping and Graphiti projection. |
-| **project** | `@cinatra-ai/campaigns:campaign`, `@cinatra-ai/campaigns:context`, `@cinatra-ai/agent-builder:agent-template`, `@cinatra-ai/lists:list` | Long-lived containers that group child objects (a campaign, a list of recipients, a saved agent template). The `lists:list` schema is registered by the CRM connector. |
-| **idea** | `@cinatra/asset-blog:blog-post-idea` | Intermediate creative stage produced by the blog agent. |
-| **content** | `@cinatra/asset-blog:blog-post`, `@cinatra/asset-blog:saved-media` | Published or publishable outputs. |
-| **report** | `@cinatra/campaigns:recipients`, `@cinatra/objects:object` | Agent-produced outputs; `objects:object` is the fallback type for anything not registered to a more specific one. |
+| **project** | `@cinatra-ai/assets:blog-project`, `@cinatra-ai/campaigns:campaign`, `@cinatra-ai/campaigns:context`, `@cinatra-ai/agent-builder:agent-template`, `@cinatra-ai/lists:list` | Long-lived containers that group child objects (a blog pipeline project, a campaign, a list of recipients, a saved agent template). The `lists:list` schema is registered by the CRM connector. |
+| **idea** | `@cinatra-ai/assets:blog-idea` | Intermediate creative stage produced by the blog agent. |
+| **content** | `@cinatra-ai/assets:blog-post` | Published or publishable outputs. |
+| **report** | `@cinatra-ai/campaigns:recipients`, `@cinatra-ai/objects:object` | Agent-produced outputs; `objects:object` is the fallback type for anything not registered to a more specific one. |
 
-Extensions can register their own object types at startup (see `registerObjectType` in `@cinatra/object-types`). The list above describes the first-party types that ship with the platform; an instance with additional installed extensions will see more.
+Extensions can register their own object types at startup (see `objectTypeRegistry.register` in `@cinatra-ai/objects`). The list above describes the first-party types that ship with the platform; an instance with additional installed extensions will see more.
 
 ### Parent-child hierarchy
 
@@ -119,7 +119,7 @@ Key properties:
 | Store file | Types written |
 |------------|---------------|
 | `extensions/cinatra-ai/crm-connector/src/integration/register-object-types.ts` | `@cinatra-ai/entity-accounts:account`, `@cinatra-ai/entity-contacts:contact`, `@cinatra-ai/lists:list` (the three CRM pointer types — formerly split across three deprecation-stub packages, now consolidated) |
-| `packages/asset-blog/src/integration/register-object-types.ts` | `@cinatra-ai/asset-blog:blog-post-idea`, `@cinatra-ai/asset-blog:blog-post`, `@cinatra-ai/asset-blog:saved-media` |
+| `src/lib/blog/integration/register-object-types.ts` | `@cinatra-ai/assets:blog-project`, `@cinatra-ai/assets:blog-idea`, `@cinatra-ai/assets:blog-post` |
 | `packages/agents/src/integration/register-object-types.ts` | `@cinatra-ai/agent-builder:agent-template` |
 | `packages/objects/src/integration/register-types.ts` | `@cinatra-ai/objects:object`, `@cinatra-ai/campaigns:campaign`, `@cinatra-ai/campaigns:context`, `@cinatra-ai/campaigns:recipients` |
 
@@ -141,13 +141,13 @@ pnpm verify:objects-counts     # side-by-side count comparison
 
 ## Type registration
 
-Each package registers its object types with `objectTypeRegistry` from `@cinatra/object-types` at startup. The registry holds the Zod schema, category, lifecycle rules, renderers, and relation declarations for each type.
+Each package registers its object types with `objectTypeRegistry` from `@cinatra-ai/objects` at startup. The registry holds the Zod schema, category, lifecycle rules, renderers, and relation declarations for each type.
 
 ```typescript
-import { objectTypeRegistry } from "@cinatra/object-types";
+import { objectTypeRegistry } from "@cinatra-ai/objects";
 
 objectTypeRegistry.register({
-  type: "@cinatra/asset-blog:blog-post",
+  type: "@cinatra-ai/assets:blog-post",
   category: "content",
   schema: blogPostSchema,
   lifecycle: { sources: ["agent", "user"], mutableBy: ["agent", "user"] },
@@ -168,8 +168,8 @@ Use `readAllObjects()` from `src/lib/objects-store.ts` to query across all or a 
 ```typescript
 import { readAllObjects } from "@/lib/objects-store";
 import { registerAllObjectTypes, ASSET_TYPE_IDS } from "@/lib/register-all-object-types";
-import { objectTypeRegistry } from "@cinatra/object-types";
-import { hasReactRenderers } from "@cinatra/object-types/renderer-types";
+import { objectTypeRegistry } from "@cinatra-ai/objects";
+import { hasReactRenderers } from "@cinatra-ai/objects/renderer-types";
 
 // Ensure all registered types are loaded (idempotent)
 registerAllObjectTypes();
@@ -194,8 +194,8 @@ objects.map((obj) => {
 
 | Export | Contents |
 |--------|----------|
-| `ASSET_TYPE_IDS` | The set of asset-family type IDs used for `?family=assets` filtering (blog post ideas, blog posts, saved media) |
-| `ENTITY_TYPE_IDS` | The set of registered entity-family type IDs used for `?family=entities` filtering (contacts, accounts, campaigns, agent templates, lists) |
+| `ASSET_TYPE_IDS` | The set of asset-family type IDs used for `?family=assets` filtering (blog projects, blog ideas, blog posts) |
+| `ENTITY_TYPE_IDS` | The set of registered entity-family type IDs used for `?family=entities` filtering (contacts, accounts) |
 | `OBJECT_TYPE_NEW_URLS` | Creation route per type (used by `/objects/new` chooser) |
 
 ---
@@ -219,4 +219,4 @@ All sub-routes (detail, edit, new) under typed paths are unchanged — they read
 - `src/lib/objects-store.ts` — `upsertObject`, `readAllObjects`, `readObjectsByType`, `ObjectRecord`
 - `src/lib/objects-dual-write.ts` — `shadowUpsertObject` helper
 - `src/lib/register-all-object-types.ts` — `registerAllObjectTypes`, family sets, creation URL map
-- `packages/object-types/src/` — registry, type definitions, category taxonomy
+- `packages/objects/src/` — registry, type definitions, category taxonomy

@@ -84,7 +84,7 @@ The `projectId` filter implements sealed-room reads - substrate writes skip it, 
 }
 -> { objectId, type, isNew, wasMerged, confidence }
 ```
-Creates a new object; ids are minted by the substrate. **There is no caller-supplied id field on the canonical surface** - id preservation is reserved for one-shot migration tooling (`scripts/backfill-asset-blog-objects.mts` calls `upsertObjectAndEnqueue` with a preserved id; consumer code does not).
+Creates a new object; ids are minted by the substrate. **There is no caller-supplied id field on the canonical surface** - id preservation is reserved for one-shot migration tooling (`src/lib/blog/integration/asset-blog-backfill.ts` calls `upsertObjectAndEnqueue` with a preserved id; consumer code does not).
 
 ### `objects_update`
 ```ts
@@ -157,9 +157,9 @@ The contract guard (`src/lib/objects/__tests__/objects-surface-drift.test.ts`) i
 - **Object** - a row in `cinatra.objects`. Has a domain-namespaced `type`, optional `parent_id`/`parent_type` pointer, freeform JSONB `data`, an `org_id` scope, a `project_id`, and provenance (`source`/`run_id`/`agent_id`/...).
 - **Object type** - a static registration in `objectTypeRegistry` with a zod schema, a category, a lifecycle (`sources`, `mutableBy`), and renderers. Registered via each domain package's `register*ObjectTypes()` and the host-side `registerAllObjectTypes()`.
 - **`UiFamily`** - the UI grouping a type belongs to (entity, asset, campaign, list, agent, artifact, workflow). Drives `ENTITY_TYPE_IDS` / `ASSET_TYPE_IDS` derivation and the inventory.
-- **`ActorContext`** - the authorization principal carried through every canonical call (`packages/llm-orchestration/src/actor-context.ts`). Discriminated by `principalType` (`HumanUser | ServiceAccount | ExternalA2AAgent | InternalWorker | System`) plus `organizationId`, roles, `projectGrants`.
+- **`ActorContext`** - the authorization principal carried through every canonical call (`src/lib/authz/actor-context.ts`; the ALS carrier lives in `packages/llm/src/actor-context.ts`). Discriminated by `principalType` (`HumanUser | ServiceAccount | ExternalA2AAgent | InternalWorker | System`) plus `organizationId`, roles, `projectGrants`.
 - **`createSessionObjectsClient(actor)`** - the canonical RSC / server-side wrapper around the deterministic objects client. Carries the full actor context.
-- **`upsertObjectAndEnqueue`** - the sync substrate writer. Atomic CTE inside a single transaction: upsert into `cinatra.objects` + insert into `graphiti_projection_outbox`. Used by all canonical writes + by `scripts/backfill-asset-blog-objects.mts`.
+- **`upsertObjectAndEnqueue`** - the sync substrate writer. Atomic CTE inside a single transaction: upsert into `cinatra.objects` + insert into `graphiti_projection_outbox`. Used by all canonical writes + by `src/lib/blog/integration/asset-blog-backfill.ts`.
 - **D1 inheritance** - the write-time project frame: every product-row write inside an agent run inherits the frame's `projectId`; substrate rows skip the inheritance.
 - **D3 sealed-room read** - the read-time project filter: list reads scoped to the actor's `projectGrants` + the frame's `projectId`.
 - **Fail-closed raw-object allowlist** - the raw-`objects` bypass allowlist has no escape hatch. Adding a new file that touches `."objects"` without an explicit inventory entry fails CI.

@@ -100,7 +100,7 @@ Do not build skill tools manually and merge them with extra tools — use `extra
 
 ## Native MCP server tool (LLM-to-MCP connection)
 
-`buildLlmMcpServerTool(provider)` in `packages/llm-orchestration/src/mcp-access.ts` builds an `LlmMcpServerTool` that lets an LLM provider connect directly to the Cinatra MCP server.
+`buildLlmMcpServerTool(provider)` in `packages/llm/src/mcp-access.ts` builds an `LlmMcpServerTool` that lets an LLM provider connect directly to the Cinatra MCP server.
 
 ### Why it exchanges credentials for a Bearer token
 
@@ -115,7 +115,7 @@ LLM providers (OpenAI, Gemini) call the MCP server over the configured public ba
 The token request must include `resource: getLocalMcpServerUrl("/api/mcp")` (RFC 8707). Without it, Better Auth (the auth server library Cinatra uses) issues an opaque token, which cannot be verified by JWKS. See `references/mcp/patterns.md` — LLM provider access section for full details.
 
 ```ts
-// packages/llm-orchestration/src/mcp-access.ts
+// packages/llm/src/mcp-access.ts
 body: new URLSearchParams({
   grant_type: "client_credentials",
   scope: credentials.scope,
@@ -134,7 +134,7 @@ Callers fall back to in-process function tools when it returns `null`.
 
 ### Automatic injection via the registry — do not call manually
 
-**Do not call `buildLlmMcpServerTool` at individual call sites.** The `withMcpServerTool` wrapper in `packages/llm-orchestration/src/registry.ts` intercepts every `generate` and `stream` call on the OpenAI adapter and prepends the MCP server tool automatically:
+**Do not call `buildLlmMcpServerTool` at individual call sites.** The `withMcpServerTool` wrapper in `packages/llm/src/registry.ts` intercepts every `generate` and `stream` call on the OpenAI adapter and prepends the MCP server tool automatically:
 
 ```ts
 // registry.ts — applied once in resolveProviderAdapter("openai")

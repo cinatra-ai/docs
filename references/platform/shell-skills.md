@@ -50,4 +50,4 @@ The Docker runtime is used to provide:
 
 The current runtime executes with bind-mounted approved paths, not with full unrestricted host access. For safe use, keep the configured read/write roots narrow and only mount the directories the skills runner actually needs.
 
-If you want to use shell skills, Docker must be installed and running. The local-shell image is built from `packages/connector-openai/runtime` during `make setup` and is invoked by the OpenAI connector's shell tool at runtime.
+If you want to use shell skills, Docker must be installed and running. The local-shell image is built from the first installed `extensions/*/*/runtime/Dockerfile` during `make setup` and is invoked by the OpenAI connector's shell tool at runtime.
