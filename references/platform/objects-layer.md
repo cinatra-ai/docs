@@ -118,7 +118,7 @@ Key properties:
 
 | Store file | Types written |
 |------------|---------------|
-| `extensions/cinatra-ai/crm-connector/src/integration/register-object-types.ts` | `@cinatra-ai/entity-accounts:account`, `@cinatra-ai/entity-contacts:contact`, `@cinatra-ai/lists:list` (the three CRM pointer types — formerly split across three deprecation-stub packages, now consolidated) |
+| `@cinatra-ai/crm-connector/src/integration/register-object-types.ts` | `@cinatra-ai/entity-accounts:account`, `@cinatra-ai/entity-contacts:contact`, `@cinatra-ai/lists:list` (the three CRM pointer types — formerly split across three deprecation-stub packages, now consolidated) |
 | `src/lib/blog/integration/register-object-types.ts` | `@cinatra-ai/assets:blog-project`, `@cinatra-ai/assets:blog-idea`, `@cinatra-ai/assets:blog-post` |
 | `packages/agents/src/integration/register-object-types.ts` | `@cinatra-ai/agent-builder:agent-template` |
 | `packages/objects/src/integration/register-types.ts` | `@cinatra-ai/objects:object`, `@cinatra-ai/campaigns:campaign`, `@cinatra-ai/campaigns:context`, `@cinatra-ai/campaigns:recipients` |
