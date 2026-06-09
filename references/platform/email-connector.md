@@ -26,11 +26,11 @@ caller (trigger-email-send-use-cases.ts / email_send MCP primitive / chat)
 
 | File | Role |
 |---|---|
-| `extensions/cinatra-ai/email-connector/src/contract.ts` | `EmailConnector` interface + `EmailSystemMessage` / `EmailSendReceipt` / `EmailReplyMatch` / `EmailConnectorId` (types-only; providers `import type` it) |
-| `extensions/cinatra-ai/email-connector/src/registry.ts` | In-memory `emailConnectorRegistry` + `registerEmailConnector` + `listInstalledEmailConnectors` |
-| `extensions/cinatra-ai/email-connector/src/facade.ts` | `sendEmailThroughSystem` / `findReplyThroughSystem` chokepoint + `EmailSystemDeps` (host-injected routing + dev-mode override + best-effort sent-email writer) |
-| `extensions/cinatra-ai/email-connector/src/mcp/module.ts` | `email_send` MCP primitive (`createEmailModule`) — one-shot transactional send for chat + ad-hoc agents |
-| `extensions/cinatra-ai/gmail-connector/src/email-connector.ts` | `gmailEmailConnector` — the first `EmailConnector` impl, wraps the existing gmail functions |
+| `@cinatra-ai/email-connector/src/contract.ts` | `EmailConnector` interface + `EmailSystemMessage` / `EmailSendReceipt` / `EmailReplyMatch` / `EmailConnectorId` (types-only; providers `import type` it) |
+| `@cinatra-ai/email-connector/src/registry.ts` | In-memory `emailConnectorRegistry` + `registerEmailConnector` + `listInstalledEmailConnectors` |
+| `@cinatra-ai/email-connector/src/facade.ts` | `sendEmailThroughSystem` / `findReplyThroughSystem` chokepoint + `EmailSystemDeps` (host-injected routing + dev-mode override + best-effort sent-email writer) |
+| `@cinatra-ai/email-connector/src/mcp/module.ts` | `email_send` MCP primitive (`createEmailModule`) — one-shot transactional send for chat + ad-hoc agents |
+| `@cinatra-ai/gmail-connector/src/email-connector.ts` | `gmailEmailConnector` — the first `EmailConnector` impl, wraps the existing gmail functions |
 | `src/lib/register-email-providers.ts` | Boot wiring: `configureEmailSystem(deps)` + `registerEmailConnector(gmailEmailConnector)`. The routing chain + dev-mode override + `saveSentEmailObject` live here (host knows the DB; the facade does not) |
 | `src/lib/email-system-persistence.ts` | The `email_send_events` ledger read/write helpers |
 

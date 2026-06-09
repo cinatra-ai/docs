@@ -74,9 +74,9 @@ Pinned by `src/__tests__/wordpress-blog-connector-id-roundtrip.test.ts`.
 
 | File | Role |
 |---|---|
-| `extensions/cinatra-ai/social-media-connector/src/{contract,registry,facade,index}.ts` + `mcp/module.ts` | Social facade (5-part). `social_media_publish` MCP primitive |
-| `extensions/cinatra-ai/linkedin-connector/src/connector.ts` | `linkedInSocialMediaConnector` — wraps host `publishLinkedInPost` |
-| `extensions/cinatra-ai/blog-connector/src/{contract,registry,facade,index}.ts` + `default-connector.ts` + `mcp/module.ts` | Blog facade (5-part) + generic `defaultBlogConnector` + `blog_connector_list` primitive |
+| `@cinatra-ai/social-media-connector/src/{contract,registry,facade,index,mcp/module}.ts` | Social facade (5-part). `social_media_publish` MCP primitive |
+| `@cinatra-ai/linkedin-connector/src/connector.ts` | `linkedInSocialMediaConnector` — wraps host `publishLinkedInPost` |
+| `@cinatra-ai/blog-connector/src/{contract,registry,facade,index,default-connector,mcp/module}.ts` | Blog facade (5-part) + generic `defaultBlogConnector` + `blog_connector_list` primitive |
 | `extensions/ossflywheel/blog-connector/src/{elementor,connector,index}.ts` | First non-`@cinatra-ai`-scope connector. Owns all `_elementor_data` + ossflywheel template selectors |
 | `src/lib/register-social-providers.ts` / `src/lib/register-blog-providers.ts` | Boot wiring (configure facade + register connectors; auto-runs on import from `instrumentation.node.ts`). Blog one also runs the ossflywheel self-heal |
 | `packages/extensions/src/connector-handler.ts` | Generic-vendor regex + visibility + realpath guards |

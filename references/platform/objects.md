@@ -139,7 +139,7 @@ Every write through `upsertObjectAndEnqueue` atomically (single CTE) writes the 
 Three things are intentionally kept out of this surface:
 
 - **`packages/artifacts/` blob/version/storage internals** - the `ArtifactRef` mechanics and the `@cinatra-ai/blob/version` tables stay unchanged. `@cinatra-ai/artifacts:artifact-ref` is registered for *classification* of blog post refs only; it is not a per-blob row type.
-- **Generic-collection schema redesign for `@cinatra-ai/lists:list`** - the list pointer type keeps its current account/contact-oriented schema. The schema lives with the CRM connector (`extensions/cinatra-ai/crm-connector/src/integration/register-object-types.ts`); the consumer surface unifies (member resolution via canonical `objects_*`) but the schema is not redesigned.
+- **Generic-collection schema redesign for `@cinatra-ai/lists:list`** - the list pointer type keeps its current account/contact-oriented schema. The schema lives with the CRM connector (`@cinatra-ai/crm-connector/src/integration/register-object-types.ts`); the consumer surface unifies (member resolution via canonical `objects_*`) but the schema is not redesigned.
 - **Auto-mapping for object types outside the static registration set** - the dispatcher covers exactly the statically registered types; auto-mapping for new types is added with those types.
 
 ## Contract Guard
