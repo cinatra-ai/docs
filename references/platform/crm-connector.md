@@ -24,17 +24,17 @@ agent SKILL.md  ──▶ crm_* MCP verb  ──▶  crmFacade  ──▶  Twent
                                           Graphiti
 ```
 
-- **Facade (`packages/crm-connector`)** — defines the public types (`CrmAccount`, `CrmContact`, `CrmList`) and the provider port. Exports `crmFacade` for in-process callers (chat widget, server actions). Has no provider-specific code.
-- **Twenty provider (`packages/twenty-connector`)** — implements the port by calling Twenty's MCP catalog tools through the host-side Layer B proxy. Resolves credentials from the `twenty-workspace` row in `external_mcp_servers`.
+- **Facade (`@cinatra-ai/crm-connector`)** — defines the public types (`CrmAccount`, `CrmContact`, `CrmList`) and the provider port. Exports `crmFacade` (`src/facade.ts`) for in-process callers (chat widget, server actions). Has no provider-specific code.
+- **Twenty provider (`@cinatra-ai/twenty-connector`)** — implements the port by calling Twenty's MCP catalog tools through the host-side Layer B proxy. Resolves credentials from the `twenty-workspace` row in `external_mcp_servers`.
 - **MCP surface** — `crm_account_*` / `crm_contact_*` / `crm_list_*` primitives are registered by the connector and are what agents + the chat assistant see. The retired `accounts_*` / `contacts_*` / `lists_*` primitives are **not** registered.
 - **`ObjectSyncAdapter` seam** — the integration seam for projecting cinatra-originated CRM writes into Graphiti. The seam exists; the concrete `TwentyToGraphitiAdapter` activation is deferred.
 
-This page focuses on the cinatra-side facade; Twenty-specific bootstrap and transport details live with the connector implementation in the monorepo.
+This page focuses on the cinatra-side facade; Twenty-specific bootstrap and transport details live with the connector implementation in its standalone package.
 
 ## Key files
 
-- `packages/crm-connector/src/` — the provider-agnostic facade, types, and `crmFacade` entry.
-- `packages/twenty-connector/src/` — Twenty implementation: per-method `execute_tool` calls against Twenty's MCP catalog (see `twenty-mcp-tools.json` for the catalog snapshot).
+- `@cinatra-ai/crm-connector/src/` — the provider-agnostic facade, types, and `crmFacade` entry.
+- `@cinatra-ai/twenty-connector/src/` — Twenty implementation: per-method `execute_tool` calls against Twenty's MCP catalog (see `twenty-mcp-tools.json` for the catalog snapshot).
 - `@cinatra-ai/crm-connector/src/chat-widgets/crm-contact-finder.tsx` — the chat widget that resolves a contact by email through `crmFacade.contact.findByEmail` (auth-gated). This is the only cinatra-side UI touching CRM data; the previous browse routes + deeplink card were removed.
 - `scripts/audit/crm-pointer-gate.mjs` + `scripts/audit/oas-banned-primitives-gate.mjs` — the two CI gates that keep the retirement from regressing. Both run in `.github/workflows/crm-migration-gate.yml` on every PR.
 ## The contract

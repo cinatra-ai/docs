@@ -51,10 +51,10 @@ The widget bundle does not call Model Context Protocol (MCP) primitives directly
 Both are handled by `src/app/api/agents/[agentSlug]/stream/route.ts`, a per-slug agent stream registry. The route:
 
 1. Validates the CMS origin against the configured allowlist (`resolveDrupalWidgetOrigin` / `resolveWordPressWidgetOrigin` in `src/lib/{drupal,wordpress}-widget-auth.ts`).
-2. Validates the `Authorization: Bearer <api-key>` header against the per-instance widget API key (`validateDrupalWidgetToken` / `validateWordPressWidgetToken`).
+2. Validates the `Authorization: Bearer <api-key>` header against the widget API key (`validateDrupalWidgetToken` / `validateWordPressWidgetToken`). The key is global per CMS kind — one `drupal_widget_auth` / `wordpress_widget_auth` record per Cinatra install, not per instance.
 3. Calls `stream` from `@cinatra-ai/llm` with:
    - The widget's message history (capped at the most recent N user/assistant turns).
-   - A **widget-chat function tool** built by the connector — `createDrupalWidgetChatTool` (`@cinatra-ai/drupal-connector/widget-chat-tool`) or `createWordPressWidgetChatTool` (`@cinatra-ai/wordpress-connector/widget-chat-tool`). When the LLM calls this tool, it invokes the connector's `drupal_content_editor_run` / `wordpress_content_editor_run` MCP primitive, which dispatches to a WayFlow (Cinatra's OAS Flow agent runtime) content-editor agent.
+   - A **widget-chat function tool** built by the connector — `createDrupalWidgetChatTool` (`@cinatra-ai/drupal-mcp-connector/widget-chat-tool`) or `createWordPressWidgetChatTool` (`@cinatra-ai/wordpress-mcp-connector/widget-chat-tool`). When the LLM calls this tool, it invokes the connector's `drupal_content_editor_run` / `wordpress_content_editor_run` MCP primitive, which dispatches to a WayFlow (Cinatra's OAS Flow agent runtime) content-editor agent through the host-bound `dispatchContentEditor` dependency.
    - The standard skill tool surface so skills can shape the assistant's behavior.
 4. Streams the LLM response back to the widget as server-sent events (SSE).
 
