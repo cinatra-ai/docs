@@ -1,0 +1,4 @@
+{
+  "$comment": "Per-repo source-leak-gate config. Lines carrying an inline <!-- source-leak-allow --> marker are exempt from all rules; used by contribution pages that must name the planning framework.",
+  "lineExcludes": ["source-leak-allow"]
+}
