@@ -32,3 +32,9 @@ Run your first agent with the [Quickstart](guides/hosting/quickstart.md), or rea
 
 - [Why Cinatra](resources/why-cinatra.md) — what the platform unlocks
 - [Comparisons](resources/comparisons/README.md) — Cinatra vs ChatGPT Workspace Agents, Claude Cowork, Vercel Open Agents, and Managed Agents
+
+---
+
+## License
+
+The documentation content in this repository is licensed under [CC-BY-4.0](LICENSE). Code snippets embedded in the documentation are licensed under [Apache-2.0](https://github.com/cinatra-ai/cinatra/blob/main/LICENSE), matching the Cinatra code repository.

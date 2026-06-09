@@ -147,4 +147,6 @@ We aim to triage issues and PRs within a few business days. If something has bee
 
 ## License
 
-Cinatra is licensed under the Apache License 2.0 — see the `LICENSE` file at the repository root. By contributing, you agree that your contributions will be licensed under those same terms.
+The Cinatra **code** (the [`cinatra-ai/cinatra`](https://github.com/cinatra-ai/cinatra) repository) is licensed under the [Apache License 2.0](https://github.com/cinatra-ai/cinatra/blob/main/LICENSE). By contributing code there, you agree that your contributions will be licensed under those same terms.
+
+The **documentation content** in this repository is licensed under the [Creative Commons Attribution 4.0 International License (CC-BY-4.0)](../../LICENSE) — see the `LICENSE` file at this repository's root. Code snippets embedded in the documentation are licensed under Apache-2.0, matching the code repository. By contributing to the documentation, you agree that your prose and diagram contributions will be licensed under CC-BY-4.0 and any embedded code snippets under Apache-2.0.
