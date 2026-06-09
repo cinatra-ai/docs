@@ -1,6 +1,6 @@
 # Developing Agents
 
-Audience: contributors (human or AI) who want to add, edit, or migrate an agent in Cinatra without reading the source of `@cinatra-ai/agents`.
+Audience: contributors (human or AI) who want to add, edit, or migrate an agent in Cinatra without reading the source of `@cinatra-ai/agents`. Like all contribution work, agent changes are planned with GSD ("Git. Ship. Done", the [open-gsd](https://github.com/open-gsd/gsd-core) spec-driven development framework) — see [Contributing](contributing.md#planning). <!-- source-leak-allow -->
 
 **TL;DR:** Write an `oas.json` file under `agents/cinatra/<slug>-agent/cinatra/`, run `node scripts/ci-validate-agents.mjs`, restart the dev server, and the agent is live.
 

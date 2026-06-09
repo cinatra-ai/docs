@@ -2,7 +2,7 @@
 
 The Cinatra Design System — what designers, product, and engineering need to know about how the product looks, what colours mean, and why.
 
-This is the Cinatra design-system reference for contributors, alongside the [User](../../guides/user/README.md), [Admin](../../guides/admin/README.md), [Hosting](../../guides/hosting/README.md), [Developer](../../guides/developer/README.md), and [Model Context Protocol (MCP)](../mcp/README.md) guides.
+This is the Cinatra design-system reference for contributors, alongside the [User](../../guides/user/README.md), [Admin](../../guides/admin/README.md), [Hosting](../../guides/hosting/README.md), [Developer](../../guides/developer/README.md), and [Model Context Protocol (MCP)](../mcp/README.md) guides. Contribution work is planned with GSD ("Git. Ship. Done", the open-gsd spec-driven development framework) — see [Contributing](../../guides/developer/contributing.md#planning). <!-- source-leak-allow -->
 
 ---
 

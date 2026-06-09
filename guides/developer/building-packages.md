@@ -99,7 +99,7 @@ The host app reads each package's `src/index.ts` and follows its public surface 
 
 Many "agent extensions" in Cinatra are not TypeScript packages at all — they are OAS Flow files under `agents/<vendor>/<slug>/cinatra/oas.json`. These are first-class citizens: they are published, versioned, installed, and run the same way as TypeScript packages, but their entire definition lives in declarative JSON. The compiler in `@cinatra-ai/agents` converts the OAS Flow into the runtime representation; WayFlow (Cinatra's OAS Flow agent runtime) executes it; the platform handles persistence, observability, and human-in-the-loop (HITL) automatically.
 
-If your contribution is "an agent that calls these tools in this order with this prompt," do not build a TypeScript package — author an OAS Flow file. The platform infrastructure is already there. See [Developing agents](developing-agents.md) for the authoring workflow.
+If your contribution is "an agent that calls these tools in this order with this prompt," do not build a TypeScript package — author an OAS Flow file. The platform infrastructure is already there. See [Developing agents](developing-agents.md) for the authoring workflow. Either way, plan the contribution with GSD ("Git. Ship. Done", the open-gsd spec-driven development framework) before building — see [Contributing](contributing.md#planning). <!-- source-leak-allow -->
 
 ---
 
