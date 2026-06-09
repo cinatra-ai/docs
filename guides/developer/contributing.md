@@ -6,6 +6,13 @@ This document covers how to contribute. For the developer setup itself, see [Ins
 
 ---
 
+## Planning
+
+Cinatra plans and drives work with GSD ("Git. Ship. Done") — the [open-gsd](https://github.com/open-gsd/gsd-core) spec-driven development framework (`@opengsd/gsd-core`). <!-- source-leak-allow -->
+Its disciplined phase loop — discuss → plan → execute → verify — is how work moves from idea to merged PR: align on the problem in an issue, agree the approach, then implement and verify. The issue-first conventions below follow directly from that loop.
+
+---
+
 ## Ways to contribute
 
 ### Reporting bugs

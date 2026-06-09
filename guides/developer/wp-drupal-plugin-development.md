@@ -120,3 +120,5 @@ UAT hard gate (`wp-drupal-uat.yml`). To land a planned migration that knowingly
 breaks a UAT, add the `override-wp-drupal-uat` label — see the override process
 in [contributing.md](contributing.md). Running the UATs locally:
 `pnpm test:e2e:wp-drupal` (see `tests/e2e/wp-drupal-uat/README.md`).
+
+Like all contributions, plugin/module work is planned with GSD ("Git. Ship. Done", the open-gsd spec-driven development framework) — see [Contributing](contributing.md#planning). <!-- source-leak-allow -->
