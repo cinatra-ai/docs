@@ -41,7 +41,7 @@ Related docs:
 
 ## Full OAS Flow Shape
 
-<!-- From agents/email-recipients/cinatra/agent.json (golden leaf reference) -->
+<!-- Golden leaf reference — modeled on the standalone email-recipient-selection-agent package (authored as cinatra/oas.json in its repo) -->
 ```json
 {
   "agentspec_version": "26.1.0",
@@ -52,8 +52,8 @@ Related docs:
     "cinatra": {
       "type": "leaf",
       "hitlScreens": [
-        "@cinatra-agents/email-outreach:contact-source-selector",
-        "@cinatra-agents/email-recipients:output"
+        "@cinatra-ai/email-outreach-agent:list-picker",
+        "@cinatra-ai/reviewer-agent:output"
       ]
     }
   },
@@ -106,7 +106,7 @@ Related docs:
           "required": ["campaignId", "accountScope"],
           "hidden": ["campaignId"],
           "inputRenderers": {
-            "accountScope": "@cinatra-agents/email-outreach:contact-source-selector"
+            "accountScope": "@cinatra-ai/email-outreach-agent:list-picker"
           }
         }
       },
@@ -123,7 +123,7 @@ Related docs:
         "cinatra": {
           "riskClass": "read_only",
           "requiresApproval": true,
-          "renderer": "@cinatra-agents/email-recipients:output",
+          "renderer": "@cinatra-ai/email-recipient-selection-agent:output",
           "a2uiSurfaceId": "email-recipients:step-1:output"
         }
       },
@@ -148,7 +148,7 @@ Related docs:
       "system_prompt": "You are a campaign recipient selection agent...",
       "metadata": {
         "cinatra": {
-          "packageName": "@cinatra-agents/email-recipients"
+          "packageName": "@cinatra-ai/email-recipient-selection-agent"
         }
       }
     }
@@ -168,8 +168,8 @@ Related docs:
 | `component_type` | `"Flow"` (literal) | Yes | Identifies the compact OAS envelope. |
 | `id` | `string` | Yes | Stable human-readable id (convention: `<slug>-flow`). |
 | `name` | `string` | Yes | Display name. |
-| `metadata.cinatra.type` | `"leaf" \| "orchestrator"` | Yes | Determines compile topology. Other classifications (`proxy`, `parallel`, `supervisor`, `iterative`) are runtime concerns of the LangGraph type graphs, not the compiler. |
-| `metadata.cinatra.hitlScreens` | `string[]` | No | Namespaced `@cinatra-agents/<slug>:<renderer-id>` ids of human-in-the-loop (HITL) renderers this agent may emit. |
+| `metadata.cinatra.type` | `"leaf" \| "orchestrator" \| "node" \| "flow"` | Yes | Determines compile topology. The compiler accepts both the legacy values (`leaf` / `orchestrator`) and the OAS-aligned ones (`node` / `flow`). |
+| `metadata.cinatra.hitlScreens` | `string[]` | No | Namespaced `@<vendor>/<package-slug>:<renderer-id>` ids of human-in-the-loop (HITL) renderers this agent may emit (e.g. `@cinatra-ai/email-outreach-agent:list-picker`). |
 | `inputs` | `PropertySchema[]` | Yes | Flat JSON Schema property list — compiler derives `inputSchema` from this + StartNode. |
 | `outputs` | `PropertySchema[]` | Yes | Flat JSON Schema property list — compiler derives `outputSchema` from EndNode. |
 | `start_node` | `{ $component_ref: string }` | Yes | Must resolve to a StartNode inside `$referenced_components`. |
@@ -182,9 +182,9 @@ Related docs:
 
 | Field | Type | Required | Notes |
 |-------|------|----------|-------|
-| `required` | `string[]` | No | Input ids that must be present in `agent_runs.inputParams` before the setup interrupt loop falls through to LangGraph dispatch. |
+| `required` | `string[]` | No | Input ids that must be present in `agent_runs.inputParams` before the setup interrupt loop falls through to runtime (WayFlow) dispatch. |
 | `hidden` | `string[]` | No | Input ids suppressed from the setup form UI. Compiler still threads them into `inputSchema`. |
-| `inputRenderers` | `Record<string, string>` | No | Maps input id → namespaced `x-renderer` id (e.g. `@cinatra-agents/email-outreach:cta`). |
+| `inputRenderers` | `Record<string, string>` | No | Maps input id → namespaced `x-renderer` id (e.g. `@cinatra-ai/email-outreach-agent:cta`). |
 | `inputTitles` | `Record<string, string>` | No | Human-readable label overrides per input id, shown in the setup UI. |
 
 ### AgentNode `metadata.cinatra` extensions
@@ -401,11 +401,11 @@ export type CompileOasResult =
 
 | Role | Path |
 |------|------|
-| Orchestrator | `agents/email-outreach/cinatra/agent.json` |
-| Leaf | `agents/email-recipients/cinatra/agent.json` |
-| Leaf | `agents/email-drafts/cinatra/agent.json` |
-| Leaf | `agents/email-reviewer/cinatra/agent.json` |
-| Leaf | `agents/email-sender/cinatra/agent.json` |
-| Global registry | `agents/_shared/cinatra/components.json` |
+| Orchestrator | `email-outreach-agent` repo → `cinatra/oas.json` |
+| Leaf | `email-recipient-selection-agent` repo → `cinatra/oas.json` |
+| Leaf | `email-drafting-agent` repo → `cinatra/oas.json` |
+| Leaf | `reviewer-agent` repo → `cinatra/oas.json` |
+| Leaf | `email-delivery-agent` repo → `cinatra/oas.json` |
+| Global registry | `<agent-install-dir>/_shared/cinatra/components.json` (resolved via `resolveAgentInstallDir()` in `oas-compiler.ts`) |
 | Compiler source | `packages/agents/src/oas-compiler.ts` |
 | Validator source | `packages/agents/src/validate-agent-json.ts` |

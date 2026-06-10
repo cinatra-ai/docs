@@ -30,8 +30,9 @@ The TypeScript agent execution layer has been retired. The files
 `agentic-execution.ts`, `agentic-resume.ts`, `agentic-tools.ts`,
 `tool-interceptor.ts`, and `resume.ts` have been deleted.
 
-`execution.ts` dispatches agent runs exclusively to WayFlow via
-`createExternalA2AClient`. The `planned_actions` and `review_tasks` tables are
+`execution.ts` dispatches agent runs via `createExternalA2AClient` — to the
+template's external A2A server when `template.sourceType === "external"`,
+otherwise to WayFlow. The `planned_actions` and `review_tasks` tables are
 not part of the current schema. All HITL routing uses synthetic ID prefixes:
 `setup-{runId}` and `lg-{runId}`.
 
@@ -41,9 +42,9 @@ the runtime dispatch. A second BullMQ retry that dequeues the same job fails the
 compare-and-swap (CAS) and returns early without entering the runtime.
 
 The `agent_update` Model Context Protocol (MCP) tool does not accept `"default"` as an
-`executionProvider` value. Existing DB rows that still carry `"default"` route
-through the runtime alias in `execution.ts`; input validation and runtime
-backward compatibility are separate concerns.
+`executionProvider` value. Existing DB rows that still carry `"default"` still
+execute — dispatch in `execution.ts` does not read `executionProvider`; input
+validation and runtime backward compatibility are separate concerns.
 
 The REST polling route `/runs/[runId]` returns the actual
 `template.inputSchema` in setup-fallback `hitlContext` so REST polling clients
@@ -143,8 +144,9 @@ One row per code span that is either current or intentionally absent.
 | `assertOrchestratorReady` | Validates all declared `agentDependencies` are installed; orchestrator gate | Kept |
 | Version pinning block | Reads `agent_template_versions` snapshot for `run.packageVersion` | Kept |
 | Setup Interrupt Loop | For each required `inputSchema` field missing from `run.inputParams`: sets `pending_approval` and emits AG-UI INTERRUPT with synthetic `setup-{runId}` ID; no DB writes | Kept |
-| Runtime dispatch | Dispatches WayFlow runs | Kept as the only dispatch branch |
-| Unsupported provider throw | Throws for null or unknown `executionProvider` | Kept |
+| External-template short-circuit | `template.sourceType === "external"` dispatches to the external A2A server (`template.agentUrl` + saved connection) before the WayFlow branch | Kept |
+| Runtime dispatch | Dispatches WayFlow runs unconditionally for non-external templates; throws when `template.packageName` is null (cannot derive the WayFlow URL) | Kept as the only non-external dispatch branch |
+| Unsupported provider throw | Threw for null or unknown `executionProvider` | Deleted — dispatch no longer discriminates on `executionProvider` |
 | Orchestrator dispatch | Direct `runOrchestratorJob` dispatch | Deleted |
 | Agentic dispatch | Direct `runAgentBuilderAgenticJob` dispatch | Deleted |
 | Deterministic step loop | Sequential step iteration with approval gates | Deleted |
@@ -214,11 +216,12 @@ runAgentBuilderExecutionJob (BullMQ worker)
   ├─ assertOrchestratorReady  (orchestrator dep-check)
   ├─ Setup Interrupt Loop     (emits INTERRUPT per pending inputSchema field; no DB writes)
   └─ Dispatch:
-       ├─ executionProvider: "wayflow" | "default"  → WayFlow runtime dispatch
-       └─ anything else                              → throws "Unsupported executionProvider..."
+       ├─ template.sourceType === "external"  → external A2A dispatch (template.agentUrl + saved connection)
+       └─ everything else                     → WayFlow runtime dispatch via resolveWayflowUrl(template.packageName)
+                                                (throws when template.packageName is null)
 ```
 
-All other dispatch branches are deleted.
+Dispatch does not discriminate on `executionProvider`. All other dispatch branches are deleted.
 
 ## HITL surface
 
@@ -326,7 +329,9 @@ The TypeScript worker is intentionally small:
 3. Pin the agent template version.
 4. Validate orchestrator dependencies.
 5. Collect required setup fields through synthetic-ID HITL.
-6. Dispatch to WayFlow.
+6. Dispatch — external-source templates (`template.sourceType === "external"`)
+   short-circuit to their external A2A server; everything else dispatches to
+   WayFlow.
 
 All agent execution behavior belongs in WayFlow agents or runtime-side tools.
 All background scheduling, retries, and cancellation stay in BullMQ.
@@ -362,14 +367,19 @@ This is the one place where the two layers meaningfully interact.
 - **BullMQ cancellation** (`cancelBackgroundJob(jobId)`) continues to be the
   operator-facing kill switch. It writes to the
   `background_job_cancellation_requests` metadata key.
-- **`runAgentBuilderExecutionJob` MUST poll `AbortController.signal.aborted`
-  every 750ms** through the same pattern as all other workers. On abort it must:
-  1. Stop the runtime execution.
-  2. Transition `agent_runs.status → stopped` via `updateAgentRunStatus`.
-  3. Emit `AgUiAdapter.onRunFinished("stopped")` for UI closure.
-- **Server-side timeout** (`run.timeoutSeconds`) is enforced in the worker around
-  the runtime stream loop. The runtime itself does not own this timeout; it is a
-  BullMQ-worker concern.
+- **Abort polling is not wired for agent runs today.** The shared worker
+  abort-poller (`registerBackgroundJobAbortController` in
+  `src/lib/background-jobs.ts`, 750 ms interval) is what other background
+  workers use, but `runAgentBuilderExecutionJob` does not register an
+  `AbortController` — the dispatch is a single blocking `sendTask`, so a
+  cancellation request takes effect only before dispatch, not mid-run. If
+  mid-run cancellation is added, it belongs at this worker boundary (poll
+  `signal.aborted`; stop the runtime execution; transition
+  `agent_runs.status → stopped`; emit `AgUiAdapter.onRunFinished("stopped")`
+  for UI closure) — not inside the runtime.
+- **Server-side timeout**: `agent_runs.timeoutSeconds` exists as a column but
+  is not enforced by the worker today. If enforced later, it is a
+  BullMQ-worker concern; the runtime does not own it.
 
 Do not push the BullMQ abort signal into the runtime as a runtime-native
 primitive. Keep the kill switch at the worker boundary.
@@ -396,8 +406,8 @@ primitive. Keep the kill switch at the worker boundary.
 - Running the agent runtime in the same process as Next.js. The runtime is a
   separate service.
 - Treating `"default"` as valid MCP input for `executionProvider`. Existing DB
-  rows with `"default"` may still route through the runtime alias in
-  `execution.ts`; do not conflate MCP input validation with runtime dispatch.
+  rows with `"default"` still execute (dispatch does not read the column); do
+  not conflate MCP input validation with runtime dispatch.
 - Calling the runtime dispatch from `runAgentBuilderExecutionJob` without a
   preceding `updateAgentRunStatusConditional` CAS. Two concurrent BullMQ retries
   can both pass a stale read-check before either writes anything; the CAS is the

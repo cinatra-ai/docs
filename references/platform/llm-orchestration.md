@@ -132,25 +132,16 @@ body: new URLSearchParams({
 
 Callers fall back to in-process function tools when it returns `null`.
 
-### Automatic injection via the registry — do not call manually
+### Automatic injection via `injectMcpTools` — do not call manually
 
-**Do not call `buildLlmMcpServerTool` at individual call sites.** The `withMcpServerTool` wrapper in `packages/llm/src/registry.ts` intercepts every `generate` and `stream` call on the OpenAI adapter and prepends the MCP server tool automatically:
+**Do not call `buildLlmMcpServerTool` at individual call sites.** MCP tool injection is centralized in `injectMcpTools` (`packages/llm/src/index.ts`) — the single injection site shared by all four orchestration entry points (`runDeterministicLlmTask`, `runSkillAwareDeterministicLlmTask`, `generate`, `stream`). It deliberately does **not** wrap provider adapters in `registry.ts`.
 
-```ts
-// registry.ts — applied once in resolveProviderAdapter("openai")
-function withMcpServerTool(adapter: LlmProviderAdapter): LlmProviderAdapter {
-  return {
-    ...adapter,
-    async generate(input) {
-      const mcpTool = await buildLlmMcpServerTool("openai");
-      return adapter.generate({ ...input, tools: mcpTool ? [mcpTool, ...(input.tools ?? [])] : input.tools });
-    },
-    async stream(input) { /* same pattern */ },
-  };
-}
-```
+`injectMcpTools` resolves the tool set via `resolveMcpToolsForDeclaredIds` (`packages/llm/src/registry.ts`):
 
-This means every caller that goes through `resolveProviderAdapter("openai")` — the chat route, all agent execution packages, orchestration helpers — automatically gets the MCP server tool without any code changes. The tool is placed first in the tools list so the model always sees the MCP server before the in-process function tools.
+- `declaredToolboxIds` undefined → legacy always-inject set: Cinatra self-MCP + WordPress/Drupal external MCP tools + registered external MCP servers.
+- `declaredToolboxIds` defined → filtered set: `"cinatra-mcp"` resolves to the Cinatra self-MCP; other ids resolve through the external MCP registry (with an `apify-connector` first-party branch). Unmatched ids are dropped with a console warning.
+
+Pass-through cases (tools returned unchanged): Gemini provider (no native MCP), `skipMcpInjection: true` (stream-only opt-out, e.g. the CMS widget chat route), an MCP tool already present in `params.tools` (dedup), or zero resolved MCP tools. When MCP tools are injected, `type: "function"` tools are stripped unless the caller sets `preserveFunctionTools: true` (the client-side action / widget-chat path); the MCP tools are placed first in the tools list.
 
 ## Anthropic MCP mode
 
@@ -163,33 +154,15 @@ If `"native"` is configured but the beta call throws (e.g. the beta is not activ
 
 The `LlmShellTool` type is translated to a standard `bash` function tool on Anthropic — not to `bash_20250124` (which would require the `computer-use-2025-01-24` beta). No extra beta headers are needed for skill reading.
 
-## `executionProvider` routing convention
+## `executionProvider` — single runtime, no routing
 
-Agent builder runs carry an `executionProvider` field (`"langgraph"` | `"default"` | `"openai"` | `"anthropic"` | `"gemini"`) that determines which execution path handles the run. The canonical `isLangGraph` check is:
+LangGraph has been retired as an execution provider. Agent templates carry an `executionProvider` column that now defaults to `"wayflow"` (`packages/agents/src/schema.ts`), and `runAgentBuilderExecutionJob` in `packages/agents/src/execution.ts` no longer discriminates on it: external-source templates (`template.sourceType === "external"`) short-circuit to their external agent-to-agent (A2A) server, and every other run dispatches to WayFlow (Cinatra's OAS Flow agent runtime) over A2A — the upstream URL is derived from `template.packageName` via `resolveWayflowUrl` (`${WAYFLOW_BASE_URL}/agents/<vendor>/<slug>/`). There is no `isLangGraph` branch, no `AGENT_BUILDER_LANGGRAPH_EXECUTION` / `AGENT_BUILDER_RESUME` job pair — the BullMQ (a Redis-backed job queue) job is `AGENT_BUILDER_EXECUTION` (`src/lib/background-jobs.ts`).
 
-```typescript
-const isLangGraph =
-  template.executionProvider === "langgraph" ||
-  template.executionProvider === "default"; // "default" maps to LangGraph
-```
-
-This pattern is used in three places and must stay consistent:
-
-| File | Context |
-|------|---------|
-| `packages/agents/src/execution.ts` (line ~436) | Fresh-run dispatch — routes to `AGENT_BUILDER_LANGGRAPH_EXECUTION` |
-| `packages/agents/src/mcp/handlers.ts` | Resume via MCP — `handleAgentBuilderRunResume` routes on `executionProvider` before `executionMode` |
-| `packages/agents/src/review-task-actions.ts` | Approve routing — `approveReviewTaskInternal` routes LangGraph runs to LangGraph resume worker |
-
-**Rules:**
-- Always discriminate on `executionProvider`, not `executionMode` (agentic/deterministic) or `lgThreadId`. `executionMode` is a capability flag; `executionProvider` is the runtime discriminator.
-- `AGENT_BUILDER_RESUME` (BullMQ (a Redis-backed job queue) job) is **legacy-only** — it only executes for `openai`, `anthropic`, and `gemini` templates. All LangGraph runs go through `AGENT_BUILDER_LANGGRAPH_EXECUTION`.
-- When resuming a LangGraph run, pass `resume: { values: null }`. Setup-field values are already merged into `agent_runs.inputParams` by `approveReviewTaskInternal`; the Python graph reads `collected_inputs` from thread state, not from `command.resume`.
-- Both `resume.ts` and `agentic-resume.ts` guard on `run.lgThreadId` and delegate to `runLangGraphJob` — they skip all state-reconstruction logic for LangGraph runs.
+Legacy DB rows that still carry older `executionProvider` values continue to dispatch — dispatch does not read the column — but the agent MCP write surface rejects any input value other than `"wayflow"`. See [BullMQ ↔ WayFlow boundary](bullmq-wayflow-boundary.md) for the full current runtime state.
 
 ## Unified LLM bridge — `/api/llm-bridge`
 
-All WayFlow (Cinatra's OAS Flow agent runtime) LLM execution goes through `/api/llm-bridge` — both the TypeScript ApiNode path and the Python container path. The old `/api/internal/langgraph-llm-step` route now returns 410 Gone.
+All WayFlow LLM execution goes through `/api/llm-bridge`. The old `/api/internal/langgraph-llm-step` route has been removed entirely.
 
 **Route:** `POST /api/llm-bridge`
 
@@ -215,15 +188,15 @@ Skill IDs and custom skill content are resolved server-side from `agent_id` — 
 
 **Response:** `{ "output": "final text" }` — empty string if LLM returned null.
 
-**Python caller:** `cinatra_sdk.llm_step.run_cinatra_llm_step()`. The helper derives `origin` from `state["a2a_base_url"]` by stripping the `/api/a2a` suffix before appending `/api/llm-bridge`.
+**WayFlow caller:** agents reach the bridge through OAS `ApiNode` steps whose URL is `{{CINATRA_BASE_URL}}/api/llm-bridge` (placeholder substituted at load time). The multi-tenant loader (`docker/wayflow/agent_loader.py`) injects the `X-Cinatra-Bridge-Token` header on every outbound ApiNode HTTP call from `CINATRA_BRIDGE_TOKEN` in the container env.
 
-**Do not call this endpoint from TypeScript.** TS callers use `runResolvedSkillAwareDeterministicLlmTask` directly. The bridge exists for Python→TS delegation from WayFlow graph nodes.
+**Do not call this endpoint from TypeScript.** TS callers use `runResolvedSkillAwareDeterministicLlmTask` directly. The bridge exists for delegation from WayFlow flow nodes back into the Cinatra-owned LLM runtime.
 
 ---
 
 ## What to avoid
 
-- calling `buildLlmMcpServerTool` manually at individual call sites — it is injected automatically by `withMcpServerTool` in the registry for all OpenAI calls
+- calling `buildLlmMcpServerTool` manually at individual call sites — it is injected automatically by `injectMcpTools` (`packages/llm/src/index.ts`) for all orchestration entry points
 - calling `buildSkillTools` or `readSkillContent` directly — they are internal to the orchestration layer; pass `skillIds` to `runSkillAwareDeterministicLlmTask` or `runResolvedSkillAwareDeterministicLlmTask` instead
 - building skill tools manually and merging with extra tools — use `extraTools` instead
 - direct provider-specific calls when orchestration-layer helpers already exist

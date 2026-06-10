@@ -22,10 +22,11 @@ Execution worker
        └─ publishA2UiEvent → Redis Streams → client STATE_SNAPSHOT
 ```
 
-`A2UiAdapter` is wired in parallel at every lifecycle site in:
-- `packages/agents/src/agentic-execution.ts`
-- `packages/agents/src/langgraph-execution.ts`
-- `packages/agents/src/agentic-resume.ts`
+`A2UiAdapter` is wired alongside the AG-UI adapter via `DualAdapterDispatch`
+at the interrupt-emission sites in `packages/agents/src/execution.ts` (the
+per-execution-path files it used to be wired in — agentic execution, LangGraph
+execution, agentic resume — were deleted along with those execution paths).
+Run lifecycle events such as `RUN_STARTED` remain AG-UI-only.
 
 ---
 
@@ -35,7 +36,7 @@ The first concrete A2UI use case collapses sequential per-field human-in-the-loo
 
 ### How it activates
 
-1. Add `"x-renderer": "@cinatra/agent-builder:grouped-setup-form"` to **any one** of the agent's setup fields in `agent.json`.
+1. Add `"x-renderer": "@cinatra-ai/agent-builder:grouped-setup-form"` to **any one** of the agent's setup fields in `agent.json`.
 2. `execution.ts` checks `agentOptsIntoGrouped = pendingFields.some(f => properties[f]?.["x-renderer"] === GROUPED_SETUP_FORM_RENDERER_ID)`.
 3. When `pendingFields.length >= 2` **and** `agentOptsIntoGrouped` is true → grouped path. Otherwise → per-field path.
 
@@ -49,7 +50,7 @@ The first concrete A2UI use case collapses sequential per-field human-in-the-loo
         "type": "string",
         "format": "uri",
         "title": "Company website",
-        "x-renderer": "@cinatra/agent-builder:grouped-setup-form"
+        "x-renderer": "@cinatra-ai/agent-builder:grouped-setup-form"
       }
     }
   }
@@ -93,23 +94,23 @@ The following agents and workflows could adopt grouped setup via the same `x-ren
 | Future onboarding wizard | 4–6 fields | High value — multi-step replaced by one form |
 | Any agent with ≥ 3 required setup fields | ≥ 3 | Standard pattern to adopt |
 
-To adopt: add `"x-renderer": "@cinatra/agent-builder:grouped-setup-form"` to one field in the agent's `inputSchema`, bump `packageVersion` in `agent.json`.
+To adopt: add `"x-renderer": "@cinatra-ai/agent-builder:grouped-setup-form"` to one field in the agent's `inputSchema`, bump `packageVersion` in `agent.json`.
 
 ---
 
 ## Mid-Run HITL Surfaces
 
-Three mid-run review screens use the A2UI layer. Unlike the grouped setup form (which fires before the run starts), these surfaces fire during an already-running LangGraph execution when a `build_hitl_gate` node emits an interrupt.
+Four mid-run review screens use the A2UI layer. Unlike the grouped setup form (which fires before the run starts), these surfaces fire during an already-running agent execution when the runtime emits a mid-run interrupt.
 
 ### Overview
 
 A2UI v0.9 has no DataTable primitive. Mid-run review screens use: `Column` wrapping a title `Text`, a `List` with a row template (or a `Card` for summary views), and a `Row` of Approve + Reject `Button` components.
 
-The three translator functions in `packages/agent-ui-protocol/src/server.ts` build these trees and are keyed in `A2UiAdapter.MID_RUN_TRANSLATORS` by xRenderer ID.
+The four translator functions in `packages/agent-ui-protocol/src/a2ui-translator.ts` build these trees and are keyed in `MID_RUN_TRANSLATORS` (`packages/agent-ui-protocol/src/a2ui-adapter.ts`) by xRenderer ID. Three of them are also re-exported via `server.ts`; the follow-ups translator is consumed only through the adapter's dispatch table.
 
 ### Recipe 1: Row-table — Recipients Review
 
-xRenderer: `@cinatra-agents/email-recipients:output`
+xRenderer: `@cinatra-ai/email-recipient-selection-agent:output`
 Translator: `translateRecipientsOutputToA2Ui`
 
 ```typescript
@@ -124,15 +125,17 @@ Column([
     rowTemplate: "three-column",
   }),
   Row([
-    Button("Approve", { action: { event: { name: "approve_review_task", values: { literal: { approved: true } } } } }),
-    Button("Reject",  { action: { event: { name: "reject_review_task",  values: { literal: { approved: false } } } } }),
+    Button("Approve", { action: { event: { name: "approve_review_task",
+      context: { reviewTaskId: { literal: reviewTaskId }, values: { literal: { approved: true } } } } } }),
+    Button("Reject",  { action: { event: { name: "reject_review_task",
+      context: { reviewTaskId: { literal: reviewTaskId }, values: { literal: { approved: false } } } } } }),
   ]),
 ])
 ```
 
 ### Recipe 2: Card-list — Drafts Review
 
-xRenderer: `@cinatra-agents/email-drafts:output`
+xRenderer: `@cinatra-ai/email-drafting-agent:output`
 Translator: `translateDraftsOutputToA2Ui`
 
 ```typescript
@@ -145,15 +148,17 @@ Column([
     })),
   }),
   Row([
-    Button("Approve", { action: { event: { name: "approve_review_task", values: { literal: { approved: true } } } } }),
-    Button("Reject",  { action: { event: { name: "reject_review_task",  values: { literal: { approved: false } } } } }),
+    Button("Approve", { action: { event: { name: "approve_review_task",
+      context: { reviewTaskId: { literal: reviewTaskId }, values: { literal: { approved: true } } } } } }),
+    Button("Reject",  { action: { event: { name: "reject_review_task",
+      context: { reviewTaskId: { literal: reviewTaskId }, values: { literal: { approved: false } } } } } }),
   ]),
 ])
 ```
 
 ### Recipe 3: Summary card — Send Confirmation
 
-xRenderer: `@cinatra-agents/email-sender:output`
+xRenderer: `@cinatra-ai/email-delivery-agent:output`
 Translator: `translateSendOutputToA2Ui`
 
 ```typescript
@@ -165,11 +170,20 @@ Column([
   ]),
   Text("This action sends real emails and cannot be undone.", { variant: "warning" }),
   Row([
-    Button("Send now", { action: { event: { name: "approve_review_task", values: { literal: { approved: true } } } } }),
-    Button("Cancel",   { action: { event: { name: "reject_review_task",  values: { literal: { approved: false } } } } }),
+    Button("Send now", { action: { event: { name: "approve_review_task",
+      context: { reviewTaskId: { literal: reviewTaskId }, values: { literal: { approved: true } } } } } }),
+    Button("Cancel",   { action: { event: { name: "reject_review_task",
+      context: { reviewTaskId: { literal: reviewTaskId }, values: { literal: { approved: false } } } } } }),
   ]),
 ])
 ```
+
+### Recipe 4: Card-list — Follow-ups Review
+
+xRenderer: `@cinatra-ai/email-follow-up-agent:output`
+Translator: `translateFollowupsOutputToA2Ui`
+
+Same card-list + Approve/Reject pattern as the drafts review: a `Column` with a title, a summary `Text` ("N follow-up drafts ready"), a vertical `List` of `Card`s (timing caption, subject, body), and the Approve/Reject `Row`.
 
 ### Approve/Reject Button action contract
 
@@ -180,7 +194,7 @@ Both buttons use the `action.event` pattern:
 | Approve | `"approve_review_task"` | `{ "approved": true }` |
 | Reject  | `"reject_review_task"`  | `{ "approved": false }` |
 
-The `reviewTaskId` is carried separately in the interrupt envelope; the button action fires `approveReviewTaskServerAction(reviewTaskId, values)` on the TS side.
+The `reviewTaskId` rides in the same event context (`context.reviewTaskId.literal`); on the TS side the approval flow goes through the `approveReviewTask` / `rejectReviewTask` server actions (`packages/agents/src/actions.ts`), whose core logic is `approveReviewTaskInternal` in `review-task-actions.ts`.
 
 ### Surface lifecycle (known limitation)
 
@@ -188,13 +202,14 @@ HITL surfaces created during a mid-run gate currently linger until Redis Streams
 
 ### Dispatch table
 
-`A2UiAdapter.MID_RUN_TRANSLATORS` maps xRenderer IDs to translator functions:
+`MID_RUN_TRANSLATORS` (module-level in `a2ui-adapter.ts`) maps xRenderer IDs to translator functions:
 
 ```typescript
 const MID_RUN_TRANSLATORS: Record<string, MidRunTranslator> = {
-  "@cinatra-agents/email-recipients:output": translateRecipientsOutputToA2Ui,
-  "@cinatra-agents/email-drafts:output":     translateDraftsOutputToA2Ui,
-  "@cinatra-agents/email-sender:output":     translateSendOutputToA2Ui,
+  "@cinatra-ai/email-recipient-selection-agent:output": translateRecipientsOutputToA2Ui,
+  "@cinatra-ai/email-drafting-agent:output": translateDraftsOutputToA2Ui,
+  "@cinatra-ai/email-follow-up-agent:output": translateFollowupsOutputToA2Ui,
+  "@cinatra-ai/email-delivery-agent:output": translateSendOutputToA2Ui,
 };
 ```
 

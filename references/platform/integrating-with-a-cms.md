@@ -51,10 +51,10 @@ The widget bundle does not call Model Context Protocol (MCP) primitives directly
 Both are handled by `src/app/api/agents/[agentSlug]/stream/route.ts`, a per-slug agent stream registry. The route:
 
 1. Validates the CMS origin against the configured allowlist (`resolveDrupalWidgetOrigin` / `resolveWordPressWidgetOrigin` in `src/lib/{drupal,wordpress}-widget-auth.ts`).
-2. Validates the `Authorization: Bearer <api-key>` header against the per-instance widget API key (`validateDrupalWidgetToken` / `validateWordPressWidgetToken`).
+2. Validates the `Authorization: Bearer <api-key>` header against the widget API key (`validateDrupalWidgetToken` / `validateWordPressWidgetToken`). The key is global per CMS kind — one `drupal_widget_auth` / `wordpress_widget_auth` record per Cinatra install, not per instance.
 3. Calls `stream` from `@cinatra-ai/llm` with:
    - The widget's message history (capped at the most recent N user/assistant turns).
-   - A **widget-chat function tool** built by the connector — `createDrupalWidgetChatTool` (`@cinatra-ai/drupal-connector/widget-chat-tool`) or `createWordPressWidgetChatTool` (`@cinatra-ai/wordpress-connector/widget-chat-tool`). When the LLM calls this tool, it invokes the connector's `drupal_content_editor_run` / `wordpress_content_editor_run` MCP primitive, which dispatches to a WayFlow (Cinatra's OAS Flow agent runtime) content-editor agent.
+   - A **widget-chat function tool** built by the connector — `createDrupalWidgetChatTool` (`@cinatra-ai/drupal-mcp-connector/widget-chat-tool`) or `createWordPressWidgetChatTool` (`@cinatra-ai/wordpress-mcp-connector/widget-chat-tool`). When the LLM calls this tool, it invokes the connector's `drupal_content_editor_run` / `wordpress_content_editor_run` MCP primitive, which dispatches to a WayFlow (Cinatra's OAS Flow agent runtime) content-editor agent through the host-bound `dispatchContentEditor` dependency.
    - The standard skill tool surface so skills can shape the assistant's behavior.
 4. Streams the LLM response back to the widget as server-sent events (SSE).
 
@@ -91,7 +91,7 @@ For the wider Cinatra auth model (Better Auth (the auth server library Cinatra u
 
 The connector extensions each register a small primitive set the content-editor agent (and any other Cinatra surface) can call.
 
-`@cinatra-ai/drupal-connector` registers:
+`@cinatra-ai/drupal-mcp-connector` registers:
 
 - `drupal_status` — connection status for a configured instance.
 - `drupal_instances_list` — every configured Drupal instance on this Cinatra deployment.
@@ -100,7 +100,7 @@ The connector extensions each register a small primitive set the content-editor 
 - `drupal_node_update`, `drupal_node_publish` — write the draft, then publish.
 - `drupal_content_editor_run` — dispatch a high-level edit task to the `drupal-content-editor` WayFlow agent.
 
-`@cinatra-ai/wordpress-connector` registers an analogous but slightly larger set:
+`@cinatra-ai/wordpress-mcp-connector` registers an analogous but slightly larger set:
 
 - `wordpress_status`, `wordpress_instances_list` — metadata.
 - `wordpress_post_get`, `wordpress_posts_list`, `wordpress_post_get_latest`, `wordpress_post_status` — read.
@@ -117,12 +117,12 @@ Even with symmetric integrations the underlying CMSes diverge in places the agen
 | Concern | Drupal | WordPress |
 |---|---|---|
 | Draft-before-edit | True draft revision (`drupal_node_create_draft_revision`) | Demote-then-edit pattern (`wordpress_post_update` with `status: "draft"`) |
-| Read with edit context | Via `mcp_tools` search proxy | Direct REST lookup (`/wp/v2/posts/{id}?context=edit`) |
-| Auth to the CMS-side endpoint | Bearer JSON Web Token (JWT) against the `mcp_tools` module | HTTP basic (username + application password) |
-| ID type | `string` (alphanumeric node IDs supported) | `number` (positive integer, coerced at schema level) |
+| Read with edit context | Recent-content list (`mcp_tools_get_recent_content`) filtered by node ID — `mcp_tools` has no get-by-ID tool | Direct REST lookup (`/wp/v2/posts/{id}?context=edit`) |
+| Auth to the CMS-side endpoint | Bearer token (`mcp_tools` remote key) | HTTP basic (username + application password) |
+| ID type | `string` at the schema level; handlers parse it to a positive integer and send `nid` as a string (works around a `strtolower()` type quirk in `mcp_tools`) | `number` (positive integer, coerced at schema level) |
 | Media | Inline in the node structure | Separate `wordpress_media_upload` primitive |
 
-The WordPress connector also enforces an "at least one field" refinement on `wordpress_post_update` to prevent silent no-ops. See `extensions/cinatra-ai/wordpress-connector/AGENTS.md` for the connector-package-internal conventions.
+The WordPress connector also enforces an "at least one field" refinement on `wordpress_post_update` to prevent silent no-ops. See `wordpress-mcp-connector/AGENTS.md` for the connector-package-internal conventions.
 
 ## Adding a third CMS
 
@@ -130,12 +130,12 @@ The integration shape is replicable. To integrate Cinatra with another CMS (e.g.
 
 1. **Write a connector extension** at `extensions/cinatra-ai/<cms>-connector/` (kind-at-end naming; declare `cinatra.kind: "connector"` in `package.json` so the `ConnectorExtensionTypeHandler` recognises it — see `references/platform/extensions.md` § Connector extension) that registers the CRUD primitives the CMS supports (`<cms>_status`, `<cms>_post_get`, etc.) plus a `<cms>_content_editor_run` primitive that dispatches a WayFlow agent. If the connector needs host-internal `@/lib/*` modules (database, mcp-pagination, etc.), inject them via a `register<Cms>Connector(deps)` factory wired in `src/lib/register-transport-connectors.ts` rather than importing `@/lib/*` directly (dependency injection keeps the package host-agnostic).
 2. **Build the content-editor agent** under `agents/<vendor>/<cms>-content-editor/` — a WayFlow flow that reads the current document, produces a diff, and writes it back through the CMS's primitives.
-3. **Author the widget-chat function tool** at `@cinatra-ai/<cms>-connector/widget-chat-tool` so `/api/agents/[agentSlug]/stream` can call it.
+3. **Author the widget-chat function tool** as a `widget-chat-tool` subpath export of the connector package (the existing two are `@cinatra-ai/drupal-mcp-connector/widget-chat-tool` and `@cinatra-ai/wordpress-mcp-connector/widget-chat-tool`) so `/api/agents/[agentSlug]/stream` can call it.
 4. **Add a new entry** to the per-slug agent stream registry — no new route file is needed; the catch-all already routes by `agentSlug`.
 5. **Implement the CMS-side artifact** — a plugin, module, or app installable on the target CMS that loads the widget bundle and holds the credentials.
 6. **Add admin pages** at `/configuration/connectors/<cms>-widget` and `/configuration/assistants/<cms>-widget` to manage the widget credentials and the assistant configuration.
 
-The repo's two existing CMS connector extensions (drupal-connector, wordpress-connector) are the canonical reference for the shape. Read `extensions/cinatra-ai/drupal-connector/AGENTS.md` first — its conventions are documented for exactly this case.
+The two existing CMS connector extensions (`drupal-mcp-connector`, `wordpress-mcp-connector`) are the canonical reference for the shape. Read `drupal-mcp-connector/AGENTS.md` first — its conventions are documented for exactly this case.
 
 ## Source-of-truth files
 
@@ -148,10 +148,10 @@ When you need to verify a specific claim on this page:
 - Stream route: `src/app/api/agents/[agentSlug]/stream/route.ts`
 - Drupal widget auth: `src/lib/drupal-widget-auth.ts`
 - WordPress widget auth: `src/lib/wordpress-widget-auth.ts`
-- Drupal connector: `extensions/cinatra-ai/drupal-connector/src/`
-- WordPress connector: `extensions/cinatra-ai/wordpress-connector/src/`
-- Drupal widget-chat tool: `extensions/cinatra-ai/drupal-connector/src/widget-chat-tool.ts`
-- WordPress widget-chat tool: `extensions/cinatra-ai/wordpress-connector/src/widget-chat-tool.ts`
+- Drupal connector: `drupal-mcp-connector/src/`
+- WordPress connector: `wordpress-mcp-connector/src/`
+- Drupal widget-chat tool: `drupal-mcp-connector/src/widget-chat-tool.ts`
+- WordPress widget-chat tool: `wordpress-mcp-connector/src/widget-chat-tool.ts`
 
 ---
 
