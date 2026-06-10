@@ -22,10 +22,11 @@ Execution worker
        └─ publishA2UiEvent → Redis Streams → client STATE_SNAPSHOT
 ```
 
-`A2UiAdapter` is wired in parallel at every lifecycle site in
-`packages/agents/src/execution.ts` (the per-execution-path files it used to be
-wired in — agentic execution, LangGraph execution, agentic resume — were
-deleted along with those execution paths).
+`A2UiAdapter` is wired alongside the AG-UI adapter via `DualAdapterDispatch`
+at the interrupt-emission sites in `packages/agents/src/execution.ts` (the
+per-execution-path files it used to be wired in — agentic execution, LangGraph
+execution, agentic resume — were deleted along with those execution paths).
+Run lifecycle events such as `RUN_STARTED` remain AG-UI-only.
 
 ---
 
@@ -105,7 +106,7 @@ Four mid-run review screens use the A2UI layer. Unlike the grouped setup form (w
 
 A2UI v0.9 has no DataTable primitive. Mid-run review screens use: `Column` wrapping a title `Text`, a `List` with a row template (or a `Card` for summary views), and a `Row` of Approve + Reject `Button` components.
 
-The four translator functions in `packages/agent-ui-protocol/src/a2ui-translator.ts` (re-exported via `server.ts`) build these trees and are keyed in `MID_RUN_TRANSLATORS` (`packages/agent-ui-protocol/src/a2ui-adapter.ts`) by xRenderer ID.
+The four translator functions in `packages/agent-ui-protocol/src/a2ui-translator.ts` build these trees and are keyed in `MID_RUN_TRANSLATORS` (`packages/agent-ui-protocol/src/a2ui-adapter.ts`) by xRenderer ID. Three of them are also re-exported via `server.ts`; the follow-ups translator is consumed only through the adapter's dispatch table.
 
 ### Recipe 1: Row-table — Recipients Review
 
