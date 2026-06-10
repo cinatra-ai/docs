@@ -329,7 +329,9 @@ The TypeScript worker is intentionally small:
 3. Pin the agent template version.
 4. Validate orchestrator dependencies.
 5. Collect required setup fields through synthetic-ID HITL.
-6. Dispatch to WayFlow.
+6. Dispatch — external-source templates (`template.sourceType === "external"`)
+   short-circuit to their external A2A server; everything else dispatches to
+   WayFlow.
 
 All agent execution behavior belongs in WayFlow agents or runtime-side tools.
 All background scheduling, retries, and cancellation stay in BullMQ.
@@ -365,14 +367,19 @@ This is the one place where the two layers meaningfully interact.
 - **BullMQ cancellation** (`cancelBackgroundJob(jobId)`) continues to be the
   operator-facing kill switch. It writes to the
   `background_job_cancellation_requests` metadata key.
-- **`runAgentBuilderExecutionJob` MUST poll `AbortController.signal.aborted`
-  every 750ms** through the same pattern as all other workers. On abort it must:
-  1. Stop the runtime execution.
-  2. Transition `agent_runs.status → stopped` via `updateAgentRunStatus`.
-  3. Emit `AgUiAdapter.onRunFinished("stopped")` for UI closure.
-- **Server-side timeout** (`run.timeoutSeconds`) is enforced in the worker around
-  the runtime stream loop. The runtime itself does not own this timeout; it is a
-  BullMQ-worker concern.
+- **Abort polling is not wired for agent runs today.** The shared worker
+  abort-poller (`registerBackgroundJobAbortController` in
+  `src/lib/background-jobs.ts`, 750 ms interval) is what other background
+  workers use, but `runAgentBuilderExecutionJob` does not register an
+  `AbortController` — the dispatch is a single blocking `sendTask`, so a
+  cancellation request takes effect only before dispatch, not mid-run. If
+  mid-run cancellation is added, it belongs at this worker boundary (poll
+  `signal.aborted`; stop the runtime execution; transition
+  `agent_runs.status → stopped`; emit `AgUiAdapter.onRunFinished("stopped")`
+  for UI closure) — not inside the runtime.
+- **Server-side timeout**: `agent_runs.timeoutSeconds` exists as a column but
+  is not enforced by the worker today. If enforced later, it is a
+  BullMQ-worker concern; the runtime does not own it.
 
 Do not push the BullMQ abort signal into the runtime as a runtime-native
 primitive. Keep the kill switch at the worker boundary.

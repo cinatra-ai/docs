@@ -52,8 +52,8 @@ Related docs:
     "cinatra": {
       "type": "leaf",
       "hitlScreens": [
-        "@cinatra-agents/email-outreach:contact-source-selector",
-        "@cinatra-agents/email-recipients:output"
+        "@cinatra-ai/email-outreach-agent:list-picker",
+        "@cinatra-ai/reviewer-agent:output"
       ]
     }
   },
@@ -169,7 +169,7 @@ Related docs:
 | `id` | `string` | Yes | Stable human-readable id (convention: `<slug>-flow`). |
 | `name` | `string` | Yes | Display name. |
 | `metadata.cinatra.type` | `"leaf" \| "orchestrator" \| "node" \| "flow"` | Yes | Determines compile topology. The compiler accepts both the legacy values (`leaf` / `orchestrator`) and the OAS-aligned ones (`node` / `flow`). |
-| `metadata.cinatra.hitlScreens` | `string[]` | No | Namespaced `@cinatra-agents/<slug>:<renderer-id>` ids of human-in-the-loop (HITL) renderers this agent may emit. |
+| `metadata.cinatra.hitlScreens` | `string[]` | No | Namespaced `@<vendor>/<package-slug>:<renderer-id>` ids of human-in-the-loop (HITL) renderers this agent may emit (e.g. `@cinatra-ai/email-outreach-agent:list-picker`). |
 | `inputs` | `PropertySchema[]` | Yes | Flat JSON Schema property list — compiler derives `inputSchema` from this + StartNode. |
 | `outputs` | `PropertySchema[]` | Yes | Flat JSON Schema property list — compiler derives `outputSchema` from EndNode. |
 | `start_node` | `{ $component_ref: string }` | Yes | Must resolve to a StartNode inside `$referenced_components`. |

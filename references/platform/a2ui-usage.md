@@ -35,7 +35,7 @@ The first concrete A2UI use case collapses sequential per-field human-in-the-loo
 
 ### How it activates
 
-1. Add `"x-renderer": "@cinatra/agent-builder:grouped-setup-form"` to **any one** of the agent's setup fields in `agent.json`.
+1. Add `"x-renderer": "@cinatra-ai/agent-builder:grouped-setup-form"` to **any one** of the agent's setup fields in `agent.json`.
 2. `execution.ts` checks `agentOptsIntoGrouped = pendingFields.some(f => properties[f]?.["x-renderer"] === GROUPED_SETUP_FORM_RENDERER_ID)`.
 3. When `pendingFields.length >= 2` **and** `agentOptsIntoGrouped` is true → grouped path. Otherwise → per-field path.
 
@@ -49,7 +49,7 @@ The first concrete A2UI use case collapses sequential per-field human-in-the-loo
         "type": "string",
         "format": "uri",
         "title": "Company website",
-        "x-renderer": "@cinatra/agent-builder:grouped-setup-form"
+        "x-renderer": "@cinatra-ai/agent-builder:grouped-setup-form"
       }
     }
   }
@@ -93,23 +93,23 @@ The following agents and workflows could adopt grouped setup via the same `x-ren
 | Future onboarding wizard | 4–6 fields | High value — multi-step replaced by one form |
 | Any agent with ≥ 3 required setup fields | ≥ 3 | Standard pattern to adopt |
 
-To adopt: add `"x-renderer": "@cinatra/agent-builder:grouped-setup-form"` to one field in the agent's `inputSchema`, bump `packageVersion` in `agent.json`.
+To adopt: add `"x-renderer": "@cinatra-ai/agent-builder:grouped-setup-form"` to one field in the agent's `inputSchema`, bump `packageVersion` in `agent.json`.
 
 ---
 
 ## Mid-Run HITL Surfaces
 
-Three mid-run review screens use the A2UI layer. Unlike the grouped setup form (which fires before the run starts), these surfaces fire during an already-running agent execution when the runtime emits a mid-run interrupt.
+Four mid-run review screens use the A2UI layer. Unlike the grouped setup form (which fires before the run starts), these surfaces fire during an already-running agent execution when the runtime emits a mid-run interrupt.
 
 ### Overview
 
 A2UI v0.9 has no DataTable primitive. Mid-run review screens use: `Column` wrapping a title `Text`, a `List` with a row template (or a `Card` for summary views), and a `Row` of Approve + Reject `Button` components.
 
-The three translator functions in `packages/agent-ui-protocol/src/a2ui-translator.ts` (re-exported via `server.ts`) build these trees and are keyed in `MID_RUN_TRANSLATORS` (`packages/agent-ui-protocol/src/a2ui-adapter.ts`) by xRenderer ID.
+The four translator functions in `packages/agent-ui-protocol/src/a2ui-translator.ts` (re-exported via `server.ts`) build these trees and are keyed in `MID_RUN_TRANSLATORS` (`packages/agent-ui-protocol/src/a2ui-adapter.ts`) by xRenderer ID.
 
 ### Recipe 1: Row-table — Recipients Review
 
-xRenderer: `@cinatra-agents/email-recipients:output`
+xRenderer: `@cinatra-ai/email-recipient-selection-agent:output`
 Translator: `translateRecipientsOutputToA2Ui`
 
 ```typescript
@@ -132,7 +132,7 @@ Column([
 
 ### Recipe 2: Card-list — Drafts Review
 
-xRenderer: `@cinatra-agents/email-drafts:output`
+xRenderer: `@cinatra-ai/email-drafting-agent:output`
 Translator: `translateDraftsOutputToA2Ui`
 
 ```typescript
@@ -153,7 +153,7 @@ Column([
 
 ### Recipe 3: Summary card — Send Confirmation
 
-xRenderer: `@cinatra-agents/email-sender:output`
+xRenderer: `@cinatra-ai/email-delivery-agent:output`
 Translator: `translateSendOutputToA2Ui`
 
 ```typescript
@@ -170,6 +170,13 @@ Column([
   ]),
 ])
 ```
+
+### Recipe 4: Card-list — Follow-ups Review
+
+xRenderer: `@cinatra-ai/email-follow-up-agent:output`
+Translator: `translateFollowupsOutputToA2Ui`
+
+Same card-list + Approve/Reject pattern as the drafts review: a `Column` with a title, a summary `Text` ("N follow-up drafts ready"), a vertical `List` of `Card`s (timing caption, subject, body), and the Approve/Reject `Row`.
 
 ### Approve/Reject Button action contract
 
@@ -188,13 +195,14 @@ HITL surfaces created during a mid-run gate currently linger until Redis Streams
 
 ### Dispatch table
 
-`A2UiAdapter.MID_RUN_TRANSLATORS` maps xRenderer IDs to translator functions:
+`MID_RUN_TRANSLATORS` (module-level in `a2ui-adapter.ts`) maps xRenderer IDs to translator functions:
 
 ```typescript
 const MID_RUN_TRANSLATORS: Record<string, MidRunTranslator> = {
-  "@cinatra-agents/email-recipients:output": translateRecipientsOutputToA2Ui,
-  "@cinatra-agents/email-drafts:output":     translateDraftsOutputToA2Ui,
-  "@cinatra-agents/email-sender:output":     translateSendOutputToA2Ui,
+  "@cinatra-ai/email-recipient-selection-agent:output": translateRecipientsOutputToA2Ui,
+  "@cinatra-ai/email-drafting-agent:output": translateDraftsOutputToA2Ui,
+  "@cinatra-ai/email-follow-up-agent:output": translateFollowupsOutputToA2Ui,
+  "@cinatra-ai/email-delivery-agent:output": translateSendOutputToA2Ui,
 };
 ```
 
