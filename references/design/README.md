@@ -24,7 +24,7 @@ This is the Cinatra design-system reference for contributors, alongside the [Use
 ## What's NOT in here
 
 - **Code-level styling rules** — those live in `.agents/skills/design/SKILL.md` (the design skill, user-invocable via `/design`). The page in this guide describes how that skill works; the skill itself is the operational source.
-- **The spec defect resolutions** (R1 running=indigo, R2 navy hairlines, R3 status retune, R4 fonts) and the rest of the operational rulebook (token map, conformance matrix, exception policy, uncovered-UI register) now live with the code, in the monorepo design skill (`cinatra/.agents/skills/design/operational/`). The [`design-system.html`](./design-system.html) spec is the normative reference; see the [operational pointer](operational/README.md).
+- **The spec defect resolutions** (R1 running=indigo, R2 navy hairlines, R3 status retune, R4 fonts) and the rest of the operational rulebook (token map, conformance matrix, exception policy, uncovered-UI register) now live with the code, in the monorepo design skill (`cinatra/.agents/skills/design/operational/`). The [`design-system.html`](./design-system.html) spec is the normative reference; see the [operational pointer](operational-rulebook.md).
 
 ## How this guide stays current
 
