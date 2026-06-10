@@ -124,8 +124,10 @@ Column([
     rowTemplate: "three-column",
   }),
   Row([
-    Button("Approve", { action: { event: { name: "approve_review_task", values: { literal: { approved: true } } } } }),
-    Button("Reject",  { action: { event: { name: "reject_review_task",  values: { literal: { approved: false } } } } }),
+    Button("Approve", { action: { event: { name: "approve_review_task",
+      context: { reviewTaskId: { literal: reviewTaskId }, values: { literal: { approved: true } } } } } }),
+    Button("Reject",  { action: { event: { name: "reject_review_task",
+      context: { reviewTaskId: { literal: reviewTaskId }, values: { literal: { approved: false } } } } } }),
   ]),
 ])
 ```
@@ -145,8 +147,10 @@ Column([
     })),
   }),
   Row([
-    Button("Approve", { action: { event: { name: "approve_review_task", values: { literal: { approved: true } } } } }),
-    Button("Reject",  { action: { event: { name: "reject_review_task",  values: { literal: { approved: false } } } } }),
+    Button("Approve", { action: { event: { name: "approve_review_task",
+      context: { reviewTaskId: { literal: reviewTaskId }, values: { literal: { approved: true } } } } } }),
+    Button("Reject",  { action: { event: { name: "reject_review_task",
+      context: { reviewTaskId: { literal: reviewTaskId }, values: { literal: { approved: false } } } } } }),
   ]),
 ])
 ```
@@ -165,8 +169,10 @@ Column([
   ]),
   Text("This action sends real emails and cannot be undone.", { variant: "warning" }),
   Row([
-    Button("Send now", { action: { event: { name: "approve_review_task", values: { literal: { approved: true } } } } }),
-    Button("Cancel",   { action: { event: { name: "reject_review_task",  values: { literal: { approved: false } } } } }),
+    Button("Send now", { action: { event: { name: "approve_review_task",
+      context: { reviewTaskId: { literal: reviewTaskId }, values: { literal: { approved: true } } } } } }),
+    Button("Cancel",   { action: { event: { name: "reject_review_task",
+      context: { reviewTaskId: { literal: reviewTaskId }, values: { literal: { approved: false } } } } } }),
   ]),
 ])
 ```
@@ -187,7 +193,7 @@ Both buttons use the `action.event` pattern:
 | Approve | `"approve_review_task"` | `{ "approved": true }` |
 | Reject  | `"reject_review_task"`  | `{ "approved": false }` |
 
-The `reviewTaskId` is carried separately in the interrupt envelope; the button action fires `approveReviewTaskServerAction(reviewTaskId, values)` on the TS side.
+The `reviewTaskId` rides in the same event context (`context.reviewTaskId.literal`); on the TS side the approval flow goes through the `approveReviewTask` / `rejectReviewTask` server actions (`packages/agents/src/actions.ts`), whose core logic is `approveReviewTaskInternal` in `review-task-actions.ts`.
 
 ### Surface lifecycle (known limitation)
 
