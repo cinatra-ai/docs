@@ -1,6 +1,6 @@
-# Design operational rulebook moved
+# Design operational rulebook
 
-The design operational rulebook now lives with the Cinatra monorepo code it governs, in the design skill:
+The design operational rulebook lives with the Cinatra monorepo code it governs, in the design skill:
 
 `cinatra/.agents/skills/design/operational/` — `01-resolutions.md`, `02-token-map.md`, `03-conformance-matrix.md`, `04-exception-policy.md`, `05-uncovered-ui-register.md`.
 
