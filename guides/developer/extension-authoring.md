@@ -121,7 +121,7 @@ Manifest fields (`CinatraManifest`, `packages/sdk-extensions/src/manifest.ts`):
 - **`requestedHostPorts`** — the least-privilege ports the extension requests (see below).
 - **`uiSurface`** — `schema-config` (the host renders a generic schema-driven form from `configSchema` — fully hot-pluggable) or `bundled-react` (a bespoke setup page that ships in the build).
 - **`devFixtures`** — a path to a declarative dev-mode fixtures file (see [Extension dev fixtures](../../references/platform/extension-dev-fixtures.md)).
-- **`migrations`** — declarative, idempotent, extension-owned migration descriptors.
+- **`migrationsDir`** — a package-relative directory of standard node-pg-migrate migration modules the HOST runs for trusted-signed installs (see [Shipping schema migrations](#shipping-schema-migrations)). The pre-#118 `migrations` JSON-DSL field is retired and rejected fail-closed.
 - **`dependencies`** — the canonical cross-kind dependency graph (below).
 
 ---
@@ -202,6 +202,32 @@ Write a `destroy(ctx)` hook that deregisters the surfaces your `register(ctx)` a
 - **Hard removal removes scoped settings and secrets** — uninstall/force-delete/purge clean up the extension's own scoped state.
 
 Author for both: keep object data restorable across archive, and make `destroy` idempotent. Full model: [Extension data ownership](../../references/platform/extension-data-ownership.md). Declarative demo data for dev boots: [Extension dev fixtures](../../references/platform/extension-dev-fixtures.md).
+
+### Shipping schema migrations
+
+When your extension owns Postgres tables, ship **standard
+[node-pg-migrate](https://github.com/salsita/node-pg-migrate) migrations** in a
+directory declared via `cinatra.migrationsDir` (e.g. `cinatra/migrations`).
+The host applies them — into the same shared, namespaced migration ledger the
+core schema uses — at install (before finalize: a failed migration aborts the
+install), at boot, and at hot-activate, **only for trusted-signed packages**.
+
+The contract in brief:
+
+- Modules are plain runtime ESM exporting `up(pgm)`/`down(pgm)`, named
+  `ext_<scope>_<pkg>__NNNN_<short-description>.mjs` — the prefix derives from
+  your package name (`@acme/crm-connector` → `ext_acme_crm-connector__`), which
+  must be scoped lowercase kebab-case. Sequences are append-only and shipped
+  migrations are immutable; the directory must contain migrations only.
+- Migrations are raw SQL on the shared multi-tenant schema: touch **only your
+  own `ext_<scope>_<pkg>_…` tables**, carry `org_id text NOT NULL`, and keep
+  every statement safe to re-run.
+- An unsigned or bootstrap-trusted package that declares `migrationsDir` is
+  refused; workflow-path installs cannot declare host migrations at all.
+
+Full authoring contract: the `@cinatra-ai/sdk-extensions` README
+(`packages/sdk-extensions/README.md`, "Schema migrations") and
+`migrations/README.md` in the cinatra repository.
 
 ---
 
