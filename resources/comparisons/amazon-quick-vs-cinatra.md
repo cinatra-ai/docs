@@ -29,9 +29,9 @@ The product is explicitly agentic — *"scheduling, building deliverables, creat
 - **Quick Research** — a deep-research agent producing cited reports
 - **Quick Index** — a pooled enterprise knowledge index
 
-A native desktop app for macOS and Windows has local file, calendar, and email access and runs scheduled background agents; browser extensions exist for Chrome, Edge, and Firefox. AWS states that it does not use customer data to train models on any plan, and that the service is HIPAA eligible, FedRAMP authorized, and SOC 2 audited. The desktop app's conversation history, memory, knowledge graph, and file indexes are stored locally and never uploaded to the cloud, per AWS's product pages (a vendor claim; hosted workspace data lives in AWS).
+A native desktop app for macOS and Windows has local file, calendar, and email access and runs scheduled background agents; browser extensions exist for Chrome, Edge, and Firefox. AWS's FAQ states that *"AWS does not use your data to train models in any Amazon Quick plan — free or paid"* and that the service is *"HIPAA eligible, FedRAMP authorized, and SOC 2 audited."* The desktop product builds what AWS calls a personal knowledge graph of your people, projects, and how your work connects across tools, which AWS describes as private to you; hosted workspace data lives in AWS.
 
-Pricing (as of June 2026): a Free tier; Plus at $20/user/month (annual); Professional at $20/user/month plus a $250/account/month infrastructure fee, which includes 4 agent hours per month (2 agentic + 2 Quick Research), a 50 GB pooled index, Quick Automate, Quick Sight scenarios, and RBAC/SSO; Enterprise at $40/user/month plus the $250 fee, with 8 hours, data sovereignty controls, asset certification, and 24/7 support. Overages are metered: $3 per agentic hour, $6 per Quick Research hour, $5/GB/month of index storage.
+Pricing (as of June 2026): a Free tier; Plus at $20/user/month (annual); Professional at $20/user/month plus a $250/account/month infrastructure fee, which includes 4 agent hours per month (2 agentic + 2 Quick Research), 50 GB of index storage per user pooled across the organisation, Quick Automate, Quick Sight scenarios, and RBAC/SSO; Enterprise at $40/user/month plus the $250 fee, with 8 hours (4 agentic + 4 Quick Research), data sovereignty controls, asset certification, and 24/7 support. Overages are metered: $3 per agentic hour, $6 per Quick Research hour, $5/GB/month of index storage beyond the pooled allocation.
 
 ## What Cinatra is
 
@@ -56,7 +56,7 @@ Cinatra is a self-hosted application platform. Every layer — the Next.js app, 
 
 ### 4. Connectors
 
-- **Amazon Quick:** a curated catalog — Slack, Microsoft Teams, Outlook, Word/Excel/PowerPoint, Salesforce, Jira, ServiceNow, CRMs, databases — plus first-class MCP support: a Connectors integration to remote MCP servers (SSE and streamable HTTP transports; OAuth 3LO/2LO or no auth), VPC connectivity for private MCP servers (added June 2026), and a hosted "MCP Actions" catalog (Asana, Jira/Confluence, Box, Canva, HubSpot, Notion, Linear, Zapier, and others). AWS curates the catalog; there is no user-publishable extension marketplace — extensibility is bring-your-own MCP server plus custom agents.
+- **Amazon Quick:** a curated catalog — Slack, Microsoft Teams, Outlook, Word/Excel/PowerPoint, Salesforce, Jira, ServiceNow, CRMs, databases — plus first-class MCP support. Per AWS's documentation, the MCP integration connects to remote MCP servers only (HTTP streaming preferred over server-sent events; local stdio is not supported), authenticates via user OAuth, service-to-service credentials, or no auth, reaches private MCP servers through VPC connections, and requires an Enterprise subscription. A hosted "MCP Actions" catalog (Asana, Jira/Confluence, Box, Canva, HubSpot, Notion, Linear, Zapier, and others) ships alongside it. AWS curates the catalog; there is no user-publishable extension marketplace — extensibility is bring-your-own MCP server plus custom agents.
 - **Cinatra:** first-class connector extensions for Gmail, Google Calendar, Apollo, LinkedIn, WordPress, Drupal, Apify, YouTube, GitHub, routed through Nango (the OAuth gateway brokering connector credentials). New connectors are TypeScript packages you write and publish to your own registry; the marketplace is shared across connected Cinatra instances.
 
 ### 5. UI / human-in-the-loop
@@ -66,12 +66,12 @@ Cinatra is a self-hosted application platform. Every layer — the Next.js app, 
 
 ### 6. Memory
 
-- **Amazon Quick:** Quick Index pools enterprise knowledge for the workspace (50 GB included on team tiers, $5/GB/month beyond); the desktop app keeps conversation history, memory, a knowledge graph, and file indexes locally, per AWS.
+- **Amazon Quick:** Quick Index pools enterprise knowledge for the workspace (50 GB per user pooled organisationally on the team tiers, $5/GB/month beyond); the desktop product builds a personal knowledge graph of people, projects, and how work connects across tools, which AWS describes as private to the user.
 - **Cinatra:** skills-as-memory — context captured into versioned `SKILL.md` files that persist across runs, including per-user custom skills consolidated from HITL edits — plus durable run state in your PostgreSQL.
 
 ### 7. Hosting, data control, and compliance
 
-- **Amazon Quick:** managed SaaS in AWS's cloud only. AWS states customer data is not used to train models on any plan, and cites HIPAA eligibility, FedRAMP authorization, and SOC 2 auditing. Data sovereignty controls are an Enterprise-tier feature.
+- **Amazon Quick:** managed SaaS in AWS's cloud only. AWS's FAQ states customer data is not used to train models on any plan, and cites HIPAA eligibility, FedRAMP authorization, and SOC 2 auditing. Data sovereignty controls are an Enterprise-tier feature.
 - **Cinatra:** all run state, event streams, files, credentials (encrypted with your key), and the audit trail live in your environment. Compliance posture is whatever your own infrastructure and processes provide — Cinatra does not hold your data, so there is no vendor attestation to depend on.
 
 ### 8. Models
@@ -91,7 +91,7 @@ Cinatra is a self-hosted application platform. Every layer — the Next.js app, 
 
 ## Where They Overlap
 
-Both target business teams that want agents, not just chat: scheduled and background execution, no-code agent authoring, deep research with cited output (Quick Research; Cinatra's web-research agents), dashboards (Quick Sight; Cinatra's editable dashboard layer), team-shared agent work (Spaces; Cinatra's user/team/organization/workspace scoping), and MCP as the integration fabric — Quick consumes remote MCP servers, and Cinatra exposes one, so a Quick workspace could in principle reach a Cinatra instance's primitives through Quick's MCP connector.
+Both target business teams that want agents, not just chat: scheduled and background execution, no-code agent authoring, deep research with cited output (Quick Research; Cinatra's web-research agents), dashboards (Quick Sight; Cinatra's editable dashboard layer), team-shared agent work (Spaces; Cinatra's user/team/organization/workspace scoping), and MCP as the integration fabric — Quick consumes remote MCP servers, and Cinatra exposes one, so a Quick workspace could theoretically reach a Cinatra instance's primitives through Quick's MCP connector (an Enterprise-tier capability on the Quick side, and untested as a pairing).
 
 ## When each makes sense
 
@@ -114,4 +114,4 @@ Amazon Quick is AWS's managed agentic workspace: a polished product family (Spac
 
 ## Notes on source
 
-This comparison was assembled from AWS's public Amazon Quick product, pricing, FAQ, and documentation pages at <https://aws.amazon.com/quick/>. Details AWS does not state on those pages — the late-April 2026 launch date, the Amazon Q Business lineage, and Bedrock as the model layer — come from third-party coverage and are flagged as such above. Where the product pages are silent (underlying models, approval UX, multi-agent composition), this page says so rather than guessing. Pricing and feature names reflect June 2026.
+This comparison was assembled from AWS's public Amazon Quick product, pricing, and FAQ pages at <https://aws.amazon.com/quick/>, the MCP integration page of the Amazon Quick user guide at <https://docs.aws.amazon.com/quick/latest/userguide/mcp-integration.html>, and AWS's announcements of the MCP Actions catalog. Details AWS does not state on those pages — the late-April 2026 launch date, the Amazon Q Business lineage, and Bedrock as the model layer — come from third-party coverage and are flagged as such above. Where the product pages are silent (underlying models, approval UX, multi-agent composition), this page says so rather than guessing. Pricing and feature names reflect June 2026.
