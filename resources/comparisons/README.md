@@ -12,6 +12,8 @@ How Cinatra relates to the products people most often ask about. Each page is a 
 | [Claude Cowork](claude-cowork-vs-cinatra.md) | Anthropic's desktop product for an individual to delegate messy knowledge work and get back a deliverable | a team needs durable, governed, shared multi-agent workflows |
 | [Claude Managed Agents](managed-agents-vs-cinatra.md) | Anthropic's developer-facing managed-agent API/runtime | you want open standards and self-hosting instead of a managed service |
 | [Vercel Open Agents](vercel-open-agents-vs-cinatra.md) | an agent framework/runtime you assemble yourself | you want a full platform — persistence, human-in-the-loop (HITL), marketplace — not just a runtime |
+| [Amazon Quick](amazon-quick-vs-cinatra.md) | AWS's managed agentic assistant/workspace for business teams, AWS-hosted, curated catalog plus remote-MCP connectors | you want to own the runtime, the data, and the extension surface instead of renting a managed product |
+| [Runwork](runwork-vs-cinatra.md) | a cloud SaaS coordination layer across the AI agents a team already uses (shared skills, automations, adoption metrics) | you want the agents themselves — self-hosted, durable, portable — not just coordination of external tools |
 
 Each row links to the full head-to-head.
 

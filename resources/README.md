@@ -8,3 +8,5 @@ Background, positioning, and evaluation material — the "why Cinatra, and how d
   - [Claude Cowork vs Cinatra](comparisons/claude-cowork-vs-cinatra.md)
   - [Vercel Open Agents vs Cinatra](comparisons/vercel-open-agents-vs-cinatra.md)
   - [Managed Agents (Anthropic) vs Cinatra](comparisons/managed-agents-vs-cinatra.md)
+  - [Amazon Quick vs Cinatra](comparisons/amazon-quick-vs-cinatra.md)
+  - [Runwork vs Cinatra](comparisons/runwork-vs-cinatra.md)
