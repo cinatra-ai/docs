@@ -30,6 +30,7 @@ The administration surface at `/configuration` groups the platform-level control
 - [LLM providers](llm-providers.md) — provider credentials, per-provider model selection, and how routing applies platform-wide
 - [Cost and usage](cost-and-usage.md) — per-provider, per-agent, and per-skill spend, plus budgets
 - [Telemetry and logging](telemetry-and-logging.md) — what the instance records, where to watch it, and audit trails
+- [The Cinatra Drupal module](drupal-module.md) — install, connect, the `use Cinatra assistant` permission, the local-widget / server-side token delivery model, and uninstall
 - The [Hosting Guide → Configuration](../hosting/configuration.md) page documents the environment variables behind the in-app settings; admins sometimes need to coordinate with whoever operates the deployment
 
 ## How admin actions are audited

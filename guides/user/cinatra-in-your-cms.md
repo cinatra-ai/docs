@@ -89,3 +89,4 @@ Disconnecting the widget cleanly is symmetric to installing it: rotate the API k
 - The capability fabric the in-CMS assistant rides on: [A connected ecosystem of capabilities](connected-ecosystem.md)
 - How the assistant pauses for review before writing: [Human-in-the-loop by design](human-in-the-loop.md)
 - The protocol-level reference for the integration: [Integrating Cinatra with a CMS](../../references/platform/integrating-with-a-cms.md) in the Developer Guide
+- The step-by-step install, connect, and permissions reference for Drupal: [The Cinatra Drupal module](../admin/drupal-module.md) in the Admin Guide
