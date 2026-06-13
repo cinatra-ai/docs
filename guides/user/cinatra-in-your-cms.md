@@ -85,6 +85,7 @@ Disconnecting the widget cleanly is symmetric to installing it: rotate the API k
 
 ## Where to go next
 
+- The step-by-step WordPress setup: [The Cinatra WordPress plugin](wordpress-plugin.md) — install, connect, permissions, troubleshooting, and uninstall
 - The capability fabric the in-CMS assistant rides on: [A connected ecosystem of capabilities](connected-ecosystem.md)
 - How the assistant pauses for review before writing: [Human-in-the-loop by design](human-in-the-loop.md)
 - The protocol-level reference for the integration: [Integrating Cinatra with a CMS](../../references/platform/integrating-with-a-cms.md) in the Developer Guide

@@ -36,6 +36,7 @@ If you administer the `/configuration/*` area, see the [Admin Guide](../admin/RE
 - [Marketplace and extensions](marketplace-and-extensions.md) — find, install, and use the extensions that add new agents, connectors, skills, and workflows
 - [Dashboards](dashboards.md) — the dashboards platform and the `/agents` dashboard
 - [Cinatra in your CMS](cinatra-in-your-cms.md) — the in-CMS AI assistant for WordPress and Drupal editors
+- [The Cinatra WordPress plugin](wordpress-plugin.md) — install, connect, and use the WordPress admin assistant, and how it is delivered safely
 - [Use Cinatra from Claude Desktop and Codex](mcp-clients.md) — connect Claude Desktop, Codex, Claude.ai, or ChatGPT to your workspace over MCP
 
 ---
