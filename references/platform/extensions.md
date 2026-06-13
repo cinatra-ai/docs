@@ -149,7 +149,7 @@ The canonical list is `HOST_PORT_NAMES`. The surface is presented in full to the
 
 Every extension carries three manifest files:
 
-1. **`package.json` `cinatra` block** — the live manifest (`CinatraManifest`, `packages/sdk-extensions/src/manifest.ts`). Declares `kind`, `apiVersion`, the loader/ABI fields (`serverEntry`, `requestedHostPorts`, `sdkAbiRange`, `uiSurface`, `migrations`, `configSchema`, `devFixtures`), and the canonical `dependencies` graph.
+1. **`package.json` `cinatra` block** — the live manifest (`CinatraManifest`, `packages/sdk-extensions/src/manifest.ts`). Declares `kind`, `apiVersion`, the loader/ABI fields (`serverEntry`, `requestedHostPorts`, `sdkAbiRange`, `uiSurface`, `migrationsDir`, `configSchema`, `devFixtures`), and the canonical `dependencies` graph. (The pre-#118 `migrations` JSON-DSL field is retired and rejected fail-closed — use `migrationsDir`.)
 
    ```jsonc
    {
@@ -239,12 +239,12 @@ Full distribution mechanics — the submit → approve → promote → registry-
 
 ## Conformance gates
 
-The "extensible" claim is the conjunction of a runtime contract test and structural ratchet gates:
+The "extensible" claim is the conjunction of a runtime contract test and structural gates (now pinned-empty zero-floor — see [Extension IoC safeguards](extension-ioc-safeguards.md)):
 
 - **Golden discovery conformance** (`packages/extensions/src/__tests__/extension-discovery-conformance.test.ts`) — asserts the lifecycle suppression / split-brain guard, the visibility authority, `locked`-is-discoverable, unmigrated-kind recording, and reader-throw isolation through the public dispatcher. It is the template every kind's reader must satisfy.
 - **Activation parity** — both loaders emit the same `NormalizedExtensionRecord` and run the identical activation driver, so dev and prod activation cannot drift.
-- **Core → extension import ban** (`scripts/audit/core-extension-import-ban.mjs`) — forbids core (`src/`) gaining a new named-extension import.
-- **Core → extension instance-coupling ban** (`scripts/audit/core-extension-instance-coupling-ban.mjs`) — bans new hardcoded extension-instance string/path references in core.
+- **Core → extension import ban** (`scripts/audit/core-extension-import-ban.mjs`) — forbids *any* core (`src/`) named-extension import (baseline pinned empty: any edge fails CI).
+- **Core → extension instance-coupling ban** (`scripts/audit/core-extension-instance-coupling-ban.mjs`) — forbids *any* hardcoded extension-instance string/path reference in core (baseline pinned empty).
 - **Naming conformance** (`packages/extensions/src/__tests__/naming-conformance.test.ts`) — enforces the package-naming, scope, and kind rules on every extension `package.json`.
 - **Dev-fixtures gate** (`scripts/audit/dev-fixtures-gate.mjs`) — enforces the declarative-only dev-fixtures contract.
 - **README gate** (`scripts/audit/extension-readme-gate.mjs`) — enforces the marketplace-ready README structure.

@@ -65,6 +65,8 @@ The package exposes the activation contract through `package.json` `exports` sub
 
 This is the split-entrypoint model: a server entry (`./register`) runs the privileged half under `server-only`; client widget entries (`./setup-page`, `./settings-page`) carry true client surfaces. Keep `server-only`/DB code out of the `"use client"` entrypoints.
 
+> **You author in TypeScript source; the package you publish ships a BUILT artifact.** The source shape above (`./register` → `./src/register.ts`) is what you author in-repo and what the first-party static-bundle path compiles at image build. The marketplace **runtime store activates built, Node-importable JavaScript artifacts only**: the published package's `cinatra.serverEntry` must resolve to a `.mjs`/`.cjs`/`.js` file inside the tarball (a top-level `register.mjs` is the recommended shape) — a `.ts` source entry is **refused at install** (and at submit-time preflight). You do not hand-build this: publishing through the release workflow runs the canonical builder (`scripts/extensions/build-server-entry.mjs`), which bundles your source entry into a top-level `register.mjs` and rewrites the *packed* manifest to `"serverEntry": "./register.mjs"` (your source tree is untouched). The full normative contract — the resolver semantics, the recommended published shape, and the `dependencyMode` library-bundling options — is [The runtime-store `serverEntry` contract](https://github.com/cinatra-ai/cinatra/blob/main/docs/extension-server-entry-contract.md). Do not hand-roll a tarball that points `serverEntry` at `.ts` source.
+
 ### The `register(ctx)` server entry
 
 The server entry exposes `register(ctx)` (the host calls it once at activation with the granted port subset) and optionally `bootstrap(ctx)` (runs after every extension has registered, so it can rely on peers' capabilities) and `destroy(ctx)` (teardown on hot-reload/uninstall):
@@ -116,7 +118,7 @@ Author the manifest under the `package.json` `cinatra` block. The published-prov
 Manifest fields (`CinatraManifest`, `packages/sdk-extensions/src/manifest.ts`):
 
 - **`kind`, `apiVersion`** — the identity fields every extension declares.
-- **`serverEntry`** — the compiled server entry the loaders dynamically import (`./register`). Omit for a payload-only kind (a skill bundle).
+- **`serverEntry`** — the server entry the loaders dynamically import. You declare the source subpath (`./register`) in-repo; the *published* package's manifest resolves it to a built ESM file (`./register.mjs`) — see the built-artifact note above. Omit for a payload-only kind (a skill bundle).
 - **`sdkAbiRange`** — the SDK ABI range the extension was built against. Declare `"^2"` to require any SDK ABI 2.x host. An unpinned (`*` / absent) range is treated as compatible; a malformed range fails closed. Build against the current `SDK_EXTENSIONS_ABI_VERSION` exported from `@cinatra-ai/sdk-extensions`.
 - **`requestedHostPorts`** — the least-privilege ports the extension requests (see below).
 - **`uiSurface`** — `schema-config` (the host renders a generic schema-driven form from `configSchema` — fully hot-pluggable) or `bundled-react` (a bespoke setup page that ships in the build).
@@ -145,7 +147,7 @@ Manifest fields (`CinatraManifest`, `packages/sdk-extensions/src/manifest.ts`):
 
 Declare dependencies **by capability, not by concrete provider.** An email-delivery agent depends on the email-send facade plus a rule requiring at least one concrete provider (Gmail or Resend), not a hard Gmail pin. This is what lets the host resolve a provider at runtime through `ctx.capabilities`.
 
-`versionConstraint` is one of `semver-range`, `exact`, or `git-ref`. Legacy `agentDependencies` / `connectorDependencies` maps normalize into `dependencies` deterministically — prefer declaring canonical `dependencies` directly.
+`versionConstraint` is one of `semver-range`, `exact`, or `git-ref`. **Declare `semver-range` or `exact` for an installable package** — a `git-ref` constraint on a dependency edge is **refused at install** (the v1 version model resolves registry coordinates only, so a git-ref target is not installable). Legacy `agentDependencies` / `connectorDependencies` maps normalize into `dependencies` deterministically — prefer declaring canonical `dependencies` directly.
 
 ---
 
@@ -224,6 +226,13 @@ The contract in brief:
   every statement safe to re-run.
 - An unsigned or bootstrap-trusted package that declares `migrationsDir` is
   refused; workflow-path installs cannot declare host migrations at all.
+- **Only ship host migrations if your publishing channel emits a verified
+  signature for the package.** Running host DDL requires the `trusted-signed`
+  tier — a verified Ed25519 signature against a host-trusted key. A package
+  that declares `migrationsDir` but is served unsigned (or signed only with a
+  key the host does not trust) is refused import on every instance, regardless
+  of the `CINATRA_EXTENSION_REQUIRE_SIGNATURES` lever. See the precise
+  producer/verifier signing status in [Extension publishing](extension-publishing.md#extension-signing-and-the-activation-trust-root).
 
 Full authoring contract: the `@cinatra-ai/sdk-extensions` README
 (`packages/sdk-extensions/README.md`, "Schema migrations") and

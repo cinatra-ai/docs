@@ -52,9 +52,9 @@ they pass, the system is extensible by definition; if any fails, it is not.
 | Control | What it proves | Where |
 |---|---|---|
 | **Runtime contract** — golden conformance test | discovery = lifecycle-live manifests (`active\|locked`) ∩ per-kind visible native rows; archive / uninstall **suppress** stale native rows; `locked` stays discoverable | `packages/extensions/src/__tests__/extension-discovery-conformance.test.ts` (the **Canonical extension invariants** required job) |
-| **Structural contract 1** — import-ban | no NEW core `import` of a specific extension package | `scripts/audit/core-extension-import-ban.mjs` (shrink-only baseline) |
-| **Structural contract 2** — instance-coupling | no NEW core **string / path** reference to a specific extension instance | `scripts/audit/core-extension-instance-coupling-ban.mjs` (shrink-only baseline) |
-| **Structural contract 3** — discovery-bypass | no NEW surface reads a native store directly instead of the dispatcher | `scripts/audit/discovery-dispatcher-bypass-ban.mjs` |
+| **Structural contract 1** — import-ban | **no** core `import` of a specific extension package | `scripts/audit/core-extension-import-ban.mjs` (baseline pinned EMPTY) |
+| **Structural contract 2** — instance-coupling | **no** core **string / path** reference to a specific extension instance | `scripts/audit/core-extension-instance-coupling-ban.mjs` (baseline pinned EMPTY) |
+| **Structural contract 3** — discovery-bypass | **no** surface reads a native store directly instead of the dispatcher | `scripts/audit/discovery-dispatcher-bypass-ban.mjs` (baseline pinned EMPTY) |
 
 The runtime conformance test is the canonical **behavioral** truth: it asserts
 the discovery = active-manifests ∩ visible-native-rows intersection directly,
@@ -67,18 +67,26 @@ are the canonical **structural** truth.
 The two coupling vectors that let core drift back toward naming a specific
 extension are banned outright:
 
-- **Import-ban** — no NEW core `import` resolves to a specific extension package.
+- **Import-ban** — no core `import` resolves to a specific extension package.
   Core depends on the SDK contract and the dispatcher, not on any one extension.
-- **Instance-coupling ban** — no NEW core **string literal, JSX text, schema
+- **Instance-coupling ban** — no core **string literal, JSX text, schema
   description, prompt, path, or package-metadata branch** names a specific
   extension instance. This closes the gap that a pure import-ban misses (a
   hardcoded package name in a string, or a hand-built `extensions/<scope>/<name>`
   path).
 
-Both are **no-new-rot ratchets**: the baseline can only **shrink**. A monotonic
-guard (`*_BASE` env compared against the base ref, with a fail-closed
-`rev-parse`) blocks regenerating the baseline to pass, and decoupling work drives
-each baseline toward **0**.
+Both baselines are now **pinned EMPTY** — the zero-floor end-state. The
+zero-tolerance ratchet already drove the residual coupling (hundreds of
+occurrences at the start of the cutover) down to **zero**, and the gates have
+since flipped to the honest-zero contract: **any** current core→extension
+import or instance reference fails CI immediately (there is no tolerated set
+left to diff against), a non-empty committed baseline is itself a hard failure,
+and `--write-baseline` refuses to write a non-empty baseline. **Zero is the
+floor and the ceiling.** The monotonic guards (`*_BASE` env compared against the
+base ref, with a fail-closed `rev-parse`, plus the frozen scanner epoch) survive
+only as tamper checks — a scanner fix that reveals a previously hidden reference
+must land in the same change that removes it (or routes it into the documented,
+currently-empty data-contract-ID allowlist).
 
 ### The `@/`-import ban (core stays decoupled from extensions)
 
@@ -98,8 +106,11 @@ on any line blocks the change.
 
 1. **No instance naming.** No core import, string literal, JSX text, schema
    description, prompt, path, or package-metadata branch names a *specific*
-   extension instance — except existing ratcheted baseline debt or
-   `src/lib/generated/**` (the legit data-driven install list).
+   extension instance. The only sanctioned exceptions are the explicit
+   generator-emitted manifest files (the data-driven install list, not the whole
+   `src/lib/generated/` directory) and the documented data-contract-ID allowlist
+   (currently empty; entries are minted only by owner ruling). There is no
+   tolerated "existing debt" set left — the baseline is empty.
 2. **Discovery via the dispatcher.** Discovery surfaces call
    `discoverActiveExtensionCapabilities`; direct native readers are allowed
    **only** inside the sanctioned per-kind handler `listActive` facet.
@@ -111,14 +122,19 @@ on any line blocks the change.
 5. **Kind-generic, not instance-specific.** Per-kind code is generic over the
    kind; instance behavior comes from the extension's manifest / capabilities /
    metadata, never `if packageName === …`.
-6. **Generic routing.** UI / render / tool routing prefers generic capability and
-   renderer registries; package-prefixed renderer keys are baseline debt unless
-   specifically migrated.
+6. **Generic routing.** UI / render / tool routing goes through generic
+   capability and renderer registries; a package-prefixed renderer key in core
+   is a banned instance reference (the empty instance-coupling baseline catches
+   it) — route by capability/kind, not by package name.
 7. **New kinds.** A genuinely new extension *kind* ships a conformant `listActive`
    facet plus a per-kind intersection test. (New *instances* need no code — that
    is the point.)
-8. **Ratchets only shrink.** No no-new-rot baseline grows. If a change removes
-   debt, it regenerates the relevant baseline in the same change.
+8. **Baselines stay at zero.** The structural baselines are pinned empty: a
+   change may never introduce a core→extension import, instance reference, or
+   discovery bypass, and may never produce a non-empty committed baseline. A
+   scanner fix that surfaces a previously hidden reference lands in the same
+   change that removes it (or owner-routes it into the data-contract-ID
+   allowlist).
 9. **CI wiring is part of the contract.** The gates and their tests stay required
    checks.
 
@@ -126,9 +142,10 @@ on any line blocks the change.
 
 When a surface statically couples to an extension instance: replace the hardcoded
 reference with a **manifest / registry lookup** (the dispatcher for discovery; the
-catalog or native store via the kind handler for content), then **regenerate the
-relevant baseline** so the gate locks the reduction. Each removed reference is
-permanent — the ratchet cannot let it back.
+catalog or native store via the kind handler for content). Because the baselines
+are pinned empty, there is nothing to regenerate — the gate already refuses every
+instance reference, so the decoupled state is the only state that passes. Each
+removed reference is permanent: the zero floor cannot let it back.
 
 ---
 
