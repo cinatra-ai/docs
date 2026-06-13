@@ -13,6 +13,7 @@ If you administer the `/configuration/*` area, see the [Admin Guide](../admin/RE
 
 ## Core capabilities
 
+- [The built-in AI assistant](built-in-ai-assistant.md) — app-wide awareness, run agents, build workflows and dashboards, @-mention multiple assistants in a shared thread
 - [A connected ecosystem of capabilities](connected-ecosystem.md) — how agents, connectors, skills, objects, lists, and dashboards compose
 - [Projects and ownership](projects-and-ownership.md) — projects that bound context, and the user / team / organization / workspace ownership levels
 - [Human-in-the-loop by design](human-in-the-loop.md) — pause for review, edit, approve, resume
