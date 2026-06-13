@@ -91,7 +91,7 @@ In short: removing a published version does not uninstall it from instances that
 
 ## Extension signing and the activation trust root
 
-Beyond the integrity (digest) gate, consuming instances can verify an **Ed25519 signature** over a published version before activating its code in-process. This is a consumer-side verification: the app checks a signature on what it received — it is not something the in-repo publish/submit path performs today.
+Beyond the integrity (digest) gate, consuming instances can verify an **Ed25519 signature** over a published version before activating its code in-process. This is a consumer-side verification: the app checks a signature on what it received. The in-repo publish/submit path (`cinatra extensions submit`) does **not** sign; the signature, when present, is attached by the marketplace publish channel. See [Producer status: what signs, and when](#producer-status-what-signs-and-when) for exactly what is signed today.
 
 ### The verification mechanism (consumer-side)
 
@@ -109,19 +109,23 @@ Verification distinguishes three cases:
 
 Distinguish absent from invalid: an absent signature is tolerated during transition; an invalid one is always refused.
 
-### `cinatra extensions submit` does not sign
+### Producer status: what signs, and when
 
-Signing a published package is **not** wired into the in-repo publish path. The `cinatra extensions submit` command submits the built **tarball and digest metadata only** — it does **not** sign packages, and publishing does not attach a signature. Producer-side signing at publish time is a separate, owner-gated rollout step, not a property of `cinatra extensions submit` today. Do not read "publishing now signs the tarball" into this page — it does not.
+State the producer status precisely — it is **not** symmetric with the verifier:
+
+- **The in-repo publish path does not sign.** `cinatra extensions submit` submits the built **tarball and digest metadata only**; it does not produce a signature. Do not read "publishing now signs the tarball" into the in-repo flow — it does not.
+- **Producer-side signing, where configured, emits a v1 signature only.** The signing tooling that runs at publish time produces a `cinatra-extension-signature/v1` signature over `packageName` + `version` + the tarball's sha512 SRI, served on `dist.cinatraSignature`. When no signing key is configured, the package is published **unsigned** (the transition window). A v1 producer cannot sign a closure-mode package — see below.
+- **v2 / library-dependency closure is verifier-complete but producer-pending.** The host **verifier** already implements both v1 and the v2 closure scheme (a v2 signature additionally binds the `closureHash` over the materialization plan, with hard downgrade refusal — a closure package can never reach a trusted tier on a v1 signature). But there is **no shipped v2 producer** yet: the v1 signing tool refuses to sign a `dependencyMode: "closure"` package outright. Until a documented v2 producer ships, **`inline` is the only author-adoptable dependency mode** and closure-mode packages cannot be published end-to-end. The full v2/closure contract is [Extension library-dependency closure](https://github.com/cinatra-ai/cinatra/blob/main/docs/extension-library-closure.md).
 
 Consumer-side enforcement is governed by a single operator lever, `CINATRA_EXTENSION_REQUIRE_SIGNATURES`. It is **off by default**: a consuming instance tolerates an absent signature (bootstrap-trust) until an operator sets it to the string `true`, at which point a verified Ed25519 signature becomes the sole in-process trust root. Do not assume signatures are mandatory on any given instance — the default is enforcement off. The operator levers (`CINATRA_EXTENSION_REQUIRE_SIGNATURES` and `CINATRA_EXTENSION_SIGNING_PUBLIC_KEYS`) are documented in [Configuration](../hosting/configuration.md).
 
 ### What this means for authors
 
 - Once signature enforcement is on, an **unsigned** package from the marketplace host will **not activate in-process** on consuming instances — its `register(ctx)` hook is never called, so its surfaces never appear, even though the install row exists.
-- A package that **declares host migrations** (`cinatra.migrations[]`) is held to a higher bar: running host DDL is a privileged capability gated on a verified signature, so such a package **cannot import in-process at all** unless it is `trusted-signed` — this holds even before enforcement is globally required. If you ship migrations, your package must be signed to activate.
+- A package that **declares host migrations** (`cinatra.migrationsDir`) is held to a higher bar: running host DDL is a privileged capability gated on a verified signature, so such a package **cannot import in-process at all** unless it is `trusted-signed` — this holds even before enforcement is globally required. If you ship migrations, your package must be served with a verified signature to activate.
 - An invalid or wrong-key signature is refused regardless of the enforcement flag, so a mis-signed build fails on every instance, not just enforcing ones.
 
-Authors do not sign their own builds in the current flow; producing the signature served on `dist.cinatraSignature` is the owner-gated step above. Until then, build and submit as documented; the trust gate is a consumer-side verification an instance applies to what it received.
+Authors do not sign their own builds in the current flow; the signature served on `dist.cinatraSignature` is produced by the marketplace publish channel (v1 today; see [Producer status](#producer-status-what-signs-and-when)). Build and submit as documented; the trust gate is a consumer-side verification an instance applies to what it received.
 
 ---
 
