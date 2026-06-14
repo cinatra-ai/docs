@@ -17,10 +17,9 @@ The module puts a floating Cinatra button in the corner of node pages. A signed-
 Concretely, the module:
 
 - Attaches the assistant widget on **node canonical view** (`/node/<id>`), the **node edit form**, and the **site front page**.
-- Shows the widget only to users who hold the **`use Cinatra assistant`** permission (see [Permissions](#permissions) below) — not to every authenticated user.
+- Shows the widget only to users who hold the **`use cinatra assistant`** permission (see [Permissions](#permissions) below) — not to every authenticated user.
 - Ships the assistant widget JavaScript **locally, inside the module** — the module does not load remote code from your Cinatra instance.
 - Brokers each chat session to your Cinatra instance, which runs the `drupal-content-editor` agent and streams the result back to the editor's browser.
-- Provides a `drush cinatra:import-website` command for bulk content import.
 
 The module is a thin, first-party carrier. The intelligence — the agent, the model, the skills — lives in your Cinatra instance.
 
@@ -50,39 +49,37 @@ The module requires Drupal 10 or 11 and a Cinatra instance you can reach over HT
 
 ## Connect to a Cinatra instance
 
-The integration has two sides — the Cinatra side issues a credential, and the Drupal side stores it. Do the Cinatra side first.
+Open **Configuration → Web services → Cinatra** (`/admin/config/services/cinatra`) in Drupal. The settings form is gated by the standard *Administer site configuration* permission and offers three ways to connect, in order of preference.
 
-### 1. Generate the credential in Cinatra
+### One-click "Connect with Cinatra" (recommended)
 
-In your Cinatra instance, open the Drupal assistant connector setup page:
+In the **Connect to Cinatra** section, enter your Cinatra instance URL (for example `https://cinatra.example.com`) and click **Connect with Cinatra**. Your browser is sent to a Cinatra consent screen where an organization admin approves the connection; Drupal then provisions the integration credential automatically and stores it server-side. **You never copy or paste a key.**
 
-```
-/connectors/cinatra-ai/drupal-assistant-connector/setup
-```
+Behind the scenes this is an OAuth-style handshake (cinatra#221): the Connect button is CSRF-protected and mints a PKCE challenge plus a single-use `state`; Cinatra redirects back to the module's callback (`/admin/config/services/cinatra/connect/callback`); and Drupal exchanges the returned short-lived code **server-side** for the long-lived per-site credential. The credential never reaches the browser at any point. After a successful connection the form shows which instance you are connected to.
 
-Generate the widget credential. Cinatra returns a long-lived **integration key** scoped to the widget surface only — it cannot run arbitrary Cinatra primitives or read content the connected Drupal site shouldn't see. Copy it; you will paste it into Drupal once.
+### Connection-string fallback (no browser redirect)
 
-(Optional) On the same connector pages you can set a custom system prompt for the in-CMS assistant, so the `drupal-content-editor` agent matches your house style.
+If the browser redirect is not viable (an air-gapped admin network, a headless setup), expand **No browser redirect? Use a connection string instead**, paste the one-line connection string generated in Cinatra, and click **Connect with code**. Drupal performs the same server-side exchange (using a one-time install code instead of a redirect) and stores the credential server-side.
 
-### 2. Store the settings in Drupal
+### Manual configuration (advanced)
 
-In Drupal, open **Configuration → Web services → Cinatra** (`/admin/config/services/cinatra`). The settings form (gated by the standard *Administer site configuration* permission) captures three values:
+The **Manual configuration (advanced)** section lets you set the connection by hand if you already hold the values:
 
 | Setting | What it is | What it does |
 |---|---|---|
 | **Cinatra URL** | The base URL of your Cinatra instance, e.g. `https://cinatra.example.com` | Where the module's server-side broker sends chat sessions, and the origin the widget streams from. |
-| **Integration key** | The long-lived widget credential you generated in step 1 | Authenticates this Drupal site to your Cinatra instance. Stored server-side as a credential and **never sent to the browser** (see [Delivery and security model](#delivery-and-security-model)). |
-| **Instance ID** | The Drupal instance identifier configured in the connector | Tells Cinatra which configured Drupal instance this site is, so the assistant reads and writes the right content. |
+| **API key** | The long-lived widget credential generated in Cinatra at `/settings/connectors/drupal-widget` | Authenticates this Drupal site to your Cinatra instance. Stored server-side as a credential and **never sent to the browser** (see [Delivery and security model](#delivery-and-security-model)). |
+| **Cinatra instance ID** (optional) | The instance identifier shown in Cinatra | Scopes agent operations to this site. |
 
-Save the form. The integration key field is treated as a secret: it is stored server-side in `cinatra.settings`, rendered as a password-style field, and not echoed back into the form — leave it blank on a later edit to keep the current value. Drupal does not encrypt configuration at rest by default; if you need the key encrypted, configure Drupal's encrypted config / secret storage (for example the Key and Encrypt modules) at the site level. The key is never exposed to the browser regardless (see below).
+The Cinatra URL is validated as a safe HTTPS origin (plain HTTP is accepted only for local hosts such as `http://localhost:3000`), with no path, query, credentials, or fragment. The API key field is treated as a secret: it is stored server-side in `cinatra.settings`, rendered as a password field, and not echoed back into the form — leave it blank on a later edit to keep the current value. Drupal does not encrypt configuration at rest by default; if you need the key encrypted, configure Drupal's encrypted config / secret storage (for example the Key and Encrypt modules) at the site level. The key is never exposed to the browser regardless (see below).
 
-Once the URL and key are set and at least one role has the `use Cinatra assistant` permission, the widget appears on supported pages for those users on the next page load.
+Whichever path you use, once the connection is stored and at least one role holds the `use cinatra assistant` permission, the widget appears on supported pages for those users on the next page load.
 
 ---
 
 ## Permissions
 
-The module defines one explicit permission: **`use Cinatra assistant`**.
+The module defines one explicit permission, machine name `use cinatra assistant`, shown in the UI as **Use the Cinatra AI assistant**.
 
 This permission is the gate for the assistant. The widget — and the server-side route that exchanges your integration key for a short-lived browser token — load **only** for users who hold it. This is deliberate: an AI editing assistant that can rewrite published content is not something every authenticated account should silently have.
 
@@ -90,7 +87,7 @@ Grant it at **People → Permissions** (`/admin/people/permissions`), in the **C
 
 - Give it to the roles that actually edit content — typically **Content editor**, **Author**, or a bespoke editorial role.
 - Do **not** grant it to the *Authenticated user* role unless every signed-in account on your site is a trusted editor. Granting it broadly re-opens the "widget for everyone" behavior the permission exists to prevent.
-- The **Administrator** role is excluded from this permission by default and you should keep it that way for least-privilege editorial separation; grant it to administrators explicitly only if they edit content.
+- Note that Drupal's **Administrator** role bypasses permission checks, so administrators effectively have the assistant available regardless; this permission controls the *non-admin* roles. For least-privilege editorial separation, grant it to the specific editorial roles rather than relying on the admin role.
 
 The permission is marked *restricted* in Drupal (it carries security implications), so Drupal warns when you assign it. That warning is expected.
 
@@ -131,13 +128,13 @@ This is the core of the model. The long-lived integration key exists in exactly 
 When an editor opens the assistant, the flow is:
 
 1. The browser asks the module's own server-side route for a streaming token.
-2. That route — running on your Drupal server, gated by the `use Cinatra assistant` permission and a CSRF token — reads the long-lived key from config and makes a **server-to-server** request to your Cinatra instance's token endpoint (`/api/agents/drupal-content-editor/token`), authenticating with `Authorization: Bearer <long-lived integration key>`.
+2. That route — running on your Drupal server, gated by the `use cinatra assistant` permission and a CSRF token — reads the long-lived key from config and makes a **server-to-server** request to your Cinatra instance's token endpoint (`/api/agents/drupal-content-editor/token`), authenticating with `Authorization: Bearer <long-lived integration key>`.
 3. Cinatra mints a **short-lived, scoped token** — an opaque, high-entropy token (5-minute lifetime) bound to your site's exact origin, to the Drupal content-editor stream endpoint only (its audience), and to that single scope (`drupal-content-editor.stream`) — and returns it.
 4. The browser receives only that short-lived token and uses it to stream directly to Cinatra's content-editor stream endpoint with `Authorization: Bearer <token>`.
 
 So the credential a browser ever holds is short-lived (expires in minutes), origin-bound, scope-bound, and useless for anything but this one assistant stream. The token is opaque and tracked server-side on the Cinatra instance — only a hash of it is stored at rest, so a log or database leak never yields a live token — and it can be revoked immediately: rotating the long-lived integration key invalidates every outstanding short-lived token at once, rather than waiting for expiry.
 
-> Older Cinatra instances that predate the token exchange still work: the module detects the instance's capabilities at start-up and, when the token endpoint is unavailable, falls back to the **legacy long-lived flow** in which the integration key is sent from the browser. That fallback re-introduces the credential exposure this model removes, so treat it as temporary — upgrade the instance so the token exchange is available and the key stays off the browser.
+> The module negotiates the instance's capabilities at start-up. Against an instance that does not support the token exchange, the widget does **not** fall back to sending a key from the browser (no long-lived key is ever placed in the browser by design); instead it surfaces a one-line *“this Cinatra instance does not support the local widget — update Cinatra”* notice and does not stream. Upgrade the instance so the token exchange is available and the assistant can run.
 
 ### External services and privacy
 
@@ -157,7 +154,7 @@ This disclosure is the same story the WordPress plugin carries; the module and i
 ## Troubleshooting
 
 **The widget button never appears.**
-- Confirm the user holds the **`use Cinatra assistant`** permission — that is the most common cause after install.
+- Confirm the user holds the **`use cinatra assistant`** permission — that is the most common cause after install.
 - Confirm you are on a supported surface (node view, node edit form, or the front page) and signed in.
 - Confirm the **Cinatra URL** is set on the settings form. With no URL the module attaches nothing.
 
@@ -183,11 +180,11 @@ For instance-side issues (provider not configured, agent errors), see the [Hosti
 
 Disconnecting is symmetric to connecting and is safe — your content and audit history are preserved.
 
-**To disconnect without removing the module:** rotate the integration key on the Cinatra side (`/connectors/cinatra-ai/drupal-assistant-connector/setup`). The old key stops working immediately, every outstanding short-lived token is invalidated, and the widget can no longer reach the instance. Optionally clear the key on the Drupal settings form too.
+**To disconnect without removing the module:** rotate the integration key on the Cinatra side (the Drupal-widget connector settings, `/settings/connectors/drupal-widget`). The old key stops working immediately, every outstanding short-lived token is invalidated, and the widget can no longer reach the instance. Note that blanking the **API key** field in **Manual configuration** does *not* clear the stored key — an empty submit keeps the current value. To stop the widget without uninstalling, clear the **Cinatra URL** (with no URL the module attaches nothing), or remove the stored key with config tooling (`drush cdel cinatra.settings api_key`). Reconnecting later — via **Connect with Cinatra** or a fresh connection string — provisions a new credential and replaces the stored one.
 
 **To remove the module entirely:**
 
-1. Uninstall it from **Extend → Uninstall** (`/admin/modules/uninstall`) or `drush pmu cinatra`. Drupal removes the `cinatra.settings` config, the `use Cinatra assistant` permission, and the local widget library.
+1. Uninstall it from **Extend → Uninstall** (`/admin/modules/uninstall`) or `drush pmu cinatra`. Drupal removes the `cinatra.settings` config, the `use cinatra assistant` permission, and the local widget library.
 2. The widget vanishes from editor pages on the next page load.
 3. Rotate the integration key in Cinatra so the no-longer-installed site cannot reach the instance even with a copied key.
 
