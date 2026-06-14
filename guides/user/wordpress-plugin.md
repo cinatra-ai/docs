@@ -13,8 +13,8 @@ For the in-CMS assistant story across both supported CMSes (WordPress and Drupal
 The plugin is a small WordPress plugin that does three things:
 
 - **Ships the assistant widget.** The chat widget — the floating button and the panel it opens — is plain JavaScript that ships *inside the plugin itself*. Your browser never downloads executable code from your Cinatra instance; it runs the code that shipped with the plugin you installed. (See [Delivery and security model](#delivery-and-security-model) for why this matters and how it is enforced.)
-- **Holds the connection settings.** A **Settings → Cinatra** admin page stores your Cinatra instance URL, the integration key, your agent instance ID, and an optional webhook secret.
-- **Brokers the assistant's calls.** When an authorized administrator uses the assistant, the plugin's own server-side code exchanges your long-lived integration key for a short-lived, scoped token and hands only that token to the browser. The browser then streams the conversation directly to your Cinatra instance.
+- **Holds the connection settings.** A **Settings → Cinatra** admin page stores your Cinatra instance URL, the integration credential, your agent instance ID, and an optional webhook secret. The recommended way to fill these in is one-click **Connect with Cinatra** (below) — you never copy or paste a key by hand.
+- **Brokers the assistant's calls.** When an authorized administrator uses the assistant, the plugin's own server-side code exchanges your long-lived integration credential for a short-lived, scoped token and hands only that token to the browser. The browser then streams the conversation directly to your Cinatra instance.
 
 The plugin bundles no Cinatra platform code beyond the widget. The assistant's intelligence — reading the post, proposing edits, writing the diff — runs on **your** Cinatra instance, reached over HTTP.
 
@@ -46,31 +46,33 @@ Activating the plugin does not turn anything on by itself — the assistant does
 
 ## Connect to a Cinatra instance
 
-The plugin needs to know which Cinatra instance to talk to and how to authenticate. You configure this once, as an administrator.
+The plugin needs to know which Cinatra instance to talk to and how to authenticate. You configure this once, as an administrator. The recommended path is one-click **Connect with Cinatra** — you enter only the instance URL and approve a consent screen; the integration credential is provisioned automatically and stored on your server, so you never copy or paste a key.
 
-### 1. Generate the integration credentials in Cinatra
+### Recommended: one-click "Connect with Cinatra"
 
-In your Cinatra instance, open the WordPress widget connector setup page — `/settings/connectors/wordpress-widget` (your administrator can also reach it from the connectors admin area). Generate the widget credentials. Cinatra returns:
+1. In `wp-admin`, go to **Settings → Cinatra** (`options-general.php?page=cinatra`).
+2. In the **Connect to Cinatra** card at the top, enter your **Cinatra instance URL** (for example `https://app.cinatra.ai`) and click **Connect with Cinatra**.
+3. You are redirected to Cinatra to approve the connection. Sign in as an org administrator if prompted, then approve the consent screen ("Allow this WordPress site to connect?").
+4. Cinatra redirects you back to WordPress, which completes the exchange **server-side** and stores the credential. You see a "Connected to Cinatra" confirmation on the settings page.
 
-- An **integration key** (sometimes shown as the API key) — the long-lived credential that authorises this WordPress site to use the assistant.
-- A **webhook secret** — used to sign the requests Cinatra sends *back* to your site (for example, a notification that a Cinatra-side publish completed).
+No key is ever copied, pasted, or exposed to the browser — the credential is provisioned and held server-side. (Under the hood: WordPress sends an authorization-code request with PKCE, then exchanges the returned code for the credential server-to-server. If you reconnect later, the stored credential is replaced.)
 
-Keep these values handy; you paste them into WordPress next. Treat the integration key like a password.
+**No browser redirect available?** Some environments cannot complete the redirect (for example, a locked-down admin network). In that case, in Cinatra generate a one-time **connection string**, then on the settings page expand **"No browser redirect? Use a connection string instead"**, paste the string, and click **Connect with code**. WordPress exchanges it server-side just like the redirect flow.
 
-### 2. Fill in Settings → Cinatra
+### Advanced: manual configuration
 
-In `wp-admin`, go to **Settings → Cinatra** (`options-general.php?page=cinatra`). The page has four fields:
+The settings page also has an **Advanced / manual configuration** section for environments where you set the connection by hand. Most sites should use **Connect** above and can ignore these fields.
 
 | Field | What it is | Example |
 |---|---|---|
 | **Cinatra URL** | The base URL of your Cinatra instance — the address you visit to use Cinatra. | `https://app.cinatra.ai` |
-| **API Key** | The integration key you generated in step 1. The plugin keeps this server-side and never sends it to the browser. | (a long opaque string) |
+| **API Key** | The long-lived integration credential. The plugin keeps this server-side and never sends it to the browser. For security it is **never pre-filled** into the form — the field shows "(stored — leave blank to keep)" when a value is already saved, and **leaving it blank keeps the stored value**. | (a long opaque string) |
 | **Agent Instance ID** | The identifier of the configured WordPress instance on the Cinatra side, so Cinatra knows which site is calling. | `wp-prod` |
-| **Webhook Secret** | The HMAC secret Cinatra signs its inbound requests with (the `X-Cinatra-Sig-256` header). Optional unless you use Cinatra-side workflows that notify this site. | (a long opaque string) |
+| **Webhook Secret** | A shared secret stored here and on your Cinatra instance. Cinatra uses it **on its own side** to sign requests; this plugin only stores the value and a subscription registry — it does **not** receive or verify inbound signed webhooks. Optional. Like the API Key, it is never pre-filled and blank means "keep the stored value". | (a long opaque string) |
 
-Click **Save Changes**. The credential paths shown in the field descriptions update to point at your Cinatra URL once you fill it in.
+To generate manual credentials, open the WordPress widget connector page in Cinatra — `/settings/connectors/wordpress-widget` — copy the values into the matching fields, and click **Save Changes**. Treat the integration credential like a password.
 
-### 3. Confirm it connected
+### Confirm it connected
 
 Reload an admin page. If everything is wired up, you see the floating Cinatra button in the bottom-right corner of `wp-admin`. Open it and send a message — if the assistant responds, you are connected. If the button does not appear or the chat errors, see [Troubleshooting](#troubleshooting).
 
@@ -108,7 +110,7 @@ The assistant widget — the button and the chat panel — is JavaScript that **
 
 ### Your integration key never reaches the browser
 
-The long-lived integration key you pasted into **Settings → Cinatra** is held **server-side** in WordPress (`wp_options`). It is **never** placed in any JavaScript variable, never sent to the browser, and never visible in a browser network request. It exists in exactly two places: your WordPress site's options, and your Cinatra instance's configuration. It travels only **server-to-server** — from WordPress's backend to Cinatra's token endpoint.
+The long-lived integration credential — whether it was provisioned by **Connect with Cinatra** or entered manually in **Settings → Cinatra** — is held **server-side** in WordPress (`wp_options`). It is **never** placed in any JavaScript variable, never sent to the browser, and never visible in a browser network request. It exists in exactly two places: your WordPress site's options, and your Cinatra instance's configuration. It travels only **server-to-server** — from WordPress's backend to Cinatra's token endpoint.
 
 ### The browser gets only a short-lived, scoped token
 
@@ -124,7 +126,7 @@ Cinatra stores only a one-way **SHA-256 hash** of each issued token, never the t
 ### What is sent where
 
 - **To your Cinatra instance (the URL you configured):** the message you type, the chat history for the current session, and the content/context of the post you are editing, so the assistant can read and revise it. The plugin's backend also sends your integration key to the instance's token endpoint server-to-server (never from the browser).
-- **From your Cinatra instance back to your WordPress site:** webhook notifications (if you use Cinatra-side workflows that notify the site), signed with the webhook secret so your site can verify they are genuine.
+- **From your Cinatra instance back to your WordPress site:** if you use Cinatra-side workflows that send webhooks, Cinatra signs them with the shared webhook secret on its own side. Note that **this plugin does not itself receive or verify inbound signed webhooks** — it only stores the shared secret and a subscription registry; verification, if any, happens wherever the webhook is actually handled.
 - **Nowhere else.** The plugin contacts only the Cinatra instance you configured. It does not phone home to any fixed vendor domain.
 
 The Cinatra instance is operated by you (or whoever hosts your Cinatra deployment). Your data is processed there under that deployment's terms; see your Cinatra deployment's privacy terms for how it handles content. This matches the **External services** disclosure in the plugin's `readme.txt` on WordPress.org.
@@ -155,7 +157,7 @@ The integration key's scope is also narrow on the Cinatra side: it authorises th
 - Confirm your Cinatra instance is up and that this WordPress site's origin is configured as a WordPress instance on the Cinatra side.
 
 **"Unauthorized" / the assistant refuses to start.**
-- The **API Key** in Settings → Cinatra may be wrong, blank, or rotated. Regenerate it in Cinatra at `/settings/connectors/wordpress-widget`, paste the new value, and save. (Rotating the key in Cinatra immediately stops the old one — and any short-lived tokens minted from it — from working.)
+- The stored integration credential may be wrong, blank, or rotated. The simplest fix is to **Connect with Cinatra** again from Settings → Cinatra (it re-provisions and replaces the stored credential). Alternatively, regenerate the credential in Cinatra at `/settings/connectors/wordpress-widget`, paste it into the **API Key** field in the Advanced section, and save. (Rotating the credential in Cinatra immediately stops the old one — and any short-lived tokens minted from it — from working.)
 - Confirm the **Agent Instance ID** matches a configured WordPress instance in Cinatra.
 
 **A "deprecated" or "update required" notice appears.**
