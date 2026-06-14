@@ -1,102 +1,38 @@
 # Extension authoring
 
-This page is the build-it walkthrough for a Cinatra extension. It assumes the model and architecture from the [Extensions hub](../../references/platform/extensions.md) — read that first if you have not. Once authored, ship the extension with [Extension publishing](extension-publishing.md).
+This page is the cross-kind hub for building a Cinatra extension. It assumes the model and architecture from the [Extensions hub](../../references/platform/extensions.md) — read that first if you have not. Once authored, ship the extension with [Extension publishing](extension-publishing.md).
 
-Cinatra extensions install on a running instance from the marketplace. When an admin selects an extension, the runtime records the canonical `installed_extension` manifest, verifies the extension's SDK ABI range and dependencies, materializes the extension into the runtime store, and activates its `register(ctx)` hook through the same activation contract as development. The host grants only approved SDK ports, then exposes the extension's surfaces without rebuilding or redeploying. Authoring an extension means making that activation contract resolvable: the manifest the loaders read, the `register(ctx)` hook they call, and the kind-specific payload they materialize.
+Cinatra extensions install on a running instance from the marketplace. When an admin selects an extension, the runtime records the canonical `installed_extension` manifest, verifies the extension's SDK ABI range and dependencies, materializes the extension into the runtime store, and activates it through the same contract as development. The host grants only approved SDK ports, then exposes the extension's surfaces without rebuilding or redeploying.
 
----
-
-## 1. Choose a kind
-
-An extension is exactly one of five kinds, declared as `cinatra.kind` in `package.json`:
-
-| Kind | Build it when you want to add… | Install unit |
-|---|---|---|
-| **agent** | An OAS Flow agent — a role the platform can run. | An OAS package (`cinatra/oas.json` + co-located skills). |
-| **connector** | An integration to an external system, or a provider behind a capability facade. | A code package with a `register(ctx)` server entry and setup/settings pages. |
-| **artifact** | A semantic content type with matcher/authoring skills. | A descriptor package declaring an `artifact` block. |
-| **skill** | One or more `SKILL.md` skills delivered to agents/the assistant. | A content package of `skills/<slug>/SKILL.md` directories. |
-| **workflow** | A multi-step BPMN process orchestrating agents and approvals. | A BPMN + sidecar package, optionally with a dashboard. |
-
-`cinatra.kind` is singular (`"agent" | "connector" | "artifact" | "skill" | "workflow"`) and is the authoritative signal for lifecycle, dispatch, and discovery. The directory suffix is a strong hint validated by the naming-conformance test, but the manifest wins on disagreement.
-
-Per-kind authoring procedure lives alongside this page:
-
-- agent → [Agent packaging](../../references/platform/agent-packaging.md) and [Developing agents](developing-agents.md)
-- artifact → [Authoring semantic artifact extensions](semantic-artifact-extensions.md)
-- skill → the skill payload section below + the [Objects layer](../../references/platform/objects-layer.md) for matching
-- connector / workflow → the file-shape and `register(ctx)` sections below
+**Authoring is per-kind — start with your kind.** An extension is exactly one of five kinds, and the kind decides how you author it: what payload you ship, whether you write a `register(ctx)` server entry at all, and which lifecycle the host runs. Only the connector kind is a code package with a host-port server entry; the other four are authored as data. This page covers the concerns common to all kinds and routes you to the dedicated per-kind guide.
 
 ---
 
-## 2. Repo and file shape
+## 1. Choose your kind
 
-An extension is a versioned, scoped npm-style package. The directory name equals the unscoped package name (1:1, kebab-case), with the kind at the end so the registry reads as a noun phrase:
+| Kind | Build it when you want to add… | `register(ctx)`? | Per-kind guide |
+|---|---|---|---|
+| **agent** | An OAS Flow agent — a role the platform can run. | No (declarative) | [Authoring agent extensions](../../references/platform/extension-kinds/authoring-agent-extensions.md) |
+| **connector** | An integration to an external system, or a provider behind a capability facade. | **Yes** | [Authoring connector extensions](../../references/platform/extension-kinds/authoring-connector-extensions.md) |
+| **artifact** | A semantic content type with matcher/authoring skills. | No (declarative) | [Authoring artifact extensions](../../references/platform/extension-kinds/authoring-artifact-extensions.md) |
+| **skill** | One or more `SKILL.md` skills delivered to agents/the assistant. | No (payload-only) | [Authoring skill extensions](../../references/platform/extension-kinds/authoring-skill-extensions.md) |
+| **workflow** | A multi-step BPMN process orchestrating agents and approvals. | No (declarative) | [Authoring workflow extensions](../../references/platform/extension-kinds/authoring-workflow-extensions.md) |
 
-```
-extensions/<scope>/<slug>-<kind>/
-  package.json                 # the cinatra manifest block
-  .cinatra-published.json      # published-provenance sidecar (written by publish)
-  README.md                    # marketplace-ready README (gate-enforced)
-  LICENSE
-  cinatra/ | src/ | skills/    # the per-kind payload
-```
+> **The 53 declarative-kind authors do not go through connector mechanics.** If you are shipping an agent, artifact, skill, or workflow, **do not start from the `register(ctx)`/ports/migrations material** — that is connector-specific. Go straight to your kind's guide. The landing page that helps you choose and links every guide is [Extension kinds — choose your kind](../../references/platform/extension-kinds/index.md).
 
-Per-kind required files:
-
-| Kind | Required files |
-|---|---|
-| **agent** | `package.json`, `LICENSE`, `cinatra/oas.json`, `.cinatra-published.json`, `skills/<slug>/SKILL.md` |
-| **connector (provider)** | `package.json`, `src/index.ts`, `src/register.ts`, `src/setup-page.tsx`, the setup-impl component, `src/deps.ts` |
-| **connector (facade)** | `package.json`, `src/index.ts`, the contract type, the facade implementation, the provider registry |
-| **artifact** | `package.json`, `src/index.ts` (re-exports), the `artifact` descriptor block |
-| **skill** | `package.json`, `skills/<slug>/SKILL.md` (one directory per skill) |
-| **workflow** | `package.json`, `cinatra/workflow.bpmn`, optional `cinatra/dashboard.json`, `src/index.ts` |
-
-The package exposes the activation contract through `package.json` `exports` subpaths. `./register` is the one universal contract; `./setup-page`, `./settings-page`, and `./mcp-module` are used by connector/UI/MCP-capable kinds:
-
-```jsonc
-"exports": {
-  ".": "./src/index.ts",
-  "./register": "./src/register.ts",
-  "./mcp-module": "./src/mcp/module.ts"
-}
-```
-
-This is the split-entrypoint model: a server entry (`./register`) runs the privileged half under `server-only`; client widget entries (`./setup-page`, `./settings-page`) carry true client surfaces. Keep `server-only`/DB code out of the `"use client"` entrypoints.
-
-> **You author in TypeScript source; the package you publish ships a BUILT artifact.** The source shape above (`./register` → `./src/register.ts`) is what you author in-repo and what the first-party static-bundle path compiles at image build. The marketplace **runtime store activates built, Node-importable JavaScript artifacts only**: the published package's `cinatra.serverEntry` must resolve to a `.mjs`/`.cjs`/`.js` file inside the tarball (a top-level `register.mjs` is the recommended shape) — a `.ts` source entry is **refused at install** (and at submit-time preflight). You do not hand-build this: publishing through the release workflow runs the canonical builder (`scripts/extensions/build-server-entry.mjs`), which bundles your source entry into a top-level `register.mjs` and rewrites the *packed* manifest to `"serverEntry": "./register.mjs"` (your source tree is untouched). The full normative contract — the resolver semantics, the recommended published shape, and the `dependencyMode` library-bundling options — is [The runtime-store `serverEntry` contract](https://github.com/cinatra-ai/cinatra/blob/main/docs/extension-server-entry-contract.md). Do not hand-roll a tarball that points `serverEntry` at `.ts` source.
-
-### The `register(ctx)` server entry
-
-The server entry exposes `register(ctx)` (the host calls it once at activation with the granted port subset) and optionally `bootstrap(ctx)` (runs after every extension has registered, so it can rely on peers' capabilities) and `destroy(ctx)` (teardown on hot-reload/uninstall):
-
-```ts
-import { defineServerEntry } from "@cinatra-ai/sdk-extensions";
-import type { ExtensionHostContext } from "@cinatra-ai/sdk-extensions";
-
-export default defineServerEntry({
-  register(ctx: ExtensionHostContext) {
-    ctx.mcp.registerTool({
-      name: "my_tool",
-      description: "…",
-      inputSchema: mySchema,           // an opaque Standard Schema value, e.g. a zod schema
-      handler: async (input) => { /* return a plain result; the host wraps it */ },
-    });
-    ctx.capabilities.registerProvider("email-send", { packageName: "@scope/my-connector", impl });
-  },
-});
-```
-
-You may export `register`/`bootstrap`/`destroy` as named functions, or return a full module via `defineExtension({ server, admin, config })`. The loader normalizes either shape and preserves the whole activation shape (server, config gate, bootstrap, destroy) — do not reduce the export to just `{ register }`.
-
-A `config` entrypoint can gate activation: `config.enabled === false` short-circuits, and `config.resolve({ installedPackages })` enables dynamically (for example, only when an optional dependency is present).
+`cinatra.kind` is singular (`"agent" | "connector" | "artifact" | "skill" | "workflow"`) and is the authoritative signal for lifecycle, dispatch, and discovery. The directory suffix (`<slug>-<kind>`) is a strong hint validated by the naming-conformance test, but the manifest wins on disagreement.
 
 ---
 
-## 3. The three-file manifest
+## 2. What every kind shares
 
-Author the manifest under the `package.json` `cinatra` block. The published-provenance sidecar (`.cinatra-published.json`) and the kind sidecar (`cinatra/oas.json`, `cinatra/workflow.bpmn`, `skills/<slug>/SKILL.md`, etc.) complete the trio.
+Whatever your kind, the same cross-kind machinery applies. The per-kind guides reference back to these sections so you only learn them once.
+
+### The package and the three-file manifest
+
+An extension is a versioned, scoped npm-style package. The directory name equals the unscoped package name (1:1, kebab-case), with the kind at the end so the registry reads as a noun phrase: `extensions/<scope>/<slug>-<kind>/`. The manifest is three files: the `package.json` `cinatra` block, the published-provenance sidecar `.cinatra-published.json` (written by publish), and the kind payload (`cinatra/oas.json`, `cinatra/workflow.bpmn`, `skills/<slug>/SKILL.md`, the `artifact` descriptor block, or the connector `src/`).
+
+Author the manifest under the `package.json` `cinatra` block:
 
 ```jsonc
 {
@@ -105,167 +41,68 @@ Author the manifest under the `package.json` `cinatra` block. The published-prov
   "cinatra": {
     "apiVersion": "cinatra.ai/v1",
     "kind": "connector",
-    "serverEntry": "./register",
+    "serverEntry": "./register",        // connector only — omit for payload-only kinds
     "sdkAbiRange": "^2",
     "requestedHostPorts": ["mcp", "settings", "authSession"],
-    "uiSurface": "schema-config",
-    "devFixtures": "cinatra/dev-fixtures.json",
     "dependencies": [ /* canonical cross-kind edges */ ]
   }
 }
 ```
 
-Manifest fields (`CinatraManifest`, `packages/sdk-extensions/src/manifest.ts`):
+Shared manifest fields (`CinatraManifest`, `packages/sdk-extensions/src/manifest.ts`):
 
 - **`kind`, `apiVersion`** — the identity fields every extension declares.
-- **`serverEntry`** — the server entry the loaders dynamically import. You declare the source subpath (`./register`) in-repo; the *published* package's manifest resolves it to a built ESM file (`./register.mjs`) — see the built-artifact note above. Omit for a payload-only kind (a skill bundle).
-- **`sdkAbiRange`** — the SDK ABI range the extension was built against. Declare `"^2"` to require any SDK ABI 2.x host. An unpinned (`*` / absent) range is treated as compatible; a malformed range fails closed. Build against the current `SDK_EXTENSIONS_ABI_VERSION` exported from `@cinatra-ai/sdk-extensions`.
-- **`requestedHostPorts`** — the least-privilege ports the extension requests (see below).
-- **`uiSurface`** — `schema-config` (the host renders a generic schema-driven form from `configSchema` — fully hot-pluggable) or `bundled-react` (a bespoke setup page that ships in the build).
-- **`devFixtures`** — a path to a declarative dev-mode fixtures file (see [Extension dev fixtures](../../references/platform/extension-dev-fixtures.md)).
-- **`migrationsDir`** — a package-relative directory of standard node-pg-migrate migration modules the HOST runs for trusted-signed installs (see [Shipping schema migrations](#shipping-schema-migrations)). The pre-#118 `migrations` JSON-DSL field is retired and rejected fail-closed.
+- **`sdkAbiRange`** — the SDK ABI range the extension was built against (`"^2"` requires any SDK ABI 2.x host). Build against the current `SDK_EXTENSIONS_ABI_VERSION` exported from `@cinatra-ai/sdk-extensions`.
 - **`dependencies`** — the canonical cross-kind dependency graph (below).
 
----
+The kind-specific fields — `serverEntry`, `requestedHostPorts`, `uiSurface`, `devFixtures`, `migrationsDir` — apply mostly to connectors and are covered in the [connector guide](../../references/platform/extension-kinds/authoring-connector-extensions.md). The full SDK ABI, the manifest shape, and the schema-migration contract live in [Extension SDK ABI and dependencies](../../references/platform/extension-sdk-abi-and-dependencies.md).
 
-## 4. `cinatra.dependencies` — capability-based, required vs optional
+### `cinatra.dependencies` — capability-based, required vs optional
 
-`cinatra.dependencies` is the canonical cross-kind dependency graph (`ExtensionDependency`, `packages/sdk-extensions/src/dependencies.ts`). Each edge:
+`cinatra.dependencies` is the canonical cross-kind dependency graph (`ExtensionDependency`, `packages/sdk-extensions/src/dependencies.ts`). Each edge declares a `packageName`, the depended-on `kind`, an `edgeType` (`runtime | install-time | peer`), a `versionConstraint`, and a `requirement` (`required | optional`):
 
-```jsonc
-{
-  "packageName": "@cinatra-ai/nango-connector",
-  "kind": "connector",                                   // the depended-on extension's kind
-  "edgeType": "runtime",                                 // runtime | install-time | peer
-  "versionConstraint": { "kind": "semver-range", "range": "*" },
-  "requirement": "required"                              // required | optional
-}
-```
-
-- **`required`** — normal successful capability cannot work without it. A missing package fails install/boot; an unconfigured-but-present connector fails run-start or opens a setup HITL.
+- **`required`** — the capability cannot work without it. A missing package fails install/boot; an unconfigured-but-present connector fails run-start or opens a setup HITL.
 - **`optional`** — a valid degraded path exists. Missing does not fail install/boot; the runtime records a skipped capability.
 
-Declare dependencies **by capability, not by concrete provider.** An email-delivery agent depends on the email-send facade plus a rule requiring at least one concrete provider (Gmail or Resend), not a hard Gmail pin. This is what lets the host resolve a provider at runtime through `ctx.capabilities`.
+Declare dependencies **by capability, not by concrete provider** — an email-delivery agent depends on the email-send facade plus a rule requiring at least one concrete provider, not a hard Gmail pin. `versionConstraint` is `semver-range`, `exact`, or `git-ref`; declare `semver-range` or `exact` for an installable package (a `git-ref` edge is refused at install).
 
-`versionConstraint` is one of `semver-range`, `exact`, or `git-ref`. **Declare `semver-range` or `exact` for an installable package** — a `git-ref` constraint on a dependency edge is **refused at install** (the v1 version model resolves registry coordinates only, so a git-ref target is not installable). Legacy `agentDependencies` / `connectorDependencies` maps normalize into `dependencies` deterministically — prefer declaring canonical `dependencies` directly.
+### Built artifacts — what you publish
 
----
+**You author in TypeScript source; the package you publish ships a BUILT artifact.** This matters for the connector kind (the one kind with a `serverEntry`): the marketplace runtime store activates built, Node-importable JavaScript only — a `.ts` source entry is refused at install. You do not hand-build this; publishing through the release workflow runs the canonical builder. The full normative contract is [The runtime-store `serverEntry` contract](../../references/platform/extension-server-entry-artifact.md).
 
-## 5. `requestedHostPorts` — request least privilege
+### The README contract
 
-The host passes `register(ctx)` an `ExtensionHostContext` with all 14 ports visible, but supplies only the subset your manifest's `requestedHostPorts` declares and an admin approves. The grant-aware host factory fail-louds on an ungranted or unwired port, so request exactly what you use:
+Every extension — every kind — ships a marketplace-ready `README.md` at its root: an end-user-facing, value-forward description in the register the marketplace renders. The structure is enforced by a CI gate. See [Extension README contract](../../references/platform/extension-readme.md).
 
-| Port | Request when you need to… |
-|---|---|
-| `settings` | persist non-secret per-extension config |
-| `secrets` | store credentials (separate from settings) |
-| `nango` | use the Nango OAuth gateway / render connection status on setup pages |
-| `authSession` | read the current actor or require an organization id |
-| `mcp` | register MCP tools, call host primitives, read the public MCP base URL |
-| `objects` | register object types, read/write objects, read version history |
-| `jobs` | enqueue background jobs or register a worker |
-| `notifications` | emit host notifications |
-| `ui` | register setup/settings surfaces and named actions |
-| `logger` | emit structured logs scoped to the extension |
-| `runtime` | read runtime mode / flags / public base URL |
-| `capabilities` | register or resolve capability/facade providers |
-| `telemetry` | emit usage/cost events (fire-and-forget; never throw) |
-| `db` | (reserved — accessing it fail-louds today; route config through `settings`, credentials through `secrets`) |
-
-The canonical port list is `HOST_PORT_NAMES`. The permission/grant model that decides which requested ports an admin approves is in [Extension permissions](../../references/platform/extension-permissions.md).
-
----
-
-## 6. Registering setup and settings UI through approved surfaces
-
-Setup and settings UI register through `ctx.ui` (not by creating a filesystem route): `ctx.ui.registerSetupSurface(...)`, `ctx.ui.registerSettingsSurface(...)`, and `ctx.ui.registerAction({ id, handler })`. Registered surfaces appear after activation, with no new filesystem route created for each installed UI.
-
-Two UI classifications (`uiSurface`):
-
-- **`schema-config`** — declare the config as data in `configSchema`; the host renders a generic schema-driven form. Fully hot-pluggable: a freshly installed extension's config UI appears on the running instance with no rebuild.
-- **`bundled-react`** — a bespoke React setup/settings page. Under the App Router, RSC client chunks are build-known, so a bundled-react component's **code** must ship in the build; its existence and routing are still DB-driven and dynamic. Prefer `schema-config` when the form is expressible as data.
-
-Visual primitives come from `@cinatra-ai/sdk-ui` (a peer dependency) and the Cinatra-owned shadcn design registry — never from the app's `@/components/*`. `ctx.ui` registers surfaces; it is not a bag of host components.
-
----
-
-## 7. Data ownership, secrets, and archive/restore/teardown
-
-An extension owns its own data and reaches it only through ports:
-
-- **Config** → `ctx.settings` (non-secret, per-extension namespace).
-- **Credentials** → `ctx.secrets` (deliberately separate from settings).
-- **Structured records** → `ctx.objects` (registered object types with version history).
-- **Scoped DB** → `ctx.db` is the reserved, exceptional escape hatch — not the default data path.
-
-Write a `destroy(ctx)` hook that deregisters the surfaces your `register(ctx)` added (MCP tools, capability providers, workers). The lifecycle then preserves or removes your data correctly:
-
-- **Archive preserves history and configuration** — the extension is suspended; settings, secrets, and object rows remain, so Restore is non-destructive.
-- **Hard removal removes scoped settings and secrets** — uninstall/force-delete/purge clean up the extension's own scoped state.
-
-Author for both: keep object data restorable across archive, and make `destroy` idempotent. Full model: [Extension data ownership](../../references/platform/extension-data-ownership.md). Declarative demo data for dev boots: [Extension dev fixtures](../../references/platform/extension-dev-fixtures.md).
-
-### Shipping schema migrations
-
-When your extension owns Postgres tables, ship **standard
-[node-pg-migrate](https://github.com/salsita/node-pg-migrate) migrations** in a
-directory declared via `cinatra.migrationsDir` (e.g. `cinatra/migrations`).
-The host applies them — into the same shared, namespaced migration ledger the
-core schema uses — at install (before finalize: a failed migration aborts the
-install), at boot, and at hot-activate, **only for trusted-signed packages**.
-
-The contract in brief:
-
-- Modules are plain runtime ESM exporting `up(pgm)`/`down(pgm)`, named
-  `ext_<scope>_<pkg>__NNNN_<short-description>.mjs` — the prefix derives from
-  your package name (`@acme/crm-connector` → `ext_acme_crm-connector__`), which
-  must be scoped lowercase kebab-case. Sequences are append-only and shipped
-  migrations are immutable; the directory must contain migrations only.
-- Migrations are raw SQL on the shared multi-tenant schema: touch **only your
-  own `ext_<scope>_<pkg>_…` tables**, carry `org_id text NOT NULL`, and keep
-  every statement safe to re-run.
-- An unsigned or bootstrap-trusted package that declares `migrationsDir` is
-  refused; workflow-path installs cannot declare host migrations at all.
-- **Only ship host migrations if your publishing channel emits a verified
-  signature for the package.** Running host DDL requires the `trusted-signed`
-  tier — a verified Ed25519 signature against a host-trusted key. A package
-  that declares `migrationsDir` but is served unsigned (or signed only with a
-  key the host does not trust) is refused import on every instance, regardless
-  of the `CINATRA_EXTENSION_REQUIRE_SIGNATURES` lever. See the precise
-  producer/verifier signing status in [Extension publishing](extension-publishing.md#extension-signing-and-the-activation-trust-root).
-
-Full authoring contract: the `@cinatra-ai/sdk-extensions` README
-(`packages/sdk-extensions/README.md`, "Schema migrations") and
-`migrations/README.md` in the cinatra repository.
-
----
-
-## 8. The README contract
-
-Every extension ships a marketplace-ready `README.md` at its root — an end-user-facing, value-forward description in the same register the marketplace renders next to the one-line `package.json` description. The structure (a display name, a value-forward paragraph, an optional "Works with" list, and a "What you can do" outcomes list) is enforced by a CI gate. See [Extension README contract](../../references/platform/extension-readme.md).
-
----
-
-## 9. Local validation and the conformance gates
+### Local validation and the conformance gates
 
 Before publishing, satisfy the gates the platform holds every extension to:
 
-- **`pnpm typecheck`** — the activation contract typechecks against the SDK; `register(ctx)` matches `ExtensionHostContext`.
-- **Naming conformance** (`packages/extensions/src/__tests__/naming-conformance.test.ts`) — directory == unscoped package name, kind-at-end, allowed scope for the kind.
-- **README gate** (`scripts/audit/extension-readme-gate.mjs`) — the README structure.
-- **License gate** (`scripts/audit/extension-license-gate.mjs`) — a policy license in the manifest.
-- **Dev-fixtures gate** (`scripts/audit/dev-fixtures-gate.mjs`) — if you declare `devFixtures`, the file is declarative data only (no SQL/JS/secrets; only `setting` and `object` surfaces).
-- **Discovery conformance** (`packages/extensions/src/__tests__/extension-discovery-conformance.test.ts`) — if you add a new kind's reader facet, it must satisfy the golden discovery contract (lifecycle suppression, visibility authority, reader-throw isolation).
-- **Manifest validity** — `requestedHostPorts` must be real port names, `sdkAbiRange` must be a supported range, and `dependencies` edges must be well-formed; the manifest generator flags unknown values at generation time.
+- **`pnpm typecheck`** — the activation contract typechecks against the SDK.
+- **Naming conformance** — directory == unscoped package name, kind-at-end, allowed scope for the kind.
+- **README gate**, **License gate**, **Dev-fixtures gate** (if you declare `devFixtures`, the file is declarative data only).
+- **Discovery conformance** — a new kind's reader facet must satisfy the golden discovery contract.
+- **Manifest validity** — real port names, a supported `sdkAbiRange`, well-formed `dependencies` edges.
 
-Beyond these author-time gates, the production loader applies a runtime trust check before importing your code in-process: it verifies the tarball's integrity and — in the signature-required window — an Ed25519 signature against a host-trusted key. An unsigned package is import-denied once enforcement is on, and a package that declares host migrations cannot import unless it is signed. See [Extension signing and the activation trust root](extension-publishing.md#extension-signing-and-the-activation-trust-root).
+Beyond these author-time gates, the production loader applies a runtime trust check (tarball integrity + Ed25519 signature in the signature-required window). The IoC review contract every change is held to is in [Extension IoC safeguards](../../references/platform/extension-ioc-safeguards.md).
 
-The IoC review contract every change is held to is in [Extension IoC safeguards](../../references/platform/extension-ioc-safeguards.md).
+---
+
+## 3. Go to your kind's guide
+
+Now follow the dedicated guide for what you are building:
+
+- **agent** → [Authoring agent extensions](../../references/platform/extension-kinds/authoring-agent-extensions.md) (routes to [Developing agents](developing-agents.md) and [Agent packaging](../../references/platform/agent-packaging.md))
+- **connector** → [Authoring connector extensions](../../references/platform/extension-kinds/authoring-connector-extensions.md) — the `register(ctx)` server entry, host ports, UI surfaces, and schema migrations
+- **artifact** → [Authoring artifact extensions](../../references/platform/extension-kinds/authoring-artifact-extensions.md) (routes to [Authoring semantic artifact extensions](semantic-artifact-extensions.md))
+- **skill** → [Authoring skill extensions](../../references/platform/extension-kinds/authoring-skill-extensions.md)
+- **workflow** → [Authoring workflow extensions](../../references/platform/extension-kinds/authoring-workflow-extensions.md)
 
 ---
 
 ## Where to go next
 
+- Choose your kind: [Extension kinds — choose your kind](../../references/platform/extension-kinds/index.md)
 - Ship the authored extension: [Extension publishing](extension-publishing.md)
 - The model and runtime architecture: [Extensions hub](../../references/platform/extensions.md)
 - The host-port grant/permission model: [Extension permissions](../../references/platform/extension-permissions.md)
