@@ -1,8 +1,48 @@
 # Quickstart
 
-This guide takes you from a freshly installed Cinatra to running your first agent end-to-end. It assumes you have already followed [Installation](installation.md) and the app is up at <http://localhost:3000>.
+This guide takes you from a fresh machine to running your first agent end-to-end.
 
-Expected time: about ten minutes.
+Expected time: about fifteen minutes (a few extra for the first Docker pull).
+
+---
+
+## 0. Download and install
+
+> **Note:** Once the `npx cinatra install` bootstrap lands (see [#255](https://github.com/cinatra-ai/cinatra/issues/255)), this step will reduce to a single command. For now, use the steps below.
+
+### Prerequisites
+
+You need:
+
+- **Node.js 24 or newer** — <https://nodejs.org/>
+- **pnpm** — <https://pnpm.io/installation>
+- **Docker** with the Compose plugin — <https://docs.docker.com/get-docker/>
+- **Make** — already on macOS and Linux; on Windows use WSL
+
+Docker should have at least **6 GB of RAM** allocated.
+
+### Clone the repo
+
+```bash
+git clone https://github.com/cinatra-ai/cinatra.git
+cd cinatra
+```
+
+### First-time setup
+
+```bash
+make setup
+```
+
+This installs dependencies, starts the supporting services in Docker, applies the database schema, and validates that every service is reachable. The script is idempotent — safe to re-run.
+
+### Start the app
+
+```bash
+make dev
+```
+
+Open <http://localhost:3000> once the dev server is ready. For the full details on what `make setup` and `make dev` do — and troubleshooting tips — see [Installation](installation.md).
 
 ---
 
