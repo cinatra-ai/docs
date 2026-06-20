@@ -74,4 +74,5 @@ For these, the notifications feed is the only surface you interact with — the 
 
 - How HITL gates ride this same persistence: [Human-in-the-loop by design](human-in-the-loop.md)
 - The capability fabric the runs operate on: [A connected ecosystem of capabilities](connected-ecosystem.md)
+- How a scheduled run's schedule can appear in a PM tool: [PM-tool integration](pm-tool-integration.md)
 - How the same run can be inspected from any MCP client: [Cinatra over MCP](../../references/mcp/external-server.md)

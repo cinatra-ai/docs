@@ -122,6 +122,14 @@ Once `make dev` is up, the local processes are:
 
 You do not need all of these for every use case; the Compose file starts them all because they are cheap and the typical development workflow touches several. Trim the compose profile down if you only need a subset.
 
+There is also an **opt-in Plane stack** for developing against the PM-tool integration. It is *not* part of the default `make dev` set — bring it up only when you need it, with its own compose profile:
+
+```bash
+docker compose --profile plane up -d
+```
+
+That runs Plane Community Edition on loopback at `http://localhost:3400` (a heavier stack, so it stays opt-in). After it's up, complete Plane's one-time first-user sign-up and create a workspace, then connect it from Cinatra. The full walkthrough — minting a token, base URL, picking a workspace and project — is in [PM-tool integration](../user/pm-tool-integration.md).
+
 Run `make check` at any time to confirm each of these services is reachable.
 
 ---

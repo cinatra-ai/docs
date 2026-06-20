@@ -52,6 +52,7 @@ Architecture, subsystem contracts, invariants, and protocol references for the C
 ## Connectors
 - [Integrating Cinatra with a CMS](integrating-with-a-cms.md)
 - [CRM connector](crm-connector.md) — the provider-neutral CRM facade (Twenty)
+- [PM connector](pm-connector.md) — the provider-neutral project-management facade for mirroring agent-run schedules (Plane)
 - [Email connector](email-connector.md)
 - [Blog and social-media connectors](blog-and-social-connectors.md)
 - [Drupal connector](drupal-connector.md)
