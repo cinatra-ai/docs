@@ -72,9 +72,12 @@ In practice you edit freely; Cinatra only stops the specific changes that would 
 - Reusable plans can be saved as **templates** and instantiated for the next release, so you're not rebuilding the same launch plan each quarter.
 - Agent tasks inside a workflow run on the same engine as everything else in Cinatra and produce **draft artifacts** you review in place; external publishing is a separate, later step.
 
+> **Heads up — seeing schedules in your PM tool.** Separately from release workflows, the **schedule** of an individual agent run (a scheduled or recurring run trigger) can be mirrored into an external project-management tool like Plane, so it appears as a work item on that tool's board or timeline. That's a one-way view of the schedule; this release-workflow Gantt at `/workflows` is unchanged and remains the surface for *managing* a release. See [PM-tool integration](pm-tool-integration.md).
+
 ## Where to go next
 
 - [Human-in-the-loop by design](human-in-the-loop.md) — the review/approve/resume model approvals build on
 - [Durable workflows](durable-workflows.md) — why work survives reloads and restarts
 - [Creating agents in chat](creating-agents-in-chat.md) — authoring the agents a workflow's `agent_task` steps dispatch
+- [PM-tool integration](pm-tool-integration.md) — mirror agent-run schedules into Plane work items for an external view
 - The engine implementation: [Release workflows](../../references/platform/release-workflows.md)

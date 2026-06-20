@@ -30,6 +30,8 @@ While the agent runs, a live run card appears in the conversation. You see steps
 
 When you are done with the thread, the run keeps going. Cinatra is built so runs survive page reloads and network drops; the notifications feed tells you when a long background run finishes. See [Durable workflows](durable-workflows.md) for how that persistence works.
 
+When you schedule a run for later — or set one to repeat — its **schedule** can be mirrored into an external project-management tool like Plane, so the run shows up as a dated work item on a board or timeline your team already watches. Cinatra stays in charge of the actual schedule and execution; the PM tool is just the external view. See [PM-tool integration](pm-tool-integration.md).
+
 For the HITL mechanics, see [Human-in-the-loop by design](human-in-the-loop.md).
 
 ---
