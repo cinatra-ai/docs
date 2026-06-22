@@ -4,7 +4,7 @@ Some work isn't a single agent run — it's a multi-week process with a date eve
 
 A release workflow is a calendar-driven plan — *not* an agent. It coordinates several kinds of step (checkpoints, agent-drafted content, human approvals, notifications, waits) on a timeline, and a durable engine advances it on its own: it runs each task when it's due and unblocked, dispatches agents for drafts, waits on approvals, and notifies the right people — across reloads, restarts, and the weeks in between.
 
-The interface split is deliberate: **you create a workflow in chat; you manage it on the Gantt.**
+The interface split is deliberate: **you create a workflow in chat; you manage it on the workflow detail page.**
 
 ---
 
@@ -12,18 +12,18 @@ The interface split is deliberate: **you create a workflow in chat; you manage i
 
 Open `/chat` and describe the release in plain language — "Plan the Acme 2.0 launch, GA on September 1, drive everything off that date." The assistant either instantiates a reusable template or builds a plan from scratch, fills in the release-specific details, validates it, and shows you a preview.
 
-The assistant is **proposal-only**. It drafts and revises the plan and answers read-only questions ("what's blocked? what's due next?"), but it never starts, approves, or rejects anything — those are human actions on the Gantt. When the draft is ready it hands you a deep link to manage it.
+The assistant is **proposal-only**. It drafts and revises the plan and answers read-only questions ("what's blocked? what's due next?"), but it never starts, approves, or rejects anything — those are human actions on the workflow detail page. When the draft is ready it hands you a deep link to manage it.
 
 Two things it always needs: the **release/product name** and the **target date + timezone**. Everything else it can infer or ask for in a single round.
 
 ---
 
-## Manage it on the Gantt
+## Manage it on the detail page
 
-Every workflow has a detail page at `/workflows/<id>` (the index of all workflows is at `/workflows`, titled **Release Workflows**). The page is an interactive Gantt plus the controls to run it.
+Every workflow has a detail page at `/workflows/<id>` (the index of all workflows is at `/workflows`, titled **Release Workflows**). The page shows the task list, the lifecycle controls, and the audit log.
 
-- **The timeline.** Tasks render as bars on a calendar in the release timezone, with dependency links between them. While a workflow is editable you can drag, resize, edit, and delete tasks and dependencies; every change is saved against the server's schedule resolver, so the dates you see are the dates the engine will use.
-- **The target date.** A workflow is anchored to one date. Most tasks are scheduled *relative* to it ("7 days before release"), so moving the target date cascades the dependent dates — you'll see the shift previewed before you commit it.
+- **The task list.** Tasks are listed in order with their status, schedule window, owner, and dependencies. Click a task to open its detail sheet — where you can see its full configuration, any dispatched agent runs, and its audit trail.
+- **The target date.** A workflow is anchored to one date. Most tasks are scheduled *relative* to it ("7 days before release"), so moving the target date cascades the dependent dates.
 - **Status and ownership** are shown at the top: a status pill (draft → active → paused → completed / cancelled / failed) and a scope badge for who owns it.
 
 > Editing is allowed while a workflow is a **draft** or **paused** — see [Editing a running workflow](#editing-a-running-workflow) below.
@@ -72,7 +72,7 @@ In practice you edit freely; Cinatra only stops the specific changes that would 
 - Reusable plans can be saved as **templates** and instantiated for the next release, so you're not rebuilding the same launch plan each quarter.
 - Agent tasks inside a workflow run on the same engine as everything else in Cinatra and produce **draft artifacts** you review in place; external publishing is a separate, later step.
 
-> **Heads up — seeing schedules in your PM tool.** Separately from release workflows, the **schedule** of an individual agent run (a scheduled or recurring run trigger) can be mirrored into an external project-management tool like Plane, so it appears as a work item on that tool's board or timeline. That's a one-way view of the schedule; this release-workflow Gantt at `/workflows` is unchanged and remains the surface for *managing* a release. See [PM-tool integration](pm-tool-integration.md).
+> **Heads up — seeing schedules in your PM tool.** Separately from release workflows, the **schedule** of an individual agent run (a scheduled or recurring run trigger) can be mirrored into an external project-management tool like Plane, so it appears as a work item on that tool's board or timeline. That's a one-way view of the schedule; the `/workflows` surface remains the authoritative place for *managing* a release. See [PM-tool integration](pm-tool-integration.md).
 
 ## Where to go next
 

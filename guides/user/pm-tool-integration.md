@@ -103,9 +103,8 @@ a dependency.
   treats it as a temporary outage and moves on.
 
 In short: a Plane outage is invisible to your agent runs. The worst case is a
-work item that's out of date until the schedule changes again. (An automatic
-background reconcile that repairs stale mirrors on its own is on the roadmap —
-see below.)
+work item that's out of date until the schedule changes again; a background
+reconcile loop repairs stale mirrors automatically every ~10 minutes.
 
 ---
 
@@ -163,31 +162,10 @@ A few setup notes worth knowing:
 
 ---
 
-## On the roadmap (Phase 2 — not yet shipped)
-
-The pieces below are part of the broader PM-tool integration plan but are **not
-shipped today.** They are listed here so you know what's coming, not as live
-behavior:
-
-- **Periodic reconcile** — a roughly ten-minute background loop that re-checks
-  every mirrored schedule and repairs any work item that drifted or failed to
-  sync (tracked as cinatra#318).
-- **Pre-execution PM check** — a fail-open check just before a run fires
-  (cinatra#319).
-- **Broader Gantt → PM-view shift** — the larger epic (cinatra#313) of moving
-  more of the in-app planning view into the PM tool over time.
-
-Until those land, the integration is exactly what this page describes: a one-way
-mirror of schedule-defining triggers into Plane work items, synced at configure
-and delete time, with failures recorded and re-synced on the next change to the
-schedule.
-
----
-
 ## Related
 
 - [User Guide home](README.md)
-- [Release workflows](release-workflows.md) — the calendar-driven, multi-week process surface (its Gantt is unchanged)
+- [Release workflows](release-workflows.md) — the calendar-driven, multi-week process surface (managed on the workflow detail page)
 - [Durable workflows](durable-workflows.md) — why agent runs survive reloads and restarts
 - [Installation](../hosting/installation.md) — the dev stack, including the `--profile plane` fixture
 - Developer reference: [PM connector](../../references/platform/pm-connector.md)

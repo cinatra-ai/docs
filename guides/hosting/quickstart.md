@@ -8,7 +8,15 @@ Expected time: about fifteen minutes (a few extra for the first Docker pull).
 
 ## 0. Download and install
 
-> **Note:** Once the `npx cinatra install` bootstrap lands (see [#255](https://github.com/cinatra-ai/cinatra/issues/255)), this step will reduce to a single command. For now, use the steps below.
+To set up a new Cinatra instance from scratch, you can use the published CLI:
+
+```bash
+npx @cinatra-ai/cinatra install
+```
+
+That command checks your prerequisites, clones Cinatra, creates your environment, starts the local services, and runs first-time setup. After it completes, continue from [Step 1](#1-create-the-admin-account) below.
+
+Alternatively, set up manually with the steps below (useful if you want to clone the repo yourself or contribute to the platform).
 
 ### Prerequisites
 
