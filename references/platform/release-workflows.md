@@ -1,15 +1,15 @@
 # Release Workflows
 
 AI-assisted, reusable **product release workflows**. A user describes a release in
-`/chat`; Cinatra instantiates a template, the user manages it on an interactive
-**Gantt**, approves human gates, and a durable reconciler executes the multi-week
-process on Cinatra's existing stack.
+`/chat`; Cinatra instantiates a template, the user manages it on the workflow
+detail page (task list, lifecycle controls, audit log), approves human gates, and
+a durable reconciler executes the multi-week process on Cinatra's existing stack.
 
 ## Core principle
 
 ```
 OpenAI (in /chat) helps CREATE/revise the workflow (proposal-only, via MCP).
-Cinatra OWNS the spec, templates, validation, authz, approvals, the Gantt, audit.
+Cinatra OWNS the spec, templates, validation, authz, approvals, the detail page, audit.
 A durable BullMQ reconciler EXECUTES the approved workflow (Postgres = source of truth).
 WayFlow RUNS the agents (one step type among several).
 ```
@@ -54,8 +54,8 @@ review-packet hash + resolved approvers).
 
 Server-side, DST-correct (`@date-fns/tz`). Relative offsets resolve as calendar
 durations in the task/release tz then convert to UTC; pinned tasks keep absolute
-dates; a release-date move yields a **cascade diff** for unpinned tasks (the Gantt
-commits via CAS). A relative anchor resolves to the anchor task's canonical
+dates; a release-date move yields a **cascade diff** for unpinned tasks (the detail
+page commits via CAS). A relative anchor resolves to the anchor task's canonical
 `dueAtUtc`; pinned tasks freeze as cascade anchors.
 
 ### Agent steps

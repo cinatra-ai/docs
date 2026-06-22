@@ -31,7 +31,7 @@ If you administer the `/configuration/*` area, see the [Admin Guide](../admin/RE
 
 ## Day-to-day
 
-- [Release workflows](release-workflows.md) — plan a multi-week, calendar-driven process in chat; manage it on the Gantt; approvals, lifecycle, and mid-flight editing
+- [Release workflows](release-workflows.md) — plan a multi-week, calendar-driven process in chat; manage it on the workflow detail page; approvals, lifecycle, and mid-flight editing
 - [PM-tool integration](pm-tool-integration.md) — mirror agent-run schedules into a project-management tool (Plane) so they appear on its board and timeline, and connect the Plane connector
 - [Creating agents in chat](creating-agents-in-chat.md) — author and publish an agent through the chat assistant
 - [Marketplace and extensions](marketplace-and-extensions.md) — find, install, and use the extensions that add new agents, connectors, skills, and workflows

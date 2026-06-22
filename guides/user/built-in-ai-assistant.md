@@ -48,9 +48,9 @@ For the full authoring flow — how the OAS file is structured, how the review g
 
 ## Building workflows in conversation
 
-A **workflow** is a calendar-anchored, multi-week process with scheduled tasks, agent-drafted content, and human approval gates. You describe the shape of the work — a product launch, a legal filing cycle, a quarterly review — and the assistant drafts the workflow, validates it, and hands you a deep link to the Gantt view where you manage, approve, and start it.
+A **workflow** is a calendar-anchored, multi-week process with scheduled tasks, agent-drafted content, and human approval gates. You describe the shape of the work — a product launch, a legal filing cycle, a quarterly review — and the assistant drafts the workflow, validates it, and hands you a deep link to the workflow detail page where you manage, approve, and start it.
 
-The assistant stays in the role of drafter and advisor. It creates and revises workflow proposals from chat; it answers read-only questions about status. Starting, approving gates, and cancelling runs happen on the Gantt — not in chat. This keeps the approval record on a surface where the full context is visible to the people who need it.
+The assistant stays in the role of drafter and advisor. It creates and revises workflow proposals from chat; it answers read-only questions about status. Starting, approving gates, and cancelling runs happen on the workflow detail page — not in chat. This keeps the approval record on a surface where the full context is visible to the people who need it.
 
 ---
 
@@ -58,7 +58,7 @@ The assistant stays in the role of drafter and advisor. It creates and revises w
 
 The assistant can create and update dashboards. Tell it what you want to see — "I want a dashboard with this week's agent run counts by type" — and it creates the layout, queries the semantic layer for the right data, and opens the result for you to review and publish. You can ask it to adjust the layout or swap a chart type in follow-up messages.
 
-Publish and archive actions stay on the dashboard surface itself. The assistant hands off to the Gantt and dashboard pages for lifecycle operations that affect the whole team.
+Publish and archive actions stay on the dashboard surface itself. The assistant hands off to the workflow and dashboard pages for lifecycle operations that affect the whole team.
 
 ---
 
@@ -113,7 +113,7 @@ Moving a thread between projects is possible through the `chat_thread_update` ac
 A few things that might look implied but are not shipped:
 
 - **Connector authoring.** The assistant can use installed connectors and help you discover and configure them. It cannot write a new connector type from scratch in conversation.
-- **Starting, approving, or cancelling workflow runs.** The assistant creates and revises workflow drafts. The Gantt surface owns start/approve/cancel.
+- **Starting, approving, or cancelling workflow runs.** The assistant creates and revises workflow drafts. The workflow detail page owns start/approve/cancel.
 - **Auto-approving HITL gates.** The resume action on a paused gate requires an explicit human action on the HITL surface. The assistant cannot approve a gate on your behalf.
 - **Seeing data you cannot see.** The assistant's access is exactly your access. It cannot read resources another user has locked from you.
 
