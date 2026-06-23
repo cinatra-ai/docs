@@ -29,19 +29,21 @@ The module is a thin, first-party carrier. The intelligence — the agent, the m
 
 You install the Cinatra module the same way you install any Drupal contributed module.
 
-**Via Composer** (recommended, once the project is published on Drupal.org):
+**Via Composer** (recommended):
 
 ```bash
 composer require drupal/cinatra
 drush en cinatra
 ```
 
+The module is available on [Drupal.org](https://www.drupal.org/project/cinatra) and is compatible with Drupal 10.3 or later and Drupal 11.
+
 **Manually**, if you are running a pre-release build or a fork:
 
 1. Place the module under `modules/custom/cinatra/` (or any `modules/` path Drupal scans).
 2. Enable it from **Extend** (`/admin/modules`) — tick **Cinatra** and save — or run `drush en cinatra`.
 
-The module requires Drupal 10 or 11 and a Cinatra instance you can reach over HTTPS. It has no other Drupal dependencies.
+The module requires Drupal 10.3 or 11 and a Cinatra instance you can reach over HTTPS. It has no other Drupal dependencies.
 
 > **Upgrading from the pre-release `cinatra_widget` module?** The module's install hook performs a one-shot copy of `cinatra_widget.settings` to `cinatra.settings`, so your existing Cinatra URL and credentials carry over. Disable and uninstall the old `cinatra_widget` module afterward.
 

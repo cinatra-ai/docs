@@ -24,7 +24,7 @@ The plugin bundles no Cinatra platform code beyond the widget. The assistant's i
 
 You can install the plugin two ways.
 
-**From the WordPress.org Plugin Directory (once published):**
+**From the WordPress.org Plugin Directory:**
 
 1. In `wp-admin`, go to **Plugins → Add New**.
 2. Search for **Cinatra**.
