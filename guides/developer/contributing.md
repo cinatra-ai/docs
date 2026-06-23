@@ -72,6 +72,70 @@ breaks, the expected follow-up PR(s), and the rollback path. Use it rarely.
 
 ---
 
+## AI-agent-assisted development (Cinatra dev-skills)
+
+The [`@cinatra-ai/dev`](https://github.com/cinatra-ai/dev) package installs a set of Claude Code skills that carry Cinatra's accumulated development knowledge — conventions, setup steps, domain gotchas, extension-authoring rules — directly into an AI coding agent. Installing the skills means the agent (Claude Code) already knows the org process and can guide you through it from first clone to merged PR. You do not need to memorise the conventions; the agent does.
+
+### Prerequisites
+
+- Node 20 or later
+- git
+- [Claude Code](https://claude.ai/code)
+
+### Installing the dev-skills
+
+Clone the public dev-skills repo and run the installer:
+
+```bash
+git clone https://github.com/cinatra-ai/dev
+cd dev
+node bin/install.mjs --claude --global --dry-run   # preview — nothing is written
+node bin/install.mjs --claude --global             # apply
+```
+
+A successful run prints `[install] OK — staged N skill(s), N agent(s) into <path>`.
+
+If you already have the repo cloned, pass `--source .` from inside it to skip the internal re-clone the installer performs as its access gate:
+
+```bash
+node bin/install.mjs --claude --global --source .
+```
+
+To remove the skills:
+
+```bash
+node bin/uninstall.mjs --claude --global
+```
+
+> **Coming soon:** a one-step `npx @cinatra-ai/dev --claude --global` path is planned once the package is published to npm. Until then, the clone-and-run path above is the only working route.
+
+### Using the skills with Claude Code
+
+Skills activate on natural-language trigger phrases inside Claude Code — no slash commands needed. After installation, start a Claude Code session in the Cinatra repo and say one of the trigger phrases below. The recommended starting sequence is: **dev-onboarding** → **dev-setup** → **dev-cinatra-dev-env** → then **dev-extension-conventions** or **dev-domain-gotchas** as the work requires.
+
+| Installed skill ID | Trigger phrase | What it does |
+|---|---|---|
+| `dev-onboarding` | "install the dev skills pack" / "onboard to the dev workflow" | Step-by-step walkthrough from bare machine to first shipped change |
+| `dev-setup` | "set up my cinatra machine" / "bootstrap my dev environment" | Doctor probe + toolchain install + Claude baseline config (dry-run by default) |
+| `dev-cinatra-dev-env` | "run cinatra locally" / "spin up the verify stack" | Brings up the local dev/verify stack; explains extension locks and LLM credential rules |
+| `dev-extension-conventions` | "create-cinatra-extension" / "extension repo conventions" | Five-kind extension architecture, scaffolding, and pin choreography |
+| `dev-domain-gotchas` | "design repo asset conformance" / "docs repo convention" | Per-repo non-obvious traps: design spec, release CI, schema migrations, CodeQL, cold-compile, container-URL split |
+
+For the full skills reference and changelog, see the [cinatra-ai/dev README](https://github.com/cinatra-ai/dev).
+
+### What the installer configures
+
+The installer is idempotent — re-running it is safe. It makes two changes to your global Claude Code setup:
+
+- **Skills** are staged to `~/.claude/skills/dev-<name>/SKILL.md`, one directory per skill.
+- A **`FileChanged` hook** is deep-merged into `~/.claude/settings.json` so Claude Code reloads automatically when `.cinatra-dev/config.json` changes. This merge uses a keyed sentinel and never overwrites your existing GSD or personal settings block.
+
+The installer also writes a managed org block to `~/.claude/CLAUDE.md` covering the truthful-attribution direction and the no-AI-co-authorship rule. Any block already written by a previous install is updated in place; your personal content is left untouched.
+
+For extension authoring, see [extension-authoring.md](extension-authoring.md) and [developing-agents.md](developing-agents.md).
+
+---
+
 ## Working on the codebase
 
 ### Setup
