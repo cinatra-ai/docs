@@ -128,7 +128,7 @@ For the full skills reference and changelog, see the [cinatra-ai/dev README](htt
 The installer is idempotent — re-running it is safe. It makes two changes to your global Claude Code setup:
 
 - **Skills** are staged to `~/.claude/skills/dev-<name>/SKILL.md`, one directory per skill.
-- A **`FileChanged` hook** is deep-merged into `~/.claude/settings.json` so Claude Code reloads automatically when `.cinatra-dev/config.json` changes. This merge uses a keyed sentinel and never overwrites your existing GSD or personal settings block.
+- A **`FileChanged` hook** is deep-merged into `~/.claude/settings.json` so Claude Code reloads automatically when `.cinatra-dev/config.json` changes. This merge uses a keyed sentinel and never overwrites your existing GSD or personal settings block. <!-- source-leak-allow -->
 
 The installer also writes a managed org block to `~/.claude/CLAUDE.md` covering the truthful-attribution direction and the no-AI-co-authorship rule. Any block already written by a previous install is updated in place; your personal content is left untouched.
 
