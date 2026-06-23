@@ -20,17 +20,12 @@ The assistant writes changes directly — to a new draft revision for Drupal, or
 
 The integration has two halves: a plugin/module that lives inside the CMS, and a configuration page inside Cinatra at `/connectors/cinatra-ai/drupal-assistant-connector/setup` or `/connectors/cinatra-ai/wordpress-assistant-connector/setup`.
 
-The Cinatra side is the same for both CMSes:
+The CMS side differs slightly between the two, but both support a one-click **Connect with Cinatra** flow — you enter only the instance URL, approve a consent screen, and the integration credential is provisioned and stored automatically. You never need to copy or paste a key by hand for a standard setup.
 
-1. **Open the connectors admin page** and generate the widget credentials. Cinatra returns an **API key** that the CMS will send back on every request.
-2. **Configure the assistant** at `/connectors/cinatra-ai/drupal-assistant-connector/setup` or `/connectors/cinatra-ai/wordpress-assistant-connector/setup` if you want a custom system prompt for the in-CMS chat.
+- **WordPress.** Install the Cinatra plugin from the [WordPress Plugin Directory](https://wordpress.org/plugins/cinatra/) (search "Cinatra" in **Plugins → Add New**), then open **Settings → Cinatra**. Enter your Cinatra instance URL and click **Connect with Cinatra** — approve the consent screen and the plugin stores the credential server-side. For advanced use or environments without a browser redirect, the settings page also offers a connection-string fallback and a manual fields section.
+- **Drupal.** Install the `cinatra` module (`composer require drupal/cinatra`), then open **Configuration → Web services → Cinatra** (`/admin/config/services/cinatra`). Enter your Cinatra instance URL and click **Connect with Cinatra** — approve the consent screen and the module stores the credential server-side. The same fallbacks (connection string, manual fields) are available.
 
-The CMS side differs slightly between the two:
-
-- **Drupal.** Install the `cinatra` module, then open **Configuration → Web services → Cinatra** (`/admin/config/services/cinatra`). Paste your Cinatra URL, the API key, and your instance ID. Save.
-- **WordPress.** Install the Cinatra plugin, then open **Settings → Cinatra**. Paste the Cinatra URL, the API key, the instance ID, and (optionally) a webhook secret. Save.
-
-After saving, the widget appears on supported pages — see below.
+After connecting, the widget appears on supported pages — see below.
 
 ### Where the widget appears
 
