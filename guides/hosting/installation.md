@@ -19,6 +19,34 @@ Cinatra runs the app on your host machine and the supporting services (PostgreSQ
 
 ---
 
+## Install with the CLI (recommended)
+
+The fastest path from a fresh machine to a running instance is the published `cinatra` CLI (npm [`@cinatra-ai/cinatra`](https://www.npmjs.com/package/@cinatra-ai/cinatra)). One command does the whole from-zero bootstrap:
+
+```bash
+npx @cinatra-ai/cinatra install
+```
+
+`install` runs your prerequisite checks **first** (Node.js, Docker, free ports), then clones Cinatra, creates your `.env.local`, brings up the Docker services and waits for them, installs Node dependencies, and runs first-time setup inside the freshly cloned checkout — the same work the manual flow below does, in one step. It writes the checkout into a `cinatra/` directory under your current working directory by default.
+
+Useful options:
+
+- `--dry-run` — show what `install` would do without changing anything.
+- `--resume` — finish an install that was interrupted partway through.
+
+After it completes, `cd cinatra` and run the rest of the commands from inside that checkout. Two read-only health commands are handy from the start:
+
+```bash
+npx @cinatra-ai/cinatra status   # show setup state (auth tables, user count, MCP config)
+npx @cinatra-ai/cinatra doctor   # diagnose your local setup
+```
+
+To install the CLI globally instead of invoking it through `npx`, run `npm install -g @cinatra-ai/cinatra`; the command is then just `cinatra`.
+
+The rest of this page documents the **manual** flow — clone the repo yourself and drive setup with the `make` targets. Use it if you want to manage the checkout yourself or contribute to the platform; the CLI runs these same steps for you.
+
+---
+
 ## Clone the repo
 
 ```bash

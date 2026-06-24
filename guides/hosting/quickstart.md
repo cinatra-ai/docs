@@ -8,15 +8,15 @@ Expected time: about fifteen minutes (a few extra for the first Docker pull).
 
 ## 0. Download and install
 
-To set up a new Cinatra instance from scratch, you can use the published CLI:
+The fastest way to set up a new Cinatra instance from scratch is the published CLI (npm [`@cinatra-ai/cinatra`](https://www.npmjs.com/package/@cinatra-ai/cinatra)):
 
 ```bash
 npx @cinatra-ai/cinatra install
 ```
 
-That command checks your prerequisites, clones Cinatra, creates your environment, starts the local services, and runs first-time setup. After it completes, continue from [Step 1](#1-create-the-admin-account) below.
+That command checks your prerequisites first, clones Cinatra into a `cinatra/` directory, creates your environment, starts the local Docker services, and runs first-time setup. Add `--dry-run` to preview the steps without changing anything, or `--resume` to finish an install that was interrupted. After it completes, `cd cinatra` and continue from [Step 1](#1-create-the-admin-account) below. From inside the checkout, `npx @cinatra-ai/cinatra status` and `npx @cinatra-ai/cinatra doctor` give you a quick read on instance health.
 
-Alternatively, set up manually with the steps below (useful if you want to clone the repo yourself or contribute to the platform).
+Alternatively, set up manually with the steps below (useful if you want to clone the repo yourself or contribute to the platform). The CLI runs these same steps for you; see [Installation](installation.md) for both paths in full.
 
 ### Prerequisites
 
