@@ -31,7 +31,7 @@ Run your first agent with the [Quickstart](guides/hosting/quickstart.md), or rea
 ## [Resources](resources/README.md)
 
 - [Why Cinatra](resources/why-cinatra.md) — what the platform unlocks
-- [Comparisons](resources/comparisons/README.md) — Cinatra vs ChatGPT Workspace Agents, Claude Cowork, Vercel Open Agents, Managed Agents, Amazon Quick, Runwork, and Tasklet
+- [Comparisons](resources/comparisons/README.md) — Cinatra vs ChatGPT Workspace Agents, Claude Cowork, Vercel Open Agents, Managed Agents, Amazon Quick, Runwork, Tasklet, and Spawnlabs
 
 ---
 

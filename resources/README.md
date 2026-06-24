@@ -11,3 +11,4 @@ Background, positioning, and evaluation material — the "why Cinatra, and how d
   - [Amazon Quick vs Cinatra](comparisons/amazon-quick-vs-cinatra.md)
   - [Runwork vs Cinatra](comparisons/runwork-vs-cinatra.md)
   - [Tasklet vs Cinatra](comparisons/tasklet-vs-cinatra.md)
+  - [Spawnlabs vs Cinatra](comparisons/spawnlabs-vs-cinatra.md)
