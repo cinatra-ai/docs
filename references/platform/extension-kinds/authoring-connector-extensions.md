@@ -230,4 +230,5 @@ The README contract and the shared package conventions apply to every kind — s
 - [Extensions hub](../extensions.md)
 - [The runtime-store `serverEntry` contract](../extension-server-entry-artifact.md)
 - [Extension SDK ABI and dependencies](../extension-sdk-abi-and-dependencies.md)
+- [Extension webhooks and streams](../extension-webhooks-and-streams.md) — declaring `cinatra.webhooks` and `cinatra.streams` to receive inbound webhooks and expose SSE streams.
 - [CRM connector](../crm-connector.md), [Email connector](../email-connector.md), [Drupal connector](../drupal-connector.md) — worked first-party examples.
