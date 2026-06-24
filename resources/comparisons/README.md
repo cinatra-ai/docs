@@ -14,6 +14,7 @@ How Cinatra relates to the products people most often ask about. Each page is a 
 | [Vercel Open Agents](vercel-open-agents-vs-cinatra.md) | an agent framework/runtime you assemble yourself | you want a full platform — persistence, human-in-the-loop (HITL), marketplace — not just a runtime |
 | [Amazon Quick](amazon-quick-vs-cinatra.md) | AWS's managed agentic assistant/workspace for business teams, AWS-hosted, curated catalog plus remote Model Context Protocol (MCP) connectors | you want to own the runtime, the data, and the extension surface instead of renting a managed product |
 | [Runwork](runwork-vs-cinatra.md) | a cloud SaaS coordination layer across the AI agents a team already uses (shared skills, automations, adoption metrics) | you want the agents themselves — self-hosted, durable, portable — not just coordination of external tools |
+| [Tasklet](tasklet-vs-cinatra.md) | a cloud platform that turns plain-English task descriptions into always-on automations, each agent in its own sandboxed cloud machine | you want self-hosted agents you own, with portable OAS flows and an audit trail in your own database, not a managed cloud |
 
 Each row links to the full head-to-head.
 
