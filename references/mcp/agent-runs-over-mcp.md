@@ -38,7 +38,7 @@ For the deeper model of how HITL gates work, see [Human-in-the-loop by design](.
 
 The MCP surface is polling-shaped. `agent_run_get` returns the current state; you call it until the state changes. There is no MCP "subscribe to event stream" primitive — that would conflict with MCP's request/response transport.
 
-The streaming AG-UI event channel exists alongside MCP. It's reachable at `{CINATRA_BASE_URL}/api/a2a?taskId={runId}` as Server-Sent Events. See [Open standards in Cinatra](../platform/open-standards.md) for the event types (`RUN_STARTED`, `TEXT_MESSAGE_CONTENT`, `TOOL_CALL_START`, `INTERRUPT`, `STATE_SNAPSHOT`, `RUN_FINISHED`).
+The streaming AG-UI event channel exists alongside MCP. It's reachable at `{CINATRA_BASE_URL}/api/agents/runs/{runId}/stream` as Server-Sent Events (the canonical browser SSE route, with `Last-Event-ID` resume). See [Open standards in Cinatra](../platform/open-standards.md) for the event types (`RUN_STARTED`, `TEXT_MESSAGE_CONTENT`, `TOOL_CALL_START`, `INTERRUPT`, `STATE_SNAPSHOT`, `RUN_FINISHED`).
 
 Most MCP clients don't need the streaming channel — polling at 3–5 second intervals is fine for runs that take seconds to minutes. The streaming channel matters when you want to surface intermediate text or tool calls to a watching user.
 

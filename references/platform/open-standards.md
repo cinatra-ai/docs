@@ -59,7 +59,7 @@ AG-UI is an open protocol for streaming agent lifecycle events from a server to 
 ### Official references
 
 - Documentation: <https://docs.ag-ui.com>
-- npm package: [`@ag-ui/core`](https://www.npmjs.com/package/@ag-ui/core) — Cinatra pins `0.0.52` in `packages/agent-ui-protocol/package.json`
+- npm package: [`@ag-ui/core`](https://www.npmjs.com/package/@ag-ui/core) — Cinatra pins `0.0.53` in `packages/agent-ui-protocol/package.json`
 
 ### Industry support
 
@@ -73,7 +73,7 @@ A dual adapter at the emission point fans every lifecycle hook out to two adapte
 
 For external integrations, AG-UI events can also be multiplexed inline into A2A SSE responses by setting `CINATRA_AGUI_EXTERNAL_ENABLED=true`. This is off by default — most external callers fetch the dedicated browser stream rather than the A2A multiplex.
 
-The event vocabulary itself is pinned to `@ag-ui/core@0.0.52` so types and constants stay aligned with the upstream protocol.
+The event vocabulary itself is pinned to `@ag-ui/core@0.0.53` so types and constants stay aligned with the upstream protocol.
 
 ### Why it benefits Cinatra
 
@@ -133,7 +133,7 @@ Every agent in Cinatra is a directory under `agents/<vendor>/<slug>/cinatra/` co
 
 At publish time a compiler reads the compact OAS Flow authoring format and derives the runtime representation: `inputSchema`, `outputSchema`, `approvalPolicy`, and the compiled execution plan all come out of the node graph automatically. A validator rejects legacy fields before the compiler runs, so the on-disk format stays canonical. The compiled output is what WayFlow loads and executes inside the Docker container.
 
-The WayFlow runtime itself is pinned to `wayflowcore[a2a]==26.1.1` together with `pyagentspec==26.1.0` — both must move together or the validator drifts.
+The WayFlow runtime itself is pinned to `wayflowcore[a2a]==26.1.2` together with `pyagentspec==26.1.2` — both must move together or the validator drifts.
 
 ### Why it benefits Cinatra
 
@@ -167,11 +167,11 @@ When the agent pauses for human approval, an AG-UI `INTERRUPT` event marks the p
 | Standard | Cinatra version | Endpoint(s) | Auth | Feature flag |
 |----------|-----------------|-------------|------|--------------|
 | A2A | `protocolVersion: "0.3.0"` via [`@a2a-js/sdk@^0.3.13`](https://www.npmjs.com/package/@a2a-js/sdk) | `POST /api/a2a` (multiplexed JSON-RPC) — flag-gated; `POST /api/a2a/resume` — flag-gated; `GET /api/a2a/agents/<vendor>/<slug>` (AgentCard + per-agent JSON-RPC proxy) — **always on** | Bearer JWT (same as MCP); dev loopback bypass via `A2A_DEV_BYPASS=true` | `POST /api/a2a` requires `CINATRA_A2A_HTTP_ENABLED=true`; the AG-UI multiplexed SSE response inside `/api/a2a` requires `CINATRA_AGUI_EXTERNAL_ENABLED=true`. Per-agent routes (`/api/a2a/agents/<vendor>/<slug>`) are always reachable so any A2A client that discovers an agent via its `AgentCard` can call it directly without flipping a flag. |
-| AG-UI | [`@ag-ui/core@0.0.52`](https://www.npmjs.com/package/@ag-ui/core) | `GET /api/agents/runs/{runId}/stream` (canonical browser SSE, `Last-Event-ID` resume) | Better Auth (the auth server library Cinatra uses) session + per-run ownership | always on for the browser route; `CINATRA_AGUI_EXTERNAL_ENABLED=true` to also multiplex AG-UI into the A2A SSE response for external A2A callers |
+| AG-UI | [`@ag-ui/core@0.0.53`](https://www.npmjs.com/package/@ag-ui/core) | `GET /api/agents/runs/{runId}/stream` (canonical browser SSE, `Last-Event-ID` resume) | Better Auth (the auth server library Cinatra uses) session + per-run ownership | always on for the browser route; `CINATRA_AGUI_EXTERNAL_ENABLED=true` to also multiplex AG-UI into the A2A SSE response for external A2A callers |
 | A2UI | `v0.9` | Redis Streams `cinatra:a2a:events:{runId}` (field `channel: "a2ui"`); Redis pub/sub `cinatra:a2ui:run:{runId}` | inherits AG-UI auth (same actor/run scope) | none — emitted whenever the dual-adapter sees an A2UI-relevant hook |
-| OAS | `agentspec_version: "26.1.0"`, `component_type: "Flow"`, runtime [`wayflowcore[a2a]==26.1.1`](https://pypi.org/project/wayflowcore/) + [`pyagentspec==26.1.0`](https://pypi.org/project/pyagentspec/) | n/a (file format, not an endpoint) | n/a | n/a |
+| OAS | `agentspec_version: "26.1.0"`, `component_type: "Flow"`, runtime [`wayflowcore[a2a]==26.1.2`](https://pypi.org/project/wayflowcore/) + [`pyagentspec==26.1.2`](https://pypi.org/project/pyagentspec/) | n/a (file format, not an endpoint) | n/a | n/a |
 
-Cinatra's A2A version (`0.3.0`) lags the current published spec — adopters that target only the latest A2A version may need a compatibility layer. The pinned `wayflowcore` runtime requires `pyagentspec==26.1.0` exactly to avoid validator drift; updating either alone breaks IME validation.
+Cinatra's A2A version (`0.3.0`) lags the current published spec — adopters that target only the latest A2A version may need a compatibility layer. The pinned `wayflowcore` runtime requires `pyagentspec==26.1.2` exactly to avoid validator drift; updating either alone breaks IME validation.
 
 ---
 
