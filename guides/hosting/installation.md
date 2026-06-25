@@ -100,7 +100,7 @@ git pull
 make refresh
 ```
 
-`make refresh` is dev-only and never touches git: you manage branches, it brings dependencies and the dev database in sync with the code on disk. It applies **additive** schema changes automatically; transformational one-shot migrations (renames/backfills) are run by hand only when a release's notes say so. Restart with `make dev` afterwards.
+`make refresh` is dev-only and never touches git: you manage branches, it brings dependencies and the dev database in sync with the code on disk. It applies **additive** schema changes automatically and then runs the versioned core migration chain (`migrations/core/`, recorded in the `pgmigrations` ledger), so transformational changes (renames/backfills) apply automatically too — hand-run release-note migrations are retired. (A fresh schema ledger-records the historical migrations because the bootstrap already creates the current shape; an existing deployment executes only the pending ones.) Restart with `make dev` afterwards.
 
 ---
 
