@@ -107,7 +107,7 @@ To remove the skills:
 node bin/uninstall.mjs --claude --global
 ```
 
-> **Coming soon:** a one-step `npx @cinatra-ai/dev --claude --global` path is planned once the package is published to npm. Until then, the clone-and-run path above is the only working route.
+> **Note:** the clone-and-run path above is the current working route. A one-step `npx @cinatra-ai/dev --claude --global` path will be available once the package is published to npm.
 
 ### Using the skills with Claude Code
 

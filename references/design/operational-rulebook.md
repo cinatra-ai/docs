@@ -6,6 +6,6 @@ The design operational rulebook lives with the Cinatra monorepo code it governs,
 
 These are branch-specific implementation doctrine that code agents read offline, alongside the code, so they live in the monorepo skill rather than in published docs.
 
-The **normative visual spec** stays in this docs repo at [`../design-system.html`](../design-system.html); the monorepo skill references it by URL.
+The **normative visual spec** stays in this docs repo at [`design-system.html`](./design-system.html); the monorepo skill references it by URL.
 
 Do not edit the operational rulebook here — make operational changes in the monorepo.
