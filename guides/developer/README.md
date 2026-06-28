@@ -62,7 +62,7 @@ For end-user material, see the [User Guide](../user/README.md). For platform-adm
 ## Connectors
 
 - [Integrating Cinatra with a CMS](../../references/platform/integrating-with-a-cms.md) — the WordPress and Drupal reference integrations, plus how to wire a third CMS the same way
-- [WordPress plugin / Drupal module development](wp-drupal-plugin-development.md) — where commits go now that the plugin/module live in extracted repos, the `cinatra setup dev` clone-sync workflow, and contract-version bumps
+- [WordPress plugin / Drupal module development](wp-drupal-plugin-development.md) — where commits go now that the plugin/module live in extracted repos, the `cinatra instance setup dev` clone-sync workflow, and contract-version bumps
 - [Email connector](../../references/platform/email-connector.md) — the provider-neutral transport facade
 - [Blog and social-media connectors](../../references/platform/blog-and-social-connectors.md) — provider-neutral transport facades
 - [Drupal connector](../../references/platform/drupal-connector.md) — the Drupal integration pattern

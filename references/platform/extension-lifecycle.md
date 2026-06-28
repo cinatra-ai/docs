@@ -120,7 +120,7 @@ manifest scopes access.
 - **Dev (`CINATRA_RUNTIME_MODE=development`):** `recordDevExtensionVersion`
   (`dev-version.ts`) updates the manifest source to `0.0.0-dev.<sha>` in place.
   The dev instance consumes git checkouts under `extensions/` through
-  `cinatra setup` — no registry publish.
+  `cinatra instance setup dev` — no registry publish.
 - **Prod (tagged release):** an `ext-v<semver>` tag triggers
   `.github/workflows/extension-tag-publish.yml`. `publish-authority.ts` enforces
   strict semver plus the release-manager gate. The Verdaccio config

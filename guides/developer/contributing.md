@@ -156,7 +156,7 @@ When you pull new code, your local dependencies and dev database schema can fall
 
 ```bash
 git pull
-make refresh        # equivalently: pnpm refresh:dev  /  cinatra dev refresh
+make refresh        # equivalently: pnpm refresh:dev  /  cinatra instance refresh
 ```
 
 `make refresh` is **dev-only** and **never touches git** — you manage branches; it only brings dependencies and the dev database in sync with the code on disk. Concretely it:

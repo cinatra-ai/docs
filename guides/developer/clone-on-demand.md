@@ -1,12 +1,18 @@
 # Clone-on-demand worktrees
 
-A *heavy* alternative to `cinatra setup branch` that gives a git worktree its own full
-Postgres **database** (not just a schema). Created dormant; `cinatra clone start`
+A *heavy* alternative to `cinatra instance branch setup` that gives a git worktree its own full
+Postgres **database** (not just a schema). Created dormant; `cinatra instance clone start`
 brings up a per-clone WayFlow (Cinatra's OAS Flow agent runtime) (+ optional Tailscale Funnel (a public-internet tunnel)) on demand.
+
+> **CLI namespace.** Local host/monorepo bootstrap commands live under
+> `cinatra instance …` (e.g. `cinatra instance clone new`, `cinatra instance branch setup`,
+> `cinatra instance tunnel`). The older bare forms (`cinatra clone …`, `cinatra setup branch`,
+> `cinatra dev tunnel`, `cinatra teardown branch`) still work this release but are deprecated and
+> print a hint pointing at their `cinatra instance …` equivalent.
 
 ## Two isolation paths
 
-| | `cinatra setup branch` (light) | `cinatra setup clone` (heavy) |
+| | `cinatra instance branch setup` (light) | `cinatra instance clone new` (heavy) |
 |---|---|---|
 | What is isolated | A Postgres **schema** (`cinatra_<slug>`) inside the shared `postgres` DB | A separate Postgres **database** (`cinatra_clone_<slug>`) |
 | Better Auth (the auth server library Cinatra uses) (`public.user` / `session` / …) | **shared with main** | **isolated per clone** (own `public`) |
@@ -14,22 +20,22 @@ brings up a per-clone WayFlow (Cinatra's OAS Flow agent runtime) (+ optional Tai
 | Snapshot mechanism | row-by-row `INSERT … ON CONFLICT` from the live `cinatra` schema | `CREATE DATABASE … TEMPLATE cinatra_seed` (file-level copy; preserves sequences/identity/indexes/constraints) |
 | Port band | 3001-3099 (Next.js) | 3100-3119 (Next.js) + 3200-3219 (WayFlow) |
 | `BULLMQ_QUEUE_NAME` | `cinatra-bg-<slug>` | `cinatra-clone-<slug>` |
-| Worktree creation | Claude Code `EnterWorktree` → `.claude/worktrees/worktree-<name>` | **`cinatra setup clone` owns it** → `../cinatra-ai-<slug>`, branch `cinatra-ai-<slug>` |
-| Operator action | `pnpm cinatra setup branch` (auto via hook) | `pnpm cinatra clone refresh-seed` once, then `pnpm cinatra setup clone <name>` |
+| Worktree creation | Claude Code `EnterWorktree` → `.claude/worktrees/worktree-<name>` | **`cinatra instance clone new` owns it** → `../cinatra-ai-<slug>`, branch `cinatra-ai-<slug>` |
+| Operator action | `pnpm cinatra instance branch setup` (auto via hook) | `pnpm cinatra instance clone refresh-seed` once, then `pnpm cinatra instance clone new <name>` |
 | Deps install | manual `pnpm install` | **automatic** (`corepack pnpm install`) on creation |
 
-> **Source-schema constraint:** both `clone refresh-seed` and `setup clone` require the source
+> **Source-schema constraint:** both `clone refresh-seed` and `clone new` require the source
 > `SUPABASE_SCHEMA` to be unset or exactly `"cinatra"` — they throw clearly otherwise.
-> Worktrees on a custom app schema stay on `setup branch`; clone seeding currently supports only the default app schema.
+> Worktrees on a custom app schema stay on `branch setup`; clone seeding currently supports only the default app schema.
 
-**Reach for `setup clone`** when a worktree needs true Better-Auth-table isolation, or a
+**Reach for `clone new`** when a worktree needs true Better-Auth-table isolation, or a
 real point-in-time snapshot of the live DB (e.g. for testing a destructive migration), or
-dedicated WayFlow + public tunnel. Stick with `setup branch` for
+dedicated WayFlow + public tunnel. Stick with `branch setup` for
 ordinary code-level work — it's lighter, hook-driven, and shares main's Better Auth state.
 
 ## The four commands
 
-### `cinatra clone refresh-seed [--source-env <path>]`
+### `cinatra instance clone refresh-seed [--source-env <path>]`
 
 (Re)builds the `cinatra_seed` template database — the source every clone forks from.
 
@@ -58,11 +64,11 @@ ordinary code-level work — it's lighter, hook-driven, and shares main's Better
 8. `ALTER DATABASE cinatra_seed WITH IS_TEMPLATE true ALLOW_CONNECTIONS false` so
    `CREATE DATABASE … TEMPLATE cinatra_seed` always succeeds.
 
-### `cinatra setup clone [<name>] [--slug <name>] [--worktree-path <path>] [--source-env <path>] [--force]`
+### `cinatra instance clone new [<name>] [--slug <name>] [--worktree-path <path>] [--source-env <path>] [--force]`
 
 **Creates** and provisions a **dormant** deep-fork clone. Two modes:
 
-- **CLI-owned (recommended)** — `cinatra setup clone <name>` (positional) or
+- **CLI-owned (recommended)** — `cinatra instance clone new <name>` (positional) or
   `--slug <name>`. The CLI creates the git worktree itself: derives the main repo
   root (via `git rev-parse --git-common-dir`), then
   `git -C <mainRepoRoot> fetch origin` + `git worktree add
@@ -75,7 +81,7 @@ ordinary code-level work — it's lighter, hook-driven, and shares main's Better
   `packageManager` is honored — a stray global pnpm mangles the lockfile). An
   install failure is loud and exits non-zero but never rolls back the DB/worktree
   (provisioning already succeeded).
-- **Current-worktree mode (no name)** — `cinatra setup clone` with no slug
+- **Current-worktree mode (no name)** — `cinatra instance clone new` with no slug
   provisions the **current** worktree in place (slug from
   `resolveRealBranchName`, `cinatra-ai-`/`worktree-` prefixes stripped). This is
   the path the `EnterWorktree` hook uses (see "Hook-driven
@@ -91,7 +97,7 @@ Provisioning steps (both modes):
    `resolveRealBranchName(worktreePath)`, detached-HEAD safe) and
    derives `dbName = cloneDbName(slug)` (`cinatra_clone_<slug-with-underscores>`).
 2. Verifies `cinatra_seed` exists and is a template — errors with a clear
-   `run: cinatra clone refresh-seed` hint otherwise.
+   `run: cinatra instance clone refresh-seed` hint otherwise.
 3. **Allocates the registry slot under a file lock** (`~/.cinatra/clones.json.lock`,
    inode-ownership aware so a concurrent stale-steal cannot kill a fresh lock). Lowest
    free index 0-19; throws on cross-worktree slug aliasing. Writes the slot in state
@@ -106,7 +112,7 @@ Provisioning steps (both modes):
 7. Flips the slot from `provisioning` to `ready` under the file lock — a failure between
    steps 3 and 7 leaves the slot `provisioning`, recoverable by a re-run.
 
-### `cinatra clone prune [--worktree-path <path>] [--slug <slug>] --yes`
+### `cinatra instance clone prune [--worktree-path <path>] [--slug <slug>] --yes`
 
 Destroys a clone. Order is **validate-registry-first** — a malformed registry throws
 before any DROP runs.
@@ -130,7 +136,7 @@ before any DROP runs.
    EnterWorktree clone) is **skipped entirely** — DB/slot/Redis-only behavior is
    kept for it. The same guard is applied per-slot by `prune --stale`.
 
-### `cinatra clone list`
+### `cinatra instance clone list`
 
 Read-only registry table (slug, ports, database, state, worktree, createdAt). Tolerates
 a malformed registry by reporting corruption rather than crashing.
@@ -170,7 +176,7 @@ wrong-DB destructive op. The bad file is left in place for the operator to repai
 
 - **Wrong-version host `pg_dump`** — `runPostgresCommand` falls back to the docker client
   image only when the host binary is *absent*. A wrong-version host `pg_dump` exits
-  nonzero and surfaces a clear error; that matches the 3 existing `cinatra backup`
+  nonzero and surfaces a clear error; that matches the 3 existing `cinatra instance backup`
   callers. Changing the fallback to also trigger on nonzero exit is a behavior change to
   shared shipped code — routed as a separate follow-up.
 - **`clone prune` with no reachable `redis-cli`** — `cleanupRedisQueueKeys`
@@ -188,7 +194,7 @@ wrong-DB destructive op. The bad file is left in place for the operator to repai
 
 ## Lifecycle commands
 
-### `cinatra clone start [<slug>] [--rebuild-wayflow] [--tailscale-host-network]`
+### `cinatra instance clone start [<slug>] [--rebuild-wayflow] [--tailscale-host-network]`
 
 Brings up the local stack:
 
@@ -217,7 +223,7 @@ Brings up the local stack:
 11. Without `TS_AUTHKEY`: clone runs **local-only**. `publicBaseUrl` stays
     cleared. The notice is printed so operators know.
 
-### `cinatra clone stop [<slug>]`
+### `cinatra instance clone stop [<slug>]`
 
 1. Clears `mcp_server.publicBaseUrl` in the clone DB (no stale Funnel URL
    across stop/start).
@@ -228,23 +234,23 @@ Brings up the local stack:
 5. Removes `nextjs.pid`.
 
 The clone DB + registry slot survive. To drop the clone DB entirely, run
-`cinatra clone prune --slug <s> --yes`.
+`cinatra instance clone prune --slug <s> --yes`.
 
-### `cinatra clone status [<slug>]`
+### `cinatra instance clone status [<slug>]`
 
 Read-only diagnostic — pid alive Y/N, `/api/health` reachable Y/N, WayFlow
 `/.health` reachable Y/N, compose project name, runtime-lock state, log path.
 
-### `cinatra dev tunnel <start|stop|status>`
+### `cinatra instance tunnel <start|stop|status>`
 
 The bare `pnpm dev` MAIN-instance equivalent of the per-clone Funnel
-(`cinatra clone start`). Both share the single deterministic
+(`cinatra instance clone start`). Both share the single deterministic
 `deriveDevTailscaleHostname({dbUrl, schema})` source of truth — the SAME
 deriver the app's dev-tab flyout preview uses — so the predicted hostnames
 never collide: main → `cinatra-main`, heavy clone → `cinatra-clone-<slug>`,
 light worktree → `cinatra-<slug>`.
 
-#### `cinatra dev tunnel start`
+#### `cinatra instance tunnel start`
 
 1. **Dev-only HARD REFUSAL.** Exits with a thrown error (exit 1) unless
    `CINATRA_RUNTIME_MODE=development`, BEFORE any Docker / Nango (the OAuth gateway brokering connector credentials) / DB side
@@ -264,7 +270,7 @@ light worktree → `cinatra-<slug>`.
    3100+ clone band.
 6. Idempotent — skips if the dev-main compose project is already up.
 
-#### `cinatra dev tunnel stop`
+#### `cinatra instance tunnel stop`
 
 1. Tears the dev-main Tailscale sidecar down.
 2. Reads `publicBaseUrlSource` from the main DB and
@@ -272,7 +278,7 @@ light worktree → `cinatra-<slug>`.
    (`source ∈ {tailscale-auto, tailscale-funnel}`). An operator-set manual
    URL is left UNTOUCHED.
 
-#### `cinatra dev tunnel status`
+#### `cinatra instance tunnel status`
 
 Read-only — reports predicted hostname vs registered hostname + whether
 `publicBaseUrl` is currently set in the main DB. Never throws on "not
@@ -285,7 +291,7 @@ hard-refusal message tells the operator).
 
 ## Hook-driven provisioning
 
-> Heavy clones are normally created by `cinatra setup clone <name>` (the
+> Heavy clones are normally created by `cinatra instance clone new <name>` (the
 > CLI-owned path above) — that does NOT use `EnterWorktree` and is the
 > recommended flow. The hook path below is available for operators who drive
 > heavy clones through `EnterWorktree`; it routes through the no-slug
@@ -300,26 +306,26 @@ file:
 - `<repo-root>/.cinatra-clone-on-demand-default` — repo-wide default; every
   new worktree gets a clone.
 
-When the marker is present, EnterWorktree invokes `cinatra setup clone`
-instead of `cinatra setup branch`. ExitWorktree detects clone mode via
-`cinatra clone slug-for-worktree --worktree-path <p>` (registry lookup; the
+When the marker is present, EnterWorktree invokes `cinatra instance clone new`
+instead of `cinatra instance branch setup`. ExitWorktree detects clone mode via
+`cinatra instance clone slug-for-worktree --worktree-path <p>` (registry lookup; the
 canonicalisation falls back to abs-string match so a removed worktree dir
 can still be found).
 
-ExitWorktree on a clone runs `cinatra clone stop` only — the DB is retained.
-To drop the DB run `cinatra clone prune --slug <s> --yes` explicitly.
+ExitWorktree on a clone runs `cinatra instance clone stop` only — the DB is retained.
+To drop the DB run `cinatra instance clone prune --slug <s> --yes` explicitly.
 
 ## Stale-clone detection
 
 A registry slot is **stale** when `slot.worktreePath` no longer resolves to
 an existing directory (operator did `rm -rf` the worktree, `git worktree
-prune` ran, etc.). `cinatra clone list` annotates stale rows with `[STALE]`.
+prune` ran, etc.). `cinatra instance clone list` annotates stale rows with `[STALE]`.
 
 To bulk-prune every stale clone:
 
 ```bash
-cinatra clone prune --stale --dry-run     # preview targets
-cinatra clone prune --stale --yes         # actually prune them
+cinatra instance clone prune --stale --dry-run     # preview targets
+cinatra instance clone prune --stale --yes         # actually prune them
 ```
 
 There is **no `$HOME` / repo-root exclusion** — Cinatra worktrees normally
@@ -337,7 +343,7 @@ a public Funnel URL. Requires `TS_AUTHKEY` in the operator's shell env.
    https://login.tailscale.com/admin/settings/keys (ephemeral so the device
    auto-vacates on container exit; preauthorised so no manual approval).
 2. `export TS_AUTHKEY=tskey-auth-…`
-3. `cinatra clone start`
+3. `cinatra instance clone start`
 
 The key is **never written to disk**. The rendered `compose.yml` contains
 the LITERAL string `${TS_AUTHKEY}`; docker compose substitutes from the
@@ -367,21 +373,21 @@ To move a worktree from a light branch env to a clone:
 
 ```bash
 # In the worktree:
-cinatra teardown branch --yes
+cinatra instance branch teardown --yes
 rm .env.local
-cinatra setup clone
+cinatra instance clone new
 ```
 
 Note: the clone is built from `cinatra_seed` (the scrubbed source-of-truth
 snapshot). The light branch's `cinatra_<slug>` schema data is intentionally
 NOT carried over. If you need branch state in the clone, take a backup of
-the schema first (`cinatra backup create`).
+the schema first (`cinatra instance backup create`).
 
 ## Capability summary
 
 - Seed DB + dormant deep-fork clone provisioning.
-- `cinatra clone start|stop|status` manages the per-clone WayFlow container, host-native Next.js lifecycle, and health checks.
+- `cinatra instance clone start|stop|status` manages the per-clone WayFlow container, host-native Next.js lifecycle, and health checks.
 - Per-clone Tailscale Funnel sidecar wires `mcp_server.publicBaseUrl` and exposes `/api/mcp/health`.
 - EnterWorktree/ExitWorktree hooks can opt into clone mode, with stale-clone detection and `prune --stale` bulk cleanup.
-- `cinatra setup clone <name>` owns worktree creation (`../cinatra-ai-<slug>`, branch `cinatra-ai-<slug>`, from `origin/main`) and auto-installs deps; `clone prune` removes the CLI-owned worktree and branch. The no-slug / EnterWorktree-hook path remains available for current-worktree provisioning.
-- `cinatra dev tunnel <start|stop|status>` provides the dev-main Funnel verb for bare `pnpm dev`, with dev-only hard refusal, source-guarded stop, optimistic `publicBaseUrl` write decoupled from reachability probes, and deterministic collision guard.
+- `cinatra instance clone new <name>` owns worktree creation (`../cinatra-ai-<slug>`, branch `cinatra-ai-<slug>`, from `origin/main`) and auto-installs deps; `clone prune` removes the CLI-owned worktree and branch. The no-slug / EnterWorktree-hook path remains available for current-worktree provisioning.
+- `cinatra instance tunnel <start|stop|status>` provides the dev-main Funnel verb for bare `pnpm dev`, with dev-only hard refusal, source-guarded stop, optimistic `publicBaseUrl` write decoupled from reachability probes, and deterministic collision guard.

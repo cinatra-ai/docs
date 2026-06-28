@@ -61,7 +61,7 @@ A later, equal-version republish of an already-promoted package supersedes the p
 
 ---
 
-## Distribution: dev `cinatra setup` checkouts vs prod package-store install
+## Distribution: dev `cinatra instance setup dev` checkouts vs prod package-store install
 
 The same activation contract runs in development and production; only *where the compiled code comes from* differs.
 

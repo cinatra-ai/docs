@@ -107,7 +107,7 @@ Set to `"true"` to allow unauthenticated loopback requests to `/api/a2a`. Develo
 
 ### `CINATRA_A2A_DEV_PEER_URLS`
 
-Comma-separated list of A2A dev peer URLs to auto-register on dev boot. The sample peer servers are cloned by `cinatra setup dev` from the `cinatra-ai/a2a-servers-dev` repo (via `package.json` `cinatra.devApps`) into the git-ignored `dev/a2a-peers/`; bring them up with the optional `docker compose --profile a2a-peers` profile (or run the per-peer host launchers). A typical default set:
+Comma-separated list of A2A dev peer URLs to auto-register on dev boot. The sample peer servers are cloned by `cinatra instance setup dev` from the `cinatra-ai/a2a-servers-dev` repo (via `package.json` `cinatra.devApps`) into the git-ignored `dev/a2a-peers/`; bring them up with the optional `docker compose --profile a2a-peers` profile (or run the per-peer host launchers). A typical default set:
 
 ```
 CINATRA_A2A_DEV_PEER_URLS=http://localhost:10001,http://localhost:10002,http://localhost:10004,http://localhost:10005,http://localhost:10006,http://localhost:10007

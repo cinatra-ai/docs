@@ -7,7 +7,7 @@ The Cinatra WordPress plugin and Drupal module live in **their own repositories*
 - `cinatra-ai/drupal-module` → Drupal.org machine name `cinatra` (GPL-2.0-or-later)
 
 For local development the dev docker stack consumes them as **clones** inside
-this tree. `cinatra setup {dev,branch,clone}` clones / fast-forwards them from
+this tree. The dev-provisioning commands (`cinatra instance setup dev`, `cinatra instance branch setup`, `cinatra instance clone new`) clone / fast-forward them from
 the config in `package.json` (`cinatra.devApps`) into:
 
 - `dev/wordpress-plugin/` — the WordPress plugin (repo root maps to the plugin dir;
@@ -36,7 +36,7 @@ and the clone paths don't appear at all (they're gitignored).
 
 1. `cd dev/wordpress-plugin` (or `dev/drupal-module/cinatra`).
 2. Edit, commit, push to the extracted repo's `main` via a PR there.
-3. Back in cinatra, `cinatra setup dev` fast-forwards the local clone to the new
+3. Back in cinatra, `cinatra instance setup dev` fast-forwards the local clone to the new
    `main`. No cinatra PR is involved.
 
 ## Contract-version bumps (cross-cutting changes)
@@ -59,18 +59,18 @@ under `contracts/wp-drupal-assistant/`.
 
 ## Dirty-tree recipes
 
-`cinatra setup` never destroys local work. If a clone has uncommitted changes it
+`cinatra instance setup dev` never destroys local work. If a clone has uncommitted changes it
 is **skipped with a warning** naming the dirty repo. To proceed:
 
 - **Keep your work:** `cd dev/wordpress-plugin && git commit -am "wip"` (or `git
-  stash`), then re-run `cinatra setup dev`.
+  stash`), then re-run `cinatra instance setup dev`.
 - **Discard your work:** `cd dev/wordpress-plugin && git checkout . && git clean -fd`,
   then re-run.
-- **Force fast-forward (stashes first):** `cinatra setup dev
+- **Force fast-forward (stashes first):** `cinatra instance setup dev
   --force-dev-apps` — stashes local changes, then hard-resets the
   clone to `origin/main`. A clone pointing at the **wrong origin or branch** is
   never auto-reset, even with `--force`; fix the remote or move the dir aside.
-- **Skip the sync entirely:** `cinatra setup dev --skip-dev-apps`
+- **Skip the sync entirely:** `cinatra instance setup dev --skip-dev-apps`
   (e.g. on CI / contributors without access to the private repos pre-launch).
 
 Per-repo URL overrides (for a fork or an SSH remote) without editing
@@ -82,15 +82,15 @@ two forms).
 
 `error_log()` (WordPress) and `\Drupal::logger('cinatra')->debug()` (Drupal)
 changes you add while debugging live in the clone and are **local-only** unless
-you intentionally commit + push them to the extracted repo. `cinatra setup`
+you intentionally commit + push them to the extracted repo. `cinatra instance setup dev`
 treats them as a dirty tree and skips (see above) — so they won't be silently
 fast-forwarded away, but they also won't reach anyone else until you push.
 
-## Recovery when `cinatra setup` skips a dirty clone
+## Recovery when `cinatra instance setup dev` skips a dirty clone
 
 The warning names the dirty repo and the exact next command. Pick one of the
 dirty-tree recipes above. If a clone is in a **non-git** or **wrong-origin**
-state, `cinatra setup` fails loud (non-zero exit) with remediation text rather
+state, `cinatra instance setup dev` fails loud (non-zero exit) with remediation text rather
 than touching it — move the directory aside and re-run to get a fresh clone.
 
 ## Volume-scoped dev migration (post-cutover, one-time)
@@ -103,7 +103,7 @@ drop **only** the WP/Drupal volumes (not unrelated cinatra volumes) and re-setup
 docker compose stop wordpress wordpress-db drupal drupal-db
 docker volume rm cinatra_cinatra-wordpress cinatra_cinatra-wordpress-db \
                  cinatra_cinatra-drupal cinatra_cinatra-drupal-db
-cinatra setup dev
+cinatra instance setup dev
 ```
 
 The renamed plugin/module each run a one-shot migration that copies the
