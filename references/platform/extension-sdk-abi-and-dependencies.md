@@ -180,6 +180,6 @@ the schema-migration framework). The contract:
 
 The host never migrates an extension down. Operators can revert your newest
 ledger rows with
-`cinatra db migrate --down --dir <abs migrations dir> --namespace ext_<scope>_<pkg>__`;
+`cinatra instance db migrate --down --dir <abs migrations dir> --namespace ext_<scope>_<pkg>__`;
 rolling back is fenced per namespace (your rows only). Prefer shipping a
 superseding forward migration.

@@ -9,10 +9,10 @@ to production is an operator action under the release-tag-gated deploy).
 ## Preconditions
 
 - The migration code is deployed (the broadened `resource_kind` CHECK ships via
-  `buildCreateStoreSchemaQueries` on `cinatra setup`, and via migration 640).
-- A fresh backup exists: `cinatra backup create` (defensive — the migration is
+  `buildCreateStoreSchemaQueries` on `cinatra setup prod` (the in-image deploy-time schema sync), and via migration 640).
+- A fresh backup exists: `cinatra instance backup create` (defensive — the migration is
   non-destructive, but back up before any prod data migration).
-- Optionally `cinatra backup export-api-configs` (connectors touched; no
+- Optionally `cinatra instance backup export-api-configs` (connectors touched; no
   credential schema change, but access rows move).
 
 ## Steps

@@ -231,7 +231,7 @@ Every installed extension carries an `origin` record (package name, version, sco
 
 ### Registry model
 
-Cinatra publishes to and installs from a Verdaccio registry (`registry.cinatra.ai`) under the `@cinatra-ai/*` npm scope, with separate **private** (the publishing instance's own destination) and **public** (the shared registry every instance can read) destinations. Published versions are immutable — the registry's `unpublish` directive is locked to `nobody`, verified fail-closed at boot. In development the host consumes extensions as git checkouts via `cinatra setup`; in production it installs published packages into the runtime store.
+Cinatra publishes to and installs from a Verdaccio registry (`registry.cinatra.ai`) under the `@cinatra-ai/*` npm scope, with separate **private** (the publishing instance's own destination) and **public** (the shared registry every instance can read) destinations. Published versions are immutable — the registry's `unpublish` directive is locked to `nobody`, verified fail-closed at boot. In development the host consumes extensions as git checkouts via `cinatra instance setup dev`; in production it installs published packages into the runtime store.
 
 Full distribution mechanics — the submit → approve → promote → registry-sync pipeline, immutable versions, and dev-checkout vs prod-package-store consumption — are in [Extension publishing](../../guides/developer/extension-publishing.md).
 

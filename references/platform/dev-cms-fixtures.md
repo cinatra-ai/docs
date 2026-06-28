@@ -104,7 +104,7 @@ sentinel re-runs the cleanup.
   (incl. the ~2 GB Twenty stack).
 - The Twenty connector **API key now auto-mints + attaches** at dev-auto-setup
   (`src/lib/dev-auto-setup.ts` → `autoSetupLocalTwenty`) when the Twenty
-  container is up and Nango is configured (`cinatra setup nango`): it reuses a
+  container is up and Nango is configured (`cinatra instance setup nango`): it reuses a
   working bearer, else mints a fresh workspace key via `docker exec`, imports it
   into Nango, and readback-verifies — no operator setup-page step. Twenty
   *content* (companies/people/views) still seeds via the bootstrap step 13,
