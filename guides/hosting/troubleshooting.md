@@ -34,7 +34,7 @@ For each problem: what you see, why it happens, how to fix it.
 
 **Cause:** Another process — often another Cinatra instance, or a system Postgres — already holds the port.
 
-**Fix:** Find the conflicting process (`lsof -i :5434` for Postgres, `:6379` for Redis, `:3010` for WayFlow) and stop it, or remap the port by editing `docker-compose.yml` and the matching `.env.local` variable.
+**Fix:** Find the conflicting process (`lsof -i :5434` for Postgres, `:6379` for Redis, `:3010` for WayFlow) and stop it, or remap the port and the matching `.env.local` variable. Note **where** each host port is published: the Postgres (`5434`) and Redis (`6379`) host bindings live in `docker-compose.dev.yml` (the dev-only override that re-publishes the platform DB ports on loopback), not in the base `docker-compose.yml` — edit them there. WayFlow's `3010` is in the base `docker-compose.yml`.
 
 ---
 

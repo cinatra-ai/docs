@@ -177,7 +177,7 @@ See [MCP public URL & tunnels](mcp-public-url.md) for why this is needed, how th
 If `make setup` fails partway through, the most common causes are:
 
 - **Docker is not running.** Start Docker Desktop or the daemon, then re-run `make setup`.
-- **Port conflicts.** Postgres on `5434`, Redis on its default port, WayFlow on `3010`. If any of those are taken, edit `docker-compose.yml` or the matching env var in `.env.local`.
+- **Port conflicts.** Postgres on `5434`, Redis on its default port, WayFlow on `3010`. If any of those are taken, remap the port and the matching env var in `.env.local`. The Postgres and Redis host bindings are published by `docker-compose.dev.yml` (the dev-only override), not the base `docker-compose.yml` — edit them there; WayFlow's port is in the base `docker-compose.yml`.
 - **pnpm install fails on missing native deps.** On macOS, install Xcode Command Line Tools (`xcode-select --install`). On Linux, install `build-essential` and `python3`.
 - **App boots but `/api/auth/get-session` 500s.** Usually a missing `BETTER_AUTH_SECRET` or a stale `.next` cache. Set the secret in `.env.local` (32 random hex chars) and run `rm -rf .next && pnpm dev`.
 
