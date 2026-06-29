@@ -25,8 +25,8 @@ This design introduces a single Model Context Protocol (MCP) review primitive, `
 
 ```
                                ┌─────────────────────────────────────┐
-                               │   chat-assistant (system skill)     │
-                               │   packages/chat/skills/chat-...     │
+                               │   chat-assistant-core (system skill)│
+                               │   assistant-skills: chat-...        │
                                └──────────────┬──────────────────────┘
                                               │
                                               │ MCP call
@@ -82,7 +82,7 @@ Three concrete consequences of the A2AAgent parent design:
 
 Two-layer defense. Both layers are mandatory; neither is sufficient alone.
 
-**Layer 1 — Preventive skill rule.** `packages/chat/skills/chat-assistant/SKILL.md` carries a `## Credential safety` section that forbids the chat assistant from soliciting, accepting, or echoing credentials. On user offer, the assistant redirects to `/settings/connections` (Nango (the OAuth gateway brokering connector credentials) is the canonical credential surface) and explicitly states that any literal value pasted into chat will be ignored. This stops the data from entering the OAS in the first place.
+**Layer 1 — Preventive skill rule.** The always-loaded `chat-assistant-core` skill (`skills/chat-assistant-core/SKILL.md` in the `assistant-skills` extension) carries a `## Credential safety` section that forbids the chat assistant from soliciting, accepting, or echoing credentials. On user offer, the assistant redirects to `/connectors` (Nango (the OAuth gateway brokering connector credentials) is the canonical credential surface) and explicitly states that any literal value pasted into chat will be ignored. This stops the data from entering the OAS in the first place.
 
 **Layer 2 — Interceptive deterministic scan.** Even if the skill rule fails (model drift, jailbreak prompt, future model version), `validateOasAgentJson` runs three deterministic scans against the OAS body before either `agent_source_compile` or `agent_source_publish` proceeds:
 
@@ -95,7 +95,7 @@ Both layers are required because:
 - Layer 1 alone fails closed only as well as the model behaves. Models drift; jailbreaks exist; the deterministic backstop is non-negotiable.
 - Layer 2 alone would let the chat conversation accumulate the literal credentials before the OAS is built. Those literals would persist in conversation history, server logs, and any other downstream consumer.
 
-See `packages/chat/skills/chat-assistant/SKILL.md` for the assistant-facing rules and `packages/agents/src/validate-agent-json.ts` for the scan implementations.
+See `skills/chat-assistant-core/SKILL.md` (in the `assistant-skills` extension) for the assistant-facing credential-safety rules, `skills/chat-agent-authoring/SKILL.md` for the agent-authoring review primitive, and `packages/agents/src/validate-agent-json.ts` for the scan implementations.
 
 ## 5. ReviewFinding contract
 
@@ -192,7 +192,7 @@ Both `agent_source_compile` and `agent_source_publish` invoke the deterministic 
 
 - `packages/agents/src/validate-agent-json.ts` — deterministic scans + `ReviewFinding` type export.
 - `packages/agents/src/mcp/handlers.ts` — `agent_source_review` handler (search for `handleAgentSourceReview`), `agent_source_compile` gate, `agent_source_publish` gate, `isOasTrivial` predicate.
-- `packages/chat/skills/chat-assistant/SKILL.md` — assistant-facing rules (`## Credential safety`, `## When creating or updating an agent`).
+- `skills/chat-assistant-core/SKILL.md` (in the `assistant-skills` extension) — `## Credential safety` rules; `skills/chat-agent-authoring/SKILL.md` — `## When creating or updating an agent: the review primitive`.
 
 **Tests:**
 
