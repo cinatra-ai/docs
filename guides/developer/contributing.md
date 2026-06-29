@@ -156,16 +156,16 @@ When you pull new code, your local dependencies and dev database schema can fall
 
 ```bash
 git pull
-make refresh        # equivalently: pnpm refresh:dev  /  cinatra instance refresh
+make refresh        # equivalently: pnpm refresh:dev  /  pnpm exec cinatra dev refresh
 ```
 
 `make refresh` is **dev-only** and **never touches git** — you manage branches; it only brings dependencies and the dev database in sync with the code on disk. Concretely it:
 
 - brings the bundled docker stack up (skipped automatically for isolated worktrees/clones and external infra; `--docker=always` forces it, `--no-docker` skips it),
 - runs `pnpm install`,
-- runs the idempotent dev setup (additive schema migrations + ensure-settings).
+- runs the idempotent dev setup: applies **additive** schema changes, then runs the versioned core migration chain (`migrations/core/`, recorded in the `pgmigrations` ledger) so transformational changes (renames/backfills) apply automatically too, and ensure-settings.
 
-It does **not** rebuild images or run transformational one-shot migrations (renames/backfills) under `src/lib/migrations/` — those are applied by hand only when a release's notes call for them. Restart with `make dev` afterwards.
+It does **not** rebuild images. Hand-run release-note migrations are retired — the old `src/lib/migrations/` one-shot directory no longer exists; the core migration chain reconciles the schema for you. Restart with `make dev` afterwards.
 
 ### Code style
 
