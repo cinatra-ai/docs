@@ -34,7 +34,7 @@ Architecture, subsystem contracts, invariants, and protocol references for the C
 
 ## Extensions
 - [Extensions](extensions.md) — the extension system end to end
-- [Extension kinds — choose your kind](extension-kinds/index.md) — the per-kind authoring landing page
+- [Extension kinds — choose your kind](extension-kinds/) — the per-kind authoring landing page
 - [Extension SDK ABI and dependencies](extension-sdk-abi-and-dependencies.md) — the frozen author-facing ABI, the dependency rules, and the schema-migration contract
 - [The runtime-store `serverEntry` contract](extension-server-entry-artifact.md) — built-artifact resolution, dependency modes, and the operator refresh runbook
 - [Extension-coupling audit gates](extension-coupling-gates.md) — the zero-floor IoC end-state, classification, and exemption policy

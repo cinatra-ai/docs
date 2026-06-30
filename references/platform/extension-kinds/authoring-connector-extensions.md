@@ -2,7 +2,7 @@
 
 Audience: developers shipping a `kind: "connector"` extension — an integration to an external system, or a provider behind a capability facade.
 
-The connector is the **one kind that is a code package with a `register(ctx)` server entry.** It runs privileged server code at activation, requests host ports, registers MCP tools and capability providers, ships setup/settings UI, and — when it owns Postgres tables — declares schema migrations the host runs. The four declarative kinds (agent, artifact, skill, workflow) do **not** go through this path; if you landed here for one of those, start at [Extension kinds — choose your kind](index.md).
+The connector is the **one kind that is a code package with a `register(ctx)` server entry.** It runs privileged server code at activation, requests host ports, registers MCP tools and capability providers, ships setup/settings UI, and — when it owns Postgres tables — declares schema migrations the host runs. The four declarative kinds (agent, artifact, skill, workflow) do **not** go through this path; if you landed here for one of those, start at [Extension kinds — choose your kind](./).
 
 ## What the kind contributes
 
@@ -226,7 +226,7 @@ The README contract and the shared package conventions apply to every kind — s
 
 ## See also
 
-- [Extension kinds — choose your kind](index.md)
+- [Extension kinds — choose your kind](./)
 - [Extensions hub](../extensions.md)
 - [The runtime-store `serverEntry` contract](../extension-server-entry-artifact.md)
 - [Extension SDK ABI and dependencies](../extension-sdk-abi-and-dependencies.md)

@@ -48,6 +48,6 @@ The package shape, the `cinatra` manifest block, the `cinatra.dependencies` grap
 
 ## See also
 
-- [Extension kinds — choose your kind](index.md)
+- [Extension kinds — choose your kind](./)
 - [Extensions hub](../extensions.md)
 - [Dashboards platform](../dashboards-platform.md)
