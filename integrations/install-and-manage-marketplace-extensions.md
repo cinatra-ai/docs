@@ -11,12 +11,25 @@ If you are looking for a first-party integration's own setup, start from its hub
 You install an extension from the **Marketplace** area inside Cinatra, under `/configuration/marketplace`. Installing requires the admin permission for managing extensions (see [Permissions](#permissions-who-can-install-and-what-an-extension-can-do)).
 
 1. Open `/configuration/marketplace` in your Cinatra instance.
-2. Find the extension — browse the catalogue or search by name. Each listing shows its ownership label (**Built by Cinatra**, **Verified partner**, or **Community**) and a link to its documentation.
+2. Find the extension — browse the catalogue or search by name. Each listing card shows its name and kind, its ownership label (**Built by Cinatra**, **Verified partner**, or **Community**), a link to its documentation, and — at a glance — a square **icon** in a coloured banner, a **compatibility badge**, and an **install count** (see [Reading a listing card](#reading-a-listing-card)).
 3. Read what it does and what it asks for. Open the listing to review its description, the permissions it requests, and its documentation link before installing.
 4. Install it. Cinatra fetches the extension at its published version and registers it with your instance.
 5. Configure it if it needs configuration. Some extensions need a connection (an API key, a base URL, an account link) before they do anything — the listing and the extension's own docs describe what is required.
 
 Installing an extension does not, by itself, let it act. What an extension can do is governed by the permissions you grant it.
+
+### Reading a listing card
+
+Each marketplace card carries a few signals that help you size up an extension before opening it:
+
+- **Icon and banner.** The card leads with a square icon in a coloured banner. An extension that ships its own artwork shows it; otherwise the icon falls back to the vendor's logo or a built-in icon for the extension's kind, so the card is always legible. The extension's detail view can also carry a wide banner image.
+- **Compatibility badge.** A 3-state badge tells you whether the extension fits *this* instance's version of the extension SDK, derived locally on your instance from the range the author declared:
+  - **Compatible** — the author declared an SDK range that includes this instance's SDK; it should install and run here.
+  - **Incompatible** — built for a different SDK range; the host would refuse it until it is updated.
+  - **Unknown** — the author declared no SDK range, so compatibility cannot be confirmed. This is not a deferred check — it just means no range was stated, so the badge cannot read "Compatible". The instance's other install-time checks (permissions, dependencies, trust) still apply.
+- **Install count.** A rough count of how many instances have installed it (e.g. "2.1k installations") — a quick popularity signal that may be small or absent for newer extensions.
+
+The badge and count are informational signals to read before installing; see [Trust](#trust-knowing-what-you-are-running) for what an instance still verifies at install time.
 
 ---
 

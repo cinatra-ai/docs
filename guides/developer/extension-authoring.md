@@ -52,7 +52,7 @@ Author the manifest under the `package.json` `cinatra` block:
 Shared manifest fields (`CinatraManifest`, `packages/sdk-extensions/src/manifest.ts`):
 
 - **`kind`, `apiVersion`** — the identity fields every extension declares.
-- **`sdkAbiRange`** — the SDK ABI range the extension was built against (`"^2"` requires any SDK ABI 2.x host). Build against the current `SDK_EXTENSIONS_ABI_VERSION` exported from `@cinatra-ai/sdk-extensions`.
+- **`sdkAbiRange`** — the SDK ABI range the extension was built against (`"^2"` requires any SDK ABI 2.x host). Build against the current `SDK_EXTENSIONS_ABI_VERSION` exported from `@cinatra-ai/sdk-extensions`. See [Declare `sdkAbiRange` for compatibility](#declare-sdkabirange-for-compatibility) for why this is an ABI **range**, not a cinatra app-version, and how it surfaces as a compatibility badge.
 - **`dependencies`** — the canonical cross-kind dependency graph (below).
 
 The kind-specific fields — `serverEntry`, `requestedHostPorts`, `uiSurface`, `devFixtures`, `migrationsDir` — apply mostly to connectors and are covered in the [connector guide](../../references/platform/extension-kinds/authoring-connector-extensions.md). The full SDK ABI, the manifest shape, and the schema-migration contract live in [Extension SDK ABI and dependencies](../../references/platform/extension-sdk-abi-and-dependencies.md).
@@ -73,6 +73,44 @@ Declare dependencies **by capability, not by concrete provider** — an email-de
 ### The README contract
 
 Every extension — every kind — ships a marketplace-ready `README.md` at its root: an end-user-facing, value-forward description in the register the marketplace renders. The structure is enforced by a CI gate. See [Extension README contract](../../references/platform/extension-readme.md).
+
+### Declare `sdkAbiRange` for compatibility
+
+Declare `sdkAbiRange` in the `package.json` `cinatra` block as an **SDK-ABI range** — the range of `@cinatra-ai/sdk-extensions` ABI majors your built extension is compatible with — **not** a cinatra app-version. Build against the current `SDK_EXTENSIONS_ABI_VERSION` exported from `@cinatra-ai/sdk-extensions` and declare the matching range (today that is `"^2"`, meaning "any SDK ABI 2.x host").
+
+```jsonc
+"cinatra": {
+  "sdkAbiRange": "^2"      // any SDK ABI 2.x host — NOT a cinatra app-version
+}
+```
+
+The instance compares the declared range against its own frozen SDK ABI in two places:
+
+- **An install / activation gate.** A host outside the declared range refuses the install (and the loaders refuse to activate the code) before any durable state mutates.
+- **A card badge.** The marketplace listing card and the detail header show a **3-state compatibility badge** derived locally on each instance from your declared range versus that instance's ABI:
+  - **Compatible** (green) — the declared range admits this instance's ABI.
+  - **Incompatible** (red) — the instance's ABI is outside the declared range (or the range is malformed; the verdict fails closed).
+  - **Unknown** (neutral, never green) — the extension declared **no** `sdkAbiRange`. The badge cannot vouch for compatibility, so it never reads "Compatible" for an undeclared range.
+
+Because an omitted range reads as the neutral **"Unknown"** badge rather than "Compatible", **declare `sdkAbiRange`** so installers see a definite verdict.
+
+**Release independence.** Declaring an ABI **range** (e.g. `"^2"`) decouples your extension from the cinatra app-version: every cinatra release that stays within SDK ABI major 2 remains compatible with **no republish**. Only a deliberate SDK ABI **major** break (3.x) requires you to rebuild against the new SDK and bump the range. Do **not** pin a cinatra app-version into `sdkAbiRange` — that would force a needless republish on every release. The full ABI contract is [Extension SDK ABI and dependencies](../../references/platform/extension-sdk-abi-and-dependencies.md).
+
+### Listing assets — icon, banner, and vendor logo
+
+Beyond the README, an extension can ship branded **listing assets** (à la WordPress.org plugin assets) that the marketplace serves on its cards and detail view. All three are optional; an extension with none still renders with a sensible fallback.
+
+- **Extension icon** — the small square image shown inside the coloured banner on the marketplace listing card.
+- **Banner** — a wide image shown across the top of the extension's detail view header. When absent, the header falls back to a coloured accent panel.
+- **Vendor logo** — the brand mark for the vendor (publisher). It is set once per vendor (see [Extension publishing](extension-publishing.md#listing-assets-at-publish-time)) and reused across that vendor's extensions.
+
+**The card icon fallback chain.** The square icon tile on a listing card resolves the first available of: the extension's **icon → the vendor logo → the extension-type (kind) emblem**. So an extension with no icon of its own still shows the vendor's logo, and a vendor with no logo still shows the built-in kind emblem — the tile is never empty.
+
+**Asset constraints.** Assets are uploaded to the marketplace and served as **sanitized hosted images** — the card model exposes a hosted URL plus the image's intrinsic dimensions, never the raw upload bytes and never an SVG blob:
+
+- **Accepted formats: PNG, JPEG, WebP only.** **SVG is rejected.** The format is decided by sniffing the actual bytes, not the filename or declared content-type, and each stored asset is re-encoded (rasterized) so only pixel data is persisted — any markup or script smuggled into an image file is dropped.
+- **Maximum size: 4 MiB** per asset.
+- There are no fixed pixel dimensions; the stored intrinsic width/height are recorded and used for layout. Provide an icon that reads well as a small square and a banner sized for a wide header.
 
 ### Local validation and the conformance gates
 

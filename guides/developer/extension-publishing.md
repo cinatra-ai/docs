@@ -42,6 +42,19 @@ For an OAS Flow agent, publish runs the same deterministic review gate the autho
 
 ---
 
+## Listing assets at publish time
+
+The marketplace renders branded **listing assets** alongside your published extension — an extension **icon** and **banner**, plus the **vendor logo** for your publishing namespace. These are uploaded to the marketplace (not shipped inside the package tarball) and served as sanitized hosted images on the cards and detail view. See [Listing assets](extension-authoring.md#listing-assets--icon-banner-and-vendor-logo) in the authoring guide for what each one is and where it appears.
+
+- **Extension icon + banner** are per-extension: the icon fills the square tile on the listing card, the banner spans the detail-view header.
+- **Vendor logo** is set once for your vendor namespace and reused across all of that vendor's extensions; it is also the second link in the card icon fallback chain (icon → vendor logo → kind emblem).
+
+**Upload constraints (security model).** Assets are accepted as **PNG, JPEG, or WebP only — SVG is rejected** — up to **4 MiB** each. The format is decided by sniffing the uploaded bytes (never the filename or declared content-type), and every stored asset is re-encoded (rasterized) so only pixel data is persisted; any markup or script embedded in an image file is stripped before storage. The card model therefore only ever exposes a hosted URL plus the image's intrinsic dimensions — never the raw upload and never an SVG. This is a deliberate, hardened path: the marketplace allows real branded uploads while guaranteeing a raw SVG or polyglot never reaches storage or the wire.
+
+If you provide no assets, the listing still renders: the card falls back through the icon chain to the kind emblem, and the detail header falls back to a coloured accent panel.
+
+---
+
 ## The submit → approve → promote → registry-sync pipeline
 
 Reaching the **public** shared registry goes through a moderated marketplace pipeline rather than a direct write. The submission moves through these states: `pending → approved → promoted → superseded` (with `rejected` and `withdrawn` as terminal off-ramps).
