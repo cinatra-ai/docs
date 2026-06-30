@@ -102,4 +102,4 @@ For problems running the Cinatra platform itself, see the [Troubleshooting guide
 
 ## License
 
-The documentation content in this repository is licensed under [CC-BY-4.0](LICENSE). Code snippets embedded in the documentation are licensed under [Apache-2.0](https://github.com/cinatra-ai/cinatra/blob/main/LICENSE), matching the Cinatra code repository.
+The documentation content in this repository is licensed under [CC-BY-4.0](https://github.com/cinatra-ai/docs/blob/main/LICENSE). Code snippets embedded in the documentation are licensed under [Apache-2.0](https://github.com/cinatra-ai/cinatra/blob/main/LICENSE), matching the Cinatra code repository.

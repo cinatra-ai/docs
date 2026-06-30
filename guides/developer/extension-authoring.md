@@ -18,7 +18,7 @@ Cinatra extensions install on a running instance from the marketplace. When an a
 | **skill** | One or more `SKILL.md` skills delivered to agents/the assistant. | No (payload-only) | [Authoring skill extensions](../../references/platform/extension-kinds/authoring-skill-extensions.md) |
 | **workflow** | A multi-step BPMN process orchestrating agents and approvals. | No (declarative) | [Authoring workflow extensions](../../references/platform/extension-kinds/authoring-workflow-extensions.md) |
 
-> **The four declarative-kind authors do not go through connector mechanics.** If you are shipping an agent, artifact, skill, or workflow, **do not start from the `register(ctx)`/ports/migrations material** — that is connector-specific. Go straight to your kind's guide. The landing page that helps you choose and links every guide is [Extension kinds — choose your kind](../../references/platform/extension-kinds/index.md).
+> **The four declarative-kind authors do not go through connector mechanics.** If you are shipping an agent, artifact, skill, or workflow, **do not start from the `register(ctx)`/ports/migrations material** — that is connector-specific. Go straight to your kind's guide. The landing page that helps you choose and links every guide is [Extension kinds — choose your kind](../../references/platform/extension-kinds/).
 
 `cinatra.kind` is singular (`"agent" | "connector" | "artifact" | "skill" | "workflow"`) and is the authoritative signal for lifecycle, dispatch, and discovery. The directory suffix (`<slug>-<kind>`) is a strong hint validated by the naming-conformance test, but the manifest wins on disagreement.
 
@@ -140,7 +140,7 @@ Now follow the dedicated guide for what you are building:
 
 ## Where to go next
 
-- Choose your kind: [Extension kinds — choose your kind](../../references/platform/extension-kinds/index.md)
+- Choose your kind: [Extension kinds — choose your kind](../../references/platform/extension-kinds/)
 - Ship the authored extension: [Extension publishing](extension-publishing.md)
 - The model and runtime architecture: [Extensions hub](../../references/platform/extensions.md)
 - The host-port grant/permission model: [Extension permissions](../../references/platform/extension-permissions.md)

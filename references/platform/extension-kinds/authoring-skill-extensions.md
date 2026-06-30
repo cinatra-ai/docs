@@ -57,5 +57,5 @@ The package shape, the `cinatra` manifest block, the README contract, and the co
 
 ## See also
 
-- [Extension kinds — choose your kind](index.md)
+- [Extension kinds — choose your kind](./)
 - [Extensions hub](../extensions.md)
