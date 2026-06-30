@@ -20,6 +20,21 @@ For the definitions behind these terms, see [Concepts and glossary](../../refere
 
 ---
 
+## What a marketplace card tells you
+
+When an admin browses the marketplace, each extension shows up as a card. A few things on that card help you (and the admin) judge an extension at a glance:
+
+- **Icon and banner.** Each card leads with a square **icon** in a coloured banner; extensions that ship their own artwork show it, and ones that do not fall back to their vendor's logo or a built-in icon for their kind. Opening an extension shows its detail page, which can carry a wide **banner** image across the top.
+- **Compatibility badge.** A small badge says whether the extension fits *this* workspace's version of Cinatra's extension platform (its extension SDK), with three states:
+  - **Compatible** — the extension states which SDK versions it supports, and this instance's is one of them, so it should install and run here.
+  - **Incompatible** — the extension was built for a different SDK version range and would be refused here; it needs an update before it can be installed.
+  - **Unknown** — the extension did not state which SDK versions it supports, so its fit cannot be confirmed. This is not a failure and not a separate check that runs later — it simply means the author declared no compatibility range, so the badge cannot promise "Compatible". (Other install-time checks — permissions, dependencies, trust — still apply as usual.)
+- **Install count.** Cards show roughly how many instances have installed the extension (for example, "2.1k installations"), a quick popularity signal. Newer or rarely-installed extensions may show a small number or none.
+
+These are informational signals to read before installing. The host still runs its own checks at install time — permissions, dependencies, and trust — see [the admin side](../admin/marketplace.md) for the install, compatibility, and lifecycle controls.
+
+---
+
 ## Where installed features show up
 
 You rarely visit "the extensions list" as a day-to-day user. Instead, an installed extension's features appear where you already work:
