@@ -8,8 +8,15 @@ This is the Cinatra design-system reference for contributors, alongside the [Use
 
 ## Quick links
 
-- [Open the design system spec (HTML)](./design-system.html) — the normative reference, 1278 lines of palette / typography / contrast / component rules. Recommended view: open in a browser (`open references/design/design-system.html`).
+- [Open the design system spec (HTML)](./design-system.html) — the full palette / typography / contrast / component reference. This page is a **published mirror** (see [Canonical source](#canonical-source)) — read it here, but don't hand-edit it. Recommended view: open in a browser (`open references/design/design-system.html`).
 - [Working with the design skill](./working-with-the-design-skill.md) — how Claude / Cursor / any agent applies the spec to real code, and what gates run on every commit.
+
+## Canonical source
+
+`design-system.html` is a **published mirror**: a byte-for-byte copy of Cinatra's canonical design-system spec, served at `docs.cinatra.ai/references/design/design-system.html`. The single canonical, editable source is that upstream spec; this file is republished from it and is authoritative **as published**.
+
+- **Do not hand-edit `design-system.html` here** — changes are overwritten the next time it is synced from the canonical spec. To change the design system, change the upstream spec.
+- Drift between this mirror and the canonical spec is caught by a CI gate on the upstream source, which fails when the two diverge — so what you read here tracks the canonical spec rather than silently going stale.
 
 ## What's in here
 
@@ -24,7 +31,7 @@ This is the Cinatra design-system reference for contributors, alongside the [Use
 ## What's NOT in here
 
 - **Code-level styling rules** — those live in `.agents/skills/design/SKILL.md` (the design skill, user-invocable via `/design`). The page in this guide describes how that skill works; the skill itself is the operational source.
-- **The spec defect resolutions** (R1 running=indigo, R2 navy hairlines, R3 status retune, R4 fonts) and the rest of the operational rulebook (token map, conformance matrix, exception policy, uncovered-UI register) now live with the code, in the monorepo design skill (`cinatra/.agents/skills/design/operational/`). The [`design-system.html`](./design-system.html) spec is the normative reference; see the [operational pointer](operational-rulebook.md).
+- **The spec defect resolutions** (R1 running=indigo, R2 navy hairlines, R3 status retune, R4 fonts) and the rest of the operational rulebook (token map, conformance matrix, exception policy, uncovered-UI register) now live with the code, in the monorepo design skill (`cinatra/.agents/skills/design/operational/`). The [`design-system.html`](./design-system.html) mirror is the normative reference _as published_ (its canonical source is upstream — see [Canonical source](#canonical-source)); see the [operational pointer](operational-rulebook.md).
 
 ## How this guide stays current
 
@@ -36,4 +43,4 @@ node scripts/design/scan-raw-colors.mjs           # warns if a new raw-color lea
 node scripts/design/scan-status-render.mjs        # warns if a new ad-hoc status renderer appears
 ```
 
-The [`design-system.html`](./design-system.html) spec is the **normative reference**. The monorepo design skill (`cinatra/.agents/skills/design/SKILL.md`) applies it to code and records the owner deviations + resolutions; on a genuine conflict between the two, stop and request owner reconciliation.
+The [`design-system.html`](./design-system.html) mirror is the **normative reference as published** — its single canonical source is the upstream design-system spec it is republished from (see [Canonical source](#canonical-source)). The monorepo design skill (`cinatra/.agents/skills/design/SKILL.md`) applies it to code and records the owner deviations + resolutions; on a genuine conflict between the two, stop and request owner reconciliation.
