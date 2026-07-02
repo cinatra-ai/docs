@@ -182,7 +182,6 @@ Future AI work routes exclusively through `@cinatra-ai/llm`, including async AI 
 
 ## Related
 
-- `guides/developer/cube-schemas.md` — TBD; how to author a new cube.
 - [`references/platform/llm-orchestration.md`](./llm-orchestration.md) — where AI generation hooks in.
 - Requirement categories: DASH, SDK, SEM, PERSIST, VIEW, BUILD, METRICS, CUBE-IR, AI.
 - Deferred verification areas: modal focus-trap a11y, dark-mode visual smoke, bundle-size impact, multi-org isolation, concurrent first-save race, `/batch` partial-success.

@@ -1,8 +1,6 @@
 # Working with the design skill
 
-The design skill (`.agents/skills/design/SKILL.md`) is how Claude, Cursor, and any other agent applies the Cinatra design system to real code. This page explains what the skill enforces, how the validation harness works, and where the binding rules live.
-
-The skill is user-invocable: `/design` from a Claude Code session.
+This page is how Claude, Cursor, and any other agent applies the Cinatra design system to real code: what it enforces, how the validation harness works, and where the binding rules live.
 
 ---
 
@@ -10,9 +8,9 @@ The skill is user-invocable: `/design` from a Claude Code session.
 
 When an agent or human is making a styling decision, they consult:
 
-The operational rulebook — resolutions (D1/D2 deviations + R1–R4), token map (semantic role → CSS var → Tailwind utility), conformance matrix, exception policy, and uncovered-UI register — lives with the code in the monorepo design skill at `cinatra/.agents/skills/design/operational/`. It is branch-versioned doctrine that code agents read offline.
+The **non-negotiables** below (resolutions D1/D2 + R1–R4) and the token map (semantic role → CSS var → Tailwind utility) — the binding, code-side rules, enforced by the scanners in [Validation harness](#validation-harness).
 
-The HTML spec ([`design-system.html`](./design-system.html)) is the **normative reference**; the operational rulebook records the owner deviations and implementation resolutions the skill applies, and defers to the spec.
+The HTML spec ([`design-system.html`](./design-system.html)) is the **normative reference**; the non-negotiables below record the owner deviations and implementation resolutions applied on top of it, and defer to it on anything they don't cover.
 
 ---
 
@@ -20,7 +18,7 @@ The HTML spec ([`design-system.html`](./design-system.html)) is the **normative 
 
 These rules are gating. The scanners enforce them; CI fails when they're violated.
 
-1. **No UI removal.** Never delete or restyle-by-guess a UI element because it does not fit the spec. Add a register row first (in the monorepo design skill's `operational/05-uncovered-ui-register.md`).
+1. **No UI removal.** Never delete or restyle-by-guess a UI element because it does not fit the spec. Record an uncovered-UI decision first — see [When to add a register row](#when-to-add-a-register-row).
 2. **Running = indigo** (R1). Red is destructive-only.
 3. **No colors outside tokens.** Every color in `src/**` must be a semantic token (`bg-primary`, `text-foreground`, `border-line`, etc.) or an allowlisted exception in `scripts/design/allowlist-raw-colors.json`. Raw hex codes in `.tsx`/`.ts`/`.css` outside the allowlist will fail `pnpm design:scan:raw`.
 4. **JetBrains Mono for microcopy / IDs / table headers** (R4 + spec §IX 3). Use `font-mono`.
@@ -51,7 +49,7 @@ To intentionally change tokens (e.g. owner-approved palette tweak), update the s
 
 ## When to add a register row
 
-If you're about to style a UI element that the spec does not cover (e.g. a Cinatra-specific visualization, a niche admin widget, a third-party component wrapper), you **MUST** first add a row to the monorepo design skill's `operational/05-uncovered-ui-register.md` with the surface (file path), the issue, and a taxonomy code:
+If you're about to style a UI element that the spec does not cover (e.g. a Cinatra-specific visualization, a niche admin widget, a third-party component wrapper), record the decision — the surface (file path), the issue, and one of the taxonomy codes below — in the pull request description before writing the styling:
 
 - `ADOPT_NEAREST_RULE` — spec doesn't name this element, but the nearest spec rule applies cleanly.
 - `KEEP_LEGACY_FOR_NOW` — element is functioning, doesn't match spec, untouched.
@@ -60,24 +58,24 @@ If you're about to style a UI element that the spec does not cover (e.g. a Cinat
 - `NEEDS_OWNER_DECISION` — conflict requires owner input. Frozen.
 - `NEEDS_SPEC_EXTENSION` — spec is silent on a load-bearing element. Frozen.
 
-Only then write the styling. A change that lacks a register row will be reverted at code review.
+Only then write the styling. A change that lacks this record is expected to be caught and reverted at code review.
 
 ---
 
 ## Composition with the shadcn skill
 
-The design skill **composes with** `.agents/skills/shadcn/SKILL.md` — they do not overlap.
+Design and shadcn/ui concerns compose but do not overlap:
 
-- **Design skill** owns *what color* and *what semantic*. The non-negotiables above, the token map, the register procedure, and the validation harness.
-- **shadcn skill** owns *how to compose* and *how to add*. The component CLI (`pnpm dlx shadcn@latest add <component>`), the registry conventions, the variant CVA shape.
+- **Design** owns *what color* and *what semantic*. The non-negotiables above, the token map, the register procedure, and the validation harness.
+- **shadcn/ui** owns *how to compose* and *how to add*. The component CLI (`pnpm dlx shadcn@latest add <component>`), the registry conventions, the variant CVA shape.
 
-When a primitive needs token-only changes, consult the design skill. When a primitive needs API changes or a new variant, consult the shadcn skill. Most primitive work touches both.
+When a primitive needs token-only changes, consult this page. When a primitive needs API changes or a new variant, consult the shadcn/ui component docs. Most primitive work touches both.
 
 ---
 
 ## When the spec drifts
 
-When the spec (`design-system.html`) is updated, rerun the harness. The operational rulebook in the monorepo design skill records the owner deviations and resolutions; if a spec change appears to conflict with a recorded resolution, stop and request owner reconciliation.
+When the spec (`design-system.html`) is updated, rerun the harness. The non-negotiables above record the owner deviations and resolutions applied on top of the spec; if a spec change appears to conflict with a recorded resolution, stop and request owner reconciliation.
 
 ---
 

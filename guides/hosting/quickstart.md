@@ -54,11 +54,11 @@ For the rest of this guide, OpenAI is enough.
 
 ## 4. Install a sample agent
 
-Visit **Administration → Marketplace** (`/configuration/marketplace`). The marketplace installs the full set of extension kinds — agents, connectors, skills, artifacts, and workflows — not just agents. For this walkthrough we install an agent. Pick one that looks simple — for example, **URL Title Fetcher** (a deterministic agent that fetches a URL and returns its title) or **Summarize and Review Page** (an LLM-backed page summarizer).
+Visit **Administration → Marketplace** (`/configuration/marketplace`). The marketplace installs the full set of extension kinds — agents, connectors, skills, artifacts, and workflows — not just agents. For this walkthrough we install an agent. Pick one that looks simple — for example, **Blog Idea Generator Agent** (a stateless agent that turns a short brief into a batch of blog post ideas; no external credentials required) or **Company Discovery Agent** (turns a company name or domain into a normalized CRM account).
 
 Click **Install**. The platform downloads the agent extension, validates its `oas.json`, persists it locally, and makes it available under **Agents** (`/agents`).
 
-Behind the scenes: the installation creates an `agent_templates` row, copies the package contents to `agents/<vendor>/<slug>/`, and registers the agent's Model Context Protocol (MCP) primitive so it becomes callable like any other capability.
+Behind the scenes: the installation creates an `agent_templates` row, copies the package contents to `extensions/<vendor>/<slug>/`, and registers the agent's Model Context Protocol (MCP) primitive so it becomes callable like any other capability.
 
 ---
 

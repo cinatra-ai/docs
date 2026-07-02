@@ -2,15 +2,15 @@
 
 Audience: contributors (human or AI) who want to add, edit, or migrate an agent in Cinatra without reading the source of `@cinatra-ai/agents`. Like all contribution work, agent changes are planned with GSD ("Git. Ship. Done", the [open-gsd](https://github.com/open-gsd/gsd-core) spec-driven development framework) — see [Contributing](contributing.md#planning). <!-- source-leak-allow -->
 
-**TL;DR:** Write an `oas.json` file under `agents/cinatra/<slug>-agent/cinatra/`, run `node scripts/ci-validate-agents.mjs`, restart the dev server, and the agent is live.
+**TL;DR:** Write an `oas.json` file under `extensions/cinatra-ai/<slug>-agent/cinatra/`, run `node scripts/ci-validate-agents.mjs`, restart the dev server, and the agent is live.
 
 > **Looking for the end-user authoring path?** Most agents are written conversationally through Cinatra's chat assistant, not by hand-editing files. See [Creating agents in chat](../user/creating-agents-in-chat.md) for that flow. This document is the file-driven contributor guide.
 
 ## What is a Cinatra agent?
 
-A Cinatra agent is defined entirely as a declarative Open Agent Specification (OAS) Flow file in the repository under `agents/<vendor>/<slug>/cinatra/oas.json`. There is no TypeScript source, no `packages/agent-<name>/` directory, and no per-agent BullMQ (a Redis-backed job queue) worker. On startup **in development mode only** (`CINATRA_RUNTIME_MODE=development`), the Next.js instrumentation hook scans the agent install directory and upserts each file into the `agent_templates` table. The DB becomes a derived cache of the files committed to git — agents live in git first, in the DB second.
+A Cinatra agent is defined entirely as a declarative Open Agent Specification (OAS) Flow file — `cinatra/oas.json` at the root of the agent's own extension package. First-party Cinatra agents are **not** committed inside this monorepo: each one is its own git repository (e.g. `github.com/cinatra-ai/email-outreach-agent`), listed in this repo's `package.json` under `cinatra.devExtensions`, and cloned locally by the dev-extension sync (run as part of `cinatra install`; internally `syncCinatraDevExtensions`) into `extensions/<vendor>/<slug>-agent/` (default vendor namespace for first-party agents: `cinatra-ai`). There is no TypeScript source, no `packages/agent-<name>/` directory, and no per-agent BullMQ (a Redis-backed job queue) worker. On startup **in development mode only** (`CINATRA_RUNTIME_MODE=development`), the Next.js instrumentation hook scans the agent install directory (`extensions/` by default — see [Configuring the agent install path](#configuring-the-agent-install-path)) and upserts each file into the `agent_templates` table. The DB becomes a derived cache of the files committed to git — agents live in git (their own repo) first, in the DB second.
 
-> **Dev-mode only.** The on-disk `agents/` scan runs exclusively when `CINATRA_RUNTIME_MODE=development`. In production, agents are installed through the proper install flow — `agent_builder_git_publish` / Model Context Protocol (MCP) install primitives, or `cinatra setup prod` at provisioning time — and the `agent_templates` table is never overwritten from disk at boot. The filesystem-scan-on-restart workflow described below is a developer convenience, not the production deploy path.
+> **Dev-mode only — narrowly.** The git-native ingest loop described in this document (`ensureAgentPackageFromGitFile` upserting every on-disk agent into `agent_templates` on every boot) runs exclusively when `CINATRA_RUNTIME_MODE=development` — in production, agents are installed through the proper install flow (`agent_builder_git_publish` / MCP install primitives, or `cinatra instance setup prod` at provisioning time), not by re-importing whatever happens to be on disk. This is narrower than "production never touches the on-disk agent tree", though: a prod boot separately runs a fail-closed required-extension OAS materialize phase (refreshing the on-disk tree from an image-baked seed) and an always-on marker self-heal phase (dev AND prod) that repairs `.cinatra-published.json` markers so WayFlow's loader can mount each agent — neither of those re-derives `agent_templates` from disk the way the dev-only ingest loop does.
 
 Agents are authored as OAS Flow files at `agentspec_version: "26.1.0"` with `component_type: "Flow"`. The file declares the agent's inputs, system prompt, tool references, flow control nodes, output schema, and human-in-the-loop (HITL) renderer declarations. A compiler in `@cinatra-ai/agents` derives the runtime representation — `inputSchema`, `outputSchema`, `approvalPolicy`, and the compiled plan — automatically from the node graph. Authors never write those fields by hand.
 
@@ -28,7 +28,7 @@ An OAS Flow file is a declarative graph of nodes. The top-level fields:
 | `name` | Human-readable name shown in the Agents UI and in MCP tool metadata. |
 | `description` | Short summary surfaced in the catalog and A2A tool listing. Keep under ~200 chars. |
 | `metadata.cinatra.type` | `"node"` for leaf agents (single concern), `"orchestrator"` for agents that call sub-agents. |
-| `metadata.cinatra.hitlScreens` | Array of renderer IDs (e.g. `"@cinatra/reviewer-agent:output"`) declaring which HITL surfaces this agent emits. |
+| `metadata.cinatra.hitlScreens` | Array of renderer IDs (e.g. `"@cinatra-ai/reviewer-agent:output"`) declaring which HITL surfaces this agent emits. |
 | `inputs` | Array of input descriptors with `title`, `type`, optional `format`/`default`. The compiler derives `inputSchema` from this. |
 | `outputs` | Array of output descriptors. The compiler derives `outputSchema` from this. |
 | `start_node` | Reference to the entry node. |
@@ -38,7 +38,7 @@ An OAS Flow file is a declarative graph of nodes. The top-level fields:
 
 A small, real example: see `extensions/cinatra-ai/email-test-delivery-agent/cinatra/oas.json` for a deterministic leaf agent. For an orchestrator with mid-run HITL, see `extensions/cinatra-ai/email-outreach-agent/cinatra/oas.json`.
 
-Package metadata — `packageName` and version — lives in a sibling `package.json` (npm-style), keyed off the directory name. The compiler reads both.
+Package version lives solely in the sibling `package.json` (npm-style), keyed off the directory name. `packageName` may also be authored in the OAS file (`metadata.cinatra.packageName`) — when present it takes precedence over the sibling `package.json#name` at import time, so keep the two in sync. See [Agent packaging § CONV-05](../../references/platform/agent-packaging.md) for the exact precedence rule.
 
 ### Derived runtime fields
 
@@ -60,17 +60,17 @@ Authors never write these by hand. The MCP primitive `agent_source_compile` rege
 | `agent_templates.creatorId` | DB | Set to the user that first imported the template; agents from git have no single creator. |
 | `agent_templates.status` | DB | `draft` / `published` is managed via the Agents UI (or `agent_*` publish primitives), not in git. |
 
-## `agents/` directory structure
+## Where agents live
 
-All first-party Cinatra agents live under the vendor-namespaced layout:
+Agents are **not** committed inside the `cinatra` monorepo. Each first-party agent is its own git repository — a standalone extension package (`kind: "agent"` in the cross-kind extension model; see [Extension authoring](extension-authoring.md)) — and is materialized on disk only when a dev checkout (or a production install) needs it:
 
 ```
-agents/
-  cinatra/
-    email-outreach-agent/
+extensions/
+  cinatra-ai/
+    email-outreach-agent/       ← cloned from github.com/cinatra-ai/email-outreach-agent
       cinatra/
-        oas.json       ← agent definition
-      package.json     ← npm package metadata (@cinatra/email-outreach-agent)
+        oas.json                ← agent definition
+      package.json              ← npm package metadata (@cinatra-ai/email-outreach-agent)
     email-recipient-selection-agent/
       cinatra/
         oas.json
@@ -82,24 +82,26 @@ agents/
     …
 ```
 
+In a dev checkout, `extensions/<vendor>/<slug>/` is populated by the dev-extension sync (part of `cinatra install`), which clones every entry declared in this repo's root `package.json` under `cinatra.devExtensions` (a map of `@cinatra-ai/<slug>` → its GitHub URL). The directory is git-ignored in this repo — the source of truth for each agent lives in that agent's own repository, not here.
+
 Three naming rules:
 
-1. **Directory layout:** `agents/<vendor>/<slug>/cinatra/oas.json`. For first-party Cinatra agents the vendor is `cinatra`. The slug naming is up to the author — most agents end in `-agent` (`auditor-agent`, `email-drafting-agent`). The inner `cinatra/` subdirectory is the namespace layer expected by the 4-rung probe in `mcp/handlers.ts`.
-2. **The file is always named `oas.json`** (Open Agent Specification). The startup scanner probes four locations in priority order: `<installDir>/cinatra/oas.json` → `<installDir>/cinatra/agent.json` → `<installDir>/oas.json` → `<installDir>/agent.json`. The `agent.json` probes are legacy fallbacks — new agents must use `oas.json`.
+1. **Directory layout:** `extensions/<vendor>/<slug>/cinatra/oas.json`. For first-party Cinatra agents the vendor namespace is `cinatra-ai`, and the slug ends in `-agent` (`auditor-agent`, `email-drafting-agent`) per the extension naming-conformance gate. The inner `cinatra/` subdirectory is the namespace layer expected by the 4-rung probe in `mcp/handlers.ts`.
+2. **The file is always named `oas.json`** (Open Agent Specification). The dev-mode git-native boot ingest probes, per install-dir entry: `<vendor>/<slug>/cinatra/oas.json` (canonical) → `<vendor>/<slug>/cinatra/agent.json` (transitional, same directory) → `<entry>/cinatra/agent.json` (legacy, pre-vendor-namespace layout) → `<entry>/agent.json` (legacy, flat). Only the first match per entry is loaded. The `agent.json` rungs are legacy fallbacks — new agents must use `oas.json` at the canonical vendor-namespaced path.
 3. **One agent per directory.** Future additions (test fixtures, generated examples) live as sibling files inside the same slug directory; do not nest multiple agents under one slug.
 
-Why `agents/`, not `packages/`? A Cinatra agent is pure configuration — the OAS Flow file describes the agent declaratively, and the runtime fields are derived from it. There is no TypeScript source to build and no test suite to run. Each agent still carries its own `package.json` (so it is an npm-style package that can be published to the registry and installed into other instances), but it is not a *workspace* package: the host repo does not import it as TypeScript code, and the build system treats `agents/` as data, not source. Keeping agents at the repo root under `agents/` makes the distinction explicit — they are interpreted by `@cinatra-ai/agents` and executed by WayFlow, not compiled with the rest of the codebase.
+Why its own repo, not a `packages/` workspace in this monorepo? A Cinatra agent is pure configuration — the OAS Flow file describes the agent declaratively, and the runtime fields are derived from it. There is no TypeScript source to build and no test suite to run. Each agent still carries its own `package.json` (so it is an npm-style package that can be published to the registry and installed into other instances), but the host repo does not import it as TypeScript code and does not build it with the rest of the codebase. Shipping every agent as an independent, installable extension package — rather than a monorepo-local directory — is what lets any Cinatra instance (not just this one) install it from the marketplace.
 
 ## Authoring loop
 
 ```
-agents/<vendor>/<slug>/cinatra/oas.json
+extensions/<vendor>/<slug>/cinatra/oas.json    (in the agent's own git repo, cloned in by dev sync)
         |
         v
     validate   (agent_source_validate  OR  node scripts/ci-validate-agents.mjs)
         |
         v
-     git PR
+     git PR    (against the agent's own repo)
         |
         v
       merge
@@ -117,13 +119,13 @@ agents/<vendor>/<slug>/cinatra/oas.json
       A2A       (the A2A layer catalogs it for cross-agent discovery)
 ```
 
-The startup scanner walks the agent install directory (default: `agents/`, configurable at `/configuration/environment`) using a 4-rung probe per entry: `<installDir>/cinatra/<slug>/cinatra/oas.json` → `agent.json` → `<installDir>/cinatra/<slug>/oas.json` → `agent.json`. Only the first match per slug is loaded. The file → DB upsert happens on every dev-mode boot, gated by the version-skip guard in `ensureAgentPackageFromGitFile`. The entire scan block (`backfillPublishedMarkers` + `triggerWayflowReload` + the `ensureAgentPackageFromGitFile` loop) is wrapped in an `if (process.env.CINATRA_RUNTIME_MODE === "development")` guard in `src/instrumentation.node.ts`, so production boots never touch the on-disk agent tree — use the install primitives instead (see [`references/platform/agent-packaging.md`](../../references/platform/agent-packaging.md) and the `agent_builder_*` MCP tools).
+The startup scanner walks the agent install directory (default: `extensions/`, configurable — see [Configuring the agent install path](#configuring-the-agent-install-path)) and, for each `<vendor>/<slug>/` package directory, reads `cinatra/oas.json`. The file → DB upsert happens on every dev-mode boot, gated by the version-skip guard in `ensureAgentPackageFromGitFile`; this git-native ingest loop is dev-only (`CINATRA_RUNTIME_MODE === "development"`) — a production boot instead runs a fail-closed required-extension materialize phase and an always-on marker self-heal phase (see the callout above), neither of which re-derives `agent_templates` from disk. Use the install primitives for production installs instead (see [`references/platform/agent-packaging.md`](../../references/platform/agent-packaging.md) and the `agent_builder_*` MCP tools).
 
 ### Step-by-step
 
-1. Create the directory: `mkdir -p agents/cinatra/my-research-agent/cinatra`.
-2. Write `agents/cinatra/my-research-agent/cinatra/oas.json` and `agents/cinatra/my-research-agent/package.json` — hand-authored or via the `agent_source_write` / `agent_source_write_files` MCP tools. Start from a similar existing agent (for example `extensions/cinatra-ai/email-test-delivery-agent/cinatra/oas.json` for a leaf agent, or `extensions/cinatra-ai/email-outreach-agent/cinatra/oas.json` for an orchestrator with mid-run HITL) and change `id`, `name`, `description`, `inputs`, `outputs`, `nodes`, and the control- and data-flow connections.
-3. Run the validator: `node scripts/ci-validate-agents.mjs`. Exit code 0 means every file under `agents/` passed.
+1. Scaffold the extension package: `cinatra create-extension agent my-research-agent` (creates the package skeleton — `package.json`, `cinatra/oas.json`, `skills/`). A first-party agent then lives in its own repo (e.g. `github.com/cinatra-ai/my-research-agent`), added to this repo's `cinatra.devExtensions` map and cloned locally by `cinatra install` into `extensions/cinatra-ai/my-research-agent/`.
+2. Write `extensions/cinatra-ai/my-research-agent/cinatra/oas.json` and its sibling `package.json` — hand-authored or via the `agent_source_write` / `agent_source_write_files` MCP tools. Start from a similar existing agent (for example `extensions/cinatra-ai/email-test-delivery-agent/cinatra/oas.json` for a leaf agent, or `extensions/cinatra-ai/email-outreach-agent/cinatra/oas.json` for an orchestrator with mid-run HITL) and change `id`, `name`, `description`, `inputs`, `outputs`, `nodes`, and the control- and data-flow connections.
+3. Run the validator: `node scripts/ci-validate-agents.mjs`. Exit code 0 means every file under `extensions/cinatra-ai/` passed.
 4. Compile the OAS Flow: `agent_source_compile` with `packageSlug: "my-research-agent"`. This regenerates the derived runtime artifacts (`inputSchema`, `outputSchema`, `approvalPolicy`, compiled plan) in place from the current node graph.
 5. Open a PR.
 6. CI must pass — `.github/workflows/validate-agents.yml` runs the same validator. Merging is blocked if any file fails.
@@ -135,9 +137,9 @@ Cinatra ships eight MCP primitives for AI-assisted authoring of agents. They are
 
 | Tool | Purpose | Key inputs | Returns |
 |------|---------|------------|---------|
-| `agent_source_list` | List every `agents/<vendor>/<slug>/cinatra/oas.json` file in the repo with its `packageName`, `packageVersion`, `name`, and `description`. Tolerates a missing `agents/` directory. | _(none)_ | `{ items: Array<{ path, packageName, packageVersion, name, description }>, total: number }` |
+| `agent_source_list` | List every `<installDir>/<vendor>/<slug>/cinatra/oas.json` file (installDir defaults to `extensions/`) with its `packageName`, `packageVersion`, `name`, and `description`. Tolerates a missing install directory. | _(none)_ | `{ items: Array<{ path, packageName, packageVersion, name, description }>, total: number }` |
 | `agent_source_read` | Read and parse a specific agent's OAS Flow file. | `packageSlug: string` (no path separators) | `{ content: <OAS Flow object>, path: string }` or `{ error: string }` |
-| `agent_source_write` | Create or overwrite the OAS Flow file at `agents/<vendor>/<packageSlug>/cinatra/oas.json`. Creates the directory if needed. Pre-parses `content` as JSON before writing. Caller is responsible for bumping the package version. | `packageSlug: string`, `content: string` (JSON-encoded OAS Flow) | `{ path: string, written: true }` or `{ error: string }` |
+| `agent_source_write` | Create or overwrite the OAS Flow file at `<installDir>/<vendor>/<packageSlug>/cinatra/oas.json`. Creates the directory if needed. Pre-parses `content` as JSON before writing. Caller is responsible for bumping the package version. | `packageSlug: string`, `content: string` (JSON-encoded OAS Flow) | `{ path: string, written: true }` or `{ error: string }` |
 | `agent_source_write_files` | Write multiple files at once for an agent extension — `oas.json`, `package.json`, and any siblings — in a single atomic operation. Use when scaffolding a brand-new agent so the validator sees a consistent set of files. | `packageSlug: string`, `files: Array<{ relativePath: string, content: string }>` | `{ paths: string[] }` or `{ error: string }` |
 | `agent_source_validate` | Run the OAS Flow shape checks against a raw JSON string without touching the filesystem. Same rules the CI validator enforces. | `content: string` | `{ valid: boolean, errors: string[] }` |
 | `agent_source_review` | Run the deterministic review lint server-side. Partitions findings by severity (blockers, warnings, advisories) and is the single review surface used by the chat-driven authoring flow. Idempotent: byte-identical inputs produce byte-identical blockers across re-runs. | `packageSlug: string`, optional `reviewMode: "deterministic" \| "advisory"` | `{ blockers, warnings, advisories, ranAdvisoryAgents }` or `{ error: string }` |
@@ -155,7 +157,7 @@ Cinatra ships eight MCP primitives for AI-assisted authoring of agents. They are
 
 ## Local testing workflow
 
-1. Edit `agents/cinatra/<slug>-agent/cinatra/oas.json` in your editor (or via `agent_source_write`).
+1. Edit `extensions/cinatra-ai/<slug>-agent/cinatra/oas.json` in your editor (or via `agent_source_write`).
 2. Run the validator: `node scripts/ci-validate-agents.mjs`. Expected output on success is `PASS` per file and a final `Results: N passed, 0 failed`; exit code 0.
 3. Restart the dev server: `pnpm dev`. The restart is cheap — the version-skip guard prevents DB writes when `packageVersion` is unchanged.
 4. Read the console. The startup scan logs exactly one line per agent:
@@ -182,7 +184,7 @@ Cinatra ships eight MCP primitives for AI-assisted authoring of agents. They are
 When an agent in the DB has a `packageName` and `status = "published"`, `registerPublishedAgentTools` registers it as a named MCP tool on every incoming MCP session. The tool name is derived via `sanitizePackageNameToToolName`:
 
 ```
-@cinatra/email-outreach-agent  ->  cinatra_email-outreach-agent
+@cinatra-ai/email-outreach-agent  ->  cinatra-ai_email-outreach-agent
 email-outreach-template        ->  email-outreach-template
 ```
 
@@ -193,11 +195,11 @@ What this enables:
 - **For external LLMs:** any MCP client connected to the Cinatra MCP server (Claude Code, ChatGPT via connectors, custom agents) sees published virtual agents as first-class tools. Invoking the tool creates an `agent_runs` row and enqueues a BullMQ job — same path as the Cinatra UI's Run button.
 - **For composed Cinatra agents:** the agentic orchestration loop registers the same tools inside its own tool catalog (with `MAX_AGENT_NESTING_DEPTH=3` enforced), so one virtual agent can call another as a subroutine with no extra wiring.
 
-**A2A discoverability.** Agents under `agents/` are exactly what the Agent-to-Agent (A2A) discovery layer catalogs. There is no separate A2A registration step and no per-agent manifest: once an `oas.json` is committed to `agents/`, imported at startup, and published in the Cinatra UI, it appears automatically in the A2A agent catalog. The git file is the single source of truth for both the internal runtime and the A2A-facing advertisement.
+**A2A discoverability.** Agents in the install directory are exactly what the Agent-to-Agent (A2A) discovery layer catalogs. There is no separate A2A registration step and no per-agent manifest: once an `oas.json` is materialized locally, imported at startup, and published in the Cinatra UI, it appears automatically in the A2A agent catalog. The git file (in the agent's own repo) is the single source of truth for both the internal runtime and the A2A-facing advertisement.
 
 ## Package rename migrations
 
-When renaming agent extensions (e.g. `@old-scope/name` → `@cinatra/name-agent`), three DB locations must be updated in a single transaction — missing any one causes runtime failures:
+When renaming agent extensions (e.g. `@old-scope/name` → `@cinatra-ai/name-agent`), three DB locations must be updated in a single transaction — missing any one causes runtime failures:
 
 | Location | Column | What breaks if missed |
 |----------|--------|-----------------------|
@@ -240,15 +242,15 @@ The path change takes effect immediately without a server restart — every inco
 
 ## CI validation
 
-The `.github/workflows/validate-agents.yml` workflow runs `node scripts/ci-validate-agents.mjs` on every `push` and `pull_request` to `main` whose diff touches `agents/**/*.json`. A PR cannot merge if any file fails the schema check, so malformed agents never reach the `main` branch.
+The `.github/workflows/validate-agents.yml` workflow runs `node scripts/ci-validate-agents.mjs` against the agent definitions cloned back from their companion repos at CI time (they are git-ignored in-tree, so an in-tree path filter on the agent directories would never match). It re-runs on any change to the validator itself, the clone-back mechanism (`scripts/ci/sync-dev-extensions.mjs`, `cinatra-dev-extensions.lock.json`, `cinatra-required-extensions.lock.json`), or the root `package.json` (which owns `cinatra.devExtensions`). A PR cannot merge if any cloned-in agent file fails the schema check, so malformed agents never reach the `main` branch.
 
-To run the exact same validator locally:
+To run the exact same validator locally (after `cinatra install` has cloned the agent extensions into `extensions/cinatra-ai/`):
 
 ```
 node scripts/ci-validate-agents.mjs
 ```
 
-Exit code 0 means every file under `agents/` passed. Exit code 1 means at least one file failed — the failing paths and error messages are printed to stdout before the non-zero exit.
+Exit code 0 means every agent file under `extensions/cinatra-ai/` passed. Exit code 1 means at least one file failed — the failing paths and error messages are printed to stdout before the non-zero exit.
 
 ## Security considerations
 

@@ -8,7 +8,7 @@ This page explains what that rule looks like in practice, why it exists, and the
 
 ## The rule
 
-Each `@cinatra/<package>` exposes a public surface in `src/index.ts`. Other packages import from that public surface. They do not import from `packages/<other>/src/internal/...`. They do not reach across into `packages/<other>/src/store.ts` or `packages/<other>/src/some-deep-module.ts`.
+Each `@cinatra-ai/<package>` exposes a public surface in its own `src/index.ts`. Other packages import from that public surface. They do not import from `packages/<other>/src/internal/...`. They do not reach across into `packages/<other>/src/store.ts` or `packages/<other>/src/some-deep-module.ts`.
 
 For cross-package *operations* — "package A wants package B to do something" — the canonical path is package B's MCP primitive, called via package B's deterministic in-process client. Not an internal function exported from B.
 

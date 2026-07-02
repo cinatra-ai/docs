@@ -7,8 +7,8 @@ brings up a per-clone WayFlow (Cinatra's OAS Flow agent runtime) (+ optional Tai
 > **CLI namespace.** Local host/monorepo bootstrap commands live under
 > `cinatra instance …` (e.g. `cinatra instance clone new`, `cinatra instance branch setup`,
 > `cinatra instance tunnel`). The older bare forms (`cinatra clone …`, `cinatra setup branch`,
-> `cinatra dev tunnel`, `cinatra teardown branch`) still work this release but are deprecated and
-> print a hint pointing at their `cinatra instance …` equivalent.
+> `cinatra dev tunnel`, `cinatra teardown branch`) have been removed with no back-compat
+> alias — only the `cinatra instance …` forms resolve.
 
 ## Two isolation paths
 
@@ -145,7 +145,9 @@ a malformed registry by reporting corruption rather than crashing.
 
 `~/.cinatra/clones.json` is the source of truth for **port allocation**. Dormant clones
 hold no listening socket, so `findFreePort` cannot see them — only the registry can. Pure
-module: `packages/cli/src/clone-registry.mjs`.
+module: `clone-registry.mjs`, in the `@cinatra-ai/cinatra` CLI package's own repository (its
+`src/` directory) — the developer/operator CLI ships separately from this monorepo; see the
+CLI namespace note above.
 
 Shape:
 
