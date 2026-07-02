@@ -30,8 +30,7 @@ This is the Cinatra design-system reference for contributors, alongside the [Use
 
 ## What's NOT in here
 
-- **Code-level styling rules** — those live in `.agents/skills/design/SKILL.md` (the design skill, user-invocable via `/design`). The page in this guide describes how that skill works; the skill itself is the operational source.
-- **The spec defect resolutions** (R1 running=indigo, R2 navy hairlines, R3 status retune, R4 fonts) and the rest of the operational rulebook (token map, conformance matrix, exception policy, uncovered-UI register) now live with the code, in the monorepo design skill (`cinatra/.agents/skills/design/operational/`). The [`design-system.html`](./design-system.html) mirror is the normative reference _as published_ (its canonical source is upstream — see [Canonical source](#canonical-source)); see the [operational pointer](operational-rulebook.md).
+- **Code-level styling rules** — the binding non-negotiables (R1 running=indigo, R2 navy hairlines, R3 status retune, R4 fonts, and the rest), the token map, and the CI scanners are documented directly in [`working-with-the-design-skill.md`](./working-with-the-design-skill.md) in this repo.
 
 ## How this guide stays current
 
@@ -43,4 +42,4 @@ node scripts/design/scan-raw-colors.mjs           # warns if a new raw-color lea
 node scripts/design/scan-status-render.mjs        # warns if a new ad-hoc status renderer appears
 ```
 
-The [`design-system.html`](./design-system.html) mirror is the **normative reference as published** — its single canonical source is the upstream design-system spec it is republished from (see [Canonical source](#canonical-source)). The monorepo design skill (`cinatra/.agents/skills/design/SKILL.md`) applies it to code and records the owner deviations + resolutions; on a genuine conflict between the two, stop and request owner reconciliation.
+The [`design-system.html`](./design-system.html) mirror is the **normative reference as published** — its single canonical source is the upstream design-system spec it is republished from (see [Canonical source](#canonical-source)). [`working-with-the-design-skill.md`](./working-with-the-design-skill.md) records how that spec is applied to code (the owner deviations + resolutions); on a genuine conflict between the two, stop and request owner reconciliation.

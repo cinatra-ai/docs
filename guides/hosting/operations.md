@@ -1,6 +1,8 @@
 # Operations
 
-This page covers how a production release is built and deployed, and the one operational fact that surprises operators most often: **merging is not deploying**.
+This page covers how a production release is **built and published** by the upstream `cinatra-ai/cinatra` repository's own CI, and the one operational fact that surprises operators most often: **merging is not deploying**.
+
+> **Who this mechanism belongs to.** The tag-gated build-and-publish pipeline described below is upstream CI, wired to the `cinatra-ai/cinatra` repository's own GitHub Container Registry namespace and release-dispatch secrets — it is how the Cinatra maintainers cut a release image, not a self-hosting operator's deploy procedure. If you self-host, you don't need write access to that pipeline: build the image from whatever commit or published version tag you want to run, and deploy it through your own environment (orchestration, secrets injection, rollout strategy — see [Where production deployment material lives](README.md#where-production-deployment-material-lives)). This page is useful background on how the upstream image you consume comes to exist.
 
 For prerequisites and services, see [Installation](installation.md). For the environment variable matrix, see [Configuration](configuration.md). Back to the [Hosting Guide](README.md).
 
@@ -10,7 +12,7 @@ For prerequisites and services, see [Installation](installation.md). For the env
 
 Production deploys are gated on a release tag, not on a merge.
 
-- Pushing a **version tag** (a `v`-prefixed semver tag such as `v1.4.0` or `v1.4.0.1`) builds the runtime image from the commit the tag points at, pushes it to the image registry, confirms the tagged image is resolvable, and then dispatches a deploy of **that exact image, referenced by digest**.
+- Pushing a **version tag** (a `v`-prefixed semver tag such as `v1.4.0` or `v1.4.0-hotfix.1`) builds the runtime image from the commit the tag points at, pushes it to the image registry, confirms the tagged image is resolvable, and then dispatches a deploy of **that exact image, referenced by digest**.
 - Merging a pull request into the main line does **not** deploy anything. A merge to the main branch rebuilds and publishes the branch image (tagged for the branch, the commit SHA, and `latest`), but it triggers **no** deploy.
 
 Only a version tag triggers a deploy. The image is deployed by digest, so what runs in production is byte-for-byte the image that was built and pushed for that tag — there is no separate "deploy build."

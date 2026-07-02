@@ -1,8 +1,8 @@
 # Agent Packaging — Canonical Conventions
 
-This document defines the canonical rules for Cinatra agent packaging. Every agent shipped in this repo MUST follow these rules. When in doubt, prefer the reference packages under `agents/cinatra/email-outreach-agent/`, `agents/cinatra/email-recipient-selection-agent/`, `agents/cinatra/email-drafting-agent/`, `agents/cinatra/reviewer-agent/`, `agents/cinatra/email-delivery-agent/` — they are the golden examples for the compact Open Agent Specification (OAS) Flow 26.1.0 shape and vendor-namespaced layout.
+This document defines the canonical rules for Cinatra agent packaging. Every first-party agent (each shipped as its own git repository, not committed inside the `cinatra` monorepo — see [Developing agents](../../guides/developer/developing-agents.md#where-agents-live)) MUST follow these rules. When in doubt, prefer the reference packages at `github.com/cinatra-ai/email-outreach-agent`, `email-recipient-selection-agent`, `email-drafting-agent`, `reviewer-agent`, `email-delivery-agent` — they are the golden examples for the compact Open Agent Specification (OAS) Flow 26.1.0 shape and vendor-namespaced layout. In a dev checkout they are materialized under `extensions/cinatra-ai/<slug>-agent/`.
 
-> **Canonical filename:** The current canonical path is `agents/<vendor>/<slug>/cinatra/oas.json` (vendor namespace is required; existing system agents use `cinatra/`). Legacy filenames (`agent.json` at either depth) are still resolved by the loader for transitional packages, but new agents MUST be written as `oas.json`. Wherever this document continues to reference `agent.json`, treat it as the OAS Flow descriptor under its current canonical filename.
+> **Canonical filename:** The current canonical path is `extensions/<vendor>/<slug>/cinatra/oas.json` on disk (each `<slug>` is an independent extension package/git repo; `<vendor>` for first-party Cinatra agents is `cinatra-ai`). Legacy filenames (`agent.json` at either depth) are still resolved by the loader for transitional packages, but new agents MUST be written as `oas.json`. Wherever this document continues to reference `agent.json`, treat it as the OAS Flow descriptor under its current canonical filename.
 
 > **OAS Flow content format:** All agents use the compact OAS Flow 26.1.0 format (`agentspec_version: "26.1.0"`, `component_type: "Flow"`). See [references/platform/agent-spec.md](./agent-spec.md) for the full field inventory and validator rules.
 
@@ -12,38 +12,39 @@ Related docs:
 
 ## Directory Layout
 
-Every agent extension lives at a **flat path** directly under `agents/`:
+Every agent is its **own extension package** (its own git repository), materialized on disk under the install directory (`extensions/` by default) at a vendor-namespaced path:
 
 ```
-agents/
-├── <slug>/
-│   ├── package.json                      # npm manifest (registered to the registry)
-│   ├── cinatra/
-│   │   └── agent.json                    # compact OAS Flow 26.1.0 runtime descriptor (ZIP install reads this)
-│   └── skills/<slug>/
-│       └── SKILL.md                      # behavioral spec (frontmatter + taskSpec)
+extensions/
+└── cinatra-ai/                            # vendor namespace (npm scope, minus the @)
+    └── <slug>-agent/                      # one repo per agent; kind suffix required
+        ├── package.json                   # npm manifest — name: "@cinatra-ai/<slug>-agent"
+        ├── cinatra/
+        │   └── oas.json                   # compact OAS Flow 26.1.0 runtime descriptor (ZIP install reads this)
+        └── skills/<slug>/
+            └── SKILL.md                   # behavioral spec (frontmatter + taskSpec)
 ```
 
-Multi-agent families (orchestrator + leaves) are represented as sibling flat packages, NOT as nested subdirectories. Example from the email-outreach family:
+Multi-agent families (orchestrator + leaves) are represented as sibling independent packages (sibling git repos), NOT as nested subdirectories of one another. Example from the email-outreach family (each a separate `github.com/cinatra-ai/<name>` repo):
 
 ```
-agents/
-├── email-outreach/           # orchestrator
-├── email-recipients/         # leaf
-├── email-drafts/             # leaf
-├── email-reviewer/           # leaf
-└── email-sender/             # leaf
+extensions/cinatra-ai/
+├── email-outreach-agent/              # orchestrator
+├── email-recipient-selection-agent/   # leaf
+├── email-drafting-agent/              # leaf
+├── reviewer-agent/                    # leaf
+└── email-delivery-agent/              # leaf
 ```
 
-## CONV-01 — Flat layout
+## CONV-01 — Flat layout within the vendor namespace
 
-Every agent extension lives at `agents/<slug>/`. Never `agents/<domain>/<slug>/`, never any deeper nesting.
+Every agent extension lives at `extensions/<vendor>/<slug>/`. Never `extensions/<vendor>/<domain>/<slug>/`, never any deeper nesting — one agent package per vendor-namespaced directory.
 
-**Why:** The startup scanner at `src/instrumentation.node.ts` scans both 1-level and 2-level depths today. Keeping agents at 1-level keeps `grep -r "agents/<name>" src/` a single-hop search and avoids the ambiguity of "which domain does this belong in?" when an agent could reasonably belong to several.
+**Why:** Keeping agents at one level under their vendor namespace keeps `grep -r "<slug>" extensions/` a single-hop search and avoids the ambiguity of "which domain does this belong in?" when an agent could reasonably belong to several.
 
-**Enforced by:** code review. There is no automated check — the scanner happily walks 2-level, so violations compile and run. Watch for changes that introduce `agents/<domain>/`.
+**Enforced by:** the extension naming-conformance gate (directory name == unscoped package name, kind suffix at the end) plus code review for the rest. Watch for changes that introduce an extra subdirectory level under a vendor namespace.
 
-> **Dev-mode only.** The on-disk `agents/` scan in `src/instrumentation.node.ts` runs exclusively when `CINATRA_RUNTIME_MODE=development`. In production, agents are installed through the `agent_builder_git_publish` / MCP install primitives, or `cinatra setup prod` at provisioning time — the filesystem-scan-on-restart workflow described in [`developing-agents.md`](../../guides/developer/developing-agents.md) is a developer convenience, not the production deploy path.
+> **Dev-mode only — narrowly.** The git-native ingest scan in `src/instrumentation.node.ts` (re-deriving `agent_templates` from whatever is on disk) runs exclusively when `CINATRA_RUNTIME_MODE=development`. In production, agents are installed through the `agent_builder_git_publish` / MCP install primitives, or `cinatra instance setup prod` at provisioning time — not by re-importing the on-disk tree the way this dev-only scan does. (A prod boot separately runs its own on-disk reconciliation — a fail-closed required-extension materialize phase plus an always-on marker self-heal phase — see [`developing-agents.md`](../../guides/developer/developing-agents.md) for the distinction.)
 
 ## CONV-02 — Role-noun slug
 
@@ -70,68 +71,74 @@ Setup/initialization steps that are **not independently reusable** are inlined i
 
 **When in doubt:** default to inlining. Extracting an init step later is cheaper than recalling an over-shipped package.
 
-## CONV-04 — Leaf agents omit `dependencies`
+## CONV-04 — Dependency declaration: `cinatra.dependencies[]` and `cinatra.agentDependencies`
 
-**Leaf packages** (`agent.json.type: "leaf"`) MUST:
-- Have NO top-level `dependencies` field in `package.json` (not even `{}`)
-- Have NO `agentDependencies` field in `agent.json` (not even `{}`)
+Every agent package — leaf or orchestrator — carries a `cinatra` block with at least `apiVersion`, `kind: "agent"`, and a `dependencies` array (empty `[]` for a leaf with no children; this is required by the naming-conformance and install/activation gates, not omitted). Never put agent-to-agent (or agent-to-connector) edges in npm's own top-level `package.json.dependencies` — the package-contract schema at `packages/agents/src/verdaccio/package-contract.ts` rejects a top-level `dependencies` field on publish.
 
-**Orchestrator packages** (`agent.json.type: "orchestrator"`) MUST:
-- Have NO top-level `dependencies` field in `package.json`
-- Have `cinatra.agentDependencies` in `package.json` — a map of `@cinatra-agents/<slug>` to semver ranges
-- Have `agentDependencies` in `agent.json` — the same map, in sync
+`cinatra.dependencies[]` is the canonical cross-kind dependency graph shared by all five extension kinds (see [Extension authoring](../../guides/developer/extension-authoring.md#cinatradependencies--capability-based-required-vs-optional)) — every real agent package declares its children here, `kind: "agent"` and `requirement: "required"` for a hard child dependency.
 
-**Why no top-level `dependencies`:** The package-contract schema at `packages/agents/src/verdaccio/package-contract.ts` rejects top-level `dependencies` at publish time. npm-style dependencies are not part of the Cinatra agent model — agent composition uses `cinatra.agentDependencies`.
-
-**Why remove empty `{}`:** Leaves never have children. An empty object communicates "this agent supports dependencies but has none today", which is misleading — leaves don't support the concept at all. Omitting the field matches the contract semantics.
-
-**Why in sync:** Two files with the same information drift. The rule is: edit both files together or neither.
+`cinatra.agentDependencies` is a **separate, older map** (`{ "@cinatra-ai/<child-slug>-agent": "<semver-range>" }`) that some agent packages additionally carry. It matters for exactly one consumer: `cinatra agents install`'s registry-based transitive resolver, which reads `cinatra.agentDependencies` (not `dependencies[]`) to walk the child-agent tree (`cinatra-cli`'s `src/agents-install.mjs`: `const childDeps = m.cinatra?.agentDependencies ?? {}`). It is not universally present on real orchestrators today (the reference `email-outreach-agent` package, for instance, declares its 7 children only via `dependencies[]` and has no `agentDependencies` map) — if you ship an agent meant to be installed via `cinatra agents install`, populate `agentDependencies` alongside `dependencies[]` for the same children; otherwise `dependencies[]` alone is sufficient for the cross-kind install/activation contract.
 
 ### Leaf `package.json` template
 
 ```json
 {
-  "name": "@cinatra-agents/<slug>",
-  "version": "1.1.0",
+  "name": "@cinatra-ai/<slug>-agent",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
   "description": "<role-noun description — no 'Stage N' prefix>",
-  "private": false,
-  "publishConfig": {
-    "registry": "http://127.0.0.1:4873"
+  "type": "module",
+  "files": ["cinatra", "skills"],
+  "cinatra": {
+    "apiVersion": "cinatra.ai/v1",
+    "kind": "agent",
+    "dependencies": []
   }
 }
 ```
 
-No `dependencies` key. No `cinatra` block either — the publisher (`packages/agents/src/verdaccio/package-files.ts`) adds `cinatra.agentDependencies` at publish time only when non-empty (not applicable for leaves).
+A leaf with a real child (e.g. a delivery step it hands off to) declares that child in `dependencies[]` (see the Orchestrator template below for the shape) — CONV-03 governs whether a given step should be its own package at all.
 
-Reference: `agents/email-recipients/package.json`.
+Reference: `github.com/cinatra-ai/context-selection-agent` (`package.json`) for a true zero-dependency leaf.
 
 ### Orchestrator `package.json` template
 
 ```json
 {
-  "name": "@cinatra-agents/<slug>",
-  "version": "1.1.0",
+  "name": "@cinatra-ai/<slug>-agent",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
   "description": "<workflow description>",
-  "private": false,
-  "publishConfig": {
-    "registry": "http://127.0.0.1:4873"
-  },
+  "type": "module",
+  "files": ["cinatra", "skills"],
   "cinatra": {
+    "apiVersion": "cinatra.ai/v1",
+    "kind": "agent",
+    "dependencies": [
+      {
+        "packageName": "@cinatra-ai/<child-slug>-agent",
+        "kind": "agent",
+        "edgeType": "runtime",
+        "versionConstraint": { "kind": "exact", "version": "0.1.0" },
+        "requirement": "required"
+      }
+    ],
     "agentDependencies": {
-      "@cinatra-agents/<child-slug-1>": "^1.1.0",
-      "@cinatra-agents/<child-slug-2>": "^1.1.0"
+      "@cinatra-ai/<child-slug>-agent": "^0.1.0"
     }
   }
 }
 ```
 
-Reference: `agents/email-outreach/package.json`.
+`agentDependencies` here is optional (see above) — include it if the package should be installable via `cinatra agents install`.
+
+Reference: `github.com/cinatra-ai/email-outreach-agent` (`package.json`).
 
 ### Leaf `agent.json` template
 
 > **Compact OAS Flow 26.1.0 shape**. Root-level fields are `agentspec_version`, `component_type`, `id`, `name`, `metadata`, `inputs`, `outputs`, `start_node`, `nodes`, `control_flow_connections`, `data_flow_connections`, `$referenced_components`. All Cinatra-specific fields nest under `metadata.cinatra` and under per-node `metadata.cinatra` extensions. See [references/platform/agent-spec.md](./agent-spec.md) for the full field inventory and validator rules.
 
-<!-- Structural template derived from agents/email-recipients/cinatra/agent.json -->
+<!-- Structural template derived from github.com/cinatra-ai/email-recipient-selection-agent's cinatra/oas.json -->
 ```json
 {
   "agentspec_version": "26.1.0",
@@ -224,7 +231,7 @@ Reference: `agents/email-outreach/package.json`.
 }
 ```
 
-No `agentDependencies` key. Reference: `agents/email-recipients/cinatra/agent.json`.
+No `agentDependencies` key (that lives in `package.json` — see CONV-04). Most current agents also set `metadata.cinatra.packageName` (matching `package.json#name`) — see [CONV-05 § Package identity](#conv-05--agentjson-runtime-fields) for why. Reference: `github.com/cinatra-ai/email-recipient-selection-agent` (`cinatra/oas.json`).
 
 ## CONV-05 — agent.json runtime fields
 
@@ -250,9 +257,9 @@ The table below enumerates every field path in `agent.json` (OAS Flow), whether 
 
 **Compiler-derived — do not author (rejected by validator):** `metadata.cinatra.inputSchema` (derived from `StartNode.inputs`), `metadata.cinatra.outputSchema` (derived from `EndNode.outputs`), `metadata.cinatra.prompt` (sourced from `Agent.system_prompt`), `metadata.cinatra.approvalPolicy` (derived from AgentNodes), `metadata.cinatra.compiledPlan` (always `[]`), `metadata.cinatra.taskSpec` (moved to SKILL.md).
 
-**Package identity — sibling `package.json` is the source of truth:** `package.json.name` (scoped `@cinatra-agents/<slug>`) and `package.json.version`. Legacy `metadata.cinatra.packageName` / `metadata.cinatra.packageVersion` are no longer authored in `agent.json`.
+**Package identity — version is package.json-only; name may also be authored in the OAS file.** `metadata.cinatra.packageVersion` resolves solely from the sibling `package.json#version` — never author it in `oas.json`. `metadata.cinatra.packageName`, however, is still commonly authored in `oas.json` (every current first-party agent's `oas.json` carries it) and, when present, **takes precedence over** the sibling `package.json#name` at import time (`cinatraPackageName ?? sibling?.name` in `ensureAgentPackageFromGitFile`) — so keep the two in sync rather than treating one as dead.
 
-**Dependencies:** Orchestrator packages declare children via `package.json.cinatra.agentDependencies`. Leaves omit this entirely.
+**Dependencies:** declared entirely in the sibling `package.json` (`cinatra.dependencies[]`, plus `cinatra.agentDependencies` if the package needs to be `cinatra agents install`-able) — see CONV-04. Nothing about dependencies is authored in `agent.json`/`oas.json` itself.
 
 ### Legacy Fields (rejected by validator)
 
@@ -272,7 +279,7 @@ The following v2-era fields are rejected by `validateOasAgentJson` and must not 
 ### 1. Registry install — `cinatra agents install`
 
 ```bash
-cinatra agents install "@cinatra-agents/<slug>@^<range>"
+cinatra agents install "@cinatra-ai/<slug>-agent@^<range>"
 ```
 
 Resolves via `pacote.manifest()` against the configured registry (Verdaccio (an npm-compatible registry) under the hood). Walks `cinatra.agentDependencies` transitively, writes `cinatra-agents.lock`, extracts each tarball, upserts `cinatra.agent_templates` + `cinatra.agent_versions`. Requires a live registry (Verdaccio under the hood).
@@ -281,15 +288,15 @@ Primary path for production/prod-like installs. Produces a lockfile consumers ca
 
 ### 2. ZIP install — `ensureAgentPackageFromGitFile`
 
-At server start, `src/instrumentation.node.ts` scans `agents/` (both 1-level and 2-level — but see CONV-01), reads each `agent.json`, and calls `importAgentTemplate(zipBase64)` for each. Parses in-memory; upserts the same DB tables; does NOT require a registry (Verdaccio under the hood) and does NOT produce a lockfile.
+At server start, `src/instrumentation.node.ts` scans the agent install directory (`extensions/` by default; see [Configuring the agent install path](../../guides/developer/developing-agents.md#configuring-the-agent-install-path)), reads each `oas.json`/`agent.json`, and calls `importAgentTemplate(zipBase64)` for each. Parses in-memory; upserts the same DB tables; does NOT require a registry (Verdaccio under the hood) and does NOT produce a lockfile.
 
-Primary path for local dev — the files checked into `agents/` are the source of truth. See `references/platform/ensure-agent-package.md` for details.
+Primary path for local dev — the files cloned into the install directory (from each agent's own git repo) are the source of truth. See `references/platform/ensure-agent-package.md` for details.
 
 Both paths ultimately converge on `importAgentTemplateCore` in `packages/agents/src/import-agent-core.ts`.
 
 ## SKILL.md Rules
 
-Every agent has a `SKILL.md` at `agents/<slug>/skills/<slug>/SKILL.md`. Frontmatter requires `name:` and `description:`. Body describes the behavior in executable prose. See `guides/developer/agent-development.md` for the 14 canonical rules governing SKILL.md content (self-containment, `## What I retrieve myself (MCP)` section, no inline skill content, etc.).
+Every agent has a `SKILL.md` at `<installDir>/<vendor>/<slug>/skills/<slug>/SKILL.md`. Frontmatter requires `name:` and `description:`. Body describes the behavior in executable prose. See `guides/developer/agent-development.md` for the 14 canonical rules governing SKILL.md content (self-containment, `## What I retrieve myself (MCP)` section, no inline skill content, etc.).
 
 ## cinatra/ Sidecar
 
@@ -305,39 +312,37 @@ Do not:
 1. **Nest agents under domain subdirectories** — violates CONV-01. If multiple agents share a family, give them sibling flat slugs.
 2. **Use positional slugs** (`stage-N-purpose`, `-orchestrator`, `-child`) — violates CONV-02. Name by function.
 3. **Ship init-only leaves** (steps with no callers besides a single orchestrator) — violates CONV-03. Inline into the orchestrator's SKILL.md.
-4. **Include `"dependencies": {}` in leaf `package.json`** — violates CONV-04. Omit entirely.
-5. **Include `"agentDependencies": {}` in leaf `agent.json`** — violates CONV-04. Omit entirely.
-6. **List child agents in `package.json.dependencies`** — the package contract rejects this at publish time. Use `cinatra.agentDependencies`.
-7. **Let `package.json.name` and `metadata.cinatra.packageName` drift apart** — they MUST match. Edit both when renaming.
-8. **Edit `agent.json.agentDependencies` without also editing `package.json.cinatra.agentDependencies`** — CONV-04 sync requirement.
+4. **List child agents in top-level `package.json.dependencies`** — violates CONV-04; the package contract rejects a top-level `dependencies` field at publish time. Declare children in `cinatra.dependencies[]` (and `cinatra.agentDependencies` if the package should be `cinatra agents install`-able).
+5. **Let `cinatra.agentDependencies` drift out of sync with `cinatra.dependencies[]`** for the same children, when both are present — CONV-04.
+6. **Let `package.json.name` and `metadata.cinatra.packageName` drift apart** — they MUST match. Edit both when renaming.
 
 ## Reference Family — Email Outreach
 
-The canonical reference implementation for this document is the email-outreach family in this repo:
+The canonical reference implementation for this document is the email-outreach family — each a separate `github.com/cinatra-ai/<slug>` repository, materialized in a dev checkout under `extensions/cinatra-ai/`:
 
-| Role | Path | Scoped name |
-|------|------|-------------|
-| Orchestrator | `agents/email-outreach/` | `@cinatra-agents/email-outreach` |
-| Leaf | `agents/email-recipients/` | `@cinatra-agents/email-recipients` |
-| Leaf | `agents/email-drafts/` | `@cinatra-agents/email-drafts` |
-| Leaf | `agents/email-reviewer/` | `@cinatra-agents/email-reviewer` |
-| Leaf | `agents/email-sender/` | `@cinatra-agents/email-sender` |
+| Role | Repo / dev-checkout path | Scoped name |
+|------|---------------------------|-------------|
+| Orchestrator | `email-outreach-agent` | `@cinatra-ai/email-outreach-agent` |
+| Leaf | `email-recipient-selection-agent` | `@cinatra-ai/email-recipient-selection-agent` |
+| Leaf | `email-drafting-agent` | `@cinatra-ai/email-drafting-agent` |
+| Leaf | `reviewer-agent` | `@cinatra-ai/reviewer-agent` |
+| Leaf | `email-delivery-agent` | `@cinatra-ai/email-delivery-agent` |
 
 ## Relationship Between Code and Agent Extensions
 
-Agent extensions (`agents/`) and code packages (`packages/`) are independent artifacts. Neither nests inside the other, even when they share a domain name (e.g. `campaign-email-outreach`).
+Agent extensions (independent git repos, materialized under `extensions/`) and code packages (`packages/` in this monorepo) are independent artifacts. Neither nests inside the other, even when they share a domain name (e.g. `campaign-email-outreach`).
 
-| Aspect | Code package (`packages/`) | Agent extension (`agents/`) |
+| Aspect | Code package (`packages/`) | Agent extension (`extensions/<vendor>/<slug>/`) |
 |---|---|---|
-| Location | `packages/<name>/` | `agents/<slug>/` |
+| Location | `packages/<name>/` (this monorepo) | Its own git repo, cloned into `extensions/<vendor>/<slug>/` |
 | Purpose | TypeScript implementation | Agent behavior + identity |
-| npm scope | `@cinatra/` | `@cinatra-agents/` |
+| npm scope | `@cinatra-ai/` | `@cinatra-ai/` (slug ends in `-agent`) |
 | Distribution | pnpm workspace | registry (Verdaccio under the hood) |
 | SKILL.md | None (code packages don't need one) | `SKILL.md` under `skills/<slug>/` |
 | DB record | None | `agent_templates` row |
 | Relationship | May implement the same domain | May call code package MCP primitives |
 
-The orchestrator's `cinatra.agentDependencies` lists the 4 leaves and should use registry-published semver ranges aligned with the leaf package versions.
+The orchestrator's `cinatra.agentDependencies` lists its leaves and should use registry-published semver ranges aligned with the leaf package versions.
 
 ---
 
@@ -414,7 +419,7 @@ Cinatra's setup interrupt loop in `execution.ts` fires **before** the WayFlow di
 
 The multi-tenant WayFlow runtime uses a single Starlette parent app that mounts one isolated `A2AServer` ASGI sub-app per agent at `/agents/<vendor>/<slug>/`. While `A2AServer.serve_agent()` is still last-writer-wins **within a single instance**, distinct instances are constructed per agent and mounted at distinct paths, so the runtime hosts every installed agent in one container. See `docker/wayflow/agent_loader.py` for the loader implementation.
 
-Configuration uses a single env var, `WAYFLOW_BASE_URL` (default `http://localhost:3010`). New agents become reachable on container restart after they appear under `agents/<vendor>/<slug>/cinatra/oas.json` — no `.env.local` edit required.
+Configuration uses a single env var, `WAYFLOW_BASE_URL` (default `http://localhost:3010`). New agents become reachable on container restart after they appear on disk at `extensions/<vendor>/<slug>/cinatra/oas.json` — the WayFlow container mounts that directory read-only at `/agents` (`CINATRA_AGENTS_DIR`), so no `.env.local` edit or per-agent container config is required.
 
 ### `execution.ts` agentUrl
 
@@ -425,7 +430,7 @@ The WayFlow dispatch branch must use `wayflowUrl` directly — not `${wayflowUrl
 `A2AAgent` components in `agent.json` call peer WayFlow containers via their `agent_url` field. The correct form is always:
 
 ```json
-{ "agent_url": "{{CINATRA_BASE_URL}}/api/a2a/agents/email-recipients" }
+{ "agent_url": "{{CINATRA_BASE_URL}}/api/a2a/agents/cinatra-ai/email-recipient-selection-agent" }
 ```
 
 **Rule:** Never hardcode ports (`http://host.docker.internal:3010`) or Docker-internal hostnames. Use the URL-templated `{{CINATRA_BASE_URL}}/api/a2a/agents/<vendor>/<slug>` form. The proxy route at `src/app/api/a2a/agents/[...slug]/route.ts` extracts `<vendor>/<slug>` from the first two path segments, calls `resolveWayflowUrl(\`@\${vendor}/\${slug}\`)` against `WAYFLOW_BASE_URL`, and forwards verbatim. Agent extensions are installed, updated, and uninstalled dynamically; the multi-tenant runtime hosts every installed agent in one container so URLs do not need to be reconfigured per slug.

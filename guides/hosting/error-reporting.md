@@ -5,8 +5,7 @@ Cinatra ships a Sentry-compatible error-reporting layer. It works against both S
 ## What gets captured
 
 - Unhandled exceptions in route handlers, server components, and server actions, via Next.js `onRequestError`
-- React render errors caught by `src/components/render-error-boundary.tsx`
-- Root-level App Router errors caught by `src/app/global-error.tsx`
+- React render errors, caught by the root-level App Router error boundary at `src/app/global-error.tsx`
 - BullMQ (a Redis-backed job queue) worker failures, with `jobName`, `jobId`, and `queueName` tags
 
 Everything is best-effort and isolated: a Sentry-internal failure never crashes a worker, a route handler, or a render.
@@ -74,5 +73,5 @@ Source-map upload is build-time only. Set `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and
 - `src/lib/sentry.ts` — `shouldInitSentry`, `buildSentryClientOptions`, `beforeSendFilter`, `captureBackgroundJobError`, `withSentryServerAction`
 - `src/lib/otel-bootstrap.ts` — attaches Sentry OTel pieces to Cinatra's existing provider
 - `src/lib/background-jobs.ts` — `worker.on('failed')` calls `captureBackgroundJobError`
-- `src/app/global-error.tsx`, `src/components/render-error-boundary.tsx` — `Sentry.captureException`
+- `src/app/global-error.tsx` — `Sentry.captureException`
 - `next.config.ts` — `withSentryConfig` wrapper, gated on build-time envs
