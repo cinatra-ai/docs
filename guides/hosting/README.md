@@ -18,6 +18,8 @@ If you are an end user, see the [User Guide](../user/README.md). If you administ
 - [Error reporting](error-reporting.md) — Sentry-compatible error reporting: when it fires, what's redacted, how to wire it up
 - [Troubleshooting](troubleshooting.md) — common failure modes, how to read the logs, when to restart what
 - [Operations](operations.md) — how a release is built and deployed (and why merging is not deploying)
+- [Upgrading](upgrading.md) — `cinatra update` for the CLI vs. an instance, the dev (fast-forward `origin/main`) and prod (latest `v*` release) paths, and how migrations apply automatically
+- [Backup & restore](backup-and-restore.md) — what a backup bundle contains (and the encryption key it does not), how to create and restore one, the API-config export/import, and disaster recovery
 
 ---
 
