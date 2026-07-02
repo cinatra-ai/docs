@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <title>Cinatra — Design System</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%2315213a'/%3E%3Cg transform='translate(256 256) scale(0.82) translate(-256 -160)' fill='%23c79545'%3E%3Cpath d='M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z'/%3E%3Cpath d='M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect x='8' y='8' width='496' height='496' rx='96' fill='%23ffffff' stroke='rgba(21,33,58,0.14)' stroke-width='16'/%3E%3Cg transform='translate(256 256) scale(1.04) translate(-256 -160)' fill='%23c79545'%3E%3Cpath d='M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z'/%3E%3Cpath d='M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z'/%3E%3C/g%3E%3C/svg%3E" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,6 +24,10 @@
     --line:           rgba(21, 33, 58, 0.14);
     --line-strong:    #15213a;
     --logo:           #c79545;
+    --mustard-ink:    #7a5a1f;   /* darkened mustard: text/icon on warm mustard tints */
+    --toolbar:        #dcddd5;   /* toolbar chrome ground */
+    --toolbar-2:      #e3e4dc;   /* nested toolbar, level 2 */
+    --toolbar-3:      #e9eae2;   /* nested toolbar, level 3 */
     --burgundy:       #7a2e3a;
     --red:            #a6384f;
     --green:          #3f6e6b;
@@ -98,7 +102,7 @@
     display: grid; grid-template-rows: 130px auto;
     box-shadow: 0 1px 0 rgba(21,33,58,0.04), 0 1px 2px rgba(21,33,58,0.04);
   }
-  /* Extension cards are clickable — white surface per spec rule #8. */
+  /* Extension cards are clickable — white surface per design-system Rules of the road #8 (white means interactive). */
   .swatch[style*="grid-template-rows: minmax(150px"] { background: var(--surface-strong); }
   .swatch .chip {
     position: relative;
@@ -190,7 +194,7 @@
   .pill.running .dot { background: var(--blue); }
   .pill.approved { background: rgba(63,110,107,0.12); color: var(--green); border-color: rgba(63,110,107,0.32); }
   .pill.approved .dot { background: var(--green); }
-  .pill.hold { background: rgba(199,149,69,0.16); color: #7a5a1f; border-color: rgba(199,149,69,0.42); }
+  .pill.hold { background: rgba(199,149,69,0.16); color: var(--mustard-ink); border-color: rgba(199,149,69,0.42); }
   .pill.hold .dot { background: var(--logo); }
   .pill.idle { background: transparent; color: var(--muted); border-color: var(--line-strong); }
   .pill.idle .dot { background: var(--muted); }
@@ -218,7 +222,7 @@
   .callout.success { background: rgba(63,110,107,0.10); border-color: rgba(63,110,107,0.32); }
   .callout.success .callout-label { color: var(--green); }
   .callout.warning { background: rgba(199,149,69,0.14); border-color: rgba(199,149,69,0.42); }
-  .callout.warning .callout-label { color: #7a5a1f; }
+  .callout.warning .callout-label { color: var(--mustard-ink); }
   .callout.danger  { background: rgba(166,56,79,0.09);  border-color: rgba(166,56,79,0.34); }
   .callout.danger  .callout-label { color: var(--red); }
 
@@ -234,7 +238,7 @@
   .matrix .verdict { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
   .v-aaa { background: rgba(63,110,107,0.18); color: var(--green); }
   .v-aa  { background: rgba(63,110,107,0.12); color: var(--green); }
-  .v-large { background: rgba(199,149,69,0.18); color: #7a5a1f; }
+  .v-large { background: rgba(199,149,69,0.18); color: var(--mustard-ink); }
   .v-fail { background: rgba(166,56,79,0.12); color: var(--red); }
   .matrix td.note { color: var(--muted); font-size: 12.5px; max-width: 320px; }
   .matrix .preview { padding: 4px 10px; font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 13px; border-radius: 4px; display: inline-block; }
@@ -254,339 +258,19 @@
     <div>
       <h1>Cinatra — Design System</h1>
       <p class="lede">
-        The Cinatra design system — the canonical reference for the brand: its mark, colour, type, and interface. Everything in this document is normative; match it exactly. The Cinatra name and marks are trademarks, so follow the logo and trademark rules in full wherever they appear.
+        The Cinatra design system — the canonical reference for the interface: colour, type, and components. It applies to the Cinatra app and to every extension that ships a UI; the web surfaces — corporate site, marketplace, docs — build on it through their own specs. Everything in this document is normative; match it exactly. The Cinatra name and marks are trademarks; the mark and wordmark themselves are governed by the Cinatra brand guidelines.
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.1.0</div>
+      <div>Version 0.2.0</div>
     </div>
   </div>
 
   <hr class="etched-rule" />
 
-  <!-- ── Section IX. Logo & wordmark (top of doc) ─────────────── -->
-  <div class="sect">
-    <h2>I. Logo &amp; wordmark</h2>
-    <div class="rule"></div>
-    <div class="source">spacing · 4 presentations · sub-brand · 6 rules</div>
-  </div>
-
-  <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 22px; max-width: 60ch; line-height: 1.55;">
-    The Cinatra mark is the fedora and the wordmark, together. The fedora and the wordmark always share one colour — never two. The single exception is the sub-brand lockup (below), where a navy sub-brand word sits beside the mustard wordmark.
-  </p>
-
-  <!-- ── Clear space & spacing (sizing + spacing, single source) ──── -->
-  <p style="font-size: 10.5px; color: var(--muted); margin: 4px 0 4px; max-width: 60ch; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; font-family: var(--font-mono);">Clear space &amp; spacing</p>
-  <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 14px; max-width: 64ch; line-height: 1.55;">
-    Everything is keyed to one module — the <strong style="color:var(--ink);">cap-height (C)</strong> of the wordmark, the distance from the baseline to the top of a capital. The fedora is sized to it and every gap is a fraction of it, so the lockup stays proportional at any size.
-  </p>
-
-  <div class="grid">
-    <div class="swatch" style="grid-template-rows: auto; grid-column: 1 / -1;">
-      <div class="info" style="padding: 18px;">
-        <div style="background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px;">
-          <svg viewBox="0 0 965 230" width="100%" style="display:block;" font-family="'IBM Plex Mono', monospace">
-            <!-- exclusion zone -->
-            <rect x="0.5" y="0.5" width="946" height="216" fill="none" stroke="var(--line-strong)" stroke-width="1" stroke-dasharray="5 5" opacity="0.5"/>
-            <!-- cap & baseline guides -->
-            <line x1="0" y1="72"  x2="947" y2="72"  stroke="var(--logo)" stroke-width="1" stroke-dasharray="3 4" opacity="0.4"/>
-            <line x1="0" y1="144" x2="947" y2="144" stroke="var(--logo)" stroke-width="1" stroke-dasharray="3 4" opacity="0.4"/>
-            <!-- cap-height caliper (vertical, far left) -->
-            <line x1="22" y1="72" x2="22" y2="144" stroke="var(--ink)" stroke-width="1.25"/>
-            <line x1="18" y1="72"  x2="26" y2="72"  stroke="var(--ink)" stroke-width="1.25"/>
-            <line x1="18" y1="144" x2="26" y2="144" stroke="var(--ink)" stroke-width="1.25"/>
-            <text x="14" y="108" fill="var(--ink)" font-size="11" transform="rotate(-90 14 108)" text-anchor="middle">C</text>
-            <!-- lockup: fedora (cropped to artwork, height = 1C) -->
-            <svg x="72" y="72" width="138" height="72" viewBox="72 64 368 192" fill="var(--logo)">
-              <path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/>
-              <path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/>
-            </svg>
-            <!-- wordmark (mustard) -->
-            <text x="239" y="144" fill="var(--logo)" font-family="Archivo, sans-serif" font-style="italic" font-weight="800" font-size="100" letter-spacing="-2">Cinatra</text>
-            <!-- sub-brand (navy) -->
-            <text x="625" y="144" fill="var(--ink)" font-family="Archivo, sans-serif" font-style="italic" font-weight="800" font-size="100" letter-spacing="-2">Docs</text>
-            <!-- caliper row at y=190 -->
-            <!-- left clear = 1C -->
-            <line x1="0"  y1="190" x2="72" y2="190" stroke="var(--ink)" stroke-width="1.25"/>
-            <line x1="0"  y1="185" x2="0"  y2="195" stroke="var(--ink)" stroke-width="1.25"/>
-            <line x1="72" y1="185" x2="72" y2="195" stroke="var(--ink)" stroke-width="1.25"/>
-            <text x="36" y="210" fill="var(--ink)" font-size="11" text-anchor="middle">1C</text>
-            <!-- fedora to wordmark = 0.4C -->
-            <line x1="210" y1="190" x2="239" y2="190" stroke="var(--logo)" stroke-width="1.25"/>
-            <line x1="210" y1="185" x2="210" y2="195" stroke="var(--logo)" stroke-width="1.25"/>
-            <line x1="239" y1="185" x2="239" y2="195" stroke="var(--logo)" stroke-width="1.25"/>
-            <text x="224" y="210" fill="var(--logo)" font-size="11" text-anchor="middle">0.4C</text>
-            <!-- wordmark to sub-brand = 0.4C -->
-            <line x1="596" y1="190" x2="625" y2="190" stroke="var(--logo)" stroke-width="1.25"/>
-            <line x1="596" y1="185" x2="596" y2="195" stroke="var(--logo)" stroke-width="1.25"/>
-            <line x1="625" y1="185" x2="625" y2="195" stroke="var(--logo)" stroke-width="1.25"/>
-            <text x="610" y="210" fill="var(--logo)" font-size="11" text-anchor="middle">0.4C</text>
-            <!-- right clear (after sub-brand) = 1C -->
-            <line x1="875" y1="190" x2="947" y2="190" stroke="var(--ink)" stroke-width="1.25"/>
-            <line x1="875" y1="185" x2="875" y2="195" stroke="var(--ink)" stroke-width="1.25"/>
-            <line x1="947" y1="185" x2="947" y2="195" stroke="var(--ink)" stroke-width="1.25"/>
-            <text x="911" y="210" fill="var(--ink)" font-size="11" text-anchor="middle">1C</text>
-          </svg>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px 24px; margin-top: 16px;">
-          <div>
-            <div class="role" style="margin-bottom: 4px;">Fedora size — 1C</div>
-            <div class="use">The visible fedora — brim to crown — stands exactly as tall as the cap-height and sits on the same baseline as the wordmark. The shipped mark carries built-in padding (its <code>512 × 320</code> box), so crop to the artwork — <code>viewBox="72 64 368 192"</code> — then set <code>height</code> to the cap-height; <code>width</code> follows at <code>≈1.9 ×</code> height. Never drop the padded box in at font-size — the padding shrinks the visible hat below the cap-line.</div>
-          </div>
-          <div>
-            <div class="role" style="margin-bottom: 4px;">Clear space — 1C</div>
-            <div class="use">A minimum exclusion zone of one cap-height on all four sides — before the fedora, after the wordmark (or sub-brand), above and below. Nothing else enters this band: no type, no rules, no other logos, no crop.</div>
-          </div>
-          <div>
-            <div class="role" style="margin-bottom: 4px;">Fedora → wordmark — 0.4C</div>
-            <div class="use">The gap between the fedora and the first letter of the wordmark is 0.4 of the cap-height. Tight enough to read as one mark, open enough that the brim never touches the C.</div>
-          </div>
-          <div>
-            <div class="role" style="margin-bottom: 4px;">Wordmark → sub-brand — 0.4C</div>
-            <div class="use">A sub-brand sits the same 0.4C after the wordmark, so the whole lockup keeps one even rhythm — fedora, wordmark and sub-brand each separated by 0.4C. The colour change (mustard to navy) does the rest of the separating, so no extra space is needed.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <p style="font-size: 10.5px; color: var(--muted); margin: 30px 0 12px; max-width: 60ch; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; font-family: var(--font-mono);">Logo &amp; wordmark variants</p>
-
-  <div class="grid">
-    <div class="swatch" style="--swatch: var(--paper);">
-      <div class="chip" style="display:grid;place-items:center;">
-        <div style="display:flex;align-items:center;gap:8px;color:var(--logo);">
-          <svg width="38" height="20" viewBox="72 64 368 192" fill="currentColor"><path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/><path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/></svg>
-          <span style="font-family:Archivo,sans-serif;font-style:italic;font-weight:800;font-size:28px;letter-spacing:-0.022em;line-height:1;">Cinatra</span>
-        </div>
-      </div>
-      <div class="info">
-        <div class="role">Primary — mustard</div>
-        <div class="token">in app &amp; on web · with sparkles</div>
-        <div class="use">Default presentation. Sparkles animate inside the fedora and wordmark in the product UI and on the marketing site. Static elsewhere — PDF, print, exports, OG images, screenshots.</div>
-      </div>
-    </div>
-    <div class="swatch" style="--swatch: var(--paper);">
-      <div class="chip" style="display:grid;place-items:center;">
-        <div style="display:flex;align-items:center;gap:8px;color:var(--ink);">
-          <svg width="38" height="20" viewBox="72 64 368 192" fill="currentColor"><path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/><path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/></svg>
-          <span style="font-family:Archivo,sans-serif;font-style:italic;font-weight:800;font-size:28px;letter-spacing:-0.022em;line-height:1;">Cinatra</span>
-        </div>
-      </div>
-      <div class="info">
-        <div class="role">Mono ink</div>
-        <div class="token">single-colour on paper</div>
-        <div class="use">When only one colour is available — single-pass print, debossing, screen prints, fax. Both fedora and wordmark in navy ink on cream paper.</div>
-      </div>
-    </div>
-    <div class="swatch" style="--swatch: var(--ink);">
-      <div class="chip" style="display:grid;place-items:center;">
-        <div style="display:flex;align-items:center;gap:8px;color:var(--paper);">
-          <svg width="38" height="20" viewBox="72 64 368 192" fill="currentColor"><path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/><path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/></svg>
-          <span style="font-family:Archivo,sans-serif;font-style:italic;font-weight:800;font-size:28px;letter-spacing:-0.022em;line-height:1;">Cinatra</span>
-        </div>
-      </div>
-      <div class="info">
-        <div class="role">Inverted</div>
-        <div class="token">paper on navy ink</div>
-        <div class="use">For dark grounds — signage, dark UI modes, photographic overlays. Cream fedora and wordmark on navy. Mustard does not work on dark grounds; use this combination instead.</div>
-      </div>
-    </div>
-    <div class="swatch" style="--swatch: #ffffff;">
-      <div class="chip" style="display:grid;place-items:center;">
-        <div style="display:flex;align-items:center;gap:8px;color:#000;">
-          <svg width="38" height="20" viewBox="72 64 368 192" fill="currentColor"><path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/><path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/></svg>
-          <span style="font-family:Archivo,sans-serif;font-style:italic;font-weight:800;font-size:28px;letter-spacing:-0.022em;line-height:1;">Cinatra</span>
-        </div>
-      </div>
-      <div class="info">
-        <div class="role">Strict mono</div>
-        <div class="token">black on white</div>
-        <div class="use">Absolute single-tone rendering — engraving, single-colour embossing, photocopies, regulatory filings. Use white on black for inverted strict mono.</div>
-      </div>
-    </div>
-  </div>
-
-  <p style="font-size: 10.5px; color: var(--muted); margin: 22px 0 12px; max-width: 60ch; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; font-family: var(--font-mono);">Icon-only usage</p>
-
-  <div class="grid">
-    <!-- Favicon -->
-    <div class="swatch" style="--swatch: var(--paper);">
-      <div class="chip" style="display:grid;place-items:center;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
-          <div style="background: var(--surface-strong); width: 32px; height: 32px; border-radius: 6px; border: 1px solid var(--line); display: grid; place-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.15);">
-            <svg width="28" height="15" viewBox="72 64 368 192" fill="var(--logo)"><path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/><path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/></svg>
-          </div>
-          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase;">32 × 32 favicon</div>
-        </div>
-      </div>
-      <div class="info">
-        <div class="role">Favicon</div>
-        <div class="token">16–32px · fedora only · fills the tab</div>
-        <div class="use">In browser tabs and bookmark bars the wordmark would be illegible. Drop it and let the fedora carry the brand at near-full size — a favicon is square and tiny, so the mark fills it with only ~10% breathing room, never floating small in the middle. Same colour rules apply (mustard, navy, inverted, strict mono).</div>
-      </div>
-    </div>
-
-    <!-- App icon -->
-    <div class="swatch" style="--swatch: var(--paper);">
-      <div class="chip" style="display:grid;place-items:center;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
-          <div style="background: var(--ink); width: 64px; height: 64px; border-radius: 14px; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.25);">
-            <svg width="38" height="20" viewBox="72 64 368 192" fill="var(--logo)"><path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/><path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/></svg>
-          </div>
-          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase;">Home-screen app icon</div>
-        </div>
-      </div>
-      <div class="info">
-        <div class="role">App icon</div>
-        <div class="token">64–1024px · ~60% · 10% safe zone</div>
-        <div class="use">Mustard fedora centred on a navy rounded square. The fedora fills ~60% of the icon width with a 10%+ safe margin on every edge — large enough to read on a home screen, but clear of the corners the OS mask (iOS superellipse, Android circle/squircle) can clip. Never the wordmark in an app icon.</div>
-      </div>
-    </div>
-
-    <!-- Sidebar collapsed -->
-    <div class="swatch" style="--swatch: var(--paper);">
-      <div class="chip" style="display:grid;place-items:center;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div style="background: var(--sidebar, #eceeea); border: 1px solid var(--line); border-radius: 8px; width: 56px; height: 80px; display: flex; align-items: center; justify-content: center; padding-top: 14px; align-content: flex-start; flex-wrap: wrap; gap: 6px;">
-            <svg width="30" height="16" viewBox="72 64 368 192" fill="var(--logo)"><path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/><path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/></svg>
-          </div>
-          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase; max-width: 9ch;">Sidebar collapsed</div>
-        </div>
-      </div>
-      <div class="info">
-        <div class="role">Collapsed sidebar</div>
-        <div class="token">in product chrome · 56px rail</div>
-        <div class="use">When the sidebar collapses, the wordmark goes with it. The fedora alone sits in the brand area, same colour as in the expanded state (mustard on the warm sidebar surface).</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── Sub-brand lockup ────────────────────────────────────── -->
-  <p style="font-size: 10.5px; color: var(--muted); margin: 26px 0 4px; max-width: 60ch; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; font-family: var(--font-mono);">Sub-brand lockup</p>
-  <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 14px; max-width: 66ch; line-height: 1.55;">
-    Sub-brands — <em>Docs</em>, <em>Marketplace</em>, and the like — name a surface inside the Cinatra family. The sub-brand word carries <strong style="color:var(--ink);">navy ink (#15213A)</strong>, never mustard. The contrast between the mustard wordmark and the navy sub-brand is the whole point; it makes the parent brand and the product instantly separable while keeping one typographic voice.
-  </p>
-
-  <div class="grid">
-    <div class="swatch" style="grid-template-rows: auto; grid-column: 1 / -1;">
-      <div class="info" style="padding: 18px;">
-        <div style="background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 26px 28px; display: flex; align-items: center; gap: 13px;">
-          <svg width="62" height="32" viewBox="72 64 368 192" fill="var(--logo)" style="flex: none;">
-            <path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/>
-            <path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/>
-          </svg>
-          <span style="font-family: Archivo, sans-serif; font-style: italic; font-weight: 800; font-size: 46px; letter-spacing: -0.022em; line-height: 1; color: var(--logo);">Cinatra</span>
-          <span style="font-family: Archivo, sans-serif; font-style: italic; font-weight: 800; font-size: 46px; letter-spacing: -0.022em; line-height: 1; color: var(--ink);">Docs</span>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px 24px; margin-top: 16px;">
-          <div>
-            <div class="role" style="margin-bottom: 4px;">Same voice as the wordmark</div>
-            <div class="use">Archivo, italic, weight 800, the same size as the wordmark, the same <code>-0.022em</code> letter-spacing. The only thing that changes is the colour. Set the sub-brand as a proper noun — initial cap, no all-caps, no abbreviation.</div>
-          </div>
-          <div>
-            <div class="role" style="margin-bottom: 4px;">Navy, not mustard</div>
-            <div class="use">The sub-brand is always navy ink <code>#15213A</code> on light grounds — the one sanctioned two-colour lockup. Never set the sub-brand in mustard, and never tint the fedora or wordmark to match it.</div>
-          </div>
-          <div>
-            <div class="role" style="margin-bottom: 4px;">One sub-brand only</div>
-            <div class="use">A lockup carries a single sub-brand word. Don't stack two (no <em>Cinatra Docs Beta</em>); a qualifier like <em>Beta</em> belongs in a separate pill, outside the clear-space zone.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <p style="font-size: 10.5px; color: var(--muted); margin: 18px 0 12px; max-width: 60ch; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; font-family: var(--font-mono);">Sub-brand variants</p>
-  <div class="grid">
-    <div class="swatch" style="--swatch: var(--paper);">
-      <div class="chip" style="display:grid;place-items:center;">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <svg width="38" height="20" viewBox="72 64 368 192" fill="var(--logo)" style="flex:none;"><path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/><path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/></svg>
-          <span style="font-family:Archivo,sans-serif;font-style:italic;font-weight:800;font-size:28px;letter-spacing:-0.022em;line-height:1;color:var(--logo);">Cinatra</span>
-          <span style="font-family:Archivo,sans-serif;font-style:italic;font-weight:800;font-size:28px;letter-spacing:-0.022em;line-height:1;color:var(--ink);">Docs</span>
-        </div>
-      </div>
-      <div class="info">
-        <div class="role">Primary — two-tone</div>
-        <div class="token">mustard wordmark · navy sub-brand</div>
-        <div class="use">Default on cream or surface. Mustard fedora and wordmark, navy sub-brand. The only place two colours appear in the mark.</div>
-      </div>
-    </div>
-    <div class="swatch" style="--swatch: var(--paper);">
-      <div class="chip" style="display:grid;place-items:center;">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <svg width="38" height="20" viewBox="72 64 368 192" fill="var(--ink)" style="flex:none;"><path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/><path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/></svg>
-          <span style="font-family:Archivo,sans-serif;font-style:italic;font-weight:800;font-size:28px;letter-spacing:-0.022em;line-height:1;color:var(--ink);">Cinatra</span>
-          <span style="font-family:Archivo,sans-serif;font-style:italic;font-weight:800;font-size:28px;letter-spacing:-0.022em;line-height:1;color:var(--ink);">Docs</span>
-        </div>
-      </div>
-      <div class="info">
-        <div class="role">Mono ink</div>
-        <div class="token">single-colour on paper</div>
-        <div class="use">One-colour contexts — single-pass print, debossing, fax. The whole lockup goes navy; the two-tone split collapses since there's only one ink.</div>
-      </div>
-    </div>
-    <div class="swatch" style="--swatch: var(--ink);">
-      <div class="chip" style="display:grid;place-items:center;">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <svg width="38" height="20" viewBox="72 64 368 192" fill="var(--paper)" style="flex:none;"><path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/><path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/></svg>
-          <span style="font-family:Archivo,sans-serif;font-style:italic;font-weight:800;font-size:28px;letter-spacing:-0.022em;line-height:1;color:var(--paper);">Cinatra</span>
-          <span style="font-family:Archivo,sans-serif;font-style:italic;font-weight:800;font-size:28px;letter-spacing:-0.022em;line-height:1;color:var(--paper);opacity:0.62;">Docs</span>
-        </div>
-      </div>
-      <div class="info">
-        <div class="role">Inverted</div>
-        <div class="token">cream on navy ink</div>
-        <div class="use">Dark grounds. Mustard is barred on dark and navy vanishes into it, so the whole lockup goes cream — the sub-brand keeps its hierarchy with 62% opacity instead of a second hue.</div>
-      </div>
-    </div>
-  </div>
-
-  <p style="font-size: 10.5px; color: var(--muted); margin: 22px 0 12px; max-width: 60ch; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; font-family: var(--font-mono);">Rules</p>
-
-  <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));">
-    <div class="swatch" style="grid-template-rows: auto;">
-      <div class="info" style="padding: 16px 18px;">
-        <div class="role">1. Same colour, always</div>
-        <div class="use">The fedora and the wordmark share one colour — never two. No mustard fedora with a navy wordmark. The lone two-colour case is the sub-brand lockup: there the navy sub-brand pairs with the mustard wordmark, but the fedora always matches the wordmark.</div>
-      </div>
-    </div>
-    <div class="swatch" style="grid-template-rows: auto;">
-      <div class="info" style="padding: 16px 18px;">
-        <div class="role">2. Icon alone, sparingly</div>
-        <div class="use">The fedora stands alone when the wordmark would be too small to read — favicons, app icons, the collapsed sidebar, browser tabs. Never use the wordmark without the fedora; the pair is the brand.</div>
-      </div>
-    </div>
-    <div class="swatch" style="grid-template-rows: auto;">
-      <div class="info" style="padding: 16px 18px;">
-        <div class="role">3. Sparkles only where they live</div>
-        <div class="use">Sparkles animate inside the logo and wordmark only in the product UI and on the marketing site. Static everywhere else.</div>
-      </div>
-    </div>
-    <div class="swatch" style="grid-template-rows: auto;">
-      <div class="info" style="padding: 16px 18px;">
-        <div class="role">4. Allowed background pairings</div>
-        <div class="use">Mustard on <code>paper</code> or <code>surface</code>. Navy on <code>paper</code>. Cream on navy. Black on white. White on black. Never mustard on a coloured chip or on the navy ground.</div>
-      </div>
-    </div>
-    <div class="swatch" style="grid-template-rows: auto;">
-      <div class="info" style="padding: 16px 18px;">
-        <div class="role">5. Don't reshape the mark</div>
-        <div class="use">No outlining, no drop shadows on the wordmark, no warped angles, no added flourishes around the fedora. The mark ships as drawn.</div>
-      </div>
-    </div>
-    <div class="swatch" style="grid-template-rows: auto;">
-      <div class="info" style="padding: 16px 18px;">
-        <div class="role">6. Breathing room</div>
-        <div class="use">Leave clear space around the mark equal to one cap-height (1C) on every side — see Clear space &amp; spacing above for the full unit system. Don't crop the fedora to a tighter margin or set it flush against another logo.</div>
-      </div>
-    </div>
-  </div>
-
   <!-- ── Surfaces ────────────────────────────────────────────── -->
   <div class="sect">
-    <h2>II. Surfaces</h2>
+    <h2>I. Surfaces</h2>
     <div class="rule"></div>
     <div class="source">5 tokens · paper to white</div>
   </div>
@@ -636,9 +320,9 @@
 
   <!-- ── Ink ──────────────────────────────────────────────────── -->
   <div class="sect">
-    <h2>III. Ink &amp; structure</h2>
+    <h2>II. Ink &amp; structure</h2>
     <div class="rule"></div>
-    <div class="source">4 tokens · navy carries text</div>
+    <div class="source">5 tokens · navy carries text</div>
   </div>
 
   <div class="grid">
@@ -647,7 +331,7 @@
       <div class="info">
         <div class="role">Navy ink</div>
         <div class="token">--ink · --foreground</div>
-        <div class="use">All primary text. Section rules, hairline border-strong, and table-head underlines all use this navy. White-on-navy is the inverted pairing for dark grounds like the app icon — never the "failed" pill, which is red.</div>
+        <div class="use">All primary text. Section rules, hairline border-strong, and table-head underlines all use this navy. White-on-navy is the inverted pairing for dark grounds like tooltips and the web-shell utility bar — never the "failed" pill, which is red. (The app icon itself is mustard-on-navy: a sanctioned icon-ground exception owned by the brand guidelines.)</div>
       </div>
     </div>
     <div class="swatch" style="--swatch: var(--blue);">
@@ -686,7 +370,7 @@
 
   <!-- ── Accents ──────────────────────────────────────────────── -->
   <div class="sect">
-    <h2>IV. Accents</h2>
+    <h2>III. Accents</h2>
     <div class="rule"></div>
     <div class="source">8 accents + fabric stripe · status + categorical</div>
   </div>
@@ -766,153 +450,404 @@
     </div>
   </div>
 
-  <!-- ── Section IV. Extension types ─────────────────────────── -->
+  <!-- ── Extensions ─────────────────────────────────────── -->
   <div class="sect">
-    <h2>V. Extension types</h2>
+    <h2>IV. Extensions</h2>
     <div class="rule"></div>
-    <div class="source">5 types · random palette colour</div>
+    <div class="source">6 states · install CTA</div>
   </div>
 
   <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 64ch; line-height: 1.55;">
-    Each extension carries a fixed emblem on the left (a type icon, or the vendor's brand mark for Connectors) and a live indicator on the right — connection state, schedule, refresh, etc. The background ground is random, drawn at creation from the seven categorical accents (burgundy, red, sea-green, rust, olive, aubergine, clay) — never mustard, which is the brand colour, and never indigo or navy, which carry action and text. Two Agents will rarely share a colour. Both the emblem and the status indicator sit in a white pill — never a black or navy (ink) badge — so they read against any coloured ground.
+    In the app each extension surfaces as a <b style="color:var(--ink);font-weight:600;">ListingCard</b> whose action reflects per-instance state. The install CTA is the four-state machine taken straight from <code>/configuration/marketplace</code>: <b style="color:var(--ink);font-weight:600;">Install now</b> when it isn't installed, a disabled <b style="color:var(--ink);font-weight:600;">Installed</b> pill at the current version, <b style="color:var(--ink);font-weight:600;">Update now</b> when a newer version sits in the catalog, and <b style="color:var(--ink);font-weight:600;">Restore</b> for one that was removed; a submit in flight reads <b style="color:var(--ink);font-weight:600;">Installing…</b>. When an extension can't run on this Cinatra instance its install greys out and an <span style="color:var(--red);">Incompatible</span> line replaces the compatible check. The six cards show one of each.
   </p>
 
-  <div class="grid">
-    <!-- Agent · drew rust (random) -->
-    <div class="swatch" style="--swatch: var(--rust); grid-template-rows: minmax(150px, auto) auto;">
-      <div class="chip" style="padding:18px;color:var(--surface-strong);display:flex;flex-direction:column;justify-content:space-between;gap:14px;min-height:150px;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
-          <span style="width:42px;height:42px;border-radius:50%;background:var(--surface-strong);display:grid;place-items:center;box-shadow:0 1px 3px rgba(0,0,0,0.22);color:var(--rust);flex-shrink:0;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
-              <path d="M12 8V4H8"/>
-              <rect width="16" height="12" x="4" y="8" rx="2"/>
-              <path d="M2 14h2"/><path d="M20 14h2"/>
-              <path d="M9 13v2"/><path d="M15 13v2"/>
-            </svg>
-          </span>
-          <span style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:9999px;background:rgba(255,255,255,0.92);box-shadow:0 1px 3px rgba(0,0,0,0.18);font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:0.14em;color:var(--ink);text-transform:uppercase;flex-shrink:0;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;color:#3f9c5a;"><rect width="18" height="15" x="3" y="6" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
-            Daily 9am
-          </span>
+  <style>@keyframes ext-spin { to { transform: rotate(360deg); } }</style>
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; align-items: stretch; grid-auto-rows: 1fr;">
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">Install</span> · available</div>
+        <div style="background: var(--surface-strong); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(21,33,58,0.06); display: flex; flex-direction: column; flex: 1 1 auto;">
+          <div style="background: var(--rust); padding: 14px; display: flex; align-items: center; gap: 12px; min-height: 96px;">
+            <span style="flex: none; width: 46px; height: 46px; border-radius: 11px; background: var(--surface-strong); display: grid; place-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.22); color: var(--rust);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h6z"/></svg></span>
+            <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; line-height: 1.12; letter-spacing: -0.012em; color: var(--surface-strong); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-width: 0;">Research Assistant</div>
+          </div>
+          <div style="padding: 12px 14px; flex: 1 1 auto; display: flex; flex-direction: column;">
+            <div style="min-height: 86px;">
+              <p style="font-size: 14px; line-height: 1.45; color: var(--muted); margin: 0 0 8px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">Gathers sources, summarises, and cites answers across your team's docs.</p>
+              <div style="display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); min-width: 0; overflow: hidden; white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;color:var(--rust);"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M9 13v2"/><path d="M15 13v2"/></svg><span style="overflow: hidden; text-overflow: ellipsis;"><span style="color: var(--ink);">Agent</span> by <a href="#" style="color: var(--blue); text-decoration: none; font-weight: 600;">Cinatra</a></span><svg viewBox="0 0 24 24" fill="none" style="width:12px;height:12px;flex-shrink:0;"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--blue)" stroke-width="2"/><path d="m9 12 2 2 4-4" stroke="var(--blue)" stroke-width="2" fill="none"/></svg></div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 9px; margin-top: 11px;">
+              <div style="font-family: var(--font-sans); font-weight: 700; font-size: 16px; color: var(--ink); text-align: center;">Free, Open Source</div>
+              <button type="button" class="btn primary">Install now</button>
+              <a href="#" class="btn link">More details</a>
+            </div>
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-top: 14px;">
+              <div style="display: grid; gap: 5px;">
+                <span style="display: flex; align-items: center; gap: 6px; white-space: nowrap;"><span style="display: flex; gap: 1px;"><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg></span><span style="font-family: var(--font-mono); font-size: 10px; color: var(--ink); font-weight: 700;">4.8</span><span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted);">(312)</span></span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted); white-space: nowrap;">2.1k installations</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex: none;">
+                <span style="display: flex; align-items: center; gap: 4px; font-family: var(--font-mono); font-size: 10px; color: var(--ink); white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M20 6 9 17l-5-5"/></svg>Compatible</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted); white-space: nowrap;">Updated 2 weeks ago</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div style="font-style:italic;font-weight:800;font-size:20px;line-height:1.1;letter-spacing:-0.012em;">Email Outreach Agent</div>
       </div>
-      <div class="info">
-        <div class="role">Agent</div>
-        <div class="token">colour: random · emblem: agent · indicator: schedule</div>
-        <div class="use">Performs work, takes runs. The right indicator shows the run schedule (or "idle" / "running" / "paused"). Drew rust here; the next Agent could land on sea-green or aubergine — never indigo, which is reserved for primary action.</div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">Installed</span> · current version</div>
+        <div style="background: var(--surface-strong); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(21,33,58,0.06); display: flex; flex-direction: column; flex: 1 1 auto;">
+          <div style="background: var(--green); padding: 14px; display: flex; align-items: center; gap: 12px; min-height: 96px;">
+            <span style="flex: none; width: 46px; height: 46px; border-radius: 11px; background: var(--surface-strong); display: grid; place-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.22); color: var(--green);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg></span>
+            <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; line-height: 1.12; letter-spacing: -0.012em; color: var(--surface-strong); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-width: 0;">PDF Extractor</div>
+          </div>
+          <div style="padding: 12px 14px; flex: 1 1 auto; display: flex; flex-direction: column;">
+            <div style="min-height: 86px;">
+              <p style="font-size: 14px; line-height: 1.45; color: var(--muted); margin: 0 0 8px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">Pulls structured tables, key/value fields and line items out of any PDF, scanned document or image — ready to map straight into your team's workflow.</p>
+              <div style="display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); min-width: 0; overflow: hidden; white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;color:var(--green);"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/></svg><span style="overflow: hidden; text-overflow: ellipsis;"><span style="color: var(--ink);">Skills</span> by <a href="#" style="color: var(--blue); text-decoration: none; font-weight: 600;">Foundry</a></span><svg viewBox="0 0 24 24" fill="none" style="width:12px;height:12px;flex-shrink:0;"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--blue)" stroke-width="2"/><path d="m9 12 2 2 4-4" stroke="var(--blue)" stroke-width="2" fill="none"/></svg></div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 9px; margin-top: 11px;">
+              <div style="font-family: var(--font-sans); font-weight: 700; font-size: 16px; color: var(--ink); text-align: center;">Free</div>
+              <button type="button" class="btn secondary" disabled style="opacity: 0.9; cursor: default;">Installed</button>
+              <a href="#" class="btn link">More details</a>
+            </div>
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-top: 14px;">
+              <div style="display: grid; gap: 5px;">
+                <span style="display: flex; align-items: center; gap: 6px; white-space: nowrap;"><span style="display: flex; gap: 1px;"><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg></span><span style="font-family: var(--font-mono); font-size: 10px; color: var(--ink); font-weight: 700;">4.6</span><span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted);">(124)</span></span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted); white-space: nowrap;">880 installations</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex: none;">
+                <span style="display: flex; align-items: center; gap: 4px; font-family: var(--font-mono); font-size: 10px; color: var(--ink); white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M20 6 9 17l-5-5"/></svg>Compatible</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted); white-space: nowrap;">Updated 5 days ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">Update</span> · newer in catalog</div>
+        <div style="background: var(--surface-strong); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(21,33,58,0.06); display: flex; flex-direction: column; flex: 1 1 auto;">
+          <div style="background: var(--olive); padding: 14px; display: flex; align-items: center; gap: 12px; min-height: 96px;">
+            <span style="flex: none; width: 46px; height: 46px; border-radius: 11px; background: var(--surface-strong); display: grid; place-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.22); color: var(--olive);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg></span>
+            <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; line-height: 1.12; letter-spacing: -0.012em; color: var(--surface-strong); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-width: 0;">Revenue Pulse</div>
+          </div>
+          <div style="padding: 12px 14px; flex: 1 1 auto; display: flex; flex-direction: column;">
+            <div style="min-height: 86px;">
+              <p style="font-size: 14px; line-height: 1.45; color: var(--muted); margin: 0 0 8px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">Live revenue, churn and pipeline metrics on one board, refreshed every few minutes straight from your billing and CRM systems.</p>
+              <div style="display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); min-width: 0; overflow: hidden; white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;color:var(--olive);"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg><span style="overflow: hidden; text-overflow: ellipsis;"><span style="color: var(--ink);">Workflow</span> by <a href="#" style="color: var(--blue); text-decoration: none; font-weight: 600;">Northstar</a></span><svg viewBox="0 0 24 24" fill="none" style="width:12px;height:12px;flex-shrink:0;"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--blue)" stroke-width="2"/><path d="m9 12 2 2 4-4" stroke="var(--blue)" stroke-width="2" fill="none"/></svg></div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 9px; margin-top: 11px;">
+              <div style="font-family: var(--font-sans); font-weight: 700; font-size: 16px; color: var(--ink); text-align: center;">$9/mo</div>
+              <button type="button" class="btn primary">Update now</button>
+              <a href="#" class="btn link">More details</a>
+            </div>
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-top: 14px;">
+              <div style="display: grid; gap: 5px;">
+                <span style="display: flex; align-items: center; gap: 6px; white-space: nowrap;"><span style="display: flex; gap: 1px;"><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg></span><span style="font-family: var(--font-mono); font-size: 10px; color: var(--ink); font-weight: 700;">4.9</span><span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted);">(208)</span></span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted); white-space: nowrap;">1.4k installations</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex: none;">
+                <span style="display: flex; align-items: center; gap: 4px; font-family: var(--font-mono); font-size: 10px; color: var(--ink); white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M20 6 9 17l-5-5"/></svg>Compatible</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted); white-space: nowrap;">Updated 1 week ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">Restore</span> · was removed</div>
+        <div style="background: var(--surface-strong); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(21,33,58,0.06); display: flex; flex-direction: column; flex: 1 1 auto;">
+          <div style="background: var(--plum); padding: 14px; display: flex; align-items: center; gap: 12px; min-height: 96px;">
+            <span style="flex: none; width: 46px; height: 46px; border-radius: 11px; background: var(--surface-strong); display: grid; place-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.22); color: var(--plum);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span>
+            <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; line-height: 1.12; letter-spacing: -0.012em; color: var(--surface-strong); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-width: 0;">Enterprise Knowledge Base Connector for Confluence, Notion &amp; SharePoint</div>
+          </div>
+          <div style="padding: 12px 14px; flex: 1 1 auto; display: flex; flex-direction: column;">
+            <div style="min-height: 86px;">
+              <p style="font-size: 14px; line-height: 1.45; color: var(--muted); margin: 0 0 8px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">Indexes and unifies every page, doc and comment across Confluence, Notion and SharePoint into a single retrieval layer your agents and skills can query.</p>
+              <div style="display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); min-width: 0; overflow: hidden; white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;color:var(--plum);"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span style="overflow: hidden; text-overflow: ellipsis;"><span style="color: var(--ink);">Connector</span> by <a href="#" style="color: var(--blue); text-decoration: none; font-weight: 600;">Meridian Labs</a></span><svg viewBox="0 0 24 24" fill="none" style="width:12px;height:12px;flex-shrink:0;"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--blue)" stroke-width="2"/><path d="m9 12 2 2 4-4" stroke="var(--blue)" stroke-width="2" fill="none"/></svg></div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 9px; margin-top: 11px;">
+              <div style="font-family: var(--font-sans); font-weight: 700; font-size: 16px; color: var(--ink); text-align: center;">Free</div>
+              <button type="button" class="btn outline">Restore</button>
+              <a href="#" class="btn link">More details</a>
+            </div>
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-top: 14px;">
+              <div style="display: grid; gap: 5px;">
+                <span style="display: flex; align-items: center; gap: 6px; white-space: nowrap;"><span style="display: flex; gap: 1px;"><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg></span><span style="font-family: var(--font-mono); font-size: 10px; color: var(--ink); font-weight: 700;">4.3</span><span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted);">(57)</span></span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted); white-space: nowrap;">3.2k installations</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex: none;">
+                <span style="display: flex; align-items: center; gap: 4px; font-family: var(--font-mono); font-size: 10px; color: var(--ink); white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M20 6 9 17l-5-5"/></svg>Compatible</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted); white-space: nowrap;">Updated yesterday</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">Installing</span> · submit pending</div>
+        <div style="background: var(--surface-strong); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(21,33,58,0.06); display: flex; flex-direction: column; flex: 1 1 auto;">
+          <div style="background: var(--burgundy); padding: 14px; display: flex; align-items: center; gap: 12px; min-height: 96px;">
+            <span style="flex: none; width: 46px; height: 46px; border-radius: 11px; background: var(--surface-strong); display: grid; place-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.22); color: var(--burgundy);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><rect width="18" height="7" x="3" y="3" rx="1"/><rect width="9" height="7" x="3" y="14" rx="1"/><rect width="5" height="7" x="16" y="14" rx="1"/></svg></span>
+            <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; line-height: 1.12; letter-spacing: -0.012em; color: var(--surface-strong); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-width: 0;">Quarterly Board Deck</div>
+          </div>
+          <div style="padding: 12px 14px; flex: 1 1 auto; display: flex; flex-direction: column;">
+            <div style="min-height: 86px;">
+              <p style="font-size: 14px; line-height: 1.45; color: var(--muted); margin: 0 0 8px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">A board-ready deck that assembles itself from your metrics, narrative and risks each quarter — export to slides or share a live link.</p>
+              <div style="display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); min-width: 0; overflow: hidden; white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;color:var(--burgundy);"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg><span style="overflow: hidden; text-overflow: ellipsis;"><span style="color: var(--ink);">Artifact</span> by <a href="#" style="color: var(--blue); text-decoration: none; font-weight: 600;">Vantage</a></span><svg viewBox="0 0 24 24" fill="none" style="width:12px;height:12px;flex-shrink:0;"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--blue)" stroke-width="2"/><path d="m9 12 2 2 4-4" stroke="var(--blue)" stroke-width="2" fill="none"/></svg></div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 9px; margin-top: 11px;">
+              <div style="font-family: var(--font-sans); font-weight: 700; font-size: 16px; color: var(--ink); text-align: center;">$12</div>
+              <button type="button" class="btn primary" disabled style="opacity: 0.7; cursor: default;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="width:13px;height:13px;animation:ext-spin 0.9s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>Installing…</button>
+              <a href="#" class="btn link">More details</a>
+            </div>
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-top: 14px;">
+              <div style="display: grid; gap: 5px;">
+                <span style="display: flex; align-items: center; gap: 6px; white-space: nowrap;"><span style="display: flex; gap: 1px;"><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg></span><span style="font-family: var(--font-mono); font-size: 10px; color: var(--ink); font-weight: 700;">4.7</span><span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted);">(96)</span></span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted); white-space: nowrap;">640 installations</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex: none;">
+                <span style="display: flex; align-items: center; gap: 4px; font-family: var(--font-mono); font-size: 10px; color: var(--ink); white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M20 6 9 17l-5-5"/></svg>Compatible</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted); white-space: nowrap;">Updated 3 days ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">Incompatible</span> · needs newer Cinatra</div>
+        <div style="background: var(--surface-strong); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(21,33,58,0.06); display: flex; flex-direction: column; flex: 1 1 auto;">
+          <div style="background: var(--clay); padding: 14px; display: flex; align-items: center; gap: 12px; min-height: 96px;">
+            <span style="flex: none; width: 46px; height: 46px; border-radius: 11px; background: var(--surface-strong); display: grid; place-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.22); color: var(--clay);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></span>
+            <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; line-height: 1.12; letter-spacing: -0.012em; color: var(--surface-strong); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-width: 0;">Meeting Summariser</div>
+          </div>
+          <div style="padding: 12px 14px; flex: 1 1 auto; display: flex; flex-direction: column;">
+            <div style="min-height: 86px;">
+              <p style="font-size: 14px; line-height: 1.45; color: var(--muted); margin: 0 0 8px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">Turns call recordings into shareable notes — decisions, action items and owners — and drops them where your team already works.</p>
+              <div style="display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); min-width: 0; overflow: hidden; white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;color:var(--clay);"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M9 13v2"/><path d="M15 13v2"/></svg><span style="overflow: hidden; text-overflow: ellipsis;"><span style="color: var(--ink);">Agent</span> by <a href="#" style="color: var(--blue); text-decoration: none; font-weight: 600;">Cinatra</a></span><svg viewBox="0 0 24 24" fill="none" style="width:12px;height:12px;flex-shrink:0;"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--blue)" stroke-width="2"/><path d="m9 12 2 2 4-4" stroke="var(--blue)" stroke-width="2" fill="none"/></svg></div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 9px; margin-top: 11px;">
+              <div style="font-family: var(--font-sans); font-weight: 700; font-size: 16px; color: var(--ink); text-align: center;">Free, Open Source</div>
+              <button type="button" class="btn primary" disabled style="opacity: 0.4; cursor: not-allowed;" title="Requires a newer Cinatra version">Install now</button>
+              <a href="#" class="btn link">More details</a>
+            </div>
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-top: 14px;">
+              <div style="display: grid; gap: 5px;">
+                <span style="display: flex; align-items: center; gap: 6px; white-space: nowrap;"><span style="display: flex; gap: 1px;"><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg></span><span style="font-family: var(--font-mono); font-size: 10px; color: var(--ink); font-weight: 700;">4.5</span><span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted);">(430)</span></span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted); white-space: nowrap;">5.6k installations</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex: none;">
+                <span style="display: flex; align-items: center; gap: 4px; font-family: var(--font-mono); font-size: 10px; color: var(--red); white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;flex-shrink:0;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>Incompatible</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted); white-space: nowrap;">Updated 2 days ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
 
-    <!-- Skill · drew red (random) -->
-    <div class="swatch" style="--swatch: var(--red); grid-template-rows: minmax(150px, auto) auto;">
-      <div class="chip" style="padding:18px;color:var(--surface-strong);display:flex;flex-direction:column;justify-content:space-between;gap:14px;min-height:150px;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
-          <span style="width:42px;height:42px;border-radius:50%;background:var(--surface-strong);display:grid;place-items:center;box-shadow:0 1px 3px rgba(0,0,0,0.22);color:var(--red);flex-shrink:0;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
-              <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
-              <path d="M20 3v4"/><path d="M22 5h-4"/>
-            </svg>
-          </span>
-          <span style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:9999px;background:rgba(255,255,255,0.92);box-shadow:0 1px 3px rgba(0,0,0,0.18);font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:0.14em;color:var(--ink);text-transform:uppercase;flex-shrink:0;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;color:#3f9c5a;"><path d="M20 6 9 17l-5-5"/></svg>
-            Installed v1.4
-          </span>
+  <!-- ── Extension detail (modal) ─────────────────────────────── -->
+  <div class="sect">
+    <h2>V. Extension detail (modal)</h2>
+    <div class="rule"></div>
+    <div class="source">More details · embedded</div>
+  </div>
+  <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 64ch; line-height: 1.55;">Clicking <b style="color:var(--ink);font-weight:600;">More details</b> on a ListingCard opens this modal. Its body <b style="color:var(--ink);font-weight:600;">embeds the extension's listing detail from marketplace.cinatra.ai</b> — the same layout as the marketplace listing detail (§IV of the Marketplace spec), stripped of the site header/footer, the storefront's own <em>Install now</em>, the <em>More Extensions</em> tab, the pagination and the <em>Related extensions</em> rail. The modal's own <b style="color:var(--ink);font-weight:600;">footer</b> carries the install action with its per-instance state — the six-state CTA of §IV. This <b style="color:var(--ink);font-weight:600;">replaces the former full-page in-app detail view</b>: <em>More details</em> no longer navigates away, and the old detail page is removed (no backward compatibility).</p>
+  <style>
+    .cin-ext-readme h2 { font-family: var(--font-sans); font-weight: 700; font-size: 19px; color: var(--ink); margin: 0 0 10px; }
+    .cin-ext-readme h3 { font-family: var(--font-sans); font-weight: 700; font-size: 14px; color: var(--ink); margin: 22px 0 8px; }
+    .cin-ext-readme p { font-size: 13.5px; line-height: 1.6; color: var(--muted); margin: 0 0 12px; }
+    .cin-ext-readme ul { margin: 0 0 12px; padding-left: 18px; }
+    .cin-ext-readme li { font-size: 13.5px; line-height: 1.6; color: var(--muted); margin: 0 0 5px; }
+    .cin-ext-readme pre { background: var(--surface-muted); border-radius: 7px; padding: 11px 13px; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .cin-ext-readme pre code { font-family: var(--font-mono); font-size: 12px; color: var(--ink); background: none; padding: 0; }
+  </style>
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — extension detail modal · Details</div>
+    <div style="padding: 0;">
+      <div style="background: rgba(21,33,58,0.55); padding: 40px 34px; display: flex; justify-content: center;">
+        <div style="width: 720px; max-width: 100%; max-height: 85vh; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 24px 60px rgba(21,33,58,0.34); overflow: hidden; display: flex; flex-direction: column;">
+          <div style="flex: none; display: flex; align-items: center; justify-content: flex-end; padding: 12px 16px; border-bottom: 1px solid var(--line);">
+            <span title="Close" style="width: 28px; height: 28px; display: grid; place-items: center; border-radius: 7px; color: var(--muted); cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="width:16px;height:16px;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span>
+          </div>
+          <div style="flex: 1 1 auto; min-height: 0; padding: 24px 26px; overflow-y: auto; overflow-x: hidden;">
+            <div style="display: flex; align-items: flex-start; gap: 18px;">
+          <span style="flex: none; width: 64px; height: 64px; border-radius: 15px; background: var(--surface-strong); border: 1px solid var(--line); display: grid; place-items: center; box-shadow: 0 2px 6px rgba(21,33,58,0.10); color: var(--rust);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:34px;height:34px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h6z"/></svg></span>
+          <div style="flex: 1; min-width: 0;">
+            <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 23px; color: var(--ink); line-height: 1.05;">Research Assistant</div>
+            <div style="display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--muted); margin-top: 8px; white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex-shrink:0;color:var(--rust);"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M9 13v2"/><path d="M15 13v2"/></svg><span><span style="color: var(--ink);">Agent</span> by <a href="https://marketplace.cinatra.ai/store/cinatra" target="_blank" rel="noopener" style="color: var(--blue); text-decoration: none; font-weight: 600;">Cinatra</a></span></div>
+          </div>
+          <div style="font-family: var(--font-sans); font-weight: 700; font-size: 15px; color: var(--ink); flex: none; padding-top: 4px;">Free, Open Source</div>
         </div>
-        <div style="font-style:italic;font-weight:800;font-size:20px;line-height:1.1;letter-spacing:-0.012em;">Warm-Intro Picker Skill</div>
-      </div>
-      <div class="info">
-        <div class="role">Skill</div>
-        <div class="token">colour: random · emblem: skill · indicator: install state</div>
-        <div class="use">Reusable expertise an agent installs. Indicator shows version + install state. Drew red here; another Skill could draw olive or sea-green.</div>
-      </div>
-    </div>
-
-    <!-- Connector · drew burgundy (random) · Gmail brand logo -->
-    <div class="swatch" style="--swatch: var(--burgundy); grid-template-rows: minmax(150px, auto) auto;">
-      <div class="chip" style="padding:18px;color:var(--surface-strong);display:flex;flex-direction:column;justify-content:space-between;gap:14px;min-height:150px;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
-          <span style="width:42px;height:42px;border-radius:50%;background:var(--surface-strong);display:grid;place-items:center;box-shadow:0 1px 3px rgba(0,0,0,0.22);flex-shrink:0;">
-            <svg viewBox="0 0 256 193" xmlns="http://www.w3.org/2000/svg" style="width:24px;height:18px;">
-              <path d="M58.182 192.05V93.14L27.507 65.077 0 49.504v125.091c0 9.658 7.825 17.455 17.455 17.455h40.727z" fill="#4285F4"/>
-              <path d="M197.818 192.05h40.727c9.659 0 17.455-7.826 17.455-17.455V49.505l-31.156 17.837-27.026 25.798v98.91z" fill="#34A853"/>
-              <path d="M58.182 93.14L54.04 54.788l4.142-36.733L128 70.328l69.818-52.273 4.636 32.815-4.636 42.27L128 145.42z" fill="#EA4335"/>
-              <path d="M197.818 18.055V93.14L256 49.504V26.91c0-20.953-23.913-32.91-40.727-20.364l-17.455 11.51z" fill="#FBBC04"/>
-              <path d="M0 49.504l26.759 20.072L58.182 93.14V18.055l-17.455-11.51C23.913-6.001 0 5.956 0 26.91v22.594z" fill="#C5221F"/>
-            </svg>
-          </span>
-          <span style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:9999px;background:rgba(255,255,255,0.92);box-shadow:0 1px 3px rgba(0,0,0,0.18);font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:0.14em;color:var(--ink);text-transform:uppercase;flex-shrink:0;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;color:#3f9c5a;"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
-            Connected
-          </span>
+            <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin-top: 20px;">
+          <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+            <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Details</button>
+            <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0;  cursor: pointer; font-family: var(--font-sans);">Reviews (128)</button>
+          </div>
+          <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
         </div>
-        <div style="font-style:italic;font-weight:800;font-size:22px;line-height:1.1;letter-spacing:-0.012em;">Gmail Connector</div>
-      </div>
-      <div class="info">
-        <div class="role">Connector</div>
-        <div class="token">colour: random · emblem: vendor logo · indicator: connection</div>
-        <div class="use">Bridges to a third-party service. Emblem is the vendor's mark (here Gmail's multicolour M); the white badge stops the brand from being swallowed by the random ground. Indicator shows live connection state.</div>
-      </div>
-    </div>
-
-    <!-- Context · drew sea-green (random) -->
-    <div class="swatch" style="--swatch: var(--green); grid-template-rows: minmax(150px, auto) auto;">
-      <div class="chip" style="padding:18px;color:var(--surface-strong);display:flex;flex-direction:column;justify-content:space-between;gap:14px;min-height:150px;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
-          <span style="width:42px;height:42px;border-radius:50%;background:var(--surface-strong);display:grid;place-items:center;box-shadow:0 1px 3px rgba(0,0,0,0.22);color:var(--green);flex-shrink:0;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
-              <path d="M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V6.5z"/>
-              <path d="M15 2v5h5"/>
-              <path d="M10 13h6"/><path d="M10 17h6"/>
-            </svg>
-          </span>
-          <span style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:9999px;background:rgba(255,255,255,0.92);box-shadow:0 1px 3px rgba(0,0,0,0.18);font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:0.14em;color:var(--ink);text-transform:uppercase;flex-shrink:0;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;color:var(--logo);animation: ctx-spin 1.8s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
-            Updating
-          </span>
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 30px; align-items: start; margin-top: 22px;">
+          <div class="cin-ext-readme" style="min-width: 0;">
+            <h2>Research Assistant</h2>
+            <p>Research Assistant gathers sources, summarises long documents and returns cited answers grounded in your team's own knowledge base — so every answer traces back to a document you can open.</p>
+            <h3>Features</h3>
+            <ul>
+              <li>Multi-source retrieval across Confluence, Notion, Google Drive and uploaded files</li>
+              <li>Inline citations on every claim, linked back to the source passage</li>
+              <li>Follow-up questions that keep the working context</li>
+            </ul>
+            <h3>Usage</h3>
+            <p>Ask a question in natural language; the agent plans a retrieval, reads the top passages and drafts a cited answer.</p>
+            <pre><code>cinatra run research-assistant --query "Q3 churn drivers"</code></pre>
+          </div>
+          <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 4px 14px; align-self: start;">
+            <div style="padding: 11px 0; border-bottom: 1px solid var(--line);"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: var(--ink);">Version</div><div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 3px;">0.4.2</div></div>
+            <div style="padding: 11px 0; border-bottom: 1px solid var(--line);"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: var(--ink);">Last updated</div><div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 3px;">1 week ago</div></div>
+            <div style="padding: 11px 0; border-bottom: 1px solid var(--line);"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: var(--ink);">Compatible up to</div><div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 3px;">Cinatra v0.2.0</div></div><!-- source-leak-allow -->
+            <div style="padding: 11px 0;"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: var(--ink);">Installations</div><div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 3px;">8k</div></div>
+          </div>
         </div>
-        <div style="font-style:italic;font-weight:800;font-size:20px;line-height:1.1;letter-spacing:-0.012em;">Marketing Strategy Context</div>
-      </div>
-      <div class="info">
-        <div class="role">Context</div>
-        <div class="token">colour: random · emblem: context · indicator: refresh state</div>
-        <div class="use">A body of operating knowledge an agent reads from. The mustard spinner rotates while the context is regenerating from sources.</div>
-      </div>
-    </div>
-
-    <!-- Dashboard · drew aubergine (random) -->
-    <div class="swatch" style="--swatch: var(--plum); grid-template-rows: minmax(150px, auto) auto;">
-      <div class="chip" style="padding:18px;color:var(--surface-strong);display:flex;flex-direction:column;justify-content:space-between;gap:14px;min-height:150px;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
-          <span style="width:42px;height:42px;border-radius:50%;background:var(--surface-strong);display:grid;place-items:center;box-shadow:0 1px 3px rgba(0,0,0,0.22);color:var(--ink);flex-shrink:0;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
-              <line x1="6" y1="20" x2="6" y2="14"/>
-              <line x1="12" y1="20" x2="12" y2="8"/>
-              <line x1="18" y1="20" x2="18" y2="11"/>
-            </svg>
-          </span>
-          <span style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:9999px;background:rgba(255,255,255,0.92);box-shadow:0 1px 3px rgba(0,0,0,0.18);font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:0.14em;color:var(--ink);text-transform:uppercase;flex-shrink:0;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;color:#3f9c5a;"><circle cx="12" cy="12" r="4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="9"/></svg>
-            Live
-          </span>
+            <div style="margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); display: flex; justify-content: center; align-items: center; gap: 14px;">
+          <span style="font-family: var(--font-body); font-size: 12.5px; font-weight: 600; color: var(--muted);">Share:</span>
+          <a href="#" aria-label="facebook" style="display: grid; place-items: center; color: var(--muted); text-decoration: none;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:19px;height:19px;"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.8 3.7-3.8 1.1 0 2.2.2 2.2.2l0 2.4h-1.2c-1.2 0-1.6.8-1.6 1.5V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg></a><a href="#" aria-label="x" style="display: grid; place-items: center; color: var(--muted); text-decoration: none;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:19px;height:19px;"><path d="M17.5 3h3l-6.6 7.5L21.7 21h-6l-4.7-6.1L5.6 21h-3l7-8L2.6 3h6.1l4.3 5.6L17.5 3zm-1 16h1.7L7.6 4.8H5.8L16.5 19z"/></svg></a><a href="#" aria-label="pinterest" style="display: grid; place-items: center; color: var(--muted); text-decoration: none;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:19px;height:19px;"><path d="M12 2C6.5 2 2 6.5 2 12c0 4.2 2.6 7.8 6.3 9.3-.1-.8-.2-2 0-2.9l1.2-5s-.3-.6-.3-1.5c0-1.4.8-2.5 1.9-2.5.9 0 1.3.7 1.3 1.5 0 .9-.6 2.2-.9 3.5-.2 1 .5 1.9 1.5 1.9 1.9 0 3.2-2.4 3.2-5.2 0-2.1-1.5-3.8-4.1-3.8-3 0-4.9 2.3-4.9 4.8 0 .9.3 1.5.7 2 .2.2.2.3.1.6l-.3 1c0 .3-.3.4-.5.3-1.4-.6-2-2.1-2-3.8 0-2.8 2.4-6.2 7-6.2 3.7 0 6.2 2.7 6.2 5.6 0 3.8-2.1 6.6-5.2 6.6-1 0-2-.6-2.4-1.2l-.6 2.5c-.2.8-.7 1.9-1.1 2.5.8.3 1.7.4 2.6.4 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg></a><a href="#" aria-label="linkedin" style="display: grid; place-items: center; color: var(--muted); text-decoration: none;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:19px;height:19px;"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM3 9h4v12H3V9zm6 0h3.8l0 1.7h.1c.5-1 1.8-2 3.7-2 3.9 0 4.6 2.6 4.6 5.9V21H17v-5c0-1.2 0-2.8-1.7-2.8s-2 1.3-2 2.7V21H9V9z"/></svg></a><a href="#" aria-label="telegram" style="display: grid; place-items: center; color: var(--muted); text-decoration: none;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:19px;height:19px;"><path d="M9.8 15.6 9.5 20c.5 0 .7-.2.9-.4l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.7-.8l3-14.1c.3-1.2-.5-1.7-1.3-1.4L2.3 10c-1.2.5-1.2 1.1-.2 1.4l4.6 1.4 10.6-6.7c.5-.3 1-.1.6.2l-8.7 9.3z"/></svg></a>
         </div>
-        <div style="font-style:italic;font-weight:800;font-size:20px;line-height:1.1;letter-spacing:-0.012em;">Outreach Performance Dashboard</div>
-      </div>
-      <div class="info">
-        <div class="role">Dashboard</div>
-        <div class="token">colour: random · emblem: dashboard · indicator: freshness</div>
-        <div class="use">A curated lens onto data. The indicator shows whether the dashboard is live or stale.</div>
+          </div>
+          <div style="flex: none; border-top: 1px solid var(--line); padding: 15px 26px; display: flex; justify-content: flex-end; align-items: center;">
+            <button type="button" class="btn primary">Install now</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
-  <style>@keyframes ctx-spin { to { transform: rotate(360deg); } }</style>
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — extension detail modal · Reviews</div>
+    <div style="padding: 0;">
+      <div style="background: rgba(21,33,58,0.55); padding: 40px 34px; display: flex; justify-content: center;">
+        <div style="width: 720px; max-width: 100%; max-height: 85vh; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 24px 60px rgba(21,33,58,0.34); overflow: hidden; display: flex; flex-direction: column;">
+          <div style="flex: none; display: flex; align-items: center; justify-content: flex-end; padding: 12px 16px; border-bottom: 1px solid var(--line);">
+            <span title="Close" style="width: 28px; height: 28px; display: grid; place-items: center; border-radius: 7px; color: var(--muted); cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="width:16px;height:16px;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span>
+          </div>
+          <div style="flex: 1 1 auto; min-height: 0; padding: 24px 26px; overflow-y: auto; overflow-x: hidden;">
+            <div style="display: flex; align-items: flex-start; gap: 18px;">
+          <span style="flex: none; width: 64px; height: 64px; border-radius: 15px; background: var(--surface-strong); border: 1px solid var(--line); display: grid; place-items: center; box-shadow: 0 2px 6px rgba(21,33,58,0.10); color: var(--rust);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:34px;height:34px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h6z"/></svg></span>
+          <div style="flex: 1; min-width: 0;">
+            <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 23px; color: var(--ink); line-height: 1.05;">Research Assistant</div>
+            <div style="display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--muted); margin-top: 8px; white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex-shrink:0;color:var(--rust);"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M9 13v2"/><path d="M15 13v2"/></svg><span><span style="color: var(--ink);">Agent</span> by <a href="https://marketplace.cinatra.ai/store/cinatra" target="_blank" rel="noopener" style="color: var(--blue); text-decoration: none; font-weight: 600;">Cinatra</a></span></div>
+          </div>
+          <div style="font-family: var(--font-sans); font-weight: 700; font-size: 15px; color: var(--ink); flex: none; padding-top: 4px;">Free, Open Source</div>
+        </div>
+            <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin-top: 20px;">
+          <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+            <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0;  cursor: pointer; font-family: var(--font-sans);">Details</button>
+            <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Reviews (128)</button>
+          </div>
+          <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+        </div>
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 30px; align-items: start; margin-top: 22px;">
+          <div style="min-width: 0;">
+            <h3 style="font-family: var(--font-sans); font-weight: 700; font-size: 16px; color: var(--ink); margin: 0 0 4px;">128 reviews for Research Assistant</h3>
+            <div style="display: flex; gap: 13px; padding: 15px 0; border-bottom: 1px solid var(--line);">
+            <span style="flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--green); color: var(--surface-strong); display: grid; place-items: center; font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 14px;">PN</span>
+            <div style="flex: 1; min-width: 0;">
+              <div style="display: flex; align-items: center; gap: 7px; flex-wrap: wrap;"><span style="font-family: var(--font-sans); font-weight: 700; font-size: 13.5px; color: var(--ink);">Priya Nadar</span><span style="display: inline-flex; align-items: center; gap: 3px; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--green);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex-shrink:0;"><path d="M20 6 9 17l-5-5"/></svg>verified owner</span><span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted);">2 weeks ago</span></div>
+              <div style="display: flex; gap: 1px; margin: 5px 0 6px;"><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg></div>
+              <p style="font-size: 13px; line-height: 1.55; color: var(--muted); margin: 0;">Cut our research turnaround in half. The citations are the killer feature — every answer links straight back to the source doc, so nothing is taken on faith.</p>
+            </div>
+          </div>
+            <div style="display: flex; gap: 13px; padding: 15px 0;">
+            <span style="flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--plum); color: var(--surface-strong); display: grid; place-items: center; font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 14px;">MR</span>
+            <div style="flex: 1; min-width: 0;">
+              <div style="display: flex; align-items: center; gap: 7px; flex-wrap: wrap;"><span style="font-family: var(--font-sans); font-weight: 700; font-size: 13.5px; color: var(--ink);">Marcus Reed</span><span style="font-family: var(--font-mono); font-size: 10px; color: var(--muted);">1 month ago</span></div>
+              <div style="display: flex; gap: 1px; margin: 5px 0 6px;"><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:12px;height:12px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg></div>
+              <p style="font-size: 13px; line-height: 1.55; color: var(--muted); margin: 0;">Solid retrieval across our Notion and Drive. Occasionally over-summarises, but the follow-up questions keep the thread. Would recommend.</p>
+            </div>
+          </div>
+          </div>
+          <div style="min-width: 0;">
+            <h3 style="font-family: var(--font-sans); font-weight: 700; font-size: 16px; color: var(--ink); margin: 0 0 14px;">Rating summary</h3>
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+              <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 40px; line-height: 1; color: var(--ink);">4.7</div>
+              <div>
+                <div style="display: flex;"><span style="position:relative;display:inline-flex;"><span style="display:flex;gap:1px;width:max-content;"><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:15px;height:15px;display:block;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:15px;height:15px;display:block;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:15px;height:15px;display:block;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:15px;height:15px;display:block;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:15px;height:15px;display:block;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg></span><span style="position:absolute;top:0;left:0;height:100%;width:94%;overflow:hidden;"><span style="display:flex;gap:1px;width:max-content;"><svg viewBox="0 0 24 24" fill="#f5a623" style="width:15px;height:15px;display:block;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:15px;height:15px;display:block;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:15px;height:15px;display:block;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:15px;height:15px;display:block;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:15px;height:15px;display:block;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg></span></span></span></div>
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 6px;">128 reviews</div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 3px 0;">
+              <div style="flex: none; display: flex; gap: 1px;"><svg viewBox="0 0 24 24" fill="#f5a623" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg></div>
+              <div style="flex: 1; height: 7px; background: var(--surface-muted); border-radius: 4px; overflow: hidden;"><div style="height: 100%; width: 78%; background: #f5a623; border-radius: 4px;"></div></div>
+              <div style="flex: none; width: 28px; text-align: right; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted);">100</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 3px 0;">
+              <div style="flex: none; display: flex; gap: 1px;"><svg viewBox="0 0 24 24" fill="#f5a623" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg></div>
+              <div style="flex: 1; height: 7px; background: var(--surface-muted); border-radius: 4px; overflow: hidden;"><div style="height: 100%; width: 16%; background: #f5a623; border-radius: 4px;"></div></div>
+              <div style="flex: none; width: 28px; text-align: right; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted);">21</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 3px 0;">
+              <div style="flex: none; display: flex; gap: 1px;"><svg viewBox="0 0 24 24" fill="#f5a623" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg></div>
+              <div style="flex: 1; height: 7px; background: var(--surface-muted); border-radius: 4px; overflow: hidden;"><div style="height: 100%; width: 3%; background: #f5a623; border-radius: 4px;"></div></div>
+              <div style="flex: none; width: 28px; text-align: right; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted);">4</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 3px 0;">
+              <div style="flex: none; display: flex; gap: 1px;"><svg viewBox="0 0 24 24" fill="#f5a623" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#f5a623" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg></div>
+              <div style="flex: 1; height: 7px; background: var(--surface-muted); border-radius: 4px; overflow: hidden;"><div style="height: 100%; width: 2%; background: #f5a623; border-radius: 4px;"></div></div>
+              <div style="flex: none; width: 28px; text-align: right; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted);">2</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 3px 0;">
+              <div style="flex: none; display: flex; gap: 1px;"><svg viewBox="0 0 24 24" fill="#f5a623" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg><svg viewBox="0 0 24 24" fill="#d0cbbd" style="width:10px;height:10px;"><path d="m12 2 3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.6 3.2L6.7 14l-5-4.8 7-.9Z"/></svg></div>
+              <div style="flex: 1; height: 7px; background: var(--surface-muted); border-radius: 4px; overflow: hidden;"><div style="height: 100%; width: 1%; background: #f5a623; border-radius: 4px;"></div></div>
+              <div style="flex: none; width: 28px; text-align: right; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted);">1</div>
+            </div>
+          </div>
+        </div>
+            <div style="margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); display: flex; justify-content: center; align-items: center; gap: 14px;">
+          <span style="font-family: var(--font-body); font-size: 12.5px; font-weight: 600; color: var(--muted);">Share:</span>
+          <a href="#" aria-label="facebook" style="display: grid; place-items: center; color: var(--muted); text-decoration: none;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:19px;height:19px;"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.8 3.7-3.8 1.1 0 2.2.2 2.2.2l0 2.4h-1.2c-1.2 0-1.6.8-1.6 1.5V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg></a><a href="#" aria-label="x" style="display: grid; place-items: center; color: var(--muted); text-decoration: none;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:19px;height:19px;"><path d="M17.5 3h3l-6.6 7.5L21.7 21h-6l-4.7-6.1L5.6 21h-3l7-8L2.6 3h6.1l4.3 5.6L17.5 3zm-1 16h1.7L7.6 4.8H5.8L16.5 19z"/></svg></a><a href="#" aria-label="pinterest" style="display: grid; place-items: center; color: var(--muted); text-decoration: none;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:19px;height:19px;"><path d="M12 2C6.5 2 2 6.5 2 12c0 4.2 2.6 7.8 6.3 9.3-.1-.8-.2-2 0-2.9l1.2-5s-.3-.6-.3-1.5c0-1.4.8-2.5 1.9-2.5.9 0 1.3.7 1.3 1.5 0 .9-.6 2.2-.9 3.5-.2 1 .5 1.9 1.5 1.9 1.9 0 3.2-2.4 3.2-5.2 0-2.1-1.5-3.8-4.1-3.8-3 0-4.9 2.3-4.9 4.8 0 .9.3 1.5.7 2 .2.2.2.3.1.6l-.3 1c0 .3-.3.4-.5.3-1.4-.6-2-2.1-2-3.8 0-2.8 2.4-6.2 7-6.2 3.7 0 6.2 2.7 6.2 5.6 0 3.8-2.1 6.6-5.2 6.6-1 0-2-.6-2.4-1.2l-.6 2.5c-.2.8-.7 1.9-1.1 2.5.8.3 1.7.4 2.6.4 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg></a><a href="#" aria-label="linkedin" style="display: grid; place-items: center; color: var(--muted); text-decoration: none;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:19px;height:19px;"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM3 9h4v12H3V9zm6 0h3.8l0 1.7h.1c.5-1 1.8-2 3.7-2 3.9 0 4.6 2.6 4.6 5.9V21H17v-5c0-1.2 0-2.8-1.7-2.8s-2 1.3-2 2.7V21H9V9z"/></svg></a><a href="#" aria-label="telegram" style="display: grid; place-items: center; color: var(--muted); text-decoration: none;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:19px;height:19px;"><path d="M9.8 15.6 9.5 20c.5 0 .7-.2.9-.4l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.7-.8l3-14.1c.3-1.2-.5-1.7-1.3-1.4L2.3 10c-1.2.5-1.2 1.1-.2 1.4l4.6 1.4 10.6-6.7c.5-.3 1-.1.6.2l-8.7 9.3z"/></svg></a>
+        </div>
+          </div>
+          <div style="flex: none; border-top: 1px solid var(--line); padding: 15px 26px; display: flex; justify-content: flex-end; align-items: center;">
+            <button type="button" class="btn primary">Install now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Modal footer — install states</div>
+    <div style="padding: 18px 20px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 9px;">
+          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">Install</span> · available</div>
+          <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 12px 14px; display: flex; justify-content: flex-end;"><button type="button" class="btn primary">Install now</button></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 9px;">
+          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">Installed</span> · current version</div>
+          <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 12px 14px; display: flex; justify-content: flex-end;"><button type="button" class="btn secondary" disabled style="opacity: 0.9; cursor: default;">Installed</button></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 9px;">
+          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">Update</span> · newer in catalog</div>
+          <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 12px 14px; display: flex; justify-content: flex-end;"><button type="button" class="btn primary">Update now</button></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 9px;">
+          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">Restore</span> · was removed</div>
+          <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 12px 14px; display: flex; justify-content: flex-end;"><button type="button" class="btn outline">Restore</button></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 9px;">
+          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">Installing</span> · submit pending</div>
+          <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 12px 14px; display: flex; justify-content: flex-end;"><button type="button" class="btn primary" disabled style="opacity: 0.7; cursor: default;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="width:13px;height:13px;animation:ext-spin 0.9s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>Installing…</button></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 9px;">
+          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">Incompatible</span> · needs newer Cinatra</div>
+          <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 12px 14px; display: flex; justify-content: flex-end;"><button type="button" class="btn primary" disabled style="opacity: 0.4; cursor: not-allowed;" title="Requires a newer Cinatra version">Install now</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">A dialog on <code>--paper</code> — the same surface as pages — over a dimmed overlay (which stops below the navbar). Its body <b style="color:var(--ink);font-weight:600;">scrolls top-to-bottom only</b> — everything is sized to fit the width, so nothing ever scrolls sideways — while the header and footer stay fixed. The header carries just a close ✕. The body is the marketplace listing detail lifted whole — the app-logo tile, title and <em>{Type} by {Vendor}</em> line (the <b style="color:var(--ink);font-weight:600;">vendor links out to its marketplace.cinatra.ai store</b>), the price, the <em>Details</em> / <em>Reviews</em> tabs, then either the README beside its specs column (version, last-updated, <em>Compatible up to: Cinatra {version}</em>, installations) or the WooCommerce reviews list beside its <b style="color:var(--ink);font-weight:600;">rating summary</b> (the average, the star-by-star breakdown and per-level counts — the submission form is dropped in-app), and the share row — but nothing that navigates the storefront (no <em>More Extensions</em> tab, no prev/next pagination, no <em>Related extensions</em>). Because the install action belongs to <em>this</em> instance, it is pulled out of the embedded content and rehomed to the dialog footer, where it carries the same six states as §IV — <em>Install now</em>, <em>Installed</em>, <em>Update now</em>, <em>Restore</em>, <em>Installing…</em> and the greyed <em>Incompatible</em>.</p>
 
   <!-- ── Status pills + buttons ───────────────────────────────── -->
   <div class="sect">
     <h2>VI. Status &amp; controls</h2>
     <div class="rule"></div>
-    <div class="source">5 status pills · 7 button variants</div>
+    <div class="source">10 status pills · 7 button variants</div>
   </div>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
@@ -993,7 +928,7 @@
           <td class="ratio">2.5 : 1</td>
           <td><span class="verdict v-large">LARGE ONLY</span></td>
           <td><span class="preview" style="background:var(--paper);color:var(--logo);font-size:22px;font-weight:800;font-style:italic;">Cinatra</span></td>
-          <td class="note">Display-only. Reserve for the wordmark, the 38px page title, the hold pill chip background. Never use for body or buttons.</td>
+          <td class="note">Display-only. Reserve for the wordmark and the hold pill chip background. Never use for body or buttons.</td>
         </tr>
         <tr>
           <td><span class="pair"><span class="a" style="background:var(--burgundy)"></span><span></span>Burgundy</span></td>
@@ -1032,8 +967,8 @@
           <td><code>#15213A</code> ink</td>
           <td class="ratio">14.1 : 1</td>
           <td><span class="verdict v-aaa">AAA</span></td>
-          <td><span class="preview" style="background:var(--ink);color:#fff">App icon</span></td>
-          <td class="note">White-on-navy is the inverted pairing for dark grounds — the app icon, the collapsed sidebar rail. Navy itself carries all primary text and the structural lines (rules, strong hairline, table-head underline); it is not a button or status colour. The "failed" pill is red.</td>
+          <td><span class="preview" style="background:var(--ink);color:#fff">Tooltip</span></td>
+          <td class="note">White-on-navy is the inverted pairing for dark grounds — tooltips, the web-shell utility bar. Navy itself carries all primary text and the structural lines (rules, strong hairline, table-head underline); it is not a button or status colour. The "failed" pill is red.</td>
         </tr>
       </tbody>
     </table>
@@ -1043,14 +978,14 @@
   <div class="sect">
     <h2>VIII. Rules of the road</h2>
     <div class="rule"></div>
-    <div class="source">Editorial · 7 do's</div>
+    <div class="source">Editorial · 8 do's</div>
   </div>
 
   <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));">
     <div class="swatch" style="grid-template-rows: auto;">
       <div class="info" style="padding: 16px 18px;">
         <div class="role">1. Cream rules below the brand</div>
-        <div class="use">The product is set on cream. Don't introduce alternative greys, pure blacks, or off-whites for surfaces. The four surface tokens are the entire system.</div>
+        <div class="use">The product is set on cream. Don't introduce alternative greys, pure blacks, or off-whites for surfaces. The five surface tokens, plus the toolbar chrome ramp, are the entire system.</div>
       </div>
     </div>
     <div class="swatch" style="grid-template-rows: auto;">
@@ -1062,7 +997,7 @@
     <div class="swatch" style="grid-template-rows: auto;">
       <div class="info" style="padding: 16px 18px;">
         <div class="role">3. Mustard is for the brand and "needs you"</div>
-        <div class="use">The wordmark, the marquee bulbs, the On-hold chip, and a "needs you" badge are the only places mustard appears. It is the brand colour, so it is never an extension-type ground, a body colour, or a regular button.</div>
+        <div class="use">The wordmark, the marquee bulbs, the On-hold chip, a "needs you" badge, warning intent (callouts, alerts, toasts), and the Context "Updating" spinner are the only places mustard appears. It is the brand colour, so it is never an extension-type ground, a body colour, or a regular button.</div>
       </div>
     </div>
     <div class="swatch" style="grid-template-rows: auto;">
@@ -1097,11 +1032,11 @@
     </div>
   </div>
 
-  <!-- ── Section VIII. Text layout ─────────────────────── -->
+  <!-- ── Text layout ─────────────────────────────────────── -->
   <div class="sect">
     <h2>IX. Text layout</h2>
     <div class="rule"></div>
-    <div class="source">6 measures + heading rule · in ch / px</div>
+    <div class="source">8 text patterns · in ch / px</div>
   </div>
 
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 10px; color: var(--ink);">1. Paragraphs</h3>
@@ -1216,7 +1151,7 @@
   </div></div></div>
 
 
-    <!-- ── Section X. Components ───────────────────── -->
+    <!-- ── Components ───────────────────────────────── -->
   <div class="sect">
     <h2>X. Components</h2>
     <div class="rule"></div>
@@ -1226,6 +1161,21 @@
   <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 22px; max-width: 64ch; line-height: 1.55;">
     Cinatra ships shadcn/ui primitives with the design tokens above mapped to their semantic variables. Use the components from <code>@/components/ui</code> directly — do not re-skin them inline. Each component below is a brief on its role and the design rules it inherits.
   </p>
+
+  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Page header</h3>
+  <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;PageHeader /&gt; · @cinatra-ai/sdk-ui · @/components/page-header</p>
+  <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
+    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">title lg = 28px (default)</div><div style="padding: 1px 0;">md = 24px · sm = 20px</div><div style="padding: 1px 0;">Archivo italic 800</div><div style="padding: 1px 0;">-0.018em · lh 1.05</div><div style="padding: 1px 0;">etched rule below</div></div>
+    <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 10px; max-width: 520px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — top-level page title (lg · 28px)</div>
+    <div style="padding: 18px 20px;">
+      <div style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted);">Management</div>
+      <h1 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 28px; letter-spacing: -0.018em; line-height: 1.05; margin: 8px 0 0; color: var(--ink); text-wrap: balance;">Agents</h1>
+      <p style="margin: 4px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--muted); max-width: 64ch;">Build, monitor and manage the agents in this workspace.</p>
+      <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin-top: 14px;"></div>
+    </div>
+  </div>
+  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The page-header h1 owns the page-title typography end-to-end — Archivo italic 800, -0.018em tracking, 1.05 line-height, balanced wrap — so pages never roll their own. The title scale is <strong style="color:var(--ink);">lg 28px</strong> (the default — every top-level page), <strong style="color:var(--ink);">md 24px</strong> (action-heavy admin / settings / detail subpages with long titles), <strong style="color:var(--ink);">sm 20px</strong> (nested sub-screens); the scale is monotonic — a smaller step never renders larger than the one above it. Title tone is ink by default; brand-mustard is a per-route opt-in for brand-y top-level pages, never on settings or admin chrome. An optional mono uppercase kicker label sits above the h1, an optional one-line description below it. The etched paired-line rule closes the header on every page — unless a toolbar sits directly beneath, which replaces the rule (see Toolbar).</p>
 
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Button</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Button /&gt; · @/components/ui/button</p>
@@ -1280,15 +1230,15 @@
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Trigger mirrors Input chrome. Open popover sits on <code>--surface-strong</code> with the same hairline border, slightly higher shadow. Use <code>scrollbar-thin</code> on long lists.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Dialog / Sheet</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Dialog /&gt;, &lt;Sheet /&gt; · @/components/ui/dialog</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
-    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">surface-strong</div><div style="padding: 1px 0;">starts below 4rem navbar</div><div style="padding: 1px 0;">dim overlay</div><div style="padding: 1px 0;">etched header rule</div></div>
+    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">--paper (= pages)</div><div style="padding: 1px 0;">starts below 4rem navbar</div><div style="padding: 1px 0;">dim overlay</div><div style="padding: 1px 0;">etched header rule</div></div>
     <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 10px; max-width: 520px;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
-    <div style="padding: 18px 20px;">
-      <div style="background: var(--surface-strong); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 6px 16px -8px rgba(21,33,58,0.18); padding: 12px 14px; max-width: 260px;">
+    <div style="padding: 18px 20px; background: rgba(21,33,58,0.55);">
+      <div style="background: var(--paper); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 6px 16px -8px rgba(21,33,58,0.18); padding: 12px 14px; max-width: 260px;">
           <div style="font-style: italic; font-weight: 800; font-size: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line-strong); margin-bottom: 8px;">Approve drafts.</div>
           <div style="font-size: 11.5px; color: var(--muted);">Twelve drafts pending your read.</div>
         </div></div></div>
-  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Modal dialogs use <code>--popover</code>; right-side sheets sit at full-height. Overlay <code>top: 4rem</code> so it doesn't cover the navbar. Dialog header uses an etched paired-line rule for separation.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Badge / Pill</h3>
+  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Modal dialogs use <code>--paper</code> — the same background as pages; right-side sheets sit at full-height. Overlay <code>top: 4rem</code> so it doesn't cover the navbar. Dialog header uses an etched paired-line rule for separation.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Badge / Pill</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Badge /&gt;, &lt;LifecycleBadge /&gt; · @/components/ui/badge</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">surface-muted bg</div><div style="padding: 1px 0;">line border</div><div style="padding: 1px 0;">9999px radius</div><div style="padding: 1px 0;">icon-led</div></div>
@@ -1320,11 +1270,11 @@
   </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Tab labels are 13px sans, slate when inactive, indigo when selected with a 2px indigo underline. No pill tabs; underline only. When tabs appear under a section heading, the etched paired-line rule begins to the right of the last tab and stretches to the page edge — the tablist takes the left portion of the row, the rule the right.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Toolbar</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Toolbar /&gt; · @/components/ui/toolbar (composition)</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
-    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">ground #dcddd5</div><div style="padding: 1px 0;">8px radius · no border</div><div style="padding: 1px 0; color: var(--blue);">embedded controls: borderless</div><div style="padding: 1px 0;">48–56px tall</div><div style="padding: 1px 0;">40px / 7px controls</div><div style="padding: 1px 0;">24px hairline separators</div></div>
+    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">ground var(--toolbar)</div><div style="padding: 1px 0;">8px radius · no border</div><div style="padding: 1px 0; color: var(--blue);">embedded controls: borderless</div><div style="padding: 1px 0;">48–56px tall</div><div style="padding: 1px 0;">40px / 7px controls</div><div style="padding: 1px 0;">24px hairline separators</div></div>
     <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 10px; max-width: 720px;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
     <div style="padding: 18px 20px;">
-      <div style="display:flex;align-items:center;background:#dcddd5;border-radius:8px;height:48px;overflow:hidden;">
+      <div style="display:flex;align-items:center;background:var(--toolbar);border-radius:8px;height:48px;overflow:hidden;">
         <div style="display:flex;align-items:center;padding:7px;flex-shrink:0;">
           <button style="padding:0 12px;height:34px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:transparent;border:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px; background:rgba(54,78,129,.14);">All <span style="font-size:10px;font-weight:500;padding:1px 5px;border-radius:4px;background:rgba(54,78,129,.15);color:var(--blue);font-family:var(--font-mono);">412</span></button>
         </div>
@@ -1354,14 +1304,14 @@
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Nested toolbar</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Toolbar /&gt; → &lt;Toolbar.Child /&gt; · @/components/ui/toolbar (composition)</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
-    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">depth: 3 levels max</div><div style="padding: 1px 0;">parent ground #dcddd5</div><div style="padding: 1px 0;">each child +6L lighter</div><div style="padding: 1px 0;">deepest stays darker than paper</div><div style="padding: 1px 0;">child inset 20px / level</div><div style="padding: 1px 0;">6px stack gap</div></div>
+    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">depth: 3 levels max</div><div style="padding: 1px 0;">parent ground var(--toolbar)</div><div style="padding: 1px 0;">each child +6L lighter</div><div style="padding: 1px 0;">deepest stays darker than paper</div><div style="padding: 1px 0;">child inset 20px / level</div><div style="padding: 1px 0;">6px stack gap</div></div>
     <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 10px; max-width: 720px;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
     <div style="padding: 18px 20px;">
       <div style="display:flex;flex-direction:column;gap:6px;">
 
         <!-- L1 · parent toolbar -->
-        <div style="display:flex;align-items:center;background:#dcddd5;border-radius:8px;height:44px;overflow:hidden;">
+        <div style="display:flex;align-items:center;background:var(--toolbar);border-radius:8px;height:44px;overflow:hidden;">
           <div style="display:flex;align-items:center;padding:6px;flex-shrink:0;">
             <button style="padding:0 12px;height:32px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:rgba(54,78,129,.14);border:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;">Campaigns <span style="font-size:10px;font-weight:500;padding:1px 5px;border-radius:4px;background:rgba(54,78,129,.15);color:var(--blue);font-family:var(--font-mono);">12</span></button>
           </div>
@@ -1381,7 +1331,7 @@
 
         <!-- L2 · child of "Campaigns" -->
         <div style="margin-left:20px;display:flex;align-items:center;">
-          <div style="display:flex;align-items:center;background:#e3e4dc;border-radius:8px;height:42px;overflow:hidden;flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;background:var(--toolbar-2);border-radius:8px;height:42px;overflow:hidden;flex:1;min-width:0;">
             <div style="display:flex;align-items:center;padding:6px;flex-shrink:0;">
               <button style="padding:0 12px;height:30px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:rgba(54,78,129,.14);border:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;">Active <span style="font-size:10px;font-weight:500;padding:1px 5px;border-radius:4px;background:rgba(54,78,129,.15);color:var(--blue);font-family:var(--font-mono);">4</span></button>
             </div>
@@ -1400,7 +1350,7 @@
 
         <!-- L3 · child of "Active" -->
         <div style="margin-left:40px;display:flex;align-items:center;">
-          <div style="display:flex;align-items:center;background:#e9eae2;border-radius:8px;height:40px;overflow:hidden;flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;background:var(--toolbar-3);border-radius:8px;height:40px;overflow:hidden;flex:1;min-width:0;">
             <div style="display:flex;align-items:center;padding:5px;flex-shrink:0;">
               <button style="padding:0 11px;height:30px;border-radius:7px;font:500 12.5px var(--font-sans);color:var(--muted);background:rgba(54,78,129,.14);border:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;color:var(--blue);"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> Sequence</button>
             </div>
@@ -1419,7 +1369,7 @@
 
       </div></div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">When a selected toolbar item has its own sub-controls, they open in a <em>child toolbar</em> directly beneath the parent rather than in a menu — and that child can in turn carry a third. Each level inherits every toolbar rule (borderless controls, hairline group separators, the lone white search field) and adds three of its own. <strong style="color:var(--ink);">Ground steps lighter with depth</strong> — the parent sits on the darkest chrome (<code>#dcddd5</code>) and each child lightens ~6L toward the page, so the deepest row reads as the one nearest the content it edits. The lightening stops short of the paper: even the deepest ground stays a clear step darker than the page, so every level remains legible as its own bar. <strong style="color:var(--ink);">Each child is inset 20px</strong> from the level above and stacked 6px beneath it, so the active path reads top-to-bottom at a glance — the inset and the lightening carry the lineage; no connectors are drawn. <strong style="color:var(--ink);">Cap the depth at three.</strong> A fourth level means the navigation is too deep for a toolbar — move it into the page body or a sidebar instead. Only one item per level is selected, and selecting a different item replaces every level below it.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Sidebar</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">When a selected toolbar item has its own sub-controls, they open in a <em>child toolbar</em> directly beneath the parent rather than in a menu — and that child can in turn carry a third. Each level inherits every toolbar rule (borderless controls, hairline group separators, the lone white search field) and adds three of its own. <strong style="color:var(--ink);">Ground steps lighter with depth</strong> — the parent sits on the darkest chrome (<code>var(--toolbar)</code>) and each child lightens ~6L toward the page, so the deepest row reads as the one nearest the content it edits. The lightening stops short of the paper: even the deepest ground stays a clear step darker than the page, so every level remains legible as its own bar. <strong style="color:var(--ink);">Each child is inset 20px</strong> from the level above and stacked 6px beneath it, so the active path reads top-to-bottom at a glance — the inset and the lightening carry the lineage; no connectors are drawn. <strong style="color:var(--ink);">Cap the depth at three.</strong> A fourth level means the navigation is too deep for a toolbar — move it into the page body or a sidebar instead. Only one item per level is selected, and selecting a different item replaces every level below it.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Sidebar</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Sidebar /&gt;, &lt;AppSidebar /&gt; · @/components/ui/sidebar</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">surface --sidebar</div><div style="padding: 1px 0;">~240px wide</div><div style="padding: 1px 0;">brand head: fedora + wordmark</div><div style="padding: 1px 0;">active = indigo 6%</div><div style="padding: 1px 0;">labels: mono 10px</div><div style="padding: 1px 0;">collapses to 56px rail</div></div>
@@ -1468,7 +1418,7 @@
         <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--green); color: var(--paper); display: grid; place-items: center; font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 16px;">E</div>
         <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--plum); color: var(--paper); display: grid; place-items: center; font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 16px;">R</div>
         <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--burgundy); color: var(--paper); display: grid; place-items: center; font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 16px;">M</div></div></div></div>
-  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">User avatars carry the user's initials in Archivo italic 800 on a random categorical accent (never indigo or navy). Per-extension instances same pattern (see V).</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Form / Field / Label</h3>
+  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">User avatars carry the user's initials in Archivo italic 800 on a random categorical accent (never indigo or navy). Per-extension instances same pattern (see IV).</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Form / Field / Label</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Form /&gt;, &lt;Field /&gt;, &lt;Label /&gt; · @/components/ui/form</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">Label · 12px · 600</div><div style="padding: 1px 0;">Helper · 11px · muted</div><div style="padding: 1px 0;">gap 4–8px</div><div style="padding: 1px 0;">error swaps helper red</div></div>
@@ -1766,11 +1716,11 @@
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Menubar</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Menubar /&gt; · @/components/ui/menubar</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
-    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">toolbar ground #e6e7e2</div><div style="padding: 1px 0;">open menu = indigo tint</div><div style="padding: 1px 0;">13px sans triggers</div><div style="padding: 1px 0;">menus reuse context surface</div></div>
+    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">toolbar ground var(--toolbar)</div><div style="padding: 1px 0;">open menu = indigo tint</div><div style="padding: 1px 0;">13px sans triggers</div><div style="padding: 1px 0;">menus reuse context surface</div></div>
     <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 10px; max-width: 520px;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
     <div style="padding: 18px 20px;">
-      <div style="display: inline-flex; align-items: center; background: #e6e7e2; border-radius: 8px; padding: 4px;">
+      <div style="display: inline-flex; align-items: center; background: var(--toolbar); border-radius: 8px; padding: 4px;">
         <button style="padding: 5px 11px; border-radius: 6px; font: 500 13px var(--font-sans); color: var(--ink); background: rgba(54,78,129,0.12); border: 0; cursor: pointer;">Run</button>
         <button style="padding: 5px 11px; border-radius: 6px; font: 500 13px var(--font-sans); color: var(--muted); background: transparent; border: 0; cursor: pointer;">Edit</button>
         <button style="padding: 5px 11px; border-radius: 6px; font: 500 13px var(--font-sans); color: var(--muted); background: transparent; border: 0; cursor: pointer;">View</button>
@@ -1970,7 +1920,7 @@
 
   <style>@keyframes ds-blink { 50% { opacity: 0; } }</style>
 <footer>
-    <span>Cinatra · Design System v0.1.0</span>
+    <span>Cinatra · Design System v0.2.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
