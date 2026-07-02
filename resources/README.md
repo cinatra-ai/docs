@@ -12,3 +12,4 @@ Background, positioning, and evaluation material — the "why Cinatra, and how d
   - [Runwork vs Cinatra](comparisons/runwork-vs-cinatra.md)
   - [Tasklet vs Cinatra](comparisons/tasklet-vs-cinatra.md)
   - [Spawnlabs vs Cinatra](comparisons/spawnlabs-vs-cinatra.md)
+  - [ServiceNow vs Cinatra](comparisons/servicenow-vs-cinatra.md)

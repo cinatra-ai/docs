@@ -16,6 +16,7 @@ How Cinatra relates to the products people most often ask about. Each page is a 
 | [Runwork](runwork-vs-cinatra.md) | a cloud SaaS coordination layer across the AI agents a team already uses (shared skills, automations, adoption metrics) | you want the agents themselves — self-hosted, durable, portable — not just coordination of external tools |
 | [Tasklet](tasklet-vs-cinatra.md) | a cloud platform that turns plain-English task descriptions into always-on automations, each agent in its own sandboxed cloud machine | you want self-hosted agents you own, with portable OAS flows and an audit trail in your own database, not a managed cloud |
 | [Spawnlabs](spawnlabs-vs-cinatra.md) | a proprietary cloud platform that spawns autonomous, long-running agents which build their own tools, with self-host reserved for the enterprise tier | you want the same autonomous agents open source and self-hosted by default — readable, forkable, and portable |
+| [ServiceNow](servicenow-vs-cinatra.md) | the enterprise workflow giant — a proprietary single-vendor cloud suite (ITSM, HR, customer service, security operations) with an agentic-AI layer on a shared data model, sold through enterprise agreements | you want a focused, open source, self-hosted agent platform you own — portable agents and an open marketplace, without an enterprise suite or sales cycle |
 
 Each row links to the full head-to-head.
 
