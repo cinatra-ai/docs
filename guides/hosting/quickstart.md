@@ -8,49 +8,19 @@ Expected time: about fifteen minutes (a few extra for the first Docker pull).
 
 ## 0. Download and install
 
-The fastest way to set up a new Cinatra instance from scratch is the published CLI (npm [`@cinatra-ai/cinatra`](https://www.npmjs.com/package/@cinatra-ai/cinatra)):
+Set up a new Cinatra instance from scratch with the published CLI (npm [`@cinatra-ai/cinatra`](https://www.npmjs.com/package/@cinatra-ai/cinatra)) — no separate clone step required:
 
 ```bash
 npx @cinatra-ai/cinatra install
 ```
 
-That command checks your prerequisites first, clones Cinatra into a `cinatra/` directory, creates your environment, starts the local Docker services, and runs first-time setup. Add `--dry-run` to preview the steps without changing anything, or `--resume` to finish an install that was interrupted. After it completes, `cd cinatra` and continue from [Step 1](#1-create-the-admin-account) below. From inside the checkout, `npx @cinatra-ai/cinatra status` and `npx @cinatra-ai/cinatra doctor` give you a quick read on instance health.
+That single, idempotent command checks your prerequisites first (Node.js 24+, git, pnpm via Corepack, Docker with the Compose plugin, free ports), clones Cinatra into a `cinatra/` directory, creates your `.env.local`, brings up the local Docker services (Postgres, Redis, Nango, and others), installs dependencies, and runs first-time setup — cloning only the extension repos your instance declares as dependencies, never an org-wide enumeration. It is re-runnable: running it again on the same checkout reconciles it in place instead of cloning again. Add `--dry-run` to preview the steps without changing anything, or `--resume` to finish an install that was interrupted.
 
-Alternatively, set up manually with the steps below (useful if you want to clone the repo yourself or contribute to the platform). The CLI runs these same steps for you; see [Installation](installation.md) for both paths in full.
+Use `--mode prod` instead of the default `--mode dev` for a production instance — see [Installation § Dev vs prod](installation.md#dev-vs-prod) for how the two differ.
 
-### Prerequisites
+After it completes, `cd cinatra` and continue from [Step 1](#1-create-the-admin-account) below. From inside the checkout, `npx @cinatra-ai/cinatra status` and `npx @cinatra-ai/cinatra doctor` give you a quick read on instance health.
 
-You need:
-
-- **Node.js 24 or newer** — <https://nodejs.org/>
-- **pnpm** — <https://pnpm.io/installation>
-- **Docker** with the Compose plugin — <https://docs.docker.com/get-docker/>
-- **Make** — already on macOS and Linux; on Windows use WSL
-
-Docker should have at least **6 GB of RAM** allocated.
-
-### Clone the repo
-
-```bash
-git clone https://github.com/cinatra-ai/cinatra.git
-cd cinatra
-```
-
-### First-time setup
-
-```bash
-make setup
-```
-
-This installs dependencies, starts the supporting services in Docker, applies the database schema, and validates that every service is reachable. The script is idempotent — safe to re-run.
-
-### Start the app
-
-```bash
-make dev
-```
-
-Open <http://localhost:3000> once the dev server is ready. For the full details on what `make setup` and `make dev` do — and troubleshooting tips — see [Installation](installation.md).
+Prefer to manage the clone yourself, or contributing to the platform? [Installation](installation.md) documents the equivalent manual, `git clone`-first flow — the CLI runs those same steps for you.
 
 ---
 

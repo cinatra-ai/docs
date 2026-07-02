@@ -27,10 +27,11 @@ The fastest path from a fresh machine to a running instance is the published `ci
 npx @cinatra-ai/cinatra install
 ```
 
-`install` runs your prerequisite checks **first** (Node.js, Docker, free ports), then clones Cinatra, creates your `.env.local`, brings up the Docker services and waits for them, installs Node dependencies, and runs first-time setup inside the freshly cloned checkout — the same work the manual flow below does, in one step. It writes the checkout into a `cinatra/` directory under your current working directory by default.
+`install` is the single, idempotent command for both bootstrapping from zero and reconciling an existing checkout. It runs your prerequisite checks **first** (Node.js 24+, git, pnpm via Corepack, Docker with the Compose plugin, free ports), then clones Cinatra, creates your `.env.local`, brings up the Docker services and waits for them, installs Node dependencies, and runs first-time setup inside the freshly cloned checkout — the same work the manual flow below does, in one step. It writes the checkout into a `cinatra/` directory under your current working directory by default. Re-running `install` on an existing checkout skips the clone and just re-runs the reconcile phase — there is no separate `setup` command to remember.
 
 Useful options:
 
+- `--mode dev|prod` — install mode (default `dev`); see [Dev vs prod](#dev-vs-prod) below.
 - `--dry-run` — show what `install` would do without changing anything.
 - `--resume` — finish an install that was interrupted partway through.
 
@@ -44,6 +45,20 @@ npx @cinatra-ai/cinatra doctor   # diagnose your local setup
 To install the CLI globally instead of invoking it through `npx`, run `npm install -g @cinatra-ai/cinatra`; the command is then just `cinatra`.
 
 The rest of this page documents the **manual** flow — clone the repo yourself and drive setup with the `make` targets. Use it if you want to manage the checkout yourself or contribute to the platform; the CLI runs these same steps for you.
+
+---
+
+## Dev vs prod
+
+`cinatra install` takes a `--mode dev|prod` (default `dev` if not given). The mode does not by itself change what gets checked out — that is `--ref` (default `main`); pin `--ref v1.2.3` explicitly if you want a specific release. What the mode changes is the setup path that runs inside the checkout:
+
+- **`--mode dev`** — the flow this guide walks through: a host-native Next.js dev server against Dockerized Postgres/Redis/Nango/etc.
+- **`--mode prod`** — before touching the database, acquires the production required-extension set with `cinatra extensions acquire-prod` (downloads tarballs pinned to commit SHAs from the committed lock file, with tree-hash and `package.json` verification) rather than cloning extension source repos, then runs setup in production mode. `cinatra extensions verify-prod` is a read-only check that the on-disk extension set, the baked seed, the lock file, what the running instance's loader registered, and what WayFlow can see all agree.
+
+`cinatra update --instance` later moves an *existing* checkout forward by its own recorded type — no `--mode` flag to pass: a dev checkout fast-forwards to the latest `main`, a prod checkout moves to the latest `v*` release tag — then reconciles it.
+
+> [!WARNING]
+> Cinatra is not production ready — see the warning at the top of the [repository README](https://github.com/cinatra-ai/cinatra#readme). `--mode prod` documents how the CLI itself behaves in that mode; it is not a claim that the platform has been hardened for production workloads.
 
 ---
 
