@@ -20,6 +20,8 @@ extensions/<scope>/<slug>-connector/
   .cinatra-published.json      # published-provenance sidecar (written by publish)
   README.md                    # marketplace-ready README (gate-enforced)
   LICENSE
+  cinatra/
+    config.json                # connection access-scope declaration (see below)
   src/                         # the connector code payload
 ```
 
@@ -27,8 +29,8 @@ Per-kind required files:
 
 | Connector flavor | Required files |
 |---|---|
-| **connector (provider)** | `package.json`, `src/index.ts`, `src/register.ts`, `src/setup-page.tsx`, the setup-impl component, `src/deps.ts` |
-| **connector (facade)** | `package.json`, `src/index.ts`, the contract type, the facade implementation, the provider registry |
+| **connector (provider)** | `package.json`, `cinatra/config.json`, `src/index.ts`, `src/register.ts`, `src/setup-page.tsx`, the setup-impl component, `src/deps.ts` |
+| **connector (facade)** | `package.json`, `cinatra/config.json`, `src/index.ts`, the contract type, the facade implementation, the provider registry |
 
 The package exposes the activation contract through `package.json` `exports` subpaths. `./register` is the one universal contract; `./setup-page`, `./settings-page`, and `./mcp-module` carry the connector's UI and MCP surfaces:
 
@@ -100,6 +102,71 @@ Connector-relevant manifest fields (`CinatraManifest`, `packages/sdk-extensions/
 - **`devFixtures`** — a path to a declarative dev-mode fixtures file (see [Extension dev fixtures](../extension-dev-fixtures.md)).
 - **`migrationsDir`** — a package-relative directory of standard node-pg-migrate migration modules the HOST runs for trusted-signed installs (see [Shipping schema migrations](#shipping-schema-migrations)). The legacy `migrations` JSON-DSL field is retired and rejected fail-closed.
 - **`dependencies`** — the canonical cross-kind dependency graph (below).
+
+## Declaring connection access scope — `cinatra/config.json`
+
+Every connector ships a `cinatra/config.json` file declaring how its **connections** — the individual connected external accounts users create through it — may be scoped. The declaration drives the connect-time scope picker and is enforced server-side; the user-facing model it feeds is [Connections: scopes, sharing, and revocation](../../../guides/user/connections-and-sharing.md).
+
+The file has one governing `formatVersion` and, today, one config domain, `access`:
+
+```jsonc
+// cinatra/config.json — a recommendation (Gmail: a mailbox is personal by nature)
+{
+  "formatVersion": 1,
+  "access": {
+    "scope": { "default": "user" }
+  }
+}
+```
+
+```jsonc
+// cinatra/config.json — an exclusive scope (an LLM-provider key connector such as openai)
+{
+  "formatVersion": 1,
+  "access": {
+    "scope": { "only": "admin" }
+  }
+}
+```
+
+### The scope vocabulary
+
+`access.scope` takes one value from the full platform vocabulary:
+
+`user | project | team | organization | workspace | admin`
+
+These map to the scopes users see in the picker: Personal, Project, Team, Organization, Workspace, and Admins only.
+
+### `default` vs `only` — recommendation vs lock
+
+`access.scope` carries **exactly one** of two keys:
+
+- **`default`** — a *recommendation*. The declared scope is **pre-selected** at connect time; the connection owner can freely choose any other scope. A `default` never auto-shares anything — pre-selecting `team` still requires the owner to confirm and pick a concrete team.
+- **`only`** — an *exclusive* scope: the declared scope is the **only** scope that may ever have access to the connector's connections. The picker renders locked at that value, and — independently of the UI — the server **rejects** any broader grant with a typed error. Two values matter most:
+  - `only: "user"` — strictly per-actor. Connections are never shareable; the sharing surface is removed entirely and the connections never enter shared listings.
+  - `only: "admin"` — usable only by the owning organization's admins.
+
+Declaring **both** `default` and `only` is an error; a present `access.scope` object with **neither** key is an error. If the file is absent, or present without an `access.scope` declaration, the connector behaves as `default: "admin"` — the most conservative recommendation, pre-selected but changeable.
+
+`only` governs the *use* of connections. Who may **manage** the connector itself (install, archive, configure) remains organization-admin RBAC — it is not package-definable, by `cinatra/config.json` or anything else.
+
+### Fail-closed validation, at submit and at install
+
+The file is validated **strictly and fail-closed**, both when you submit to the marketplace and again on every install:
+
+- An **unknown top-level domain** (anything that is not a recognized sibling of `access`) hard-fails.
+- An **unknown key inside a known domain** hard-fails — a misspelled `scpoe` is a rejection, never a silent fallback to defaults.
+- An unrecognized scope value, a missing `formatVersion`, or the both-keys / neither-key cases above are all rejections.
+
+**Protected slugs.** The LLM-provider key connectors — `openai`, `anthropic`, `gemini` — are validator-forced to `only: "admin"`. A submission for one of these slugs declaring anything else (including a plain `default: "admin"`) fails validation. `gmail` ships `default: "user"`.
+
+### Packaging: put `cinatra/` in the `files` allowlist
+
+The `cinatra/` directory must be included in the package's `package.json` `files` allowlist, or the published tarball will not contain the declaration — a typical connector `files` list of `["src", …]` excludes it. The packlist gate asserts `cinatra/config.json` is present in the pack output for every `kind: "connector"` package, and the submit/install validator (including the protected-slug rule) runs against the packed file.
+
+### Forward compatibility
+
+Future configuration domains land as **siblings of `access`** in this same file, governed by `formatVersion`. Do not invent your own top-level keys — the unknown-domain rule rejects them by design.
 
 ## `cinatra.dependencies` — capability-based, required vs optional
 
@@ -215,6 +282,7 @@ Before publishing, satisfy the gates the platform holds every extension to:
 - **Dev-fixtures gate** (`scripts/audit/dev-fixtures-gate.mjs`) — if you declare `devFixtures`, the file is declarative data only (no SQL/JS/secrets; only `setting` and `object` surfaces).
 - **Discovery conformance** (`packages/extensions/src/__tests__/extension-discovery-conformance.test.ts`) — if you add a new kind's reader facet, it must satisfy the golden discovery contract (lifecycle suppression, visibility authority, reader-throw isolation).
 - **Manifest validity** — `requestedHostPorts` must be real port names, `sdkAbiRange` must be a supported range, and `dependencies` edges must be well-formed; the manifest generator flags unknown values at generation time.
+- **Connection-scope config** — `cinatra/config.json` present, packed (the `files` allowlist includes `cinatra`), and valid under the fail-closed schema, including the protected-slug rule. See [Declaring connection access scope](#declaring-connection-access-scope--cinatraconfigjson).
 
 Beyond these author-time gates, the production loader applies a runtime trust check before importing your code in-process: it verifies the tarball's integrity and — in the signature-required window — an Ed25519 signature against a host-trusted key. An unsigned package is import-denied once enforcement is on, and a package that declares host migrations cannot import unless it is signed. See [Extension signing and the activation trust root](../../../guides/developer/extension-publishing.md#extension-signing-and-the-activation-trust-root).
 
