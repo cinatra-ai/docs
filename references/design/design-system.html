@@ -254,7 +254,7 @@
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.2.0</div>
+      <div>Version 0.3.0</div>
     </div>
   </div>
 
@@ -952,9 +952,27 @@
   </div>
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">Cards keep the <code>--surface</code> ground of the current page and show each connector’s <b style="color:var(--ink);font-weight:600;">real brand logo</b> on a white tile. The status badge is a <b style="color:var(--ink);font-weight:600;">solid</b> chip — a white plug on <code>--green</code> / white unplug on <code>--red</code> — following the solid <code>.pill.failed</code> precedent. The <b style="color:var(--ink);font-weight:600;">connection filter</b> leads the toolbar: a bordered segmented toggle whose selected segment takes the solid status colour (<b style="color:var(--green);font-weight:600;">green</b> Connected / <b style="color:var(--red);font-weight:600;">red</b> Disconnected, white icon + label) and whose idle segment shows a <em>muted tint of its own colour</em> — soft green / soft red — never grey. The <b style="color:var(--ink);font-weight:600;">scope</b> dropdown is the app’s access combobox rendered exactly: a navy-bordered <code>Search…</code> field (an <b style="color:var(--ink);font-weight:600;">✕</b> clears it once it holds text), <em>Type: name</em> rows grouped by kind with a hairline <b style="color:var(--ink);font-weight:600;">between groups</b> — never between rows — and the selected scope carrying the same soft <code>--surface-muted</code> highlight it shows on hover, every other row white. When it is open, the toolbar trigger takes that same <code>--surface-muted</code> ground. The flyout is sized to its longest item, so it scrolls top-to-bottom, never sideways, and shows no scrollbar. <b style="color:var(--ink);font-weight:600;">+ Connector</b> sits right after the scope dropdown — a hairline between them — while the <b style="color:var(--ink);font-weight:600;">sort / display</b> config button anchors the far right in the same borderless toolbar style; once the search field holds a query a small <b style="color:var(--ink);font-weight:600;">✕</b> clears it. The grid scales <code>md:2 · lg:3 · xl:4 · 2xl:5</code>.</p>
 
+  <!-- ── Agent card (All Agents) ──────────────────────────────── -->
+  <div class="sect">
+    <h2>VIII. Agent card (All Agents)</h2>
+    <div class="rule"></div>
+    <div class="source">Run · card · 2 rows</div>
+  </div>
+  <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 66ch; line-height: 1.55;"><b style="color:var(--ink);font-weight:600;">The redesigned card for the <code>/agents</code> "All Agents" tab.</b> Derived from the §VI Installed-extensions card — the same coloured <em>logo + name</em> panel, <em>{Kind} by {Vendor}</em> byline, and description — but <b style="color:var(--ink);font-weight:600;">without</b> the <em>version</em> and the <em>Active / Archived</em> indicator: an agent you run doesn't need either surfaced here. The right panel's primary action becomes <b style="color:var(--ink);font-weight:600;">Run</b>, marked with a play icon in place of the settings gear; <em>More details</em> stays. The description is capped at two lines.</p>
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — All Agents</div>
+    <div style="padding: 18px 20px;">
+      <div style="display: grid; gap: 12px;">
+        <div style="display: flex; align-items: stretch; background: var(--surface-strong); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(21,33,58,0.06);"><div style="flex: none; width: 340px; background: var(--rust); padding: 16px; display: flex; align-items: center; gap: 12px;"><span style="flex: none; width: 46px; height: 46px; border-radius: 11px; background: var(--surface-strong); display: grid; place-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.22); color: var(--rust);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h6z"/></svg></span><div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; line-height: 1.12; letter-spacing: -0.012em; color: var(--surface-strong); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-width: 0;">Research Assistant</div></div><div style="flex: 1; min-width: 0; padding: 15px 18px; display: flex; flex-direction: column; gap: 9px; justify-content: center;"><div style="display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); min-width: 0; white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;color:var(--rust);"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M9 13v2"/><path d="M15 13v2"/></svg><span style="overflow: hidden; text-overflow: ellipsis;"><span style="color: var(--ink);">Agent</span> by <span style="color: var(--ink);">Cinatra</span></span></div><p style="font-size: 14px; line-height: 1.45; color: var(--muted); margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Gathers sources, summarises, and cites answers grounded in your team's own documents.</p></div><div style="flex: none; width: 176px; border-left: 1px solid var(--line); padding: 14px 16px; display: flex; flex-direction: column; gap: 9px; justify-content: center; align-items: center;"><button type="button" class="btn primary" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;"><polygon points="6 3 20 12 6 21 6 3"/></svg>Run</button><a href="#" class="btn link">More details</a></div></div>
+        <div style="display: flex; align-items: stretch; background: var(--surface-strong); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(21,33,58,0.06);"><div style="flex: none; width: 340px; background: var(--clay); padding: 16px; display: flex; align-items: center; gap: 12px;"><span style="flex: none; width: 46px; height: 46px; border-radius: 11px; background: var(--surface-strong); display: grid; place-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.22); color: var(--clay);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></span><div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; line-height: 1.12; letter-spacing: -0.012em; color: var(--surface-strong); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-width: 0;">Media Transcript Agent</div></div><div style="flex: 1; min-width: 0; padding: 15px 18px; display: flex; flex-direction: column; gap: 9px; justify-content: center;"><div style="display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); min-width: 0; white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;color:var(--clay);"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M9 13v2"/><path d="M15 13v2"/></svg><span style="overflow: hidden; text-overflow: ellipsis;"><span style="color: var(--ink);">Agent</span> by <span style="color: var(--ink);">Cinatra</span></span></div><p style="font-size: 14px; line-height: 1.45; color: var(--muted); margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Transcribes audio or video URLs (including YouTube watch URLs) to text with [Speaker N]: markers.</p></div><div style="flex: none; width: 176px; border-left: 1px solid var(--line); padding: 14px 16px; display: flex; flex-direction: column; gap: 9px; justify-content: center; align-items: center;"><button type="button" class="btn primary" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;"><polygon points="6 3 20 12 6 21 6 3"/></svg>Run</button><a href="#" class="btn link">More details</a></div></div>
+      </div>
+    </div>
+  </div>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">Same three-panel anatomy as §VI — coloured logo tile, white middle, white right panel set off by a navy hairline — minus the version/status row, so the middle panel carries just the byline and the (now two-line-clamped) description. The right panel drops to a single primary action, <em>Run</em>, plus <em>More details</em> (opens the §V detail modal).</p>
+
   <!-- ── Status pills + buttons ───────────────────────────────── -->
   <div class="sect">
-    <h2>VIII. Status &amp; controls</h2>
+    <h2>IX. Status &amp; controls</h2>
     <div class="rule"></div>
     <div class="source">10 status pills · 7 button variants</div>
   </div>
@@ -997,7 +1015,7 @@
 
   <!-- ── Contrast matrix ──────────────────────────────────────── -->
   <div class="sect">
-    <h2>IX. Contrast — what reads, what doesn't</h2>
+    <h2>X. Contrast — what reads, what doesn't</h2>
     <div class="rule"></div>
     <div class="source">WCAG 2.1 · against surface</div>
   </div>
@@ -1085,7 +1103,7 @@
 
   <!-- ── Usage rules ─────────────────────────────────────────── -->
   <div class="sect">
-    <h2>X. Rules of the road</h2>
+    <h2>XI. Rules of the road</h2>
     <div class="rule"></div>
     <div class="source">Editorial · 8 do's</div>
   </div>
@@ -1143,7 +1161,7 @@
 
   <!-- ── Text layout ─────────────────────────────────────── -->
   <div class="sect">
-    <h2>XI. Text layout</h2>
+    <h2>XII. Text layout</h2>
     <div class="rule"></div>
     <div class="source">8 text patterns · in ch / px</div>
   </div>
@@ -1262,7 +1280,7 @@
 
     <!-- ── Components ───────────────────────────────── -->
   <div class="sect">
-    <h2>XII. Components</h2>
+    <h2>XIII. Components</h2>
     <div class="rule"></div>
     <div class="source">shadcn/ui · full roster + nesting</div>
   </div>
@@ -1360,7 +1378,7 @@
     </div>
   </div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Status pills (see VIII) use bg tinted from the status colour, text in the same colour, border at higher alpha. Use icon-led pills; never just dots.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Tabs</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Status pills (see IX) use bg tinted from the status colour, text in the same colour, border at higher alpha. Use icon-led pills; never just dots.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Tabs</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Tabs /&gt;, &lt;TabsList /&gt;, &lt;TabsTrigger /&gt; · @/components/ui/tabs</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">underline tabs</div><div style="padding: 1px 0;">active = indigo 2px</div><div style="padding: 1px 0;">inactive = slate</div><div style="padding: 1px 0;">paired with section rule</div></div>
@@ -2029,7 +2047,7 @@
 
   <style>@keyframes ds-blink { 50% { opacity: 0; } }</style>
 <footer>
-    <span>Cinatra · Design System v0.2.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Design System v0.3.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
