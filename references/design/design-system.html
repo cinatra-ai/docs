@@ -282,13 +282,12 @@
   <div class="sect">
     <h2>Application domains</h2>
     <div class="rule"></div>
-    <div class="source">3 sub-references</div>
+    <div class="source">2 sub-references</div>
   </div>
   <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 66ch; line-height: 1.55;">This page holds the cross-cutting fundamentals — surfaces, ink, accents, contrast, and the shared component vocabulary. Each application domain has its own self-contained reference:</p>
   <div class="domain-cards">
     <a class="domain-card" href="https://docs.cinatra.ai/references/design/application-design-extensions.html"><div class="title">Extensions</div><div class="desc">Listing cards and install states, the extension detail modal, installed extensions, and the All-Agents agent card.</div><div class="open">Open reference &rarr;</div></a>
     <a class="domain-card" href="https://docs.cinatra.ai/references/design/application-design-connectors.html"><div class="title">Connectors</div><div class="desc">The connector toolbar, the responsive card grid, and the connected / disconnected state language.</div><div class="open">Open reference &rarr;</div></a>
-    <a class="domain-card" href="https://docs.cinatra.ai/references/design/application-design-status.html"><div class="title">Status &amp; controls</div><div class="desc">Run states, agent activity, and approvals — the app's live status and control surfaces.</div><div class="open">Open reference &rarr;</div></a>
   </div>
 
   <!-- ── Surfaces ────────────────────────────────────────────── -->
@@ -1505,6 +1504,50 @@
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A thin wrapper over Recharts with the tokens pre-mapped: indigo for the primary series (faded indigo for prior periods), sea-green for positive trends and brand red for negative, the navy hairline for gridlines, and mono ticks. Keep charts quiet — one or two series, no drop shadows or gradients beyond a faint area fill.</p>
 
   <style>@keyframes ds-blink { 50% { opacity: 0; } }</style>
+
+  <!-- ── Status pills + buttons ───────────────────────────────── -->
+  <div class="sect">
+    <h2>VIII. Status &amp; controls</h2>
+    <div class="rule"></div>
+    <div class="source">10 status pills · 7 button variants</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+    <div class="swatch" style="grid-template-rows: auto;">
+      <div class="info" style="padding: 16px 18px;">
+        <div class="role" style="margin-bottom: 8px;">Status pills</div>
+        <div class="token" style="margin-bottom: 14px;">runs, agents, approvals</div>
+        <div class="demo-row">
+          <span class="pill running"><svg viewBox="0 0 24 24" fill="currentColor" style="width:9px;height:9px;"><polygon points="6 3 20 12 6 21 6 3"/></svg>Running</span>
+          <span class="pill approved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M20 6 9 17l-5-5"/></svg>Approved</span>
+          <span class="pill hold"><svg viewBox="0 0 24 24" fill="currentColor" style="width:9px;height:9px;"><rect x="6" y="4" width="4" height="16" rx="0.5"/><rect x="14" y="4" width="4" height="16" rx="0.5"/></svg>On hold</span>
+          <span class="pill idle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" style="width:10px;height:10px;"><circle cx="12" cy="12" r="9"/></svg>Idle</span>
+          <span class="pill failed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" style="width:10px;height:10px;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>Failed</span>
+          <span class="pill approved" style="background:rgba(63,110,107,0.06);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><rect width="18" height="15" x="3" y="6" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/></svg>Scheduled</span>
+          <span class="pill running" style="background:rgba(54,78,129,0.08);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Queued</span>
+          <span class="pill hold" style="background:rgba(199,149,69,0.10);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>Needs review</span>
+          <span class="pill idle" style="opacity:0.7;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/></svg>Archived</span>
+          <span class="pill failed" style="background:rgba(166,56,79,0.85);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>Declined</span>
+        </div>
+      </div>
+    </div>
+    <div class="swatch" style="grid-template-rows: auto;">
+      <div class="info" style="padding: 16px 18px;">
+        <div class="role" style="margin-bottom: 8px;">Buttons</div>
+        <div class="token" style="margin-bottom: 14px;">primary, default, outline, secondary, destructive, ghost, link</div>
+        <div class="demo-row">
+          <button class="btn primary">Approve &amp; send</button>
+          <button class="btn">Default</button>
+          <button class="btn outline">Outline</button>
+          <button class="btn secondary">Secondary</button>
+          <button class="btn destructive">Decline</button>
+          <button class="btn ghost">Ghost</button>
+          <button class="btn link">Learn more</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <footer>
     <span>Cinatra · Application Design v0.3.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
