@@ -146,7 +146,7 @@ These map to the scopes users see in the picker: Personal, Project, Team, Organi
   - `only: "user"` — strictly per-actor. Connections are never shareable; the sharing surface is removed entirely and the connections never enter shared listings.
   - `only: "admin"` — usable only by the owning organization's admins.
 
-Declaring **both** `default` and `only` is an error; a present `access.scope` object with **neither** key is an error. If the file is absent, or present without an `access.scope` declaration, the connector behaves as `default: "admin"` — the most conservative recommendation, pre-selected but changeable.
+Declaring **both** `default` and `only` is an error; a present `access.scope` object with **neither** key is an error. An **absent file** is a hard failure at both submit and install — every connector must ship `cinatra/config.json`. A file that is present and valid but declares no `access.scope` resolves to `default: "admin"` — the most conservative recommendation, pre-selected but changeable.
 
 `only` governs the *use* of connections. Who may **manage** the connector itself (install, archive, configure) remains organization-admin RBAC — it is not package-definable, by `cinatra/config.json` or anything else.
 
@@ -154,6 +154,7 @@ Declaring **both** `default` and `only` is an error; a present `access.scope` ob
 
 The file is validated **strictly and fail-closed**, both when you submit to the marketplace and again on every install:
 
+- An **absent `cinatra/config.json`** hard-fails — at submit and at install.
 - An **unknown top-level domain** (anything that is not a recognized sibling of `access`) hard-fails.
 - An **unknown key inside a known domain** hard-fails — a misspelled `scpoe` is a rejection, never a silent fallback to defaults.
 - An unrecognized scope value, a missing `formatVersion`, or the both-keys / neither-key cases above are all rejections.

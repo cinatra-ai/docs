@@ -16,7 +16,7 @@ If you administer the `/configuration/*` area, see the [Admin Guide](../admin/RE
 - [The built-in AI assistant](built-in-ai-assistant.md) — app-wide awareness, run agents, build workflows and dashboards, @-mention multiple assistants in a shared thread
 - [A connected ecosystem of capabilities](connected-ecosystem.md) — how agents, connectors, skills, objects, lists, and dashboards compose
 - [Projects and ownership](projects-and-ownership.md) — projects that bound context, and the user / team / organization / workspace ownership levels
-- [Connections: scopes, sharing, and revocation](connections-and-sharing.md) — the six connection scopes, what sharing a connection means (others act via your account), the usage view, and taking access back
+- [Connections: scopes, sharing, and revocation](connections-and-sharing.md) — the six connection scopes, what sharing a connection means (others act via your account), use-time auditing, and taking access back
 - [Human-in-the-loop by design](human-in-the-loop.md) — pause for review, edit, approve, resume
 - [Continuous learning and custom skills](continuous-learning.md) — prompt edits become reusable skills
 - [Cross-instance collaboration](cross-instance-collaboration.md) — share agents, skills, and run-time calls between Cinatra instances

@@ -1,6 +1,6 @@
 # Connections: scopes, sharing, and revocation
 
-When you connect a connector to an external account — your Gmail, your GitHub, your company's WordPress — you create a **connection**. This page covers who can use that connection: the six access scopes, what sharing a connection actually means, how to see who used it, and how to take access back.
+When you connect a connector to an external account — your Gmail, your GitHub, your company's WordPress — you create a **connection**. This page covers who can use that connection: the six access scopes, what sharing a connection actually means, what is recorded every time it is used, and how to take access back.
 
 Two words matter throughout:
 
@@ -24,17 +24,19 @@ Every connection has exactly one access scope. The scope controls who may **use*
 
 Project, Team, and Organization grants always point at a **concrete** project, team, or organization picked from your own memberships — "Team" is never an abstract setting; it is *that* team.
 
-> **TODO (screenshot):** the connect-time scope picker showing the six scopes with the recommended one pre-selected. Capture once the scoping UI ships.
+<img src="../../assets/connection-scope-picker.png" width="100%" alt="The scope picker on the Gmail connector page: six scopes — Personal, Project, Team, Organization, Workspace, and Admins only — with the connector's recommendation, Personal, pre-selected" />
+
+*The scope picker on a Gmail connection, opened from the **Connection sharing** panel on the connector's page. All six scopes are offered — Personal ("Only me"), a concrete Project, a concrete Team, a concrete Organization, "Workspace: All", and "Workspace: Admins only" — with Gmail's recommendation, Personal, pre-selected.*
 
 ## Connecting: the recommended scope
 
-When you connect an account, the scope picker opens with a **recommended scope pre-selected**. The recommendation comes from the connector's author — Gmail, for example, recommends **Personal**, because a mailbox is personal by nature.
+When you connect an account, the new connection starts at a **recommended scope, pre-selected** in the scope picker — you'll find the picker in the **Connection sharing** panel on the connector's page. The recommendation comes from the connector's author — Gmail, for example, recommends **Personal**, because a mailbox is personal by nature.
 
 The recommendation is only a starting point:
 
-- You can freely pick a different scope before or after connecting.
-- A recommendation **never auto-shares anything**. Pre-selecting "Team" still requires you to confirm and to pick which team.
-- A connector that declares no scope at all behaves as if it recommended **Admins only** — the most conservative starting point, still yours to change. (Connectors that declare an *exclusive* scope are a different case — see [Locked connectors](#locked-connectors).)
+- You can freely pick a different scope at any time after connecting.
+- A recommendation **never auto-shares anything**. A pre-selected "Team" recommendation still requires you to pick a concrete team and save; nothing changes until you do.
+- A connector whose declaration names no scope behaves as if it recommended **Admins only** — the most conservative starting point, still yours to change. (Connectors that declare an *exclusive* scope are a different case — see [Locked connectors](#locked-connectors).)
 
 ## Locked connectors
 
@@ -43,7 +45,9 @@ Some connectors do not offer the full picker, because their author declared an *
 - **Admin-only connectors** (for example the LLM-provider key connectors — OpenAI, Anthropic, Gemini) are locked to **Admins only**. The picker shows the scope locked, and the server independently rejects any broader grant — the locked picker is an affordance; the enforcement is the server's rejection.
 - **Per-user-only connectors** are locked to **Personal** and can never be shared: the sharing controls are removed entirely, and the connection never appears in anyone else's listings.
 
-> **TODO (screenshot):** a locked picker on an admin-only connector (e.g. the OpenAI connector). Capture once the scoping UI ships.
+<img src="../../assets/connection-scope-picker-locked.png" width="100%" alt="The locked scope picker on the OpenAI connector: the picker sits at Workspace: Admins only, and the Project, Team, Organization, and Workspace: All options are greyed out" />
+
+*The locked picker on the OpenAI connector: the scope sits at "Workspace: Admins only", every broader option is greyed out, and the panel explains the lock — "Locked by this connector: access is limited to workspace admins (`only:"admin"`)". The lock is also enforced server-side.*
 
 ## What sharing really means
 
@@ -55,7 +59,7 @@ Because of that, sharing is built around explicit owner consent and visibility:
 
 - **Only the owner shares.** Nothing widens a connection's scope except a deliberate act by its owner.
 - **Every use is recorded** — allowed *and* denied attempts — with who acted, that they acted through your connection, and in which run.
-- **You can see it and stop it at any time** (the next two sections).
+- **You can stop it at any time** (see [Taking access back](#taking-access-back)).
 
 ## Which connection an agent uses
 
@@ -65,11 +69,11 @@ When an agent needs a connector, the platform resolves a connection in a strict 
 2. **Otherwise, exactly one shared connection you're authorized to use.** If exactly one connection has been shared with a scope you're inside, the agent uses it — acting via its owner's account.
 3. **More than one candidate: the run fails.** If several shared connections would match, the platform refuses to guess. The run stops with an actionable error telling you what to fix (typically: create your own connection, or have the owners narrow the overlapping shares). There is deliberately no "pick a connection" setting — a silent or sticky pick of someone else's account is exactly the surprise this model avoids.
 
-## The usage view: who used my connection
+## Who used my connection: the audit trail
 
-As a connection owner you get a **usage view** answering "who used my connection, and in which run?" It is built on the audit trail, which records every use of your connection — the acting user, the run, and the fact that it was delegated through your connection; the audit trail records denied attempts too. Check it whenever you want to confirm a share is being used the way you expected.
+Every use of your connection is recorded in the platform's audit trail, answering "who used my connection, and in which run?" — each record captures the acting user, the run, and the fact that the action was delegated through your connection. Denied attempts are recorded too, and the record is written before any external call is made. Credentials themselves are never written to the audit log.
 
-> **TODO (screenshot):** the owner's usage view for a shared connection. Capture once the scoping UI ships.
+A dedicated owner-facing usage view over these records is not in the product UI yet; on a self-hosted instance the records live in the platform's audit store, which your operator can query.
 
 ## Taking access back
 
@@ -83,9 +87,11 @@ Revocation takes effect from the **next use**: credentials are resolved fresh on
 
 ## Filtering /connectors by scope
 
-The connectors page lets you filter by scope — Personal, Project, Team, Organization, Workspace, Admins only. Each filter shows the connections actually granted to that scope: pick your team and you see exactly the connections shared with that team, nothing broader. Use it to answer "what can my team's agents reach?" at a glance.
+The connectors page lets you filter by scope — Personal, a concrete Project, Team, or Organization, Workspace, Admins only. Each selection narrows the grid to the connectors whose connections are actually granted to that scope: pick your team and you see exactly what has been shared with that team, nothing broader. Use it to answer "what can my team's agents reach?" at a glance.
 
-> **TODO (screenshot):** the /connectors page with the scope filter applied. Capture once the scoping UI ships.
+<img src="../../assets/connectors-scope-filter.png" width="100%" alt="The connectors page filtered by a concrete team: the scope filter reads Team: Default - Growth and the grid narrows to the one connector with a connection granted to that team" />
+
+*The connectors page filtered by a concrete team ("Team: Default - Growth"): the grid narrows to exactly the connectors with a connection granted to that team.*
 
 ---
 
