@@ -92,6 +92,24 @@
   .sect .source { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
   .sect .source b { color: var(--ink); }
 
+  /* ── Application-domain cards (whole-card links) ──────────── */
+  .domain-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; margin: 0 0 8px; }
+  .domain-card {
+    display: block; text-decoration: none;
+    background: var(--surface-strong);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 18px;
+    box-shadow: 0 1px 0 rgba(21,33,58,0.04), 0 1px 2px rgba(21,33,58,0.04);
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+  }
+  .domain-card .title { font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 18px; color: var(--ink); line-height: 1.1; }
+  .domain-card .desc { font-size: 13px; color: var(--muted); margin-top: 7px; line-height: 1.45; text-wrap: pretty; }
+  .domain-card .open { margin-top: 12px; font-family: var(--font-sans); font-size: 12.5px; font-weight: 600; color: var(--blue); }
+  .domain-card:hover { border-color: var(--line-strong); box-shadow: 0 2px 6px rgba(21,33,58,0.10); }
+  .domain-card:hover .title,
+  .domain-card:hover .open { text-decoration: underline; text-underline-offset: 3px; }
+
   /* ── Swatch grid ──────────────────────────────────────────── */
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
   .swatch {
@@ -267,10 +285,10 @@
     <div class="source">3 sub-references</div>
   </div>
   <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 66ch; line-height: 1.55;">This page holds the cross-cutting fundamentals — surfaces, ink, accents, contrast, and the shared component vocabulary. Each application domain has its own self-contained reference:</p>
-  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; margin: 0 0 8px;">
-    <a href="https://docs.cinatra.ai/references/design/application-design-extensions.html" style="display: block; text-decoration: none; background: var(--surface-strong); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; box-shadow: 0 1px 0 rgba(21,33,58,0.04), 0 1px 2px rgba(21,33,58,0.04);"><div style="font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 18px; color: var(--ink); line-height: 1.1;">Extensions</div><div style="font-size: 13px; color: var(--muted); margin-top: 7px; line-height: 1.45; text-wrap: pretty;">Listing cards and install states, the extension detail modal, installed extensions, and the All-Agents agent card.</div></a>
-    <a href="https://docs.cinatra.ai/references/design/application-design-connectors.html" style="display: block; text-decoration: none; background: var(--surface-strong); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; box-shadow: 0 1px 0 rgba(21,33,58,0.04), 0 1px 2px rgba(21,33,58,0.04);"><div style="font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 18px; color: var(--ink); line-height: 1.1;">Connectors</div><div style="font-size: 13px; color: var(--muted); margin-top: 7px; line-height: 1.45; text-wrap: pretty;">The connector toolbar, the responsive card grid, and the connected / disconnected state language.</div></a>
-    <a href="https://docs.cinatra.ai/references/design/application-design-status.html" style="display: block; text-decoration: none; background: var(--surface-strong); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; box-shadow: 0 1px 0 rgba(21,33,58,0.04), 0 1px 2px rgba(21,33,58,0.04);"><div style="font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 18px; color: var(--ink); line-height: 1.1;">Status &amp; controls</div><div style="font-size: 13px; color: var(--muted); margin-top: 7px; line-height: 1.45; text-wrap: pretty;">Run states, agent activity, and approvals — the app's live status and control surfaces.</div></a>
+  <div class="domain-cards">
+    <a class="domain-card" href="https://docs.cinatra.ai/references/design/application-design-extensions.html"><div class="title">Extensions</div><div class="desc">Listing cards and install states, the extension detail modal, installed extensions, and the All-Agents agent card.</div><div class="open">Open reference &rarr;</div></a>
+    <a class="domain-card" href="https://docs.cinatra.ai/references/design/application-design-connectors.html"><div class="title">Connectors</div><div class="desc">The connector toolbar, the responsive card grid, and the connected / disconnected state language.</div><div class="open">Open reference &rarr;</div></a>
+    <a class="domain-card" href="https://docs.cinatra.ai/references/design/application-design-status.html"><div class="title">Status &amp; controls</div><div class="desc">Run states, agent activity, and approvals — the app's live status and control surfaces.</div><div class="open">Open reference &rarr;</div></a>
   </div>
 
   <!-- ── Surfaces ────────────────────────────────────────────── -->
