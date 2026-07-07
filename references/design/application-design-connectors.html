@@ -252,7 +252,7 @@
       <p class="lede">How connectors surface in the Cinatra app — the connector toolbar, the responsive card grid, and the connected / disconnected state language. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.3.0</div>
+      <div>Version 0.5.1</div>
     </div>
   </div>
 
@@ -309,8 +309,325 @@
   </div>
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">Cards keep the <code>--surface</code> ground of the current page and show each connector’s <b style="color:var(--ink);font-weight:600;">real brand logo</b> on a white tile. The status badge is a <b style="color:var(--ink);font-weight:600;">solid</b> chip — a white plug on <code>--green</code> / white unplug on <code>--red</code> — following the solid <code>.pill.failed</code> precedent. The <b style="color:var(--ink);font-weight:600;">connection filter</b> leads the toolbar: a bordered segmented toggle whose selected segment takes the solid status colour (<b style="color:var(--green);font-weight:600;">green</b> Connected / <b style="color:var(--red);font-weight:600;">red</b> Disconnected, white icon + label) and whose idle segment shows a <em>muted tint of its own colour</em> — soft green / soft red — never grey. The <b style="color:var(--ink);font-weight:600;">scope</b> dropdown is the app’s access combobox rendered exactly: a navy-bordered <code>Search…</code> field (an <b style="color:var(--ink);font-weight:600;">✕</b> clears it once it holds text), <em>Type: name</em> rows grouped by kind with a hairline <b style="color:var(--ink);font-weight:600;">between groups</b> — never between rows — and the selected scope carrying the same soft <code>--surface-muted</code> highlight it shows on hover, every other row white. When it is open, the toolbar trigger takes that same <code>--surface-muted</code> ground. The flyout is sized to its longest item, so it scrolls top-to-bottom, never sideways, and shows no scrollbar. <b style="color:var(--ink);font-weight:600;">+ Connector</b> sits right after the scope dropdown — a hairline between them — while the <b style="color:var(--ink);font-weight:600;">sort / display</b> config button anchors the far right in the same borderless toolbar style; once the search field holds a query a small <b style="color:var(--ink);font-weight:600;">✕</b> clears it. The grid scales <code>md:2 · lg:3 · xl:4 · 2xl:5</code>.</p>
 
+  <!-- ── Connector setup page ─────────────────────────────────── -->
+  <div class="sect">
+    <h2>II. Connector setup page</h2>
+    <div class="rule"></div>
+    <div class="source">Wide · single &amp; multi-connection</div>
+  </div>
+  <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 66ch; line-height: 1.55;"><b style="color:var(--ink);font-weight:600;">One generated form per connector.</b> A connector's setup page is rendered from its config schema — a single generic form, never per-connector layout. It sits in the <b style="color:var(--ink);font-weight:600;">Wide content width</b> (the <code>max-w-3xl</code> · 768px column defined in the Application Design system, §VII Content widths) and splits into two columns: a <b style="color:var(--ink);font-weight:600;">wider left column</b> holding the configuration fields, and a <b style="color:var(--ink);font-weight:600;">narrower right column</b> holding the <b style="color:var(--ink);font-weight:600;">Connection status</b> card. The page header carries the connector name and the <em>Connector setup</em> subtitle; the status badge that once sat top-right now lives in that card. Fields are stacked and single-column; each is optional unless the schema marks it required. Most connectors hold a <b style="color:var(--ink);font-weight:600;">single connection</b> (below); a connector that holds <b style="color:var(--ink);font-weight:600;">many</b> — like the A2A Server — adds a <b style="color:var(--ink);font-weight:600;">Setup · Connections</b> tablist over the same column (see <em>Multiple connections</em>).</p>
+
+  <style>@keyframes cin-spin { to { transform: rotate(360deg); } }</style>
+
+  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 6px 0 12px; color: var(--ink);">One connection</h3>
+
+  <!-- Example — connector setup page -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — connector setup page · Wide column</div>
+    <div style="padding: 26px 24px;">
+      <div style="max-width: 768px; margin: 0 auto;">
+
+        <!-- page header (no top-right badge — it moved into the card) -->
+        <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 28px; letter-spacing: -0.018em; line-height: 1.05; color: var(--ink);">OpenAI</div>
+        <div style="font-size: 13.5px; color: var(--muted); margin-top: 6px;">Connector setup</div>
+        <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin: 16px 0 24px;"></div>
+
+        <!-- two columns: fields (wider) + connection card (narrower) -->
+        <div data-conformance-id="connector-setup" data-state="loading error" style="display: grid; grid-template-columns: minmax(0, 1fr) 236px; gap: 30px; align-items: start;">
+
+          <!-- LEFT — configuration fields -->
+          <div style="min-width: 0;">
+            <div style="margin-bottom: 16px;">
+              <label style="display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">API key</label>
+              <div data-field="api-key=config.apiKey" style="display: flex; align-items: center; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"><span style="font-family: var(--font-mono); font-size: 14px; color: var(--muted); letter-spacing: 3px;">••••••••</span></div>
+              <div style="font-size: 11.5px; color: var(--muted); margin-top: 5px; line-height: 1.45;">Paste your OpenAI API key to connect. It is validated before it is saved. Leave blank to keep the current saved key; use Disconnect to remove it.</div>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <label style="display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Project ID <span style="color: var(--muted); font-weight: 400;">(optional)</span></label>
+              <div data-field="project-id=config.projectId" style="display: flex; align-items: center; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"></div>
+              <div style="font-size: 11.5px; color: var(--muted); margin-top: 5px; line-height: 1.45;">Scope API usage to a specific OpenAI project. Leave blank to keep the current saved value.</div>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <label style="display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Organization ID <span style="color: var(--muted); font-weight: 400;">(optional)</span></label>
+              <div data-field="organization-id=config.organizationId" style="display: flex; align-items: center; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"></div>
+              <div style="font-size: 11.5px; color: var(--muted); margin-top: 5px; line-height: 1.45;">Scope to a specific OpenAI organization. Leave blank to keep the current saved value.</div>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <label style="display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Service tier</label>
+              <div data-field="service-tier=config.serviceTier" style="display: flex; align-items: center; justify-content: space-between; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"><span style="font-size: 14px; color: var(--ink); font-family: var(--font-body);">Standard</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; opacity: .5; color: var(--ink);"><path d="m6 9 6 6 6-6"/></svg></div>
+            </div>
+            <div style="margin-bottom: 4px;">
+              <label style="display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Default model</label>
+              <div data-field="default-model=config.defaultModel" style="display: flex; align-items: center; justify-content: space-between; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"><span style="font-size: 14px; color: var(--ink); font-family: var(--font-mono);">gpt-5.5</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; opacity: .5; color: var(--ink);"><path d="m6 9 6 6 6-6"/></svg></div>
+              <div style="font-size: 11.5px; color: var(--muted); margin-top: 5px; line-height: 1.45;">Mini and nano models are excluded. Cinatra's web scraping and data extraction requires full-size models — smaller models skip direct page visits and fall back to keyword searches, producing incomplete results.</div>
+            </div>
+
+            <!-- actions — side by side, no section labels; Clear is destructive -->
+            <div style="display: flex; gap: 10px; margin-top: 22px;">
+              <button type="button" class="btn primary" data-action="connect -> connected" style="cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg>Connect</button>
+              <button type="button" class="btn destructive" data-action="disconnect -> confirming" style="cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/><path d="m3 3 18 18"/></svg>Disconnect</button>
+            </div>
+          </div>
+
+          <!-- RIGHT — Connection status card (modelled on the extension detail info card) -->
+          <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 15px 16px 17px;">
+            <div style="font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: var(--ink); padding-bottom: 11px; border-bottom: 1px solid var(--line);">Connection status</div>
+            <div style="margin-top: 14px;"><span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 9999px; background: var(--green); color: var(--surface-strong); font-family: var(--font-sans); font-size: 12.5px; font-weight: 600;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 13px; height: 13px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg> Connected</span></div>
+            <div style="margin-top: 15px;"><button type="button" class="btn" data-action="check-connection -> checked" style="width: 100%; justify-content: center; cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 14px; height: 14px;"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg> Check</button></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example — clear button states -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — Disconnect · enabled vs disabled</div>
+    <div style="padding: 18px 20px;">
+      <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;">
+        <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;"><div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Connected</div><button type="button" class="btn destructive" style="cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/><path d="m3 3 18 18"/></svg>Disconnect</button></div>
+        <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;"><div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Not connected</div><button type="button" class="btn destructive" disabled aria-disabled="true" style="opacity: 0.45; cursor: not-allowed;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/><path d="m3 3 18 18"/></svg>Disconnect</button></div>
+      </div>
+      <p style="max-width: 66ch; font-size: 12.5px; color: var(--muted); margin: 14px 0 0; line-height: 1.5;">There is nothing to disconnect until the connector is connected, so <b style="color:var(--ink);font-weight:600;">Disconnect</b> stays disabled — greyed and non-interactive — until then. <b style="color:var(--ink);font-weight:600;">Connect</b> is always available.</p>
+    </div>
+  </div>
+
+  <!-- Example — connection status states -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — connection status · Check flow</div>
+    <div style="padding: 18px 20px;">
+      <div style="display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start;">
+        <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;"><div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Connected</div><span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 9999px; background: var(--green); color: var(--surface-strong); font-family: var(--font-sans); font-size: 12.5px; font-weight: 600;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 13px; height: 13px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg> Connected</span></div>
+        <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;"><div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Disconnected</div><span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 9999px; background: var(--red); color: var(--surface-strong); font-family: var(--font-sans); font-size: 12.5px; font-weight: 600;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 13px; height: 13px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/><path d="m3 3 18 18"/></svg> Disconnected</span></div>
+        <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;"><div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Checking (transient)</div><span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 9999px; background: rgba(54,78,129,0.10); color: var(--blue); border: 1px solid rgba(54,78,129,0.30); font-family: var(--font-sans); font-size: 12.5px; font-weight: 600;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="width: 13px; height: 13px; animation: cin-spin 0.8s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Checking…</span></div>
+      </div>
+      <p style="max-width: 66ch; font-size: 12.5px; color: var(--muted); margin: 16px 0 0; line-height: 1.5;">Pressing <b style="color:var(--ink);font-weight:600;">Check</b> replaces the current badge with the indigo <b style="color:var(--ink);font-weight:600;">Checking…</b> badge — its icon spinning — until the probe resolves, then swaps to <b style="color:var(--green);font-weight:600;">Connected</b> or <b style="color:var(--red);font-weight:600;">Disconnected</b>. It speaks the same solid green / red status language as the connector cards and filter (§I).</p>
+    </div>
+  </div>
+
+  <!-- Example — clear saved key confirmation -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — disconnect · confirmation</div>
+    <div style="padding: 18px 20px; background: rgba(21,33,58,0.55);">
+      <div style="background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 24px 60px rgba(21,33,58,0.34); padding: 16px 18px 15px; max-width: 400px; margin: 0 auto;">
+        <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 15px; color: var(--ink); padding-bottom: 9px; border-bottom: 1px solid var(--line-strong); margin-bottom: 10px;">Disconnect connector?</div>
+        <div style="font-size: 13px; color: var(--muted); line-height: 1.55;">Disconnect this connector and remove its saved configuration? It will stop working until you connect it again.</div>
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px;">
+          <button type="button" class="btn outline" style="cursor: pointer;">Cancel</button>
+          <button type="button" class="btn destructive" style="cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/><path d="m3 3 18 18"/></svg>Disconnect</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">The page holds to the <b style="color:var(--ink);font-weight:600;">Wide</b> column and never spans full width. Inputs are pure-white with the navy hairline border (design-system Rules of the road #8); selects mirror that chrome with a trailing chevron. The two actions sit <b style="color:var(--ink);font-weight:600;">side by side, never stacked</b> — an icon-led <b style="color:var(--blue);font-weight:600;">Connect</b> (indigo primary, the plug from the Connected badge) and <b style="color:var(--red);font-weight:600;">Disconnect</b> (<code>destructive</code>, red-on-tint, the unplug from the Disconnected badge); the actions speak the same connect / disconnect language as the status badge. <b style="color:var(--ink);font-weight:600;">Disconnect is disabled until the connector is connected</b> — there is nothing to disconnect otherwise. Disconnecting is destructive, so it opens an <b style="color:var(--ink);font-weight:600;">AlertDialog</b> on the <code>--paper</code> ground with a strong hairline header rule — a <em>Cancel</em> outline beside the red <em>Disconnect</em> confirm (same unplug icon) — never a bare browser prompt; its copy stays connector-neutral. The right <b style="color:var(--ink);font-weight:600;">Connection status</b> card reuses the extension detail info-card chrome (<code>--surface</code>, hairline, its heading over a divider) and carries the status <b style="color:var(--ink);font-weight:600;">badge with both icon and label</b> plus the <em>Check</em> action beneath it. Each field keeps its own helper text from the connector's schema; the form drops the connector blurb, the per-action section labels, and the connection-check helper line.</p>
+
+  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 34px 0 10px; color: var(--ink);">Multiple connections</h3>
+  <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 18px; max-width: 66ch; line-height: 1.55;">A few connectors hold <b style="color:var(--ink);font-weight:600;">many connections</b> in one extension — the <b style="color:var(--ink);font-weight:600;">A2A Server</b> connector, for instance, holds one server per connection. These add a <b style="color:var(--ink);font-weight:600;">Setup · Connections</b> tablist beneath the page header — underline tabs per the design system (VII of the Application Design system, Components · Tabs) — over the same Wide column. <b style="color:var(--ink);font-weight:600;">Setup</b> adds a connection and rolls up their status; <b style="color:var(--ink);font-weight:600;">Connections</b> lists them.</p>
+
+  <!-- Example — multi-connection · Setup tab -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — multi-connection · Setup tab</div>
+    <div style="padding: 26px 24px;">
+      <div style="max-width: 768px; margin: 0 auto;">
+
+        <!-- page header -->
+        <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 28px; letter-spacing: -0.018em; line-height: 1.05; color: var(--ink);">A2A Server</div>
+        <div style="font-size: 13.5px; color: var(--muted); margin-top: 6px; max-width: 60ch; line-height: 1.5;">Connect external Agent-to-Agent servers. Each server exposes one agent reachable at its well-known card URL.</div>
+
+        <!-- tablist beneath the header; the etched rule runs to the right of the last tab -->
+        <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin-top: 18px;">
+          <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+            <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Setup</button>
+            <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Connections</button>
+          </div>
+          <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+        </div>
+
+        <!-- Setup tab content: same two columns; left form adds a connection (no Disconnect), right rolls up status -->
+        <div data-conformance-id="connector-multi-setup" data-state="loading error" style="display: grid; grid-template-columns: minmax(0, 1fr) 236px; gap: 30px; align-items: start; margin-top: 22px;">
+
+          <!-- LEFT — form fields (no wrapping card) -->
+          <div style="min-width: 0;">
+            <div style="margin-bottom: 16px;">
+              <label style="display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Server base URL</label>
+              <div data-field="server-base-url=config.baseUrl" style="display: flex; align-items: center; gap: 8px; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;color:var(--muted);flex-shrink:0;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span style="font-size: 14px; color: var(--muted); font-family: var(--font-mono);">http://localhost:10001</span></div>
+              <div style="font-size: 11.5px; color: var(--muted); margin-top: 5px; line-height: 1.45;">The root URL of the A2A server — no path. The agent card is fetched from <code>/.well-known/agent.json</code>.</div>
+            </div>
+            <div style="margin-bottom: 4px;">
+              <label style="display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Bearer token <span style="color: var(--muted); font-weight: 400;">(optional)</span></label>
+              <div data-field="bearer-token=config.bearerToken" style="display: flex; align-items: center; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"><span style="font-size: 14px; color: var(--muted); font-family: var(--font-body);">Leave blank for unauthenticated servers</span></div>
+            </div>
+
+            <!-- action: Connect only — a single connection is disconnected from its own row in the Connections tab -->
+            <div style="margin-top: 22px;">
+              <button type="button" class="btn primary" data-action="connect -> connected" style="cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg>Connect</button>
+            </div>
+          </div>
+
+          <!-- RIGHT — Connections status card: count badge per status, no Check, a link to the Connections tab -->
+          <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 15px 16px 17px;">
+            <div style="font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: var(--ink); padding-bottom: 11px; border-bottom: 1px solid var(--line);">Connections status</div>
+            <div style="margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px;">
+              <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 9999px; background: var(--green); color: var(--surface-strong); font-family: var(--font-sans); font-size: 12.5px; font-weight: 600;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 13px; height: 13px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg> 2 Connected</span>
+              <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 9999px; background: var(--red); color: var(--surface-strong); font-family: var(--font-sans); font-size: 12.5px; font-weight: 600;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 13px; height: 13px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/><path d="m3 3 18 18"/></svg> 1 Disconnected</span>
+            </div>
+            <div style="margin-top: 14px;"><button type="button" class="btn link" data-action="view-connections -> connections" style="padding-left: 0; padding-right: 0;">All connections &rarr;</button></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example — multi-connection · Connections tab -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — multi-connection · Connections tab</div>
+    <div style="padding: 26px 24px;">
+      <div style="max-width: 768px; margin: 0 auto;">
+
+        <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 28px; letter-spacing: -0.018em; line-height: 1.05; color: var(--ink);">A2A Server</div>
+        <div style="font-size: 13.5px; color: var(--muted); margin-top: 6px; max-width: 60ch; line-height: 1.5;">Connect external Agent-to-Agent servers. Each server exposes one agent reachable at its well-known card URL.</div>
+
+        <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin-top: 18px;">
+          <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+            <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Setup</button>
+            <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Connections</button>
+          </div>
+          <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+        </div>
+
+        <!-- each connection is its own stacked card -->
+        <div data-conformance-id="connector-connections" data-state="empty loading" style="margin-top: 22px; display: flex; flex-direction: column; gap: 12px;">
+
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 15px 18px; box-shadow: 0 1px 3px rgba(21,33,58,0.06);">
+            <div style="min-width: 0;"><div style="font-family: var(--font-sans); font-weight: 700; font-size: 15px; color: var(--ink);">a2a-dev-localhost-10010</div><div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-top: 3px;">http://localhost:10010</div></div>
+            <div style="display: flex; align-items: center; gap: 12px; flex: none;">
+              <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 9999px; background: var(--green); color: var(--surface-strong); font-family: var(--font-sans); font-size: 12.5px; font-weight: 600;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 13px; height: 13px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg> Connected</span>
+              <button type="button" class="btn destructive" data-action="disconnect -> confirming" style="cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/><path d="m3 3 18 18"/></svg>Disconnect</button>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 15px 18px; box-shadow: 0 1px 3px rgba(21,33,58,0.06);">
+            <div style="min-width: 0;"><div style="font-family: var(--font-sans); font-weight: 700; font-size: 15px; color: var(--ink);">a2a-dev-localhost-10002</div><div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-top: 3px;">http://localhost:10002</div></div>
+            <div style="display: flex; align-items: center; gap: 12px; flex: none;">
+              <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 9999px; background: var(--green); color: var(--surface-strong); font-family: var(--font-sans); font-size: 12.5px; font-weight: 600;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 13px; height: 13px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg> Connected</span>
+              <button type="button" class="btn destructive" style="cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/><path d="m3 3 18 18"/></svg>Disconnect</button>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 15px 18px; box-shadow: 0 1px 3px rgba(21,33,58,0.06);">
+            <div style="min-width: 0;"><div style="font-family: var(--font-sans); font-weight: 700; font-size: 15px; color: var(--ink);">a2a-dev-localhost-10005</div><div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-top: 3px;">http://localhost:10005</div></div>
+            <div style="display: flex; align-items: center; gap: 12px; flex: none;">
+              <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 9999px; background: var(--red); color: var(--surface-strong); font-family: var(--font-sans); font-size: 12.5px; font-weight: 600;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 13px; height: 13px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/><path d="m3 3 18 18"/></svg> Disconnected</span>
+              <button type="button" class="btn primary" data-action="connect -> connected" style="cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg>Connect</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example — disconnect connection · confirmation -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — disconnect connection · confirmation</div>
+    <div style="padding: 18px 20px; background: rgba(21,33,58,0.55);">
+      <div style="background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 24px 60px rgba(21,33,58,0.34); padding: 16px 18px 15px; max-width: 400px; margin: 0 auto;">
+        <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 15px; color: var(--ink); padding-bottom: 9px; border-bottom: 1px solid var(--line-strong); margin-bottom: 10px;">Disconnect connection?</div>
+        <div style="font-size: 13px; color: var(--muted); line-height: 1.55;">Disconnect this connection? It will stop working until you connect it again.</div>
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px;">
+          <button type="button" class="btn outline" style="cursor: pointer;">Cancel</button>
+          <button type="button" class="btn destructive" style="cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/><path d="m3 3 18 18"/></svg>Disconnect</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">On a multi-connection connector the <b style="color:var(--ink);font-weight:600;">Setup</b> tab keeps the same two-column form, with four differences: the right card is <b style="color:var(--ink);font-weight:600;">Connections status</b> (plural) carrying <b style="color:var(--ink);font-weight:600;">one count badge per status</b> — a green <em>2 Connected</em>, a red <em>1 Disconnected</em>, only the statuses in play; there is <b style="color:var(--ink);font-weight:600;">no Check</b> and, in its place, a link-style <b style="color:var(--blue);font-weight:600;">All connections</b> that opens the Connections tab; the left form has <b style="color:var(--ink);font-weight:600;">no Disconnect</b> (Connect adds one, and the form is never wrapped in its own card); and the form <b style="color:var(--ink);font-weight:600;">adds</b> a connection rather than editing the one. The <b style="color:var(--ink);font-weight:600;">Connections</b> tab stacks every connection as <b style="color:var(--ink);font-weight:600;">its own card</b> — name, URL, the same solid status badge, and a per-row action that follows the status: <b style="color:var(--red);font-weight:600;">Disconnect</b> (destructive) on a connected row, <b style="color:var(--blue);font-weight:600;">Connect</b> (primary) on a disconnected one — never a bare Remove. Disconnecting a single connection opens the same AlertDialog with <b style="color:var(--ink);font-weight:600;">connection-level</b> copy (<em>Disconnect connection?</em>), generic to any connector.</p>
+
+  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 34px 0 10px; color: var(--ink);">Additional configuration tabs</h3>
+  <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 18px; max-width: 66ch; line-height: 1.55;">Either shape may also carry <b style="color:var(--ink);font-weight:600;">extra configuration tabs</b> — a connector's own settings beyond connecting. The OpenAI connector, for instance, adds a <b style="color:var(--ink);font-weight:600;">Local shell</b> tab for its sandboxed-shell policy. Each custom tab takes the connector's own <b style="color:var(--ink);font-weight:600;">label</b> and always sits <b style="color:var(--ink);font-weight:600;">after Setup</b> (and Connections). A connector with no extra tabs and one connection shows no tablist at all; the first custom tab is what introduces one. The <b style="color:var(--ink);font-weight:600;">page header and tablist stay at the Wide column</b>, but a custom tab's <b style="color:var(--ink);font-weight:600;">content narrows to the Narrow width</b> (<code>max-w-xl</code> · 576px, §VII) — a long single-column settings form reads better tighter — left-aligned beneath the tabs.</p>
+
+  <!-- Example — additional config tab -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — additional config tab · Narrow content under Wide chrome</div>
+    <div style="padding: 26px 24px;">
+
+      <!-- header + tablist stay at the Wide column -->
+      <div style="max-width: 768px; margin: 0 auto;">
+        <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 28px; letter-spacing: -0.018em; line-height: 1.05; color: var(--ink);">OpenAI</div>
+        <div style="font-size: 13.5px; color: var(--muted); margin-top: 6px;">Connector setup</div>
+
+        <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin-top: 18px;">
+          <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+            <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Setup</button>
+            <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Local shell</button>
+          </div>
+          <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+        </div>
+
+        <!-- the custom tab's content narrows to the Narrow width (576px), flush-left under the tabs -->
+        <div data-conformance-id="connector-config-tab" data-state="loading error" style="max-width: 576px; margin-top: 24px;">
+
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+              <label style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink);">Enable sandboxed shell architecture</label>
+              <span data-field="sandbox-enabled=config.shell.enabled" role="switch" aria-checked="true" style="display: inline-flex; width: 34px; height: 20px; border-radius: 9999px; background: var(--blue); padding: 2px; box-sizing: border-box; flex: none;"><span style="width: 16px; height: 16px; border-radius: 50%; background: var(--surface-strong); margin-left: auto; box-shadow: 0 1px 2px rgba(21,33,58,0.3);"></span></span>
+            </div>
+            <div style="font-size: 11.5px; color: var(--muted); margin-top: 5px; line-height: 1.45; max-width: 52ch;">When enabled, the package can prepare shell tool payloads plus the sandbox policy your production executor should apply.</div>
+          </div>
+
+          <div style="margin-bottom: 16px;">
+            <label style="display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Container image</label>
+            <div data-field="container-image=config.shell.containerImage" style="display: flex; align-items: center; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"></div>
+          </div>
+
+          <div style="margin-bottom: 16px;">
+            <label style="display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Max execution seconds</label>
+            <div data-field="max-execution-seconds=config.shell.maxSeconds" style="display: flex; align-items: center; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"><span style="font-size: 14px; color: var(--ink); font-family: var(--font-body);">30</span></div>
+          </div>
+
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+              <label style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink);">Require executor audit logs</label>
+              <span role="switch" aria-checked="true" style="display: inline-flex; width: 34px; height: 20px; border-radius: 9999px; background: var(--blue); padding: 2px; box-sizing: border-box; flex: none;"><span style="width: 16px; height: 16px; border-radius: 50%; background: var(--surface-strong); margin-left: auto; box-shadow: 0 1px 2px rgba(21,33,58,0.3);"></span></span>
+            </div>
+            <div style="font-size: 11.5px; color: var(--muted); margin-top: 5px; line-height: 1.45; max-width: 52ch;">Signals that <code>shell_call</code> and <code>shell_call_output</code> events must be preserved for auditing.</div>
+          </div>
+
+          <div style="margin-bottom: 16px;">
+            <label style="display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 8px;">Readable roots</label>
+            <div data-field="readable-roots=config.shell.readRoots" style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+              <div style="flex: 1; display: flex; align-items: center; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"><span style="font-size: 14px; color: var(--ink); font-family: var(--font-mono);">/workspace</span></div>
+              <button type="button" aria-label="Remove path" style="width: 36px; height: 36px; flex: none; border: 1px solid var(--line); border-radius: 7px; background: var(--surface-strong); display: grid; place-items: center; color: var(--muted); cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+            </div>
+            <button type="button" class="btn outline" style="font-size: 12.5px; padding: 6px 11px; cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M5 12h14"/><path d="M12 5v14"/></svg>Add path</button>
+          </div>
+
+          <div style="margin-bottom: 4px;">
+            <label style="display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 8px;">Allowed command prefixes</label>
+            <div data-field="allowed-command-prefixes=config.shell.allowedPrefixes" style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+              <div style="flex: 1; display: flex; align-items: center; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"><span style="font-size: 14px; color: var(--ink); font-family: var(--font-mono);">ls</span></div>
+              <button type="button" aria-label="Remove prefix" style="width: 36px; height: 36px; flex: none; border: 1px solid var(--line); border-radius: 7px; background: var(--surface-strong); display: grid; place-items: center; color: var(--muted); cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+            </div>
+            <button type="button" class="btn outline" style="font-size: 12.5px; padding: 6px 11px; cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M5 12h14"/><path d="M12 5v14"/></svg>Add prefix</button>
+          </div>
+
+          <div style="margin-top: 22px;">
+            <button type="button" class="btn primary" data-action="save-config -> saved" style="cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>Save</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">A custom tab is the one place the setup page leaves the <b style="color:var(--ink);font-weight:600;">Wide</b> column: the header and tab strip stay Wide so the tabs sit in the same place across tabs, while the settings themselves drop to <b style="color:var(--ink);font-weight:600;">Narrow</b> (576px), flush-left under the tablist. The tab carries the connector's own fields in a single column — <b style="color:var(--ink);font-weight:600;">switches</b> for immediate-effect toggles (indigo when on), inputs, and <b style="color:var(--ink);font-weight:600;">add / remove list editors</b> for path, host and prefix lists — ending in its own <em>Save</em>.</p>
+
 <footer>
-    <span>Cinatra · Application Design — Connectors v0.3.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Connectors v0.5.1</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>

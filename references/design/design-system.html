@@ -272,7 +272,7 @@
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.3.0</div>
+      <div>Version 0.4.1</div>
     </div>
   </div>
 
@@ -286,8 +286,8 @@
   </div>
   <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 66ch; line-height: 1.55;">This page holds the cross-cutting fundamentals — surfaces, ink, accents, contrast, and the shared component vocabulary. Each application domain has its own self-contained reference:</p>
   <div class="domain-cards">
-    <a class="domain-card" href="https://docs.cinatra.ai/references/design/application-design-extensions.html"><div class="title">Extensions</div><div class="desc">Listing cards and install states, the extension detail modal, installed extensions, and the All-Agents agent card.</div><div class="open">Open reference &rarr;</div></a>
-    <a class="domain-card" href="https://docs.cinatra.ai/references/design/application-design-connectors.html"><div class="title">Connectors</div><div class="desc">The connector toolbar, the responsive card grid, and the connected / disconnected state language.</div><div class="open">Open reference &rarr;</div></a>
+    <a class="domain-card" href="application-design-extensions.html"><div class="title">Extensions</div><div class="desc">Listing cards and install states, the extension detail modal, installed extensions, and the All-Agents agent card.</div><div class="open">Open reference &rarr;</div></a>
+    <a class="domain-card" href="application-design-connectors.html"><div class="title">Connectors</div><div class="desc">The connector toolbar, the responsive card grid, and the connected / disconnected state language.</div><div class="open">Open reference &rarr;</div></a>
   </div>
 
   <!-- ── Surfaces ────────────────────────────────────────────── -->
@@ -560,9 +560,52 @@
     </table>
   </div>
 
+  <!-- ── Status pills + buttons ───────────────────────────────── -->
+  <div class="sect">
+    <h2>V. Status &amp; controls</h2>
+    <div class="rule"></div>
+    <div class="source">10 status pills · 7 button variants</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+    <div class="swatch" style="grid-template-rows: auto;">
+      <div class="info" style="padding: 16px 18px;">
+        <div class="role" style="margin-bottom: 8px;">Status pills</div>
+        <div class="token" style="margin-bottom: 14px;">runs, agents, approvals</div>
+        <div data-conformance-id="status-pills" class="demo-row">
+          <span class="pill running"><svg viewBox="0 0 24 24" fill="currentColor" style="width:9px;height:9px;"><polygon points="6 3 20 12 6 21 6 3"/></svg>Running</span>
+          <span class="pill approved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M20 6 9 17l-5-5"/></svg>Approved</span>
+          <span class="pill hold"><svg viewBox="0 0 24 24" fill="currentColor" style="width:9px;height:9px;"><rect x="6" y="4" width="4" height="16" rx="0.5"/><rect x="14" y="4" width="4" height="16" rx="0.5"/></svg>On hold</span>
+          <span class="pill idle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" style="width:10px;height:10px;"><circle cx="12" cy="12" r="9"/></svg>Idle</span>
+          <span class="pill failed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" style="width:10px;height:10px;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>Failed</span>
+          <span class="pill approved" style="background:rgba(63,110,107,0.06);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><rect width="18" height="15" x="3" y="6" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/></svg>Scheduled</span>
+          <span class="pill running" style="background:rgba(54,78,129,0.08);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Queued</span>
+          <span class="pill hold" style="background:rgba(199,149,69,0.10);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>Needs review</span>
+          <span class="pill idle" style="opacity:0.7;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/></svg>Archived</span>
+          <span class="pill failed" style="background:rgba(166,56,79,0.85);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>Declined</span>
+        </div>
+      </div>
+    </div>
+    <div class="swatch" style="grid-template-rows: auto;">
+      <div class="info" style="padding: 16px 18px;">
+        <div class="role" style="margin-bottom: 8px;">Buttons</div>
+        <div class="token" style="margin-bottom: 14px;">primary, default, outline, secondary, destructive, ghost, link</div>
+        <div data-conformance-id="button-variants" class="demo-row">
+          <button class="btn primary">Approve &amp; send</button>
+          <button class="btn">Default</button>
+          <button class="btn outline">Outline</button>
+          <button class="btn secondary">Secondary</button>
+          <button class="btn destructive">Decline</button>
+          <button class="btn ghost">Ghost</button>
+          <button class="btn link">Learn more</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ── Usage rules ─────────────────────────────────────────── -->
   <div class="sect">
-    <h2>V. Rules of the road</h2>
+    <h2>VI. Rules of the road</h2>
     <div class="rule"></div>
     <div class="source">Editorial · 8 do's</div>
   </div>
@@ -618,9 +661,237 @@
     </div>
   </div>
 
+  <!-- ── Content widths ──────────────────────────────────────── -->
+  <div class="sect">
+    <h2>VII. Content widths</h2>
+    <div class="rule"></div>
+    <div class="source">7 roles · Tailwind scale · rem / px</div>
+  </div>
+
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 14px; line-height: 1.6; color: var(--ink); margin: 0 0 10px; text-wrap: pretty;">The app is a fixed <code>16rem</code> sidebar beside a fluid content stage. Nothing inside that stage runs edge-to-edge: every page holds its content to one of a small set of max-widths, each centred in the stage, each a named step on Tailwind's <code>max-w-*</code> scale. The rule mirrors the one for text (VIII) — <strong style="color:var(--ink);">pick the narrowest width the content tolerates</strong>: reading stays comfortable, forms stay scannable, and one page never sprawls while the next feels cramped.</p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin: 0 0 26px;">
+
+    <figure style="margin: 0;">
+      <div style="border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; background: var(--paper); height: 148px; display: flex;">
+        <div style="width: 42px; flex: none; background: var(--sidebar); border-right: 1px solid var(--line); padding: 9px 8px; display: flex; flex-direction: column; gap: 6px;">
+          <div style="width: 15px; height: 15px; border-radius: 4px; background: var(--blue); opacity: 0.85;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.5; margin-top: 3px;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.3;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.3;"></div>
+        </div>
+        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
+          <div style="height: 25px; flex: none; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 5px; padding: 0 12px;">
+            <div style="width: 8px; height: 8px; border-radius: 2px; background: var(--muted); opacity: 0.5;"></div>
+            <div style="width: 1px; height: 12px; background: var(--line-strong);"></div>
+            <div style="width: 22px; height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.55;"></div>
+            <span style="color: var(--muted); opacity: 0.5; font-size: 9px;">&rsaquo;</span>
+            <div style="width: 32px; height: 5px; border-radius: 3px; background: var(--ink); opacity: 0.5;"></div>
+          </div>
+          <div style="flex: 1; display: flex; justify-content: center; padding: 12px;">
+            <div style="width: 90%; border: 1.5px dashed var(--blue); border-radius: 4px; background: rgba(54,78,129,0.05);"></div>
+          </div>
+          <div style="height: 15px; flex: none; border-top: 1px solid var(--line); background: var(--surface);"></div>
+        </div>
+      </div>
+      <figcaption style="margin-top: 8px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap;">
+        <span style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 13px; color: var(--ink);">Full</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted);">max-w-7xl</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); opacity: 0.75;">80rem · 1280px</span>
+        <div style="flex-basis: 100%; margin-top: 5px; font-family: var(--font-body); font-size: 11.5px; line-height: 1.45; color: var(--muted);">The default full-width column — dashboards, lists, tables, settings, entity detail. Its left edge is the page's reference edge; fluid below the cap, centred above it.</div>
+      </figcaption>
+    </figure>
+
+    <figure style="margin: 0;">
+      <div style="border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; background: var(--paper); height: 148px; display: flex;">
+        <div style="width: 42px; flex: none; background: var(--sidebar); border-right: 1px solid var(--line); padding: 9px 8px; display: flex; flex-direction: column; gap: 6px;">
+          <div style="width: 15px; height: 15px; border-radius: 4px; background: var(--blue); opacity: 0.85;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.5; margin-top: 3px;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.3;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.3;"></div>
+        </div>
+        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
+          <div style="height: 25px; flex: none; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 5px; padding: 0 12px;">
+            <div style="width: 8px; height: 8px; border-radius: 2px; background: var(--muted); opacity: 0.5;"></div>
+            <div style="width: 1px; height: 12px; background: var(--line-strong);"></div>
+            <div style="width: 22px; height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.55;"></div>
+            <span style="color: var(--muted); opacity: 0.5; font-size: 9px;">&rsaquo;</span>
+            <div style="width: 32px; height: 5px; border-radius: 3px; background: var(--ink); opacity: 0.5;"></div>
+          </div>
+          <div style="flex: 1; display: flex; justify-content: center; padding: 12px;">
+            <div style="width: 54%; border: 1.5px dashed var(--blue); border-radius: 4px; background: rgba(54,78,129,0.05);"></div>
+          </div>
+          <div style="height: 15px; flex: none; border-top: 1px solid var(--line); background: var(--surface);"></div>
+        </div>
+      </div>
+      <figcaption style="margin-top: 8px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap;">
+        <span style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 13px; color: var(--ink);">Wide</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted);">max-w-3xl</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); opacity: 0.75;">48rem · 768px</span>
+        <div style="flex-basis: 100%; margin-top: 5px; font-family: var(--font-body); font-size: 11.5px; line-height: 1.45; color: var(--muted);">The /chat thread — once a conversation exists, message stream and composer both cap here, centred. Also a deliberately narrowed detail or single-column page — a reading view, one settings group. Forms belong one step in, at max-w-xl.</div>
+      </figcaption>
+    </figure>
+
+    <figure style="margin: 0;">
+      <div style="border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; background: var(--paper); height: 148px; display: flex;">
+        <div style="width: 42px; flex: none; background: var(--sidebar); border-right: 1px solid var(--line); padding: 9px 8px; display: flex; flex-direction: column; gap: 6px;">
+          <div style="width: 15px; height: 15px; border-radius: 4px; background: var(--blue); opacity: 0.85;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.5; margin-top: 3px;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.3;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.3;"></div>
+        </div>
+        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
+          <div style="height: 25px; flex: none; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 5px; padding: 0 12px;">
+            <div style="width: 8px; height: 8px; border-radius: 2px; background: var(--muted); opacity: 0.5;"></div>
+            <div style="width: 1px; height: 12px; background: var(--line-strong);"></div>
+            <div style="width: 22px; height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.55;"></div>
+            <span style="color: var(--muted); opacity: 0.5; font-size: 9px;">&rsaquo;</span>
+            <div style="width: 32px; height: 5px; border-radius: 3px; background: var(--ink); opacity: 0.5;"></div>
+          </div>
+          <div style="flex: 1; display: flex; justify-content: center; padding: 12px;">
+            <div style="width: 47%; border: 1.5px dashed var(--blue); border-radius: 4px; background: rgba(54,78,129,0.05);"></div>
+          </div>
+          <div style="height: 15px; flex: none; border-top: 1px solid var(--line); background: var(--surface);"></div>
+        </div>
+      </div>
+      <figcaption style="margin-top: 8px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap;">
+        <span style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 13px; color: var(--ink);">Medium</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted);">max-w-2xl</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); opacity: 0.75;">42rem · 672px</span>
+        <div style="flex-basis: 100%; margin-top: 5px; font-family: var(--font-body); font-size: 11.5px; line-height: 1.45; color: var(--muted);">The /chat landing prompt (empty state) — one step in from the conversation so the first prompt reads as a focused hero — and the /setup · onboarding column.</div>
+      </figcaption>
+    </figure>
+
+    <figure style="margin: 0;">
+      <div style="border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; background: var(--paper); height: 148px; display: flex;">
+        <div style="width: 42px; flex: none; background: var(--sidebar); border-right: 1px solid var(--line); padding: 9px 8px; display: flex; flex-direction: column; gap: 6px;">
+          <div style="width: 15px; height: 15px; border-radius: 4px; background: var(--blue); opacity: 0.85;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.5; margin-top: 3px;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.3;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.3;"></div>
+        </div>
+        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
+          <div style="height: 25px; flex: none; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 5px; padding: 0 12px;">
+            <div style="width: 8px; height: 8px; border-radius: 2px; background: var(--muted); opacity: 0.5;"></div>
+            <div style="width: 1px; height: 12px; background: var(--line-strong);"></div>
+            <div style="width: 22px; height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.55;"></div>
+            <span style="color: var(--muted); opacity: 0.5; font-size: 9px;">&rsaquo;</span>
+            <div style="width: 32px; height: 5px; border-radius: 3px; background: var(--ink); opacity: 0.5;"></div>
+          </div>
+          <div style="flex: 1; display: flex; justify-content: center; padding: 12px;">
+            <div style="width: 41%; border: 1.5px dashed var(--blue); border-radius: 4px; background: rgba(54,78,129,0.05);"></div>
+          </div>
+          <div style="height: 15px; flex: none; border-top: 1px solid var(--line); background: var(--surface);"></div>
+        </div>
+      </div>
+      <figcaption style="margin-top: 8px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap;">
+        <span style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 13px; color: var(--ink);">Narrow</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted);">max-w-xl</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); opacity: 0.75;">36rem · 576px</span>
+        <div style="flex-basis: 100%; margin-top: 5px; font-family: var(--font-body); font-size: 11.5px; line-height: 1.45; color: var(--muted);">Single-column forms and control stacks — auth / connect cards, sign-in, OAuth authorise, the LLM default-model pickers. The home for single-column form and control layouts.</div>
+      </figcaption>
+    </figure>
+
+    <figure style="margin: 0;">
+      <div style="border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; background: var(--paper); height: 148px; display: flex;">
+        <div style="width: 42px; flex: none; background: var(--sidebar); border-right: 1px solid var(--line); padding: 9px 8px; display: flex; flex-direction: column; gap: 6px;">
+          <div style="width: 15px; height: 15px; border-radius: 4px; background: var(--blue); opacity: 0.85;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.5; margin-top: 3px;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.3;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.3;"></div>
+        </div>
+        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
+          <div style="height: 25px; flex: none; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 5px; padding: 0 12px;">
+            <div style="width: 8px; height: 8px; border-radius: 2px; background: var(--muted); opacity: 0.5;"></div>
+            <div style="width: 1px; height: 12px; background: var(--line-strong);"></div>
+            <div style="width: 22px; height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.55;"></div>
+            <span style="color: var(--muted); opacity: 0.5; font-size: 9px;">&rsaquo;</span>
+            <div style="width: 32px; height: 5px; border-radius: 3px; background: var(--ink); opacity: 0.5;"></div>
+          </div>
+          <div style="flex: 1; display: flex; justify-content: center; padding: 12px;">
+            <div style="width: 32%; border: 1.5px dashed var(--blue); border-radius: 4px; background: rgba(54,78,129,0.05);"></div>
+          </div>
+          <div style="height: 15px; flex: none; border-top: 1px solid var(--line); background: var(--surface);"></div>
+        </div>
+      </div>
+      <figcaption style="margin-top: 8px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap;">
+        <span style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 13px; color: var(--ink);">Compact</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted);">max-w-md · max-w-sm</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); opacity: 0.75;">28rem · 448px / 24rem · 384px</span>
+        <div style="flex-basis: 100%; margin-top: 5px; font-family: var(--font-body); font-size: 11.5px; line-height: 1.45; color: var(--muted);">Small standalone cards and empty-state panels.</div>
+      </figcaption>
+    </figure>
+
+    <figure style="margin: 0;">
+      <div style="border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; background: var(--paper); height: 148px; display: flex;">
+        <div style="width: 42px; flex: none; background: var(--sidebar); border-right: 1px solid var(--line); padding: 9px 8px; display: flex; flex-direction: column; gap: 6px;">
+          <div style="width: 15px; height: 15px; border-radius: 4px; background: var(--blue); opacity: 0.85;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.5; margin-top: 3px;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.3;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.3;"></div>
+        </div>
+        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
+          <div style="height: 25px; flex: none; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 5px; padding: 0 12px;">
+            <div style="width: 8px; height: 8px; border-radius: 2px; background: var(--muted); opacity: 0.5;"></div>
+            <div style="width: 1px; height: 12px; background: var(--line-strong);"></div>
+            <div style="width: 22px; height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.55;"></div>
+            <span style="color: var(--muted); opacity: 0.5; font-size: 9px;">&rsaquo;</span>
+            <div style="width: 32px; height: 5px; border-radius: 3px; background: var(--ink); opacity: 0.5;"></div>
+          </div>
+          <div style="flex: 1; display: flex; justify-content: center; padding: 12px;">
+            <div style="width: 36%; border: 1.5px dashed var(--blue); border-radius: 4px; background: rgba(54,78,129,0.05);"></div>
+          </div>
+          <div style="height: 15px; flex: none; border-top: 1px solid var(--line); background: var(--surface);"></div>
+        </div>
+      </div>
+      <figcaption style="margin-top: 8px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap;">
+        <span style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 13px; color: var(--ink);">Prose</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted);">max-w-[64ch]</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); opacity: 0.75;">64ch</span>
+        <div style="flex-basis: 100%; margin-top: 5px; font-family: var(--font-body); font-size: 11.5px; line-height: 1.45; color: var(--muted);">The readable text measure (see VIII). Page-header descriptions and body copy cap here — never at the column edge, inside any wider column.</div>
+      </figcaption>
+    </figure>
+
+    <figure style="margin: 0;">
+      <div style="border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; background: var(--paper); height: 148px; display: flex;">
+        <div style="width: 42px; flex: none; background: var(--sidebar); border-right: 1px solid var(--line); padding: 9px 8px; display: flex; flex-direction: column; gap: 6px;">
+          <div style="width: 15px; height: 15px; border-radius: 4px; background: var(--blue); opacity: 0.85;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.5; margin-top: 3px;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.3;"></div>
+          <div style="height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.3;"></div>
+        </div>
+        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
+          <div style="height: 25px; flex: none; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 5px; padding: 0 12px;">
+            <div style="width: 8px; height: 8px; border-radius: 2px; background: var(--muted); opacity: 0.5;"></div>
+            <div style="width: 1px; height: 12px; background: var(--line-strong);"></div>
+            <div style="width: 22px; height: 5px; border-radius: 3px; background: var(--muted); opacity: 0.55;"></div>
+            <span style="color: var(--muted); opacity: 0.5; font-size: 9px;">&rsaquo;</span>
+            <div style="width: 32px; height: 5px; border-radius: 3px; background: var(--ink); opacity: 0.5;"></div>
+          </div>
+          <div style="flex: 1; display: flex; justify-content: center; padding: 0;">
+            <div style="width: 100%; border: 1.5px dashed var(--blue); background: rgba(54,78,129,0.05);"></div>
+          </div>
+          <div style="height: 15px; flex: none; border-top: 1px solid var(--line); background: var(--surface);"></div>
+        </div>
+      </div>
+      <figcaption style="margin-top: 8px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap;">
+        <span style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 13px; color: var(--ink);">Bleed</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted);">max-w-none</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); opacity: 0.75;">100% · no cap</span>
+        <div style="flex-basis: 100%; margin-top: 5px; font-family: var(--font-body); font-size: 11.5px; line-height: 1.45; color: var(--muted);">Edge-to-edge, no cap — data-dense boards and canvases only. Let individual wide tables scroll inside their own container rather than letting the whole page sprawl.</div>
+      </figcaption>
+    </figure>
+
+  </div>
+
+  <div style="border: 1px solid var(--line); border-left: 2px solid var(--blue); border-radius: 6px; background: var(--surface); padding: 14px 16px; margin: 0 0 4px; max-width: 80ch;">
+    <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin: 0 0 8px;">The stage &amp; the left edge</div>
+    <p style="font-family: var(--font-body); font-size: 13px; line-height: 1.55; color: var(--muted); margin: 0;">A fixed <code>16rem</code> (256px) sidebar — <code>3rem</code> collapsed — sits beside a fluid content stage; the widths above are max-widths centred (<code>mx-auto</code>) inside that stage. Content carries <strong style="color:var(--ink);">equal left and right gutters</strong> — <code>px-5</code> → <code>sm:px-8</code> (20 → 32px) — so it is symmetric at every viewport: pure gutter below the <code>max-w-7xl</code> cap, growing side margins above it. The topbar and breadcrumb ride the <strong style="color:var(--ink);">same centred <code>max-w-7xl</code> stage</strong> as the Full column — same gutter below the cap, same growing margins above it — so the breadcrumb always sits directly above where content begins, at every viewport.</p>
+  </div>
+
   <!-- ── Text layout ─────────────────────────────────────── -->
   <div class="sect">
-    <h2>VI. Text layout</h2>
+    <h2>VIII. Text layout</h2>
     <div class="rule"></div>
     <div class="source">8 text patterns · in ch / px</div>
   </div>
@@ -738,7 +1009,7 @@
 
     <!-- ── Components ───────────────────────────────── -->
   <div class="sect">
-    <h2>VII. Components</h2>
+    <h2>IX. Components</h2>
     <div class="rule"></div>
     <div class="source">shadcn/ui · full roster + nesting</div>
   </div>
@@ -836,7 +1107,7 @@
     </div>
   </div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Status pills (see VIII) use bg tinted from the status colour, text in the same colour, border at higher alpha. Use icon-led pills; never just dots.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Tabs</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Status pills (see V) use bg tinted from the status colour, text in the same colour, border at higher alpha. Use icon-led pills; never just dots.</p><h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Tabs</h3>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Tabs /&gt;, &lt;TabsList /&gt;, &lt;TabsTrigger /&gt; · @/components/ui/tabs</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
     <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">underline tabs</div><div style="padding: 1px 0;">active = indigo 2px</div><div style="padding: 1px 0;">inactive = slate</div><div style="padding: 1px 0;">paired with section rule</div></div>
@@ -1141,6 +1412,7 @@
   <style>
     @keyframes ds-indet { 0% { left: -42%; } 100% { left: 100%; } }
     @keyframes ds-spin  { to { transform: rotate(360deg); } }
+    @keyframes ds-blink { 50% { opacity: 0; } }
   </style>
 
   <!-- ── Slider ──────────────────────────────────────────────── -->
@@ -1503,53 +1775,8 @@
   </div>
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A thin wrapper over Recharts with the tokens pre-mapped: indigo for the primary series (faded indigo for prior periods), sea-green for positive trends and brand red for negative, the navy hairline for gridlines, and mono ticks. Keep charts quiet — one or two series, no drop shadows or gradients beyond a faint area fill.</p>
 
-  <style>@keyframes ds-blink { 50% { opacity: 0; } }</style>
-
-  <!-- ── Status pills + buttons ───────────────────────────────── -->
-  <div class="sect">
-    <h2>VIII. Status &amp; controls</h2>
-    <div class="rule"></div>
-    <div class="source">10 status pills · 7 button variants</div>
-  </div>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-    <div class="swatch" style="grid-template-rows: auto;">
-      <div class="info" style="padding: 16px 18px;">
-        <div class="role" style="margin-bottom: 8px;">Status pills</div>
-        <div class="token" style="margin-bottom: 14px;">runs, agents, approvals</div>
-        <div data-conformance-id="status-pills" class="demo-row">
-          <span class="pill running"><svg viewBox="0 0 24 24" fill="currentColor" style="width:9px;height:9px;"><polygon points="6 3 20 12 6 21 6 3"/></svg>Running</span>
-          <span class="pill approved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M20 6 9 17l-5-5"/></svg>Approved</span>
-          <span class="pill hold"><svg viewBox="0 0 24 24" fill="currentColor" style="width:9px;height:9px;"><rect x="6" y="4" width="4" height="16" rx="0.5"/><rect x="14" y="4" width="4" height="16" rx="0.5"/></svg>On hold</span>
-          <span class="pill idle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" style="width:10px;height:10px;"><circle cx="12" cy="12" r="9"/></svg>Idle</span>
-          <span class="pill failed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" style="width:10px;height:10px;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>Failed</span>
-          <span class="pill approved" style="background:rgba(63,110,107,0.06);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><rect width="18" height="15" x="3" y="6" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/></svg>Scheduled</span>
-          <span class="pill running" style="background:rgba(54,78,129,0.08);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Queued</span>
-          <span class="pill hold" style="background:rgba(199,149,69,0.10);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>Needs review</span>
-          <span class="pill idle" style="opacity:0.7;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/></svg>Archived</span>
-          <span class="pill failed" style="background:rgba(166,56,79,0.85);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>Declined</span>
-        </div>
-      </div>
-    </div>
-    <div class="swatch" style="grid-template-rows: auto;">
-      <div class="info" style="padding: 16px 18px;">
-        <div class="role" style="margin-bottom: 8px;">Buttons</div>
-        <div class="token" style="margin-bottom: 14px;">primary, default, outline, secondary, destructive, ghost, link</div>
-        <div data-conformance-id="button-variants" class="demo-row">
-          <button class="btn primary">Approve &amp; send</button>
-          <button class="btn">Default</button>
-          <button class="btn outline">Outline</button>
-          <button class="btn secondary">Secondary</button>
-          <button class="btn destructive">Decline</button>
-          <button class="btn ghost">Ghost</button>
-          <button class="btn link">Learn more</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 <footer>
-    <span>Cinatra · Application Design v0.3.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design v0.4.1</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
