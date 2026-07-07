@@ -252,7 +252,7 @@
       <p class="lede">How extensions surface in the Cinatra app — the ListingCard and its install-state machine, the extension detail modal, the installed-extensions manager, and the All-Agents agent card. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.3.0</div>
+      <div>Version 0.4.0</div>
     </div>
   </div>
 
@@ -481,7 +481,7 @@
             <div style="display: flex; align-items: flex-start; gap: 18px;">
           <span style="flex: none; width: 64px; height: 64px; border-radius: 15px; background: var(--surface-strong); border: 1px solid var(--line); display: grid; place-items: center; box-shadow: 0 2px 6px rgba(21,33,58,0.10); color: var(--rust);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:34px;height:34px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h6z"/></svg></span>
           <div style="flex: 1; min-width: 0;">
-            <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 23px; color: var(--ink); line-height: 1.05;">Research Assistant</div>
+            <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; color: var(--ink); line-height: 1.05;">Research Assistant</div>
             <div style="display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--muted); margin-top: 8px; white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex-shrink:0;color:var(--rust);"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M9 13v2"/><path d="M15 13v2"/></svg><span><span style="color: var(--ink);">Agent</span> by <a href="https://marketplace.cinatra.ai/store/cinatra" target="_blank" rel="noopener" style="color: var(--blue); text-decoration: none; font-weight: 600;">Cinatra</a></span></div>
           </div>
           <div style="font-family: var(--font-sans); font-weight: 700; font-size: 15px; color: var(--ink); flex: none; padding-top: 4px;">Free, Open Source</div>
@@ -735,8 +735,114 @@
   </div>
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">Same three-panel anatomy as §III — coloured logo tile, white middle, white right panel set off by a navy hairline — minus the version/status row, so the middle panel carries just the byline and the (now two-line-clamped) description. The right panel drops to a single primary action, <em>Run</em>, plus <em>More details</em> (opens the §II detail modal).</p>
 
+  <!-- ── Extension settings ──────────────────────────────────── -->
+  <div class="sect">
+    <h2>V. Extension settings</h2>
+    <div class="rule"></div>
+    <div class="source">Manage · grouped · danger zone</div>
+  </div>
+  <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 66ch; line-height: 1.55;"><b style="color:var(--ink);font-weight:600;">One page for everything you can do to an installed extension.</b> <em>Settings</em> (§III) opens this page — a <b style="color:var(--ink);font-weight:600;">Narrow</b> column that gathers the extension's actions into grouped sections (<b style="color:var(--ink);font-weight:600;">Permissions</b>, <b style="color:var(--ink);font-weight:600;">Marketplace</b>, <b style="color:var(--ink);font-weight:600;">Maintenance</b>), ending in a red <b style="color:var(--red);font-weight:600;">Danger zone</b>. The page header matches the §II detail modal, with nothing in the top-right. Destructive and one-way actions are red and always confirm.</p>
+
+  <!-- Example — extension settings page -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — extension settings page · Narrow column</div>
+    <div style="padding: 26px 24px;">
+      <div style="max-width: 576px; margin: 0 auto;">
+
+        <!-- header — the §II detail header, with nothing in the top-right -->
+        <div style="display: flex; align-items: flex-start; gap: 18px;">
+          <span style="flex: none; width: 64px; height: 64px; border-radius: 15px; background: var(--surface-strong); border: 1px solid var(--line); display: grid; place-items: center; box-shadow: 0 2px 6px rgba(21,33,58,0.10); color: var(--rust);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:34px;height:34px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h6z"/></svg></span>
+          <div style="flex: 1; min-width: 0;">
+            <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 23px; color: var(--ink); line-height: 1.05;">Research Assistant</div>
+            <div style="display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--muted); margin-top: 8px; white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex-shrink:0;color:var(--rust);"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M9 13v2"/><path d="M15 13v2"/></svg><span><span style="color: var(--ink);">Agent</span> by <span style="color: var(--ink);">Cinatra</span></span></div>
+          </div>
+        </div>
+
+        <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin: 20px 0 4px;"></div>
+
+        <!-- Permission -->
+        <div style="padding: 22px 0; border-bottom: 1px solid var(--line);">
+          <div style="font-family: var(--font-sans); font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 14px;">Permissions</div>
+          <label style="display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 400; color: var(--ink); margin-bottom: 6px;">Who can access this extension?</label>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"><span style="font-size: 14px; color: var(--ink);">Anyone in Acme Corp</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;opacity:.5;color:var(--ink);"><path d="m6 9 6 6 6-6"/></svg></div>
+        </div>
+
+        <!-- Marketplace -->
+        <div style="padding: 22px 0; border-bottom: 1px solid var(--line);">
+          <div style="font-family: var(--font-sans); font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 14px;">Marketplace</div>
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;"><button type="button" class="btn destructive" style="cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2 2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"/></svg>Publish on marketplace</button></div>
+        </div>
+
+        <!-- Maintenance -->
+        <div style="padding: 22px 0 4px;">
+          <div style="font-family: var(--font-sans); font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 14px;">Maintenance</div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 15px; border-bottom: 1px solid var(--line);"><div style="max-width: 56ch;"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink);">Update</div><div style="font-size: 12px; color: var(--muted); line-height: 1.5;">Currently on version 0.4.2 — version 0.5.0 is available.</div></div><button type="button" class="btn primary" style="flex: none; cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><path d="M21 3v6h-6"/></svg>Update</button></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 15px 0; border-bottom: 1px solid var(--line);"><div style="max-width: 56ch;"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink);">Archive</div><div style="font-size: 12px; color: var(--muted); line-height: 1.5;">Deactivate the extension. It moves to the Archived tab and can be restored.</div></div><button type="button" class="btn outline" style="flex: none; cursor: pointer;">Archive</button></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 15px; opacity: 0.5;"><div style="max-width: 56ch;"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink);">Activate</div><div style="font-size: 12px; color: var(--muted); line-height: 1.5;">Reactivate an archived extension. Available once the extension is archived.</div></div><button type="button" class="btn outline" disabled aria-disabled="true" style="flex: none; cursor: not-allowed;">Activate</button></div>
+        </div>
+
+        <!-- Danger zone -->
+        <div style="border: 1px solid rgba(166,56,79,0.34); background: rgba(166,56,79,0.05); border-radius: 10px; padding: 16px 18px; margin-top: 22px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:17px;height:17px;color:var(--red);"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg><div style="font-family: var(--font-sans); font-size: 18px; font-weight: 700; color: var(--red);">Danger zone</div></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 13px; border-bottom: 1px solid rgba(166,56,79,0.2);"><div style="max-width: 56ch;"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink);">Reinstall latest</div><div style="font-size: 12px; color: var(--muted); line-height: 1.5;">Uninstall → reinstall at the newest version. For an <b style="color:var(--ink);font-weight:600;">unused</b> extension the uninstall is a hard delete — if the reinstall fails there is nothing to restore.</div></div><button type="button" class="btn destructive" style="flex: none; cursor: pointer;">Reinstall latest</button></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 13px;"><div style="max-width: 56ch;"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink);">Force-delete</div><div style="font-size: 12px; color: var(--muted); line-height: 1.5;">Hard delete + dangling-reference cleanup. Bypasses restore entirely and requires a typed reason for the audit log.</div></div><button type="button" class="btn destructive" style="flex: none; cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>Force-delete…</button></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Marketplace vendor registration — design note, outside the page mock -->
+  <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 0 0 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px;">
+    <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Instance not yet registered as a marketplace vendor</div>
+    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;"><button type="button" class="btn destructive" disabled aria-disabled="true" style="opacity: 0.45; cursor: not-allowed;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2 2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"/></svg>Publish on marketplace</button><a href="/configuration/environment?tab=registries" class="btn outline" style="cursor: pointer; text-decoration: none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/></svg>Register for marketplace</a><span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted);">/configuration/environment?tab=registries</span></div>
+  </div>
+
+  <!-- Archive / Activate flip — design note, outside the page mock -->
+  <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 0 0 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px;">
+    <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">When archived, the pair flips</div>
+    <div style="display: flex; gap: 8px; align-items: center;"><button type="button" class="btn outline" disabled aria-disabled="true" style="opacity: 0.45; cursor: not-allowed;">Archive</button><button type="button" class="btn outline" style="cursor: pointer;">Activate</button></div>
+  </div>
+
+  <!-- Example — force-delete confirmation -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — force-delete · required reason</div>
+    <div style="padding: 18px 20px; background: rgba(21,33,58,0.55);">
+      <div style="background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 24px 60px rgba(21,33,58,0.34); padding: 16px 18px 16px; max-width: 440px; margin: 0 auto;">
+        <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 15px; color: var(--red); padding-bottom: 9px; border-bottom: 1px solid var(--line-strong); margin-bottom: 11px;">Force-delete Research Assistant?</div>
+        <div style="font-size: 12.5px; color: var(--muted); line-height: 1.55;">Permanently deletes the extension and cleans up dangling references (agent runs, dependent templates). This <b style="color:var(--red);font-weight:600;">bypasses restore</b> — there is nothing to recover.</div>
+        <div style="margin-top: 13px;">
+          <label style="display: block; font-family: var(--font-sans); font-size: 12.5px; font-weight: 600; color: var(--ink); margin-bottom: 5px;">Reason <span style="color: var(--red);">*</span></label>
+          <div style="height: 34px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 11px; display: flex; align-items: center;"><span style="font-size: 13px; color: var(--muted);">Superseded by v2 — cleaning up the abandoned build</span></div>
+          <div style="font-size: 11px; color: var(--muted); margin-top: 5px;">Recorded in the lifecycle audit log. Required.</div>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px;">
+          <button type="button" class="btn outline" style="cursor: pointer;">Cancel</button>
+          <button type="button" class="btn destructive" style="cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>Force-delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example — promote confirmation -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — publish on marketplace · one-way</div>
+    <div style="padding: 18px 20px; background: rgba(21,33,58,0.55);">
+      <div style="background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 24px 60px rgba(21,33,58,0.34); padding: 16px 18px 15px; max-width: 420px; margin: 0 auto;">
+        <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 15px; color: var(--ink); padding-bottom: 9px; border-bottom: 1px solid var(--line-strong); margin-bottom: 10px;">Publish on the marketplace?</div>
+        <div style="font-size: 13px; color: var(--muted); line-height: 1.55;">Publishes <b style="color:var(--ink);font-weight:600;">Research Assistant</b> to the marketplace, where anyone can install it. This is <b style="color:var(--red);font-weight:600;">one-way</b> — it cannot be demoted back to private.</div>
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px;">
+          <button type="button" class="btn outline" style="cursor: pointer;">Cancel</button>
+          <button type="button" class="btn primary" style="cursor: pointer;">Publish on marketplace</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">The page holds to the <b style="color:var(--ink);font-weight:600;">Narrow</b> column: the <b style="color:var(--ink);font-weight:600;">§II detail header</b>, then the groups — <b style="color:var(--ink);font-weight:600;">Permissions</b> and <b style="color:var(--ink);font-weight:600;">Marketplace</b>, then <b style="color:var(--ink);font-weight:600;">Maintenance</b>, then the red <b style="color:var(--red);font-weight:600;">Danger zone</b>. <b style="color:var(--ink);font-weight:600;">Permissions</b> reuses the install-time <b style="color:var(--ink);font-weight:600;">access picker</b> (project · team · organization scopes). <b style="color:var(--ink);font-weight:600;">Archive</b> and <b style="color:var(--ink);font-weight:600;">Activate</b> are complementary — exactly one is live: Activate greys out until the extension is archived, Archive greys out once it is. Destructive and one-way actions are the <code>destructive</code> red button and always confirm; <b style="color:var(--red);font-weight:600;">Force-delete</b> additionally demands a typed <em>reason</em> and warns that it bypasses restore, and <b style="color:var(--red);font-weight:600;">publishing to the marketplace</b> is one-way — and gated on the instance being a registered marketplace vendor (until then the action is muted beside a <em>Register for marketplace</em> link).</p>
+
 <footer>
-    <span>Cinatra · Application Design — Extensions v0.3.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Extensions v0.4.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
