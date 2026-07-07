@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app.html",
-  "contentHash": "sha256:3b3f049e0849f6953fc95935757a3c19f3266dd9ba067479f1b01428748d3159",
+  "contentHash": "sha256:337142fceaf2ca5ffec7512ceb89780893bbe1cfc18e445cc2a01f143ecf9d65",
   "surfaces": [
     {
       "id": "status-pills",
