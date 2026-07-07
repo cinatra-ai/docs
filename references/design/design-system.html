@@ -272,7 +272,7 @@
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.4.1</div>
+      <div>Version 0.4.2</div>
     </div>
   </div>
 
@@ -698,7 +698,7 @@
         <span style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 13px; color: var(--ink);">Full</span>
         <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted);">max-w-7xl</span>
         <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); opacity: 0.75;">80rem · 1280px</span>
-        <div style="flex-basis: 100%; margin-top: 5px; font-family: var(--font-body); font-size: 11.5px; line-height: 1.45; color: var(--muted);">The default full-width column — dashboards, lists, tables, settings, entity detail. Its left edge is the page's reference edge; fluid below the cap, centred above it.</div>
+        <div style="flex-basis: 100%; margin-top: 5px; font-family: var(--font-body); font-size: 11.5px; line-height: 1.45; color: var(--muted);">The default full-width column — dashboards, lists, tables, settings, entity detail. Centred in the stage like every width — fluid below the cap, growing side margins above it.</div>
       </figcaption>
     </figure>
 
@@ -885,8 +885,8 @@
   </div>
 
   <div style="border: 1px solid var(--line); border-left: 2px solid var(--blue); border-radius: 6px; background: var(--surface); padding: 14px 16px; margin: 0 0 4px; max-width: 80ch;">
-    <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin: 0 0 8px;">The stage &amp; the left edge</div>
-    <p style="font-family: var(--font-body); font-size: 13px; line-height: 1.55; color: var(--muted); margin: 0;">A fixed <code>16rem</code> (256px) sidebar — <code>3rem</code> collapsed — sits beside a fluid content stage; the widths above are max-widths centred (<code>mx-auto</code>) inside that stage. Content carries <strong style="color:var(--ink);">equal left and right gutters</strong> — <code>px-5</code> → <code>sm:px-8</code> (20 → 32px) — so it is symmetric at every viewport: pure gutter below the <code>max-w-7xl</code> cap, growing side margins above it. The topbar and breadcrumb ride the <strong style="color:var(--ink);">same centred <code>max-w-7xl</code> stage</strong> as the Full column — same gutter below the cap, same growing margins above it — so the breadcrumb always sits directly above where content begins, at every viewport.</p>
+    <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin: 0 0 8px;">The stage &amp; its gutters</div>
+    <p style="font-family: var(--font-body); font-size: 13px; line-height: 1.55; color: var(--muted); margin: 0;">A fixed <code>16rem</code> (256px) sidebar — <code>3rem</code> collapsed — sits beside a fluid content stage; every width above is a max-width centred (<code>mx-auto</code>) inside that stage — never edge-anchored. Content carries <strong style="color:var(--ink);">equal left and right gutters</strong> — <code>px-5</code> → <code>sm:px-8</code> (20 → 32px) — so it is symmetric at every viewport: pure gutter below its cap, growing side margins above it. The topbar and breadcrumb ride the <strong style="color:var(--ink);">same centred <code>max-w-7xl</code> stage</strong> as the Full column — equal gutters below the cap, equal growing margins above it — so chrome and full-width content stay aligned.</p>
   </div>
 
   <!-- ── Text layout ─────────────────────────────────────── -->
@@ -1776,7 +1776,7 @@
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A thin wrapper over Recharts with the tokens pre-mapped: indigo for the primary series (faded indigo for prior periods), sea-green for positive trends and brand red for negative, the navy hairline for gridlines, and mono ticks. Keep charts quiet — one or two series, no drop shadows or gradients beyond a faint area fill.</p>
 
 <footer>
-    <span>Cinatra · Application Design v0.4.1</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design v0.4.2</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
