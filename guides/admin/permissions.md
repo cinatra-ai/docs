@@ -13,7 +13,7 @@ Back to the [Admin Guide](README.md).
 Cinatra separates platform governance from per-resource sharing. They are independent levers, and you control both from `/configuration/permissions`.
 
 - **The admin role** is global to the instance. It gates the `/configuration/*` surface and the admin-only capabilities. An admin governs the platform; they do not silently own everyone's data.
-- **Per-resource permissions** (co-owners and access policies on individual agents, agent runs, connectors, skills, skill packages, artifacts, and workflows) decide who can see, run, and share a specific resource. These apply to every user, admin or not.
+- **Per-resource permissions** (co-owners and access policies on individual agents, agent runs, connectors, connections, skills, skill packages, artifacts, and workflows) decide who can see, run, and share a specific resource. These apply to every user, admin or not.
 
 An admin can step in on per-resource matters when intervention is legitimate (moderation, a data-protection request, an ownership transfer after a team change), but that path is named and audited rather than a silent override. See [Authorization admin powers](../../references/platform/authz-admin-powers.md) for the audited-bypass model.
 
@@ -57,13 +57,14 @@ When you make a grant, you are choosing both *who* (a specific user, or a level)
 
 ## Co-owners and access policies
 
-Beyond ownership, Cinatra ships one generic sharing model that applies uniformly across the seven access resource kinds — agents, agent runs, connectors, skills, skill packages, artifacts, and workflows:
+Beyond ownership, Cinatra ships one generic sharing model that applies uniformly across the eight access resource kinds — agents, agent runs, connectors, connections, skills, skill packages, artifacts, and workflows:
 
 | Kind | What it covers |
 |---|---|
 | **Agent** (agent template) | An installed agent. Governs who can view it, run it, edit it, and share it. |
 | **Agent run** | An individual run record. Inherits the agent's policy, with per-run overrides. |
 | **Connector** | An installed connector. Governs who can view and use it. |
+| **Connection** | An individual connected external account inside a connector. Owned by its creator; the policy governs who may **use** it (act through the owner's account). Widening a connection's scope is reserved to its owner. See [Connector connections](#connector-connections-owner-bound-scoped-audited) below. |
 | **Skill** | An individual skill inside a package, with its own override that can be tighter or wider than the parent package. |
 | **Skill package** | An installed skill extension as a whole bundle. |
 | **Artifact** | An installed artifact extension. |
@@ -72,11 +73,11 @@ Beyond ownership, Cinatra ships one generic sharing model that applies uniformly
 Two controls sit on top of every one of these:
 
 - **Co-owner** — a direct grant naming a specific user. A co-owner can edit and share the resource without being an organization admin. It is a yes/no grant: someone is a co-owner or they are not.
-- **Access policy** — the per-operation rules for everyone outside the co-owner set. The same policy shape applies to all seven kinds and controls the operations below.
+- **Access policy** — the per-operation rules for everyone outside the co-owner set. The same policy shape applies to all eight kinds and controls the operations below.
 
 ### The operations a policy governs
 
-Across agents, agent runs, connectors, skills, skill packages, artifacts, and workflows, the access policy decides who can:
+Across agents, agent runs, connectors, connections, skills, skill packages, artifacts, and workflows, the access policy decides who can:
 
 - **List** the resource (does it appear in their listings)
 - **Read** it (view its detail, including run data and messages for runs)
@@ -94,6 +95,23 @@ A skill package carries a default policy for everything inside it. Any individua
 - **Wider** — a generally useful skill inside a more restricted package can be opened up without opening the whole package.
 
 Set the package policy first to establish the baseline, then adjust individual skills only where they need to differ. This keeps the common case simple and reserves overrides for genuine exceptions.
+
+### Connector connections: owner-bound, scoped, audited
+
+A **connection** — one linked external account inside a connector (a specific Gmail mailbox, a specific GitHub account) — is a first-class access resource with three properties admins should understand:
+
+- **Owner-bound.** A connection is permanently owned by the user who created it. Sharing never transfers the credential; it lets other users' agents **act through the owner's account** (a shared Gmail sends as the owner). Because of that, consent is the owner's alone: **only the owner widens a connection's scope** — the generic co-owner lever does not extend to sharing someone else's connection, and admins do not widen connections on an owner's behalf. The full user-facing model — the six scopes, the connect-time recommendation, sharing, use-time auditing, and revocation — is in [Connections: scopes, sharing, and revocation](../user/connections-and-sharing.md).
+- **Scoped by the connector's declaration.** Each connector declares in its package how its connections may be scoped: a **recommended** scope that is pre-selected at connect time (the owner can freely change it, and it never auto-shares), or an **exclusive** scope that is locked in the picker *and* enforced by the server, which rejects any broader grant. The authoring contract is [`cinatra/config.json`](../../references/platform/extension-kinds/authoring-connector-extensions.md#declaring-connection-access-scope--cinatraconfigjson).
+- **Audited at use time.** Every use of a shared connection — allowed and denied — writes an audit row recording the acting user, the connection owner it was delegated by, and the run. Denials are recorded before any external call is made. Tokens and secrets are never written to the audit log.
+
+Two locked classes matter operationally:
+
+- **Admin-only connectors.** The LLM-provider key connectors (OpenAI, Anthropic, Gemini) are validator-forced to the exclusive admin scope — a marketplace submission declaring anything else is rejected. Their connections are usable only by the owning organization's admins. This is how instance-level provider credentials (see [LLM providers](llm-providers.md)) stay out of general reach.
+- **Per-user-only connectors.** A connector declared exclusively personal can never be shared: the sharing surface is absent and its connections never appear in anyone else's listings.
+
+Connection *use* is what the scope governs. **Managing** connectors themselves (install, archive, configuration) remains organization-admin RBAC and is never definable by an extension package.
+
+When agents resolve which connection to use, ambiguity fails closed: a user's own connection wins; otherwise exactly one authorized shared connection must match, or the run stops with an actionable error. There is deliberately no connection-pinning or candidate-selection control to administer.
 
 ---
 
