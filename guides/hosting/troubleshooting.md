@@ -62,6 +62,20 @@ For each problem: what you see, why it happens, how to fix it.
 
 **Fix:** `rm -rf node_modules .next && pnpm install && pnpm dev`.
 
+### UI changes in a workspace package don't show up in the running dev app
+
+**Symptom:** you changed a React screen inside a workspace package (`packages/*`) — or pulled code that did — but the running dev app keeps serving the old UI, even after a browser hard-refresh and a dev-server restart.
+
+**Cause:** a stale `.next` build cache. The dev bundler can keep serving the previously compiled package output instead of recompiling the changed package.
+
+**Fix:** stop the dev server, delete the cache, and restart:
+
+```bash
+rm -rf .next && pnpm dev
+```
+
+If it persists, `rm -rf node_modules .next && pnpm install && pnpm dev` for a fully clean rebuild.
+
 ### Workspace root error from cross-worktree `node_modules`
 
 **Symptom:** Turbopack complains about a workspace root mismatch or refuses to start.

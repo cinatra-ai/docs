@@ -49,7 +49,7 @@ For the data-model details — typed identifiers, registration, dual-write hooks
 
 ## Dashboards
 
-The `/agents` surface and any new dashboard you create are real, editable layouts backed by a shared semantic-layer engine. You add widgets, resize them, save the layout. New dashboards have draft / published / archived lifecycles, governed by per-resource permissions, and exposed as MCP primitives just like any other capability. See [Dashboards](dashboards.md).
+The `/agents/executions` surface and any new dashboard you create are real, editable layouts backed by a shared semantic-layer engine. You add widgets, resize them, save the layout. New dashboards have draft / published / archived lifecycles, governed by per-resource permissions, and exposed as MCP primitives just like any other capability. See [Dashboards](dashboards.md).
 
 ## How the pieces compose
 

@@ -36,7 +36,7 @@ If you administer the `/configuration/*` area, see the [Admin Guide](../admin/RE
 - [PM-tool integration](pm-tool-integration.md) — mirror agent-run schedules into a project-management tool (Plane) so they appear on its board and timeline, and connect the Plane connector
 - [Creating agents in chat](creating-agents-in-chat.md) — author and publish an agent through the chat assistant
 - [Marketplace and extensions](marketplace-and-extensions.md) — find, install, and use the extensions that add new agents, connectors, skills, and workflows
-- [Dashboards](dashboards.md) — the dashboards platform and the `/agents` dashboard
+- [Dashboards](dashboards.md) — the dashboards platform and the `/agents/executions` dashboard
 - [Cinatra in your CMS](cinatra-in-your-cms.md) — the in-CMS AI assistant for WordPress and Drupal editors
 - [The Cinatra WordPress plugin](wordpress-plugin.md) — install, connect, and use the WordPress admin assistant, and how it is delivered safely
 - [Use Cinatra from Claude Desktop and Codex](mcp-clients.md) — connect Claude Desktop, Codex, Claude.ai, or ChatGPT to your workspace over MCP

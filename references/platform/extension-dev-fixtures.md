@@ -12,6 +12,14 @@ This is **dev *demo* data** (visibility and UAT) — NOT *functional bootstrap*
 data an extension needs to RUN. A real bootstrap need belongs to install-time
 migrations (prod-relevant), not this mechanism.
 
+> **Sibling mechanism:** a connector whose dev wiring cannot be expressed as
+> declarative data (mint a credential, register an instance row, push a widget
+> config into a local docker fixture) declares the IMPERATIVE `cinatra.devSetup`
+> hook instead — see the [connector authoring guide](extension-kinds/authoring-connector-extensions.md)
+> and `packages/sdk-extensions/src/dev-setup.ts`. Content seeded *inside* the
+> external CMS instances themselves is a third, separate layer:
+> [Generic dev content fixtures](dev-cms-fixtures.md).
+
 ## Declaring fixtures
 
 Add `cinatra.devFixtures` (a path, recommended `cinatra/dev-fixtures.json`) to

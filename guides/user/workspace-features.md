@@ -16,7 +16,7 @@ Multi-threaded chats with team chats are supported; built-in handles include `@c
 
 ### Agents
 
-The Agents sidebar item routes to `/agents`, now an interactive dashboard of recently used and recently run agents. The dashboard is the single installed-agents surface (the previous standalone listing and its "Status" affordance were retired). **Agent Setup** is a sibling sidebar entry that opens the chat-driven authoring flow. See [Dashboards](dashboards.md) for the dashboard side and [Creating agents in chat](creating-agents-in-chat.md) for the authoring side.
+The Agents sidebar item routes to `/agents`, a two-tab area: **All Agents** (the default at `/agents`) is the run-agent picker, and **Executions** (`/agents/executions`) is an interactive dashboard of recently used and recently run agents. Installing agents happens in Configuration → Marketplace. **Agent Setup** is a sibling sidebar entry that opens the chat-driven authoring flow. See [Dashboards](dashboards.md) for the dashboard side and [Creating agents in chat](creating-agents-in-chat.md) for the authoring side.
 
 ### Information
 
@@ -34,7 +34,7 @@ The Agents sidebar item routes to `/agents`, now an interactive dashboard of rec
 
 A few features ship as routes you reach directly or through the chat assistant, even though they don't have a dedicated sidebar slot:
 
-- **Dashboards** at `/agents` (the default dashboard) and additional dashboards under their own routes. See [Dashboards](dashboards.md).
+- **Dashboards** at `/agents/executions` (the default dashboard) and additional dashboards under their own routes. See [Dashboards](dashboards.md).
 - **Lists** are typed groupings agents read from and write to as first-class inputs and outputs. Lists are themselves typed objects (`@cinatra-ai/lists:list`); the canonical record lives in Twenty CRM (no cinatra-side browse) and is reached programmatically through the `crm_list_*` MCP primitives (`crm_list_search`, `crm_list_get`, `crm_list_create`, `crm_list_member_add`, `crm_list_member_remove`, `crm_list_members_get`).
 - **Notifications** at `/notifications`. A Postgres-backed feed surfaced with realtime push via Postgres `LISTEN / NOTIFY`. The platform writes notifications on background-job completion or failure, on long-running agent run state transitions, and from extensions through the explicit `createNotificationForRecipient` API. Recipient routing covers per-user, per-team, per-organisation, per-project, and an admins-only sink for system failures. Toasts handle transient in-page feedback; the notifications feed is durable.
 

@@ -10,7 +10,7 @@ A Cinatra subsystem for interactive analytics dashboards backed by a semantic-la
 ```
 Browser
   ↓
-src/app/agents/page.tsx  → AgentsDashboardPage (server component)
+src/app/agents/executions/page.tsx  → AgentsDashboardPage (server component)
   ↓
 packages/dashboards/src/screens/agents-dashboard.tsx
   ↓ mounts
@@ -90,9 +90,9 @@ v1 rejects `funnel`/`flow`/`retention`/multi-query top-level keys with `400 unsu
 
 An AST regression gate at `packages/dashboards/src/__tests__/no-direct-writes.test.ts` walks every file and rejects any `tx.insert|.update|.delete(dashboards|dashboardRevisions)` outside the mutation-service allowlist.
 
-## `/agents` (the user-visible deliverable)
+## `/agents/executions` (the user-visible deliverable)
 
-`/agents` mounts an interactive `<DashboardGrid>` with two seeded portlets backed by the `agent_runs` cube:
+`/agents/executions` — the **Executions** tab of the Agents area — mounts an interactive `<DashboardGrid>` with two seeded portlets backed by the `agent_runs` cube. (The dashboard formerly lived at the bare `/agents`; that route now serves the **All Agents** run-agent picker instead, with no redirect from the old location.)
 
 - **Top 5 recently used agents** — bar chart of `agent_runs.count` grouped by `agent_runs.agent_name`, order desc, limit 5.
 - **5 latest run agents** — table of `agent_runs.last_run_at` (MAX, post-processed to relative time) grouped by `agent_runs.agent_name`, order desc, limit 5.

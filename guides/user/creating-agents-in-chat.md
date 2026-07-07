@@ -90,7 +90,7 @@ Once published, the agent is installable through the normal marketplace flow on 
 
 ## What happens during a run
 
-When you run a chat-authored agent — either from the `/agents` dashboard or by asking the chat assistant to run it for you — the same lifecycle applies as for any other agent:
+When you run a chat-authored agent — either from the **All Agents** tab (`/agents`) or by asking the chat assistant to run it for you — the same lifecycle applies as for any other agent:
 
 - The platform spawns a run, returns a `runId`, and emits typed Agent-User Interaction Protocol (AG-UI) events on the server-sent events (SSE) stream.
 - For agents with declared HITL screens, the run pauses at each gate, the surface renders in chat (or on the agent's run page), and the run resumes after you submit or approve.
