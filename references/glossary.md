@@ -58,7 +58,7 @@ A configured way to start an agent run without a user clicking Run. Triggers inc
 
 ### Dashboard
 
-A user-configurable layout of analytics widgets backed by a shared semantic-layer engine. The `/agents` route hosts the default agents-activity dashboard out of the box; users can create additional dashboards, drag widgets around, and persist their layout through a single mutation service with a draft → published → archived lifecycle. Each mutation also writes an `audit_events` row inside the same transaction. Dashboards are reachable as MCP primitives (`dashboards_create`, `dashboards_update`, `dashboards_publish`, `dashboards_archive`, `dashboards_get`, `dashboards_list`). See [Dashboards](../guides/user/dashboards.md).
+A user-configurable layout of analytics widgets backed by a shared semantic-layer engine. The `/agents/executions` route hosts the default agents-activity dashboard out of the box; users can create additional dashboards, drag widgets around, and persist their layout through a single mutation service with a draft → published → archived lifecycle. Each mutation also writes an `audit_events` row inside the same transaction. Dashboards are reachable as MCP primitives (`dashboards_create`, `dashboards_update`, `dashboards_publish`, `dashboards_archive`, `dashboards_get`, `dashboards_list`). See [Dashboards](../guides/user/dashboards.md).
 
 ### Notification
 
@@ -89,6 +89,10 @@ The platform-instance level above organization — currently implicit per deploy
 ### Instance namespace
 
 A globally-unique identifier each Cinatra instance picks during setup. It doubles as the npm scope under which the instance publishes its extensions to the shared registry — `@<instance-namespace>/<extension-name>`. Setting up an instance fixes the namespace; renaming it is intentional and limited.
+
+### Connection
+
+A saved link between a connector and one external account (your Gmail, your GitHub, a company WordPress site), created when someone completes a connector's setup flow. A connection is owned by its creator and carries exactly one **access scope** — private, or shared with specific people, a team, an organization, a project, or the whole workspace — that controls whose agents may act through it. Every use is audited, and revoking the scope takes effect on next use. Connector authors declare the recommended or locked scope in `cinatra/config.json`. See [Connections: scopes, sharing, and revocation](../guides/user/connections-and-sharing.md).
 
 ---
 

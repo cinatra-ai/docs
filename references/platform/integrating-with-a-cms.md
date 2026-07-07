@@ -13,7 +13,7 @@ A CMS integration has two halves:
 1. **The CMS-side plugin/module** — code installed on the CMS that injects a chat widget into editor pages and brokers the conversation back to Cinatra.
 2. **The Cinatra-side stream route + content-editor agent** — receives the widget's chat requests, orchestrates a large language model (LLM) turn against a content-editor function tool, and produces typed field diffs the widget renders.
 
-Auth, CORS, and the widget bundle live in the Cinatra app. The CMS-side code is intentionally thin — it injects the widget bundle, holds the per-instance credentials, and gets out of the way.
+Auth and CORS live in the Cinatra app; the widget bundle ships **inside the CMS-side plugin/module** (see below). The CMS-side code is intentionally thin — it loads its local widget bundle, holds the per-instance credentials, and gets out of the way.
 
 ## The CMS-side artifact
 
@@ -34,12 +34,12 @@ The Drupal module is a pure credential carrier + script loader. The WordPress pl
 
 ## The widget bundle
 
-The bundle itself is served from the Cinatra app:
+The widget JavaScript is **vendored inside the CMS-side package** — it is never remote-loaded from a Cinatra instance:
 
-- `GET /api/drupal/bundle.js` — implemented at `src/app/api/drupal/bundle.js/route.ts`.
-- `GET /api/wordpress/bundle.js` — implemented at `src/app/api/wordpress/bundle.js/route.ts`.
+- WordPress: `wordpress-plugin/assets/cinatra-widget.js`, enqueued locally by `cinatra.php` via `plugins_url(...)`.
+- Drupal: `drupal-module/js/cinatra-widget.js`, attached as the local `cinatra/bundle` library by `cinatra.module`.
 
-Both routes return an IIFE that mounts a shadow-DOM widget on the CMS page, opens a chat panel when clicked, and posts messages to the Cinatra stream endpoint described below. The bundle is served with permissive CORS (the editor's browser fetches it from the CMS origin) and `Cache-Control: no-cache, no-store, must-revalidate` so a Cinatra upgrade picks up the new bundle immediately. The WordPress plugin additionally enqueues the bundle URL with a `CINATRA_PLUGIN_VERSION` cache buster so older bundle versions cached at the proxy or CDN layer are still invalidated.
+The bundle is an IIFE that mounts a shadow-DOM widget on the CMS page, opens a chat panel when clicked, and posts messages to the Cinatra stream endpoint described below. Loading executable JS from a per-customer Cinatra origin into a CMS admin page is the rejected pattern that motivated this shape: the Cinatra instance is a **versioned data API only**, and a widget change reaches an already-installed site only via a CMS package release (plugin/module update), never a live push. The former host-served bundle routes (`/api/{drupal,wordpress}/bundle.js`) were dead pre-cutover artifacts and have been **removed** — never author widget behavior into a host route. The normative contract is `docs/widget-source-of-truth.md` in the platform repo.
 
 ## The stream endpoint
 
@@ -50,8 +50,8 @@ The widget bundle does not call Model Context Protocol (MCP) primitives directly
 
 Both are handled by `src/app/api/agents/[agentSlug]/stream/route.ts`, a per-slug agent stream registry. The route:
 
-1. Validates the CMS origin against the configured allowlist (`resolveDrupalWidgetOrigin` / `resolveWordPressWidgetOrigin` in `src/lib/{drupal,wordpress}-widget-auth.ts`).
-2. Validates the `Authorization: Bearer <api-key>` header against the widget API key (`validateDrupalWidgetToken` / `validateWordPressWidgetToken`). The key is global per CMS kind — one `drupal_widget_auth` / `wordpress_widget_auth` record per Cinatra install, not per instance.
+1. Validates the CMS origin against the configured allowlist (`resolveWidgetStreamOrigin` in the generic `src/lib/widget-stream-auth.ts` — one CMS-agnostic module for every widget-stream slug).
+2. Validates the `Authorization` bearer token (`validateWidgetStreamToken`). The underlying widget-auth config is global per CMS kind — one `drupal_widget_auth` / `wordpress_widget_auth` record per Cinatra install, not per instance — and the **store itself is owned by the CMS connector**: each connector registers its widget-auth store as a host capability (`@cinatra-ai/host:wordpress-widget-auth` / `@cinatra-ai/host:drupal-widget-auth`) from its `register(ctx)`, and the host resolves the store lazily at call time (e.g. `src/lib/widget-auth-provider.ts` for WordPress); the core ships no vendor widget-auth module.
 3. Calls `stream` from `@cinatra-ai/llm` with:
    - The widget's message history (capped at the most recent N user/assistant turns).
    - A **widget-chat function tool** built by the connector — `createDrupalWidgetChatTool` (`@cinatra-ai/drupal-mcp-connector/widget-chat-tool`) or `createWordPressWidgetChatTool` (`@cinatra-ai/wordpress-mcp-connector/widget-chat-tool`). When the LLM calls this tool, it invokes the connector's `drupal_content_editor_run` / `wordpress_content_editor_run` MCP primitive, which dispatches to a WayFlow (Cinatra's OAS Flow agent runtime) content-editor agent through the host-bound `dispatchContentEditor` dependency.
@@ -74,9 +74,9 @@ The route's path is allowlisted in `src/lib/auth-route-guard.ts` so unauthentica
 Two credentials are involved; they must not be confused.
 
 1. **The widget API key.**
-   - Generated server-side and stored in `connector_config` keyed by `drupal_widget_auth` / `wordpress_widget_auth`. Helpers: `generateDrupalWidgetAuthConfig`, `generateWidgetAuthConfig` (WordPress).
-   - Copied by the admin into the CMS plugin/module settings form.
-   - Sent on every stream request as `Authorization: Bearer <api-key>`.
+   - Generated server-side and stored in `connector_config` keyed by `drupal_widget_auth` / `wordpress_widget_auth` — a store each CMS connector owns and registers as a host capability (see the stream-endpoint section above).
+   - Copied by the admin into the CMS plugin/module settings form. It stays **server-side on the CMS** — the vendored widget never sees the raw key in the browser.
+   - Exchanged, per session, through the CMS's same-origin token broker for a short-lived, origin/audience/scope-bound token; the stream request is Bearer-authenticated with **that short-lived token**, never the raw API key.
    - Scope: widget chat + content-editor function tool only. Not an OAuth grant; it does not unlock the full MCP primitive catalog.
 
 2. **The MCP bearer the content-editor agent uses to call back into the CMS.**
@@ -143,11 +143,12 @@ When you need to verify a specific claim on this page:
 
 - Drupal module: `dev/drupal-module/cinatra/`
 - WordPress plugin: `dev/wordpress-plugin/cinatra.php`
-- Drupal widget bundle: `src/app/api/drupal/bundle.js/route.ts`
-- WordPress widget bundle: `src/app/api/wordpress/bundle.js/route.ts`
+- Drupal widget bundle (vendored): `drupal-module/js/cinatra-widget.js`
+- WordPress widget bundle (vendored): `wordpress-plugin/assets/cinatra-widget.js`
+- Widget source-of-truth contract: `docs/widget-source-of-truth.md` (platform repo)
 - Stream route: `src/app/api/agents/[agentSlug]/stream/route.ts`
-- Drupal widget auth: `src/lib/drupal-widget-auth.ts`
-- WordPress widget auth: `src/lib/wordpress-widget-auth.ts`
+- Widget stream auth (generic): `src/lib/widget-stream-auth.ts`
+- Connector-owned widget-auth store resolution: `src/lib/widget-auth-provider.ts` (WordPress) and each connector's register entry (`register.ts` in the connector repo)
 - Drupal connector: `drupal-mcp-connector/src/`
 - WordPress connector: `wordpress-mcp-connector/src/`
 - Drupal widget-chat tool: `drupal-mcp-connector/src/widget-chat-tool.ts`

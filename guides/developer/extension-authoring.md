@@ -55,7 +55,7 @@ Shared manifest fields (`CinatraManifest`, `packages/sdk-extensions/src/manifest
 - **`sdkAbiRange`** — the SDK ABI range the extension was built against (`"^2"` requires any SDK ABI 2.x host). Build against the current `SDK_EXTENSIONS_ABI_VERSION` exported from `@cinatra-ai/sdk-extensions`. See [Declare `sdkAbiRange` for compatibility](#declare-sdkabirange-for-compatibility) for why this is an ABI **range**, not a cinatra app-version, and how it surfaces as a compatibility badge.
 - **`dependencies`** — the canonical cross-kind dependency graph (below).
 
-The kind-specific fields — `serverEntry`, `requestedHostPorts`, `uiSurface`, `devFixtures`, `migrationsDir` — apply mostly to connectors and are covered in the [connector guide](../../references/platform/extension-kinds/authoring-connector-extensions.md). The full SDK ABI, the manifest shape, and the schema-migration contract live in [Extension SDK ABI and dependencies](../../references/platform/extension-sdk-abi-and-dependencies.md).
+The kind-specific fields — `serverEntry`, `requestedHostPorts`, `uiSurface`, `devFixtures`, `devSetup` (the imperative dev-mode provisioning hook), `envOverrides` (manifest-declared env-first settings/secrets keys), `migrationsDir` — apply mostly to connectors and are covered in the [connector guide](../../references/platform/extension-kinds/authoring-connector-extensions.md). The full SDK ABI, the manifest shape, and the schema-migration contract live in [Extension SDK ABI and dependencies](../../references/platform/extension-sdk-abi-and-dependencies.md).
 
 ### `cinatra.dependencies` — capability-based, required vs optional
 

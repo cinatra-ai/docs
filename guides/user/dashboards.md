@@ -1,21 +1,21 @@
 # Dashboards
 
-Cinatra ships a first-class dashboards platform: a drag-and-drop interactive grid backed by a shared semantic-layer query engine, persisted with a draft / published / archived lifecycle, exposed as Model Context Protocol (MCP) primitives, and audited end-to-end. The `/agents` route is the first dashboard you see — it is a real dashboard, not a static page — and you can create your own dashboards alongside it.
+Cinatra ships a first-class dashboards platform: a drag-and-drop interactive grid backed by a shared semantic-layer query engine, persisted with a draft / published / archived lifecycle, exposed as Model Context Protocol (MCP) primitives, and audited end-to-end. The **Executions** tab of the Agents area (`/agents/executions`) is the first dashboard you see — it is a real dashboard, not a static page — and you can create your own dashboards alongside it.
 
 This document is the user-facing reference. The engineering split between `packages/sdk-dashboard` (generic, extraction-ready) and `packages/dashboards` (Cinatra glue) — and the query wire format — is covered in the [Developer Guide](../developer/README.md).
 
 ---
 
-## `/agents` is a dashboard
+## `/agents/executions` is a dashboard
 
-The top-level **Agents** sidebar item routes to `/agents`, which mounts an interactive `<DashboardGrid>` themed to Cinatra's design tokens. The default agents dashboard ships with two widgets:
+The **Agents** sidebar item opens a two-tab area: the top-level `/agents` route is the **All Agents** tab (the run-agent picker), and the **Executions** tab at `/agents/executions` mounts an interactive `<DashboardGrid>` themed to Cinatra's design tokens. The default agents dashboard ships with two widgets:
 
 - **Top 5 recently used agents** — a bar chart of `agent_runs.count` grouped by agent name, ordered descending, limited to 5.
 - **5 latest run agents** — a table of relative time since last run, grouped by agent name, ordered descending, limited to 5.
 
 The widgets are not hard-coded; they are real queries against the `agent_runs` semantic cube. You can resize them, re-arrange them, swap them out, and add new ones — the layout persists per user, per organization.
 
-The previous standalone installed-agents listing was retired; the `/agents` dashboard is now the single agents surface.
+The previous standalone installed-agents listing (and later the Installed agents card) was retired; installing agents happens in Configuration → Marketplace, and installed extensions are managed on the Installed extensions page.
 
 ---
 

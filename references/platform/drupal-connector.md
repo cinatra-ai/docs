@@ -19,23 +19,23 @@ Drupal page (browser)
                                           └─ drupal/mcp_tools Streamable HTTP endpoint
 ```
 
-The widget request is **not** a direct agent-to-agent (A2A) dispatch. The stream route runs a normal LLM turn with exactly one function tool (`drupal_content_editor_run`) plus the `drupal-widget-chat` skill; the LLM decides whether to answer conversationally or call the tool. The A2A dispatch to the WayFlow agent happens only when the tool is called, and it lives behind the connector handler's dependency-injection (DI) seam (`deps.dispatchContentEditor`, bound at boot to the host's `dispatchContentEditorViaA2A`).
+The widget request is **not** a direct agent-to-agent (A2A) dispatch. The stream route runs a normal LLM turn with exactly one function tool (`drupal_content_editor_run`) plus the `drupal-widget-chat` skill; the LLM decides whether to answer conversationally or call the tool. The A2A dispatch to the WayFlow agent happens only when the tool is called, and it lives behind the connector handler's dependency-injection (DI) seam (`deps.dispatchContentEditor`, bound at connector activation to the host's `dispatchContentEditorViaA2A` via the content-editor-dispatch capability).
 
 ## Key files
 
 | File | Role |
 |---|---|
-| `src/lib/drupal-api.ts` | Instance CRUD + `DrupalInstanceSettings` type |
+| `drupal-mcp-connector/src/lib/drupal-instances.ts` | Instance CRUD + `DrupalInstanceSettings` type — connector-owned, registered under the `@cinatra-ai/host:drupal-mcp` capability |
 | `drupal-mcp-connector/src/lib/drupal-mcp-client.ts` | `callDrupalMcp` — Model Context Protocol (MCP) SDK `Client` + `StreamableHTTPClientTransport` |
 | `src/lib/drupal-mcp-connection.ts` | `buildDrupalMcpServerTools` — probe cache + large language model (LLM) tool registration |
-| `src/lib/drupal-widget-auth.ts` | `generateDrupalWidgetAuthConfig` — UUID-pair widget API key |
+| `drupal-mcp-connector/src/register.ts` | Connector-owned widget-auth store (UUID-pair widget API key), registered as the `@cinatra-ai/host:drupal-widget-auth` capability |
 | `drupal-mcp-connector/src/mcp/handlers.ts` | 8 primitive handlers (7 Drupal MCP-facing + drupal_content_editor_run, which dispatches A2A via the host-bound `deps.dispatchContentEditor`) |
 | `drupal-mcp-connector/src/widget-chat-tool.ts` | `createDrupalWidgetChatTool` — the LLM function tool the stream route exposes; overrides identity fields from server-trusted context |
 | `drupal-mcp-connector/src/deps.ts` | Host DI contract (`registerDrupalConnector` / `getDrupalDeps`): pagination, `dispatchContentEditor`, `buildNangoBearerHeader` |
 | `src/lib/host-content-editor-dispatch.ts` | `dispatchContentEditorViaA2A` — host-side A2A blocking dispatch (bearer mint + external client + `task.history` walk), shared with WordPress |
-| `src/lib/register-transport-connectors.ts` | Boot-time DI binding: `registerDrupalConnector({ dispatchContentEditor: dispatchContentEditorViaA2A, buildNangoBearerHeader: buildBearerAuthHeaderFromNango, ... })` |
+| `drupal-mcp-connector/src/register.ts` (`register(ctx)`) | Activation-time DI binding: the connector resolves the per-concern host capabilities (content-editor dispatch, Nango bearer builder, pagination) via `ctx.capabilities` and binds its own deps slot |
 | `src/app/api/agents/[agentSlug]/stream/route.ts` | Per-slug agent stream registry (drupal-content-editor + wordpress-content-editor): CORS + Bearer + contract gates, LLM-orchestrated turn with the widget-chat tool, server-sent events (SSE) |
-| `src/app/api/drupal/bundle.js/route.ts` | IIFE bundle served as JS |
+| `drupal-module/js/cinatra-widget.js` | The vendored widget bundle the Drupal module attaches locally (the former host `bundle.js` route was removed — see `docs/widget-source-of-truth.md` in the platform repo) |
 | `drupal-assistant-connector/src/settings-page.tsx` | Admin credential management RSC |
 | `drupal-agent/` | WayFlow (Cinatra's OAS Flow agent runtime) leaf agent (natural language → node diff) |
 | `dev/drupal-module/cinatra/` | PHP Drupal module (widget injection) |
