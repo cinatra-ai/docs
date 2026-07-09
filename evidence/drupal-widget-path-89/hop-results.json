@@ -1,0 +1,49 @@
+{
+  "startedAt": "2026-07-09T08:46:03.855Z",
+  "proxy": "http://localhost:8092",
+  "nodeId": "1",
+  "steps": {
+    "read": {
+      "ok": true,
+      "via": "handler drupal_node_get",
+      "titleBefore": "Welcome to your demo site",
+      "bodyLen": 343,
+      "uuid": "4d913296-1883-4e25-9fd2-961baff4f0b5",
+      "keys": [
+        "drupal_internal__nid",
+        "drupal_internal__vid",
+        "langcode",
+        "revision_timestamp",
+        "status",
+        "title",
+        "created",
+        "changed",
+        "promote",
+        "sticky",
+        "default_langcode",
+        "revision_translation_affected",
+        "path",
+        "body",
+        "comment",
+        "id"
+      ]
+    },
+    "write": {
+      "ok": true,
+      "via": "handler drupal_node_update -> callDrupalMcp(mcp_update_content)",
+      "newTitle": "PROVEN via Drupal mcp_tools /_mcp_tools @ 2026-07-09T08:46:03.920Z",
+      "result": {
+        "nid": 1,
+        "title": "PROVEN via Drupal mcp_tools /_mcp_tools @ 2026-07-09T08:46:03.920Z",
+        "revision_id": "40",
+        "message": "Content updated successfully."
+      }
+    },
+    "mcpRead": {
+      "ok": true,
+      "via": "callDrupalMcp(mcp_tools_get_recent_content)",
+      "sample": "{\"total\":3,\"sorted_by\":\"changed\",\"content\":[{\"id\":\"1\",\"uuid\":\"4d913296-1883-4e25-9fd2-961baff4f0b5\",\"title\":\"PROVEN via Drupal mcp_tools /_mcp_tools @ 2026-07-09T08:46:03.920Z\",\"type\":\"article\",\"status\":\"published\",\"created\":\"2026-06-15 08:56:30\",\"changed\":\"2026-07-09 08:46:04\",\"author\":\"Anonymous\","
+    }
+  },
+  "finishedAt": "2026-07-09T08:46:04.220Z"
+}
