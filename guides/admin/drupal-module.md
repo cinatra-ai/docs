@@ -149,7 +149,7 @@ When an editor uses the assistant:
 - **Who operates the instance.** The Cinatra instance is operated by you or your hosting provider, not by a shared third party, unless you have pointed the module at a hosted Cinatra you do not control. Point it only at an instance you trust with your content.
 - **Terms and privacy.** The instance's data handling is governed by its operator's terms; for the Cinatra project's stance see the [Cinatra privacy and terms](https://cinatra.ai). Review your instance operator's policy before enabling the module for editors.
 
-This disclosure is the same story the WordPress plugin carries; the module and its Drupal.org README must keep it in sync.
+This disclosure is the same story the WordPress plugin carries, and matches the disclosure in the module's README on Drupal.org.
 
 ---
 

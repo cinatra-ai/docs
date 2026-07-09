@@ -4,5 +4,5 @@ Stable specifications, contracts, architecture, and protocol references — the 
 
 - [Platform](platform/README.md) — architecture, subsystem contracts and invariants, the objects layer, security and authorization, connectors, artifacts, workflows, open standards, and CI/testing policy
 - [MCP](mcp/README.md) — the Model Context Protocol server (external and internal): authentication, primitives, internal architecture, and client integrations
-- [Design](design/README.md) — the Cinatra design system: the published `design-system.html` mirror (normative as published; canonical source upstream), the design skill, and the operational rulebook
+- [Design](design/README.md) — the Cinatra design system: palette, typography, components, the design skill, and the operational rulebook for applying it in code
 - [Glossary](glossary.md) — canonical concepts and terminology used across the docs
