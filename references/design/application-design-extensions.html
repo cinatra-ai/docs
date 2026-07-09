@@ -252,7 +252,7 @@
       <p class="lede">How extensions surface in the Cinatra app — the ListingCard and its install-state machine, the extension detail modal, the installed-extensions manager, and the All-Agents agent card. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.4.0</div>
+      <div>Version 0.4.1</div>
     </div>
   </div>
 
@@ -764,7 +764,7 @@
         <div style="padding: 22px 0; border-bottom: 1px solid var(--line);">
           <div style="font-family: var(--font-sans); font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 14px;">Permissions</div>
           <label style="display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 400; color: var(--ink); margin-bottom: 6px;">Who can access this extension?</label>
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"><span style="font-size: 14px; color: var(--ink);">Anyone in Acme Corp</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;opacity:.5;color:var(--ink);"><path d="m6 9 6 6 6-6"/></svg></div>
+          <p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0;">Manage who can access this agent from the Agents page.</p>
         </div>
 
         <!-- Marketplace -->
@@ -792,10 +792,22 @@
     </div>
   </div>
 
+  <!-- Permissions — access picker (connector · artifact · workflow) — design note, outside the page mock -->
+  <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 0 0 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px;">
+    <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Connectors · artifacts · workflows — access picker</div>
+    <div style="flex: 1; min-width: 220px; max-width: 320px;"><div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"><span style="font-size: 14px; color: var(--ink);">Anyone in Acme Corp</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;opacity:.5;color:var(--ink);"><path d="m6 9 6 6 6-6"/></svg></div></div>
+  </div>
+
   <!-- Marketplace vendor registration — design note, outside the page mock -->
   <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 0 0 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px;">
     <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Instance not yet registered as a marketplace vendor</div>
     <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;"><button type="button" class="btn destructive" disabled aria-disabled="true" style="opacity: 0.45; cursor: not-allowed;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2 2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"/></svg>Publish on marketplace</button><a href="/configuration/environment?tab=registries" class="btn outline" style="cursor: pointer; text-decoration: none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/></svg>Register for marketplace</a><span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted);">/configuration/environment?tab=registries</span></div>
+  </div>
+
+  <!-- Publish gated on a publishable kind — design note, outside the page mock -->
+  <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 0 0 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px;">
+    <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Registered vendor · this kind can't be published yet</div>
+    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;"><button type="button" class="btn destructive" disabled aria-disabled="true" style="opacity: 0.45; cursor: not-allowed;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2 2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"/></svg>Publish on marketplace</button><span style="font-size: 12px; color: var(--muted);">Marketplace publishing isn't available for this extension yet.</span></div>
   </div>
 
   <!-- Archive / Activate flip — design note, outside the page mock -->
@@ -839,10 +851,10 @@
     </div>
   </div>
 
-  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">The page holds to the <b style="color:var(--ink);font-weight:600;">Narrow</b> column: the <b style="color:var(--ink);font-weight:600;">§II detail header</b>, then the groups — <b style="color:var(--ink);font-weight:600;">Permissions</b> and <b style="color:var(--ink);font-weight:600;">Marketplace</b>, then <b style="color:var(--ink);font-weight:600;">Maintenance</b>, then the red <b style="color:var(--red);font-weight:600;">Danger zone</b>. <b style="color:var(--ink);font-weight:600;">Permissions</b> reuses the install-time <b style="color:var(--ink);font-weight:600;">access picker</b> (project · team · organization scopes). <b style="color:var(--ink);font-weight:600;">Archive</b> and <b style="color:var(--ink);font-weight:600;">Activate</b> are complementary — exactly one is live: Activate greys out until the extension is archived, Archive greys out once it is. Destructive and one-way actions are the <code>destructive</code> red button and always confirm; <b style="color:var(--red);font-weight:600;">Force-delete</b> additionally demands a typed <em>reason</em> and warns that it bypasses restore, and <b style="color:var(--red);font-weight:600;">publishing to the marketplace</b> is one-way — and gated on the instance being a registered marketplace vendor (until then the action is muted beside a <em>Register for marketplace</em> link).</p>
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">The page holds to the <b style="color:var(--ink);font-weight:600;">Narrow</b> column: the <b style="color:var(--ink);font-weight:600;">§II detail header</b>, then the groups — <b style="color:var(--ink);font-weight:600;">Permissions</b> and <b style="color:var(--ink);font-weight:600;">Marketplace</b>, then <b style="color:var(--ink);font-weight:600;">Maintenance</b>, then the red <b style="color:var(--red);font-weight:600;">Danger zone</b>. <b style="color:var(--ink);font-weight:600;">Permissions</b> reuses the install-time <b style="color:var(--ink);font-weight:600;">access picker</b> (project · team · organization scopes) for connectors, artifacts and workflows; agents and skills are managed from their own pages, so for those the section links there instead of showing the picker — an agent to the Agents page, a skill to its configuration page. <b style="color:var(--ink);font-weight:600;">Archive</b> and <b style="color:var(--ink);font-weight:600;">Activate</b> are complementary — exactly one is live: Activate greys out until the extension is archived, Archive greys out once it is. Destructive and one-way actions are the <code>destructive</code> red button and always confirm; <b style="color:var(--red);font-weight:600;">Force-delete</b> additionally demands a typed <em>reason</em> and warns that it bypasses restore, and <b style="color:var(--red);font-weight:600;">publishing to the marketplace</b> is one-way — and gated: on the instance being a registered marketplace vendor (until then the action is muted beside a <em>Register for marketplace</em> link), and on the kind being publishable — a registered vendor viewing a kind that can't be published yet sees the action muted, <em>Marketplace publishing isn't available for this extension yet.</em></p>
 
 <footer>
-    <span>Cinatra · Application Design — Extensions v0.4.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Extensions v0.4.1</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>

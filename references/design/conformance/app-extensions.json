@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-extensions.html",
-  "contentHash": "sha256:35afbd0ea0b7637fa8df772afad6b8752eeef800c3c99e955209b69e086b7b0f",
+  "contentHash": "sha256:b8ee5476a15b72cdc2816fbb7e4574abeb0decedd04e96cbc71d8f169e973d74",
   "surfaces": [
     {
       "id": "extension-listing-grid",
