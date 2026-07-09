@@ -1,0 +1,53 @@
+{
+  "$comment": "Verified false positives for scripts/check-meta-commentary.mjs (cinatra-ai/docs#114). Each entry suppresses one pattern id on one exact source LINE (the \"snippet\" field is the full trimmed line, not just the matched phrase) — two different sentences in the same file can share a short phrase like \"generated from\", so a second, unrelated line needs its own entry. The file still describes a real Cinatra product behavior that happens to match a docs-meta phrase; it is not commentary about how this documentation site is produced. Every entry needs owner + reviewBy so it does not silently become permanent: once reviewBy passes the entry stops suppressing (the gate reds again) until a human re-verifies and renews the date, or removes the entry.",
+  "entries": [
+    {
+      "file": "guides/developer/agent-development.md",
+      "pattern": "compiled_from",
+      "snippet": "The taskSpec stored in the DB is compiled from this file. When a chat assistant creates a new agent via `agent_save`, it should also write the SKILL.md via `agent_source_write`.",
+      "note": "Describes the agent build pipeline (SKILL.md -> taskSpec), not docs generation.",
+      "owner": "groganz",
+      "reviewBy": "2027-01-09"
+    },
+    {
+      "file": "guides/developer/extension-publishing.md",
+      "pattern": "do_not_hand_edit",
+      "snippet": "In short: removing a published version does not uninstall it from instances that already installed it, and uninstalling/archiving on an instance does not retract a marketplace release. Use the lifecycle operations to manage installed state and the registry operations to manage published versions — do not hand-edit manifest rows or delete package-store files.",
+      "note": "Operator instruction about DB/package-store rows, not about editing a docs page.",
+      "owner": "groganz",
+      "reviewBy": "2027-01-09"
+    },
+    {
+      "file": "guides/user/continuous-learning.md",
+      "pattern": "generated_from",
+      "snippet": "- The skill content itself — a short Markdown body the LLM generated from the captured prompts.",
+      "note": "Describes the skill-authoring product feature, not docs generation.",
+      "owner": "groganz",
+      "reviewBy": "2027-01-09"
+    },
+    {
+      "file": "guides/user/cross-instance-collaboration.md",
+      "pattern": "published_from",
+      "snippet": "- Both instances share a private registry destination, so packages published from the trusted-tools instance are immediately installable on the team instances without going through the public marketplace.",
+      "note": "Describes the cross-instance registry product feature, not docs publishing.",
+      "owner": "groganz",
+      "reviewBy": "2027-01-09"
+    },
+    {
+      "file": "resources/comparisons/runwork-vs-cinatra.md",
+      "pattern": "generated_from",
+      "snippet": "- **Skills** — reusable prompts and workflows shared team-wide, auto-generated from each connected app's registered capabilities, and usable as slash commands by any connected agent.",
+      "note": "Describes Cinatra's Skills product feature (line 22), not docs generation.",
+      "owner": "groganz",
+      "reviewBy": "2027-01-09"
+    },
+    {
+      "file": "resources/comparisons/runwork-vs-cinatra.md",
+      "pattern": "generated_from",
+      "snippet": "- **Runwork:** Skills are the core shared asset — reusable prompts/workflows, auto-generated from registered app capabilities, surfaced as slash commands inside any connected agent. Sharing is within the workspace.",
+      "note": "Describes Runwork's competing Skills feature (line 44, comparison content), not docs generation.",
+      "owner": "groganz",
+      "reviewBy": "2027-01-09"
+    }
+  ]
+}
