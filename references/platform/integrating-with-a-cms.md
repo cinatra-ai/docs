@@ -111,6 +111,18 @@ The connector extensions each register a small primitive set the content-editor 
 
 Each primitive is Zod-validated. Each runs through the standard MCP authorization gate. The primitives are also reachable from the external MCP server at `/api/mcp` — an external client with the right credentials can drive WordPress or Drupal from outside the embedded widget.
 
+### WordPress pages vs posts: the current page contract
+
+The WordPress primitives are **post-shaped by default and only partially page-aware** — page support is per-primitive, not global:
+
+- **Read and update a page — supported.** `wordpress_post_get` and `wordpress_post_update` accept an optional `postType`. When a caller passes `postType: "page"`, the primitive routes to `/wp/v2/pages/{id}` instead of `/wp/v2/posts/{id}`, so an external `/api/mcp` client — or the content-editor agent — can read and edit a page, **provided it already knows the page's numeric ID**.
+- **Discover / list pages — not yet exposed.** `wordpress_posts_list` is post-only: it always queries `/wp/v2/posts` and takes no `postType`. There is no page-listing primitive, so page IDs cannot be discovered through Cinatra's WordPress primitives — a caller must obtain the ID out of band (for example, from the page's WordPress admin URL).
+- **Page status, delete, and draft-create — not yet page-aware.** `wordpress_post_status`, `wordpress_post_delete`, and `wordpress_post_create_draft` route to the `/wp/v2/posts` endpoints and ignore `postType`, so they are not first-class for pages.
+
+These are **current** gaps in Cinatra's own primitives — page listing and page-aware status/delete are open work in `cinatra-ai/wordpress-mcp-connector` (issues #52 and #54, unresolved at the time of writing); this section will be revised once they land.
+
+This contract is separate from the external **WordPress MCP Adapter** server (`WordPress/mcp-adapter`), which Cinatra can inject as an additional toolbox for a public WordPress site: what page tools *that* server exposes depends on the adapter plugin's own behavior and version, not on the Cinatra primitives above.
+
 ## What WordPress and Drupal don't share
 
 Even with symmetric integrations the underlying CMSes diverge in places the agent and the connector need to handle explicitly.

@@ -34,6 +34,9 @@ The full live list comes back over the MCP `tools/list` call. Each primitive dec
 
 Primitive names follow the convention `<domain>_<resource>_<action>` — for example `agent_run`, `accounts_list`, `wordpress_post_create_draft`. See [Primitives](primitives.md) for the naming rules and the actor-context envelope every primitive receives.
 
+> [!NOTE]
+> A connector's primitives can carry capability gaps an external caller should know about. For example, Cinatra's WordPress primitives are only partially page-aware: over `/api/mcp` you can read and update a WordPress *page* by passing `postType: "page"` with a known page ID, but there is no page-listing primitive yet, and the status/delete primitives are post-only. See the [WordPress page contract](../platform/integrating-with-a-cms.md#wordpress-pages-vs-posts-the-current-page-contract) for the details and current limits.
+
 ## Same primitive contract, different surfaces
 
 The MCP server is the *one* capability surface Cinatra exposes externally. The chat assistant inside the app uses it. The `/agents` UI uses it. The built-in agent runtime uses it. An external Claude Code instance uses it. A ChatGPT connector uses it. All these paths converge on the same primitive contract — same primitive names, same Zod input schemas, same handler functions.
