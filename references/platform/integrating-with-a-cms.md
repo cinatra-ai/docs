@@ -17,20 +17,21 @@ Auth and CORS live in the Cinatra app; the widget bundle ships **inside the CMS-
 
 ## The CMS-side artifact
 
-For Drupal: `dev/drupal-module/cinatra/` — a PHP module installable via Composer or manual placement in the Drupal `modules/custom/` tree. Its `cinatra.module` and supporting `src/` directory:
+For Drupal: the `cinatra-ai/drupal-module` repository — a PHP module installable via Composer or manual placement in the Drupal `modules/custom/` tree. Its `cinatra.module` and supporting `src/` directory:
 
 - Register an admin settings form at `/admin/config/services/cinatra` (`cinatra.routing.yml`). The form captures Cinatra URL, API key, and instance ID.
 - Implement `cinatra_page_attachments()` to inject the widget bundle on **node canonical view, node edit form, and the site front page** — and only for authenticated Drupal users (`!\Drupal::currentUser()->isAuthenticated()` early-returns).
-- Pass the configured Cinatra URL + widget API key + instance ID to the bundle via `drupalSettings.cinatra`.
+- Pass the configured Cinatra URL + instance ID to the bundle via `drupalSettings.cinatra`. The long-lived widget API key is **not** placed in `drupalSettings` — it stays server-side, and the bundle obtains a short-lived streaming token from the module's same-origin token-broker route instead.
 
-For WordPress: `dev/wordpress-plugin/cinatra.php` — a single-file WordPress plugin that:
+For WordPress: the `cinatra-ai/wordpress-plugin` repository — a standalone WordPress plugin, extracted out of the platform monorepo, whose main file `cinatra.php` ships alongside the vendored widget bundle under `assets/`. It:
 
 - Adds a **Settings → Cinatra** admin page capturing Cinatra URL, API key, instance ID, and an optional webhook secret.
 - Enqueues the widget bundle on **WordPress admin pages, only for users with the `manage_options` capability** (administrator-level). It does not load on the public front-end and is not visible to lower-privileged editors.
-- Exposes the configured values to the bundle as `window.CinatraConfig`.
+- Exposes the configured values to the bundle as `window.CinatraConfig` — the non-secret connection settings only; the long-lived integration credential stays server-side and is never placed here (see [Auth model](#auth-model)).
+- Runs the **same-origin token broker**: a plugin REST route the browser calls to obtain a short-lived, scoped stream token. The plugin's server-side code holds the long-lived widget API key and exchanges it — server-to-server with Cinatra's token endpoint — for that short-lived token, so the browser receives only the short-lived token and never the raw key.
 - Also registers REST endpoints under `/wp-json/cinatra/v1/*` for webhook subscription management (list, create, delete, plus an HMAC-signed receive endpoint).
 
-The Drupal module is a pure credential carrier + script loader. The WordPress plugin is the same for the widget chat path, but additionally carries the webhook subscription surface — when Cinatra wants to notify the CMS of an event (e.g., a Cinatra-side LinkedIn publish completed), it posts to the WordPress REST endpoint signed with the configured webhook secret.
+Both artifacts are credential carriers, local widget loaders, and same-origin token brokers: each holds the long-lived integration credential server-side and mints short-lived streaming tokens for the browser. The WordPress plugin additionally carries the webhook subscription surface — when Cinatra wants to notify the CMS of an event (e.g., a Cinatra-side LinkedIn publish completed), it posts to the WordPress REST endpoint signed with the configured webhook secret.
 
 ## The widget bundle
 
@@ -110,6 +111,19 @@ The connector extensions each register a small primitive set the content-editor 
 
 Each primitive is Zod-validated. Each runs through the standard MCP authorization gate. The primitives are also reachable from the external MCP server at `/api/mcp` — an external client with the right credentials can drive WordPress or Drupal from outside the embedded widget.
 
+### WordPress pages vs posts: the current page contract
+
+The WordPress primitives are **post-shaped by default and only partially page-aware** — page support is per-primitive rather than global, and which page operations an instance can perform depends on the connector version it runs:
+
+- **Read and update a page — supported.** `wordpress_post_get` and `wordpress_post_update` accept an optional `postType`. When a caller passes `postType: "page"`, the primitive routes to `/wp/v2/pages/{id}` instead of `/wp/v2/posts/{id}`, so an external `/api/mcp` client — or the content-editor agent — can read and edit a page, **provided it already knows the page's numeric ID**.
+- **Discover / list pages — landing in the next connector release.** A dedicated `wordpress_pages_list` primitive (page-only, offset-paginated like `wordpress_posts_list`) has merged into the connector's `main` and ships in the next connector release. `wordpress_posts_list` itself stays post-only, so page discovery is this separate primitive rather than a `postType` on the posts list. Until an instance runs a release that includes it, page IDs still cannot be listed through Cinatra's primitives and must be obtained out of band (for example, from the page's WordPress admin URL).
+- **Page status and delete — page-aware in the next connector release.** `wordpress_post_status` and `wordpress_post_delete` now accept `postType: "page"` and route to `/wp/v2/pages/{id}` on the connector's `main`, shipping in the same upcoming release; on the currently released connector both remain post-only.
+- **Create a page — still post-only.** `wordpress_post_create_draft` remains post-route based and ignores `postType`, so drafting a *page* is not yet supported through Cinatra's primitives.
+
+Page listing and page-aware status/delete have already landed in `cinatra-ai/wordpress-mcp-connector`'s `main`, but are not yet in a tagged connector release — so an instance on the current release still sees the older post-only behavior for those, while page create remains an open gap. The bullets above describe both the source-of-truth contract and what a released connector exposes today.
+
+This contract is separate from the external **WordPress MCP Adapter** server (`WordPress/mcp-adapter`), which Cinatra can inject as an additional toolbox for a public WordPress site: what page tools *that* server exposes depends on the adapter plugin's own behavior and version, not on the Cinatra primitives above.
+
 ## What WordPress and Drupal don't share
 
 Even with symmetric integrations the underlying CMSes diverge in places the agent and the connector need to handle explicitly.
@@ -141,10 +155,10 @@ The two existing CMS connector extensions (`drupal-mcp-connector`, `wordpress-mc
 
 When you need to verify a specific claim on this page:
 
-- Drupal module: `dev/drupal-module/cinatra/`
-- WordPress plugin: `dev/wordpress-plugin/cinatra.php`
+- Drupal module: `cinatra-ai/drupal-module`
+- WordPress plugin: `cinatra-ai/wordpress-plugin` — the extracted plugin repository (main file `cinatra.php`, the same-origin token broker, and the vendored widget bundle)
 - Drupal widget bundle (vendored): `drupal-module/js/cinatra-widget.js`
-- WordPress widget bundle (vendored): `wordpress-plugin/assets/cinatra-widget.js`
+- WordPress widget bundle (vendored): `wordpress-plugin/assets/cinatra-widget.js` (in `cinatra-ai/wordpress-plugin`)
 - Widget source-of-truth contract: `docs/widget-source-of-truth.md` (platform repo)
 - Stream route: `src/app/api/agents/[agentSlug]/stream/route.ts`
 - Widget stream auth (generic): `src/lib/widget-stream-auth.ts`
