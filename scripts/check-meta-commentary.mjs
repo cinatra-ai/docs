@@ -137,8 +137,8 @@ function loadAllowlist(path, now) {
 }
 
 function listMarkdownFiles() {
-  // git ls-files respects .gitignore (.planning/ etc.) and only returns
-  // tracked files, so an untracked scratch file can never trip the gate.
+  // git ls-files respects gitignored paths and only returns tracked files,
+  // so an untracked scratch file can never trip the gate.
   const out = execFileSync("git", ["ls-files", "--", "*.md"], {
     cwd: REPO_ROOT,
     encoding: "utf8",
