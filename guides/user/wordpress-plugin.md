@@ -2,7 +2,7 @@
 
 Cinatra is the open source AI workspace for teams, and the **Cinatra WordPress plugin** puts a Cinatra-driven AI assistant directly inside `wp-admin`. An administrator installs the plugin, connects it to your Cinatra instance once, and from then on administrators get a floating Cinatra button in the WordPress admin: click it, ask it to tighten a lead, add a section, or fix the metadata, and the changes land on the post you are already editing. (The widget is shown only to users with the `manage_options` capability — typically administrators; see [Permissions](#permissions-who-can-use-it).)
 
-This page is for the people who **install, connect, and use** the WordPress plugin. It covers installing and activating it, connecting it to a Cinatra instance, what the admin assistant does, how the assistant is delivered to the browser and why that is safe, who can use it, what to do when it does not work, and what happens when you remove it.
+This page is for the people who **install, connect, and use** the WordPress plugin. It covers installing and activating it, connecting it to a Cinatra instance, what the admin assistant does, how the assistant is delivered to the browser and why that is safe, who can use it, how to also give your Cinatra agents tool access to your site, what to do when it does not work, and what happens when you remove it.
 
 For the in-CMS assistant story across both supported CMSes (WordPress and Drupal), see [Cinatra in your CMS](cinatra-in-your-cms.md). For the protocol-level mechanics, see [Integrating Cinatra with a CMS](../../references/platform/integrating-with-a-cms.md).
 
@@ -38,7 +38,7 @@ You can install the plugin two ways.
 
    Alternatively, unzip the plugin folder into `wp-content/plugins/cinatra/` and activate it from the **Plugins** screen.
 
-**(Recommended) Install the WordPress MCP Adapter plugin** as well. The Cinatra assistant edits your posts by calling back into the WordPress REST API; the MCP Adapter gives Cinatra tool access to your site. The plugin shows an admin notice prompting you if it is not present. The assistant chat works without it, but the editing tools the assistant relies on need it.
+**(Optional) The WordPress MCP Adapter is a separate plugin — and you do not need it for the assistant on this page.** The in-admin assistant reads and edits the post you are working on through the plugin's own secure connection to WordPress (see [Delivery and security model](#delivery-and-security-model)), not through the adapter. The adapter is for a different, broader job: letting your Cinatra **agents** use your WordPress site as a set of tools. If you want that, see [Give your Cinatra agents access to your WordPress site](#give-your-cinatra-agents-access-to-your-wordpress-site); otherwise you can skip it.
 
 Activating the plugin does not turn anything on by itself — the assistant does not appear until you connect it to a Cinatra instance, below.
 
@@ -88,7 +88,7 @@ Once connected, administrators see a floating Cinatra button in the WordPress ad
 
 The assistant writes to a **draft** of the current post. While it applies edits, the post status switches to `draft`, which means the public front-end shows the last published version (or a 404 if the post was never published) until you republish from the WordPress editor. WordPress keeps the previous revision in its normal history, so you can roll back from the WordPress revisions UI at any time.
 
-Writing back to your posts depends on the **WordPress MCP Adapter** plugin being installed and active (see [Install and activate](#install-and-activate)). Without it, the assistant can still chat and read the current post, but it cannot apply edits.
+Editing the post you are working on needs **no** extra plugin. The assistant reads the current post and writes its changes back through the plugin's own secure connection to WordPress — the short-lived token handshake described under [Delivery and security model](#delivery-and-security-model), which calls WordPress's own REST API. The separate **WordPress MCP Adapter** is **not** required for this in-admin editing; it is only for giving your Cinatra agents broader tool access to your site (see [Give your Cinatra agents access to your WordPress site](#give-your-cinatra-agents-access-to-your-wordpress-site)).
 
 It is not a general-purpose Cinatra assistant — it edits WordPress content. For broader Cinatra work (research, outreach campaigns, dashboards), open the Cinatra workspace itself. See [Cinatra in your CMS](cinatra-in-your-cms.md) for the full editor walkthrough and how WordPress and Drupal differ.
 
@@ -97,6 +97,24 @@ It is not a general-purpose Cinatra assistant — it edits WordPress content. Fo
 - **The chat history** lives only in your browser's session for the current page. It is sent to your Cinatra instance with each message so the assistant has context, but it is not stored on the Cinatra side as a separate chat thread. Close the tab and it is gone.
 - **Field reads** happen at edit time against WordPress's normal authenticated REST API.
 - **The audit trail.** Every content-editor run on Cinatra writes an audit record, so your administrators can see who edited what, when, in the Cinatra run history.
+
+---
+
+## Give your Cinatra agents access to your WordPress site
+
+Everything above is the **in-admin assistant** — the floating button that edits the post you are on. It works on its own and needs no extra plugin.
+
+Cinatra can also do something broader: let your **Cinatra agents** use your WordPress site as a set of tools, so an agent running anywhere in Cinatra — inside a workflow, a chat, or an autonomous task — can read and edit your WordPress content as part of a larger job, not only from the in-admin panel. This is **separate** from the in-admin assistant, and it needs one more plugin.
+
+**This capability requires the WordPress MCP Adapter.** The adapter is a companion WordPress plugin that exposes your site's content tools so Cinatra can call them. Without it, your agents cannot reach into WordPress this way. (The in-admin assistant on this page is unaffected either way — it never uses the adapter.)
+
+To turn it on:
+
+1. **Install the WordPress MCP Adapter on the site.** The adapter is distributed on its GitHub releases page, not the WordPress.org Plugin Directory, so download the latest release ZIP and install it in `wp-admin` under **Plugins → Add New → Upload Plugin**, then click **Activate** — the same way you would install any plugin from a ZIP.
+2. **Make sure the site is reachable at a public URL.** Cinatra's agents connect to your site over the internet, so a site that is only reachable locally or on a private network cannot be used this way. Put it on a public address (or expose it through a public tunnel) if it is not already.
+3. **Confirm it is detected.** In Cinatra, the WordPress connector's settings page shows an adapter status for each connected site. Once the adapter is active and the site is reachable, it reads as detected and your agents can use the site's tools automatically.
+
+If you only use the in-admin assistant, you can ignore this section entirely — none of it is needed to edit the post you are working on.
 
 ---
 
@@ -164,7 +182,11 @@ The integration key's scope is also narrow on the Cinatra side: it authorises th
 - This means your WordPress site and your Cinatra instance disagree on the integration's version/contract — usually because one was upgraded and the other was not. Update the plugin (or ask your administrator to update the Cinatra instance) so both are on the same version. The assistant keeps working in a compatible mode where it can, but some affordances (such as applying changes) may be hidden until both sides match.
 
 **Edits don't seem to apply / the assistant can read but not write.**
-- Install and activate the **WordPress MCP Adapter** plugin (see [Install and activate](#install-and-activate)). The assistant needs it to write back to your posts.
+- This is **not** the MCP Adapter — the in-admin assistant does not use it to edit. The usual cause is the WordPress connection itself: the stored integration credential is wrong, blank, or was rotated, or the account it uses does not have permission to edit that post. **Connect with Cinatra** again from **Settings → Cinatra** (or re-check the credential in Cinatra at `/settings/connectors/wordpress-widget`), and confirm the account has rights to edit the post in WordPress.
+- If a "deprecated" or "update required" notice is showing, the apply action can be hidden until your plugin and Cinatra instance are on matching versions — see the notice entry above.
+
+**Your Cinatra agents can't use your WordPress site as a tool.**
+- This is the case that needs the **WordPress MCP Adapter**. Confirm the adapter plugin is installed and active on the site, and that the site is reachable at a **public** URL — agents cannot reach a local or private address. The WordPress connector's settings page in Cinatra shows whether the adapter is detected. See [Give your Cinatra agents access to your WordPress site](#give-your-cinatra-agents-access-to-your-wordpress-site).
 
 If a problem persists, your administrator can check the Cinatra run history (every content-editor run is recorded) to see whether the request reached the instance and how it failed.
 
