@@ -148,5 +148,6 @@ Authors do not sign their own builds in the current flow; the signature served o
 - Build an extension before publishing: [Extension authoring](extension-authoring.md)
 - The canonical manifest and lifecycle transitions: [Extension lifecycle and distribution](../../references/platform/extension-lifecycle.md)
 - The marketplace-ready README the registry renders: [Extension README contract](../../references/platform/extension-readme.md)
+- If your extension ships UI, follow the published design references before you publish: [Design conformance](extension-authoring.md#design-conformance--extensions-that-ship-ui)
 
 Back to the [Developer Guide](README.md).

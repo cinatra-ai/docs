@@ -124,6 +124,16 @@ Before publishing, satisfy the gates the platform holds every extension to:
 
 Beyond these author-time gates, the production loader applies a runtime trust check (tarball integrity + Ed25519 signature in the signature-required window). The IoC review contract every change is held to is in [Extension IoC safeguards](../../references/platform/extension-ioc-safeguards.md).
 
+### Design conformance — extensions that ship UI
+
+An extension whose UI is user-facing — a connector's setup page, or an agent/skill surface — must **adhere to the published Application Design references**. These are **published mirrors** of Cinatra's canonical design specs (see [Canonical source](../../references/design/README.md#canonical-source)) — always link the `docs.cinatra.ai/references/design/*` pages below, never a source or private repo:
+
+- **[Application Design (design system)](https://docs.cinatra.ai/references/design/design-system.html)** — the palette, typography, and component reference every surface builds from.
+- **[Extensions](https://docs.cinatra.ai/references/design/application-design-extensions.html)** — the marketplace card, detail-view, and installed-extensions patterns.
+- **[Connectors](https://docs.cinatra.ai/references/design/application-design-connectors.html)** — the connector grid and setup page, including the single- and multi-connection layouts and additional config tabs.
+
+Follow the referenced layout and interaction patterns for any surface you ship — tab order (a reserved Help tab, when present, always sits last) and the connection/status patterns. Design conformance is part of review.
+
 ---
 
 ## 3. Go to your kind's guide
