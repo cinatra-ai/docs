@@ -8,15 +8,17 @@ This chapter is the hub for Cinatra's **first-party integrations** — the ones 
 
 ## First-party integration hubs
 
-These integrations are built and supported by Cinatra. Each hub follows the same six-part shape — Overview, Quick start, Use it, Settings & permissions, Troubleshooting, and Advanced & reference — so you always know where to look.
+These integrations are built and supported by Cinatra. Each one gets a dedicated hub here that follows the same six-part shape — Overview, Quick start, Use it, Settings & permissions, Troubleshooting, and Advanced & reference — so you always know where to look.
 
-- **WordPress** — `/integrations/wordpress/` — embed a Cinatra AI editing assistant inside `wp-admin`, so authors can tighten a lead, add a section, or fix metadata on the post they are already editing.
-- **Drupal** — `/integrations/drupal/` — the same in-CMS editing assistant for Drupal sites, delivered as a first-party Drupal module.
-- **Twenty** — `/integrations/twenty/` — connect Cinatra to Twenty, the open source CRM, so agents read and write People, Companies, Opportunities, and custom objects against your system of record.
-- **Plane** — `/integrations/plane/` — mirror Cinatra's scheduled and ad-hoc agent runs into Plane as work items, so a run shows up on your project board, calendar, and timeline.
+Each hub is **generated from its integration's own source repository** and published here once that integration cuts a release (see [the integration docs contract](../references/platform/integration-docs-contract.md)). The integrations below are available today from the [Cinatra Marketplace](https://marketplace.cinatra.ai/); their dedicated hubs are still being published, so for now install and read about each one from its marketplace listing.
+
+- **WordPress** *(hub forthcoming)* — embed a Cinatra AI editing assistant inside `wp-admin`, so authors can tighten a lead, add a section, or fix metadata on the post they are already editing.
+- **Drupal** *(hub forthcoming)* — the same in-CMS editing assistant for Drupal sites, delivered as a first-party Drupal module.
+- **Twenty** *(hub forthcoming)* — connect Cinatra to Twenty, the open source CRM, so agents read and write People, Companies, Opportunities, and custom objects against your system of record.
+- **Plane** *(hub forthcoming)* — mirror Cinatra's scheduled and ad-hoc agent runs into Plane as work items, so a run shows up on your project board, calendar, and timeline.
 
 > [!NOTE]
-> Each hub is published from its integration's own source repository at that integration's latest released version. A hub appears here once its integration has cut a release; until then, use the marketplace listing.
+> When a hub is published it will live at its canonical path — for example `/integrations/wordpress/`. Those canonical paths are reserved and are **not browsable until the hub is generated from a release**, so this index does not link to them yet. Until then, use the [Cinatra Marketplace](https://marketplace.cinatra.ai/) listing.
 
 ---
 
