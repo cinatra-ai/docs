@@ -17,20 +17,21 @@ Auth and CORS live in the Cinatra app; the widget bundle ships **inside the CMS-
 
 ## The CMS-side artifact
 
-For Drupal: `dev/drupal-module/cinatra/` — a PHP module installable via Composer or manual placement in the Drupal `modules/custom/` tree. Its `cinatra.module` and supporting `src/` directory:
+For Drupal: the `cinatra-ai/drupal-module` repository — a PHP module installable via Composer or manual placement in the Drupal `modules/custom/` tree. Its `cinatra.module` and supporting `src/` directory:
 
 - Register an admin settings form at `/admin/config/services/cinatra` (`cinatra.routing.yml`). The form captures Cinatra URL, API key, and instance ID.
 - Implement `cinatra_page_attachments()` to inject the widget bundle on **node canonical view, node edit form, and the site front page** — and only for authenticated Drupal users (`!\Drupal::currentUser()->isAuthenticated()` early-returns).
-- Pass the configured Cinatra URL + widget API key + instance ID to the bundle via `drupalSettings.cinatra`.
+- Pass the configured Cinatra URL + instance ID to the bundle via `drupalSettings.cinatra`. The long-lived widget API key is **not** placed in `drupalSettings` — it stays server-side, and the bundle obtains a short-lived streaming token from the module's same-origin token-broker route instead.
 
-For WordPress: `dev/wordpress-plugin/cinatra.php` — a single-file WordPress plugin that:
+For WordPress: the `cinatra-ai/wordpress-plugin` repository — a standalone WordPress plugin, extracted out of the platform monorepo, whose main file `cinatra.php` ships alongside the vendored widget bundle under `assets/`. It:
 
 - Adds a **Settings → Cinatra** admin page capturing Cinatra URL, API key, instance ID, and an optional webhook secret.
 - Enqueues the widget bundle on **WordPress admin pages, only for users with the `manage_options` capability** (administrator-level). It does not load on the public front-end and is not visible to lower-privileged editors.
-- Exposes the configured values to the bundle as `window.CinatraConfig`.
+- Exposes the configured values to the bundle as `window.CinatraConfig` — the non-secret connection settings only; the long-lived integration credential stays server-side and is never placed here (see [Auth model](#auth-model)).
+- Runs the **same-origin token broker**: a plugin REST route the browser calls to obtain a short-lived, scoped stream token. The plugin's server-side code holds the long-lived widget API key and exchanges it — server-to-server with Cinatra's token endpoint — for that short-lived token, so the browser receives only the short-lived token and never the raw key.
 - Also registers REST endpoints under `/wp-json/cinatra/v1/*` for webhook subscription management (list, create, delete, plus an HMAC-signed receive endpoint).
 
-The Drupal module is a pure credential carrier + script loader. The WordPress plugin is the same for the widget chat path, but additionally carries the webhook subscription surface — when Cinatra wants to notify the CMS of an event (e.g., a Cinatra-side LinkedIn publish completed), it posts to the WordPress REST endpoint signed with the configured webhook secret.
+Both artifacts are credential carriers, local widget loaders, and same-origin token brokers: each holds the long-lived integration credential server-side and mints short-lived streaming tokens for the browser. The WordPress plugin additionally carries the webhook subscription surface — when Cinatra wants to notify the CMS of an event (e.g., a Cinatra-side LinkedIn publish completed), it posts to the WordPress REST endpoint signed with the configured webhook secret.
 
 ## The widget bundle
 
@@ -141,10 +142,10 @@ The two existing CMS connector extensions (`drupal-mcp-connector`, `wordpress-mc
 
 When you need to verify a specific claim on this page:
 
-- Drupal module: `dev/drupal-module/cinatra/`
-- WordPress plugin: `dev/wordpress-plugin/cinatra.php`
+- Drupal module: `cinatra-ai/drupal-module`
+- WordPress plugin: `cinatra-ai/wordpress-plugin` — the extracted plugin repository (main file `cinatra.php`, the same-origin token broker, and the vendored widget bundle)
 - Drupal widget bundle (vendored): `drupal-module/js/cinatra-widget.js`
-- WordPress widget bundle (vendored): `wordpress-plugin/assets/cinatra-widget.js`
+- WordPress widget bundle (vendored): `wordpress-plugin/assets/cinatra-widget.js` (in `cinatra-ai/wordpress-plugin`)
 - Widget source-of-truth contract: `docs/widget-source-of-truth.md` (platform repo)
 - Stream route: `src/app/api/agents/[agentSlug]/stream/route.ts`
 - Widget stream auth (generic): `src/lib/widget-stream-auth.ts`
