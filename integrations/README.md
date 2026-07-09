@@ -10,13 +10,10 @@ This chapter is the hub for Cinatra's **first-party integrations** — the ones 
 
 These integrations are built and supported by Cinatra. Each hub follows the same six-part shape — Overview, Quick start, Use it, Settings & permissions, Troubleshooting, and Advanced & reference — so you always know where to look.
 
-- **WordPress** — `/integrations/wordpress/` — embed a Cinatra AI editing assistant inside `wp-admin`, so authors can tighten a lead, add a section, or fix metadata on the post they are already editing.
-- **Drupal** — `/integrations/drupal/` — the same in-CMS editing assistant for Drupal sites, delivered as a first-party Drupal module.
-- **Twenty** — `/integrations/twenty/` — connect Cinatra to Twenty, the open source CRM, so agents read and write People, Companies, Opportunities, and custom objects against your system of record.
-- **Plane** — `/integrations/plane/` — mirror Cinatra's scheduled and ad-hoc agent runs into Plane as work items, so a run shows up on your project board, calendar, and timeline.
-
-> [!NOTE]
-> Each hub is published from its integration's own source repository at that integration's latest released version. A hub appears here once its integration has cut a release; until then, use the marketplace listing.
+- **[WordPress](wordpress/README.md)** — embed a Cinatra AI editing assistant inside `wp-admin`, so authors can tighten a lead, add a section, or fix metadata on the post they are already editing.
+- **[Drupal](drupal/README.md)** — the same in-CMS editing assistant for Drupal sites, delivered as a first-party Drupal module.
+- **[Twenty](twenty/README.md)** — connect Cinatra to Twenty, the open source CRM, so agents read and write People, Companies, Opportunities, and custom objects against your system of record.
+- **[Plane](plane/README.md)** — mirror Cinatra's scheduled and ad-hoc agent runs into Plane as work items, so a run shows up on your project board, calendar, and timeline.
 
 ---
 
@@ -29,9 +26,3 @@ Marketplace listings carry an ownership label so you always know who stands behi
 - **Built by Cinatra** — a first-party extension (the integrations above). Its docs home is this chapter.
 - **Verified partner** — built by a partner Cinatra has reviewed. Its docs home is the vendor README linked from the listing.
 - **Community** — built by the community. Its docs home is the vendor README linked from the listing.
-
----
-
-## For integration authors
-
-Building a first-party integration hub? The pages here follow a written **docs contract**: a fixed six-page shape plus required frontmatter, authored in the integration's own repository under `docs/` and compiled into this chapter at release time. The contract — what files are required, what frontmatter each page must carry, the link and trust rules — is documented in [The integration docs contract](../references/platform/integration-docs-contract.md). The contract is enforced automatically by a validator that runs in each integration repository's CI before a release can publish.
