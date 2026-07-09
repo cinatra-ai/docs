@@ -41,6 +41,25 @@
     --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;   /* display: headlines, wordmark, italic numerics, UI chrome */
     --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;     /* body prose: paragraphs, card text, tables, liner-notes */
     --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    /* — type scale — applied numeric type sizes tokenized as custom properties,
+       one source like the palette above. Page-title is the app h1 display ramp
+       (lg 28 / md 24 / sm 20); plus component titles, kicker/label tracking, badge sizes. */
+    --page-title-sm:             20px;
+    --page-title-md:             24px;
+    --page-title-lg:             28px;
+    --page-title-line-height:    1.05;
+    --title-tracking-tight:      -0.018em;
+    --listing-title-size:        18px;
+    --listing-title-line-height: 1.12;
+    --listing-title-tracking:    -0.012em;
+    --modal-title-size:          23px;
+    --rating-average-size:       40px;
+    --kicker-tracking:           0.18em;
+    --kicker-tracking-wide:      0.2em;
+    --page-label-tracking:       0.3em;
+    --badge-text-xs:             10px;
+    --badge-text-2xs:            9.5px;
+    --badge-tracking:            0.14em;
   }
 
   * { box-sizing: border-box; }
@@ -77,7 +96,8 @@
   @keyframes bulb-flicker { 48% { opacity: 0.55; box-shadow: 0 0 1.5px rgba(236,202,126,0.4); } }
 
   .kicker { font-size: 10.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
-  h1 { margin: 6px 0 6px; font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 44px; letter-spacing: -0.018em; line-height: 1.05; }
+  /* Masthead headline for this reference document — bound to the app page-title lg token (28px; see the Page header brief below), so the masthead rides the app page-title scale rather than a separate display size. Scoped to .mast so the generic h1 selector makes no independent page-title claim. */
+  .mast h1 { margin: 6px 0 6px; font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: var(--page-title-lg); letter-spacing: var(--title-tracking-tight); line-height: var(--page-title-line-height); }
   .lede { font-size: 15px; color: var(--muted); max-width: 60ch; }
   .lede b { color: var(--ink); font-weight: 600; }
   .mast .meta { text-align: right; font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; line-height: 1.6; }
@@ -1026,7 +1046,7 @@
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — top-level page title (lg · 28px)</div>
     <div style="padding: 18px 20px;">
       <div style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted);">Management</div>
-      <h1 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 28px; letter-spacing: -0.018em; line-height: 1.05; margin: 8px 0 0; color: var(--ink); text-wrap: balance;">Agents</h1>
+      <h1 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: var(--page-title-lg); letter-spacing: var(--title-tracking-tight); line-height: var(--page-title-line-height); margin: 8px 0 0; color: var(--ink); text-wrap: balance;">Agents</h1>
       <p style="margin: 4px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--muted); max-width: 64ch;">Build, monitor and manage the agents in this workspace.</p>
       <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin-top: 14px;"></div>
     </div>
