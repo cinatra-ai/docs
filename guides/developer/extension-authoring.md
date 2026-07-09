@@ -126,7 +126,7 @@ Beyond these author-time gates, the production loader applies a runtime trust ch
 
 ### Design conformance — extensions that ship UI
 
-An extension whose UI is user-facing — a connector's setup page, or an agent/skill surface — must **adhere to the published Application Design references**. These are **published mirrors** of Cinatra's canonical design specs (see [Canonical source](../../references/design/README.md#canonical-source)) — always link the `docs.cinatra.ai/references/design/*` pages below, never a source or private repo:
+An extension whose UI is user-facing — a connector's setup page, or an agent/skill surface — must **adhere to the published Application Design references**. Always link the `docs.cinatra.ai/references/design/*` pages below, never a source or private repo:
 
 - **[Application Design (design system)](https://docs.cinatra.ai/references/design/design-system.html)** — the palette, typography, and component reference every surface builds from.
 - **[Extensions](https://docs.cinatra.ai/references/design/application-design-extensions.html)** — the marketplace card, detail-view, and installed-extensions patterns.
