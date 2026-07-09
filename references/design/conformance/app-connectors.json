@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-connectors.html",
-  "contentHash": "sha256:4b5d17d069a559e2e2f6ec55e0755f910c9fe97a805b67fd099914a2e2703536",
+  "contentHash": "sha256:1e8a98891f8dda1f7f549e6f7f4501fba16966a1825d5804bb84001f050cd9b7",
   "surfaces": [
     {
       "id": "connector-connection-filter",
