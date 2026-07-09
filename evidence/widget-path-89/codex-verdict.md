@@ -1,0 +1,13 @@
+**Verdict:** your verdict is correct. For the in-admin floating assistant content-editor path, the Cinatra side reads/writes WordPress through the connector-owned WordPress REST client using Application-Password HTTP Basic auth against `/wp/v2/posts|pages/{id}` via `index.php?rest_route=...`. The MCP Adapter is not on that hop.
+
+I verified the available local proof client: `resolveWordPressBasicAuth()` builds `Basic ...` from Nango-resolved WP credentials, `buildRESTEndpoint()` targets `/index.php?rest_route=/wp/v2...`, `readWordPressPost()` does the GET, and `updateWordPressPost()` does the POST. See [wordpress-client.ts](/Users/ordnas/Code/cinatra-ai/.claude/scratch/prove-widget-path/realclient/src/lib/wordpress-client.ts:475), [wordpress-client.ts](/Users/ordnas/Code/cinatra-ai/.claude/scratch/prove-widget-path/realclient/src/lib/wordpress-client.ts:568), and [wordpress-client.ts](/Users/ordnas/Code/cinatra-ai/.claude/scratch/prove-widget-path/realclient/src/lib/wordpress-client.ts:1498). The captured wire is exactly the two REST requests, no MCP endpoint: [capture.jsonl](/Users/ordnas/Code/cinatra-ai/.claude/scratch/prove-widget-path/capture.jsonl:1).
+
+Nuance:
+
+- **(i) Config/flag:** I see no config flag in this path that makes the in-admin edit hop traverse the adapter. Installing/registering the MCP Adapter enables the separate external-MCP toolbox path; it does not reroute `wordpress_post_get` / `wordpress_post_update` or the `@cinatra-ai/host:wordpress-content` provider. Making this path use the adapter would require wiring/code changes or a different agent/tool path.
+
+- **(ii) Injected adapter tool:** even if toolbox injection is available to some Cinatra agents, it does not change the outbound wire for the content-editor primitive calls. The content-editor flow you traced calls `wordpress_post_get` then `wordpress_post_update`; those resolve to `readPost/updatePost`, then to the REST client. If an LLM-visible adapter tool were separately exposed and deliberately selected, the wire would change to the adapter MCP endpoint, but that would be a different tool choice/path, not this prescribed content-editor primitive path.
+
+- **(iii) PR wording:** say “The in-admin assistant widget talks only to Cinatra. The subsequent content-editor read/write uses the WordPress connector’s REST client with Application Password Basic auth. The WordPress MCP Adapter is used for optional external MCP tool access for agents when installed/reachable/public, not for the in-admin content-editor post read/write path.”
+
+One small precision fix: call the credential source “Nango-resolved WordPress Application Password credentials” if you want to be exact; the wire auth is still standard WP Application Password Basic auth.
