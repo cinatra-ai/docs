@@ -113,13 +113,14 @@ Each primitive is Zod-validated. Each runs through the standard MCP authorizatio
 
 ### WordPress pages vs posts: the current page contract
 
-The WordPress primitives are **post-shaped by default and only partially page-aware** — page support is per-primitive, not global:
+The WordPress primitives are **post-shaped by default and only partially page-aware** — page support is per-primitive rather than global, and which page operations an instance can perform depends on the connector version it runs:
 
 - **Read and update a page — supported.** `wordpress_post_get` and `wordpress_post_update` accept an optional `postType`. When a caller passes `postType: "page"`, the primitive routes to `/wp/v2/pages/{id}` instead of `/wp/v2/posts/{id}`, so an external `/api/mcp` client — or the content-editor agent — can read and edit a page, **provided it already knows the page's numeric ID**.
-- **Discover / list pages — not yet exposed.** `wordpress_posts_list` is post-only: it always queries `/wp/v2/posts` and takes no `postType`. There is no page-listing primitive, so page IDs cannot be discovered through Cinatra's WordPress primitives — a caller must obtain the ID out of band (for example, from the page's WordPress admin URL).
-- **Page status, delete, and draft-create — not yet page-aware.** `wordpress_post_status`, `wordpress_post_delete`, and `wordpress_post_create_draft` route to the `/wp/v2/posts` endpoints and ignore `postType`, so they are not first-class for pages.
+- **Discover / list pages — landing in the next connector release.** A dedicated `wordpress_pages_list` primitive (page-only, offset-paginated like `wordpress_posts_list`) has merged into the connector's `main` and ships in the next connector release. `wordpress_posts_list` itself stays post-only, so page discovery is this separate primitive rather than a `postType` on the posts list. Until an instance runs a release that includes it, page IDs still cannot be listed through Cinatra's primitives and must be obtained out of band (for example, from the page's WordPress admin URL).
+- **Page status and delete — page-aware in the next connector release.** `wordpress_post_status` and `wordpress_post_delete` now accept `postType: "page"` and route to `/wp/v2/pages/{id}` on the connector's `main`, shipping in the same upcoming release; on the currently released connector both remain post-only.
+- **Create a page — still post-only.** `wordpress_post_create_draft` remains post-route based and ignores `postType`, so drafting a *page* is not yet supported through Cinatra's primitives.
 
-These are **current** gaps in Cinatra's own primitives — page listing and page-aware status/delete are open work in `cinatra-ai/wordpress-mcp-connector` (issues #52 and #54, unresolved at the time of writing); this section will be revised once they land.
+Page listing and page-aware status/delete have already landed in `cinatra-ai/wordpress-mcp-connector`'s `main`, but are not yet in a tagged connector release — so an instance on the current release still sees the older post-only behavior for those, while page create remains an open gap. The bullets above describe both the source-of-truth contract and what a released connector exposes today.
 
 This contract is separate from the external **WordPress MCP Adapter** server (`WordPress/mcp-adapter`), which Cinatra can inject as an additional toolbox for a public WordPress site: what page tools *that* server exposes depends on the adapter plugin's own behavior and version, not on the Cinatra primitives above.
 
