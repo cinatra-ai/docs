@@ -216,6 +216,30 @@ We aim to triage issues and PRs within a few business days. If something has bee
 
 ---
 
+## Contributing to this documentation site
+
+This section is about contributing to the `cinatra-ai/docs` repository itself — the source for docs.cinatra.ai — as opposed to the Cinatra product covered above.
+
+### Adding a first-party integration hub
+
+A first-party integration's documentation hub on docs.cinatra.ai (for example `/integrations/wordpress/`) is authored in the integration's own repository under `docs/`, not in this repository — see [The integration docs contract](../../references/platform/integration-docs-contract.md) for the required six-page shape, frontmatter, and content rules.
+
+### The design-system spec mirror
+
+`references/design/design-system.html` in this repository is a published, byte-for-byte mirror of Cinatra's canonical design-system spec; the editable source lives upstream. Do not hand-edit `design-system.html` here — changes are overwritten the next time it is synced from the canonical spec. If the mirror and the canonical spec disagree, that is a CI-caught drift, not a hand-edit target — fix the upstream spec instead. To re-run the local drift/token checks:
+
+```bash
+node scripts/design/snapshot-tokens.mjs --check   # warns if token retune is needed
+node scripts/design/scan-raw-colors.mjs           # warns if a new raw-color leak appears
+node scripts/design/scan-status-render.mjs        # warns if a new ad-hoc status renderer appears
+```
+
+### Keeping published pages free of meta-commentary
+
+Pages under `guides/`, `references/`, `integrations/`, and `resources/` describe Cinatra the product for readers — not how this documentation site itself is authored, generated, or maintained. Notes like the two above (generation mechanics, sync/mirror caveats, contract/compile pipelines) belong in this section, not on a published page. A CI check enforces this on every pull request; a reviewed, time-boxed allowlist (`.github/meta-commentary-gate-allowlist.json`) covers genuine false positives.
+
+---
+
 ## License
 
 The Cinatra **code** (the [`cinatra-ai/cinatra`](https://github.com/cinatra-ai/cinatra) repository) is licensed under the [Apache License 2.0](https://github.com/cinatra-ai/cinatra/blob/main/LICENSE). By contributing code there, you agree that your contributions will be licensed under those same terms.
