@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-extensions.html",
-  "contentHash": "sha256:5ebedcf4d10c75eb170b70895bca53cf31a8485548a90166beada9015a3b41bc",
+  "contentHash": "sha256:7dafc1a73a65d43f76082038eff8d4513cb01b71583e0afe83bdcb8f921e1b72",
   "surfaces": [
     {
       "id": "extension-listing-grid",
@@ -145,6 +145,25 @@
         "empty",
         "error",
         "loading"
+      ]
+    },
+    {
+      "id": "install-config-needs-callout",
+      "fields": [
+        {
+          "field": "name",
+          "source": "manifest.displayName"
+        }
+      ],
+      "actions": [
+        {
+          "action": "configure",
+          "outcome": "connector-setup"
+        }
+      ],
+      "states": [
+        "empty",
+        "kind:connector"
       ]
     }
   ]
