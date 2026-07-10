@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-extensions.html",
-  "contentHash": "sha256:7dafc1a73a65d43f76082038eff8d4513cb01b71583e0afe83bdcb8f921e1b72",
+  "contentHash": "sha256:f35fb941914c367a2f6cbbe352ee9a922880391ccaed86a175fd9dab9d999728",
   "surfaces": [
     {
       "id": "extension-listing-grid",
@@ -59,7 +59,7 @@
         }
       ],
       "states": [
-        "kind:workflow"
+        "kind:agent"
       ]
     },
     {
