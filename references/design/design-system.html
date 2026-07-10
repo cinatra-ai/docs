@@ -1990,6 +1990,153 @@
   </div>
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The same treatment covers a state conflict (the row was already decided elsewhere) and a missing capability on the instance's credential — each rendered as its own readable line rather than a generic failure.</p>
 
+  <!-- ── Standard scheduling step ─────────────────────────────── -->
+  <div class="sect">
+    <h2>XI. Standard scheduling step</h2>
+    <div class="rule"></div>
+    <div class="source">1 step · 3 modes · 2 surfaces</div>
+  </div>
+  <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 66ch; line-height: 1.55;">Scheduling is a <strong style="color:var(--ink);">platform default</strong>: every agent can run immediately, once at a future time, or on a repeating schedule, with no scheduling declaration of its own. One host-provided <strong style="color:var(--ink);">standard scheduling step</strong> renders the choice — in the run's first step when an agent opens on the scheduling gate, and again as a persistent <code>/trigger</code> tab once a future or repeating run is armed. It supersedes the retired per-agent trigger embed: an agent no longer carries a hand-copied scheduling subflow, its own confirm gate, or a version-pinned trigger dependency. A definition may still carry a <strong style="color:var(--ink);">metadata flag</strong> that disables or restricts scheduling, but that flag is metadata only — never a form or subflow copy.</p>
+
+  <!-- In-flow step — populated reference render -->
+  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">In-flow step</h3>
+  <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">Run scheduling gate · when-to-run choice + date-time / recurring builder + timezone + Continue</p>
+  <div data-conformance-id="scheduling-step" data-state="error loading" style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px; max-width: 640px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — Scheduling step, Recurring selected</div>
+    <div style="padding: 18px 20px;">
+      <div style="font-family: var(--font-sans); font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 12px;">When should this run?</div>
+      <!-- When-to-run choices — three selectable rows, the selected one expanded -->
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+
+        <!-- Run right after setup -->
+        <div style="display:flex;align-items:center;gap:10px;padding:11px 13px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);cursor:pointer;">
+          <span style="width:15px;height:15px;border-radius:50%;border:2px solid var(--line-strong);flex-shrink:0;"></span>
+          <span style="font-size:13.5px;font-weight:600;color:var(--ink);">Run right after setup</span>
+        </div>
+
+        <!-- Schedule for later — Run at date-time + Timezone -->
+        <div style="display:flex;flex-direction:column;gap:11px;padding:11px 13px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);cursor:pointer;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="width:15px;height:15px;border-radius:50%;border:2px solid var(--line-strong);flex-shrink:0;"></span>
+            <span style="font-size:13.5px;font-weight:600;color:var(--ink);">Schedule for later</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:16px;margin-left:25px;">
+            <div>
+              <div style="font-size:11.5px;color:var(--muted);margin-bottom:4px;">Run at</div>
+              <div style="height:34px;width:224px;border:1px solid var(--line-strong);border-radius:7px;background:var(--paper);display:flex;align-items:center;padding:0 11px;font-size:12.5px;color:var(--muted);">2026-07-14 09:00</div>
+            </div>
+            <div>
+              <div style="font-size:11.5px;color:var(--muted);margin-bottom:4px;">Timezone</div>
+              <div style="height:34px;width:224px;border:1px solid var(--line-strong);border-radius:7px;background:var(--paper);display:flex;align-items:center;justify-content:space-between;padding:0 11px;font-size:12.5px;color:var(--muted);">Europe/Berlin<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;color:var(--muted);"><path d="m6 9 6 6 6-6"/></svg></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recurring (selected) — structured frequency builder, no cron field -->
+        <div style="display:flex;flex-direction:column;gap:12px;padding:11px 13px;border:1px solid var(--blue);border-radius:8px;background:rgba(54,78,129,0.08);cursor:pointer;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="width:15px;height:15px;border-radius:50%;border:2px solid var(--blue);flex-shrink:0;display:grid;place-items:center;"><span style="width:7px;height:7px;border-radius:50%;background:var(--blue);"></span></span>
+            <span style="font-size:13.5px;font-weight:600;color:var(--ink);">Recurring</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-left:25px;">
+            <!-- Repeat every N unit -->
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <span style="font-size:12.5px;color:var(--ink);">Repeat every</span>
+              <div style="height:32px;width:60px;border:1px solid var(--line-strong);border-radius:7px;background:var(--surface-strong);display:flex;align-items:center;justify-content:space-between;padding:0 9px;font-size:12.5px;color:var(--ink);">1<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;color:var(--muted);"><path d="m6 9 6 6 6-6"/></svg></div>
+              <div style="height:32px;width:118px;border:1px solid var(--line-strong);border-radius:7px;background:var(--surface-strong);display:flex;align-items:center;justify-content:space-between;padding:0 9px;font-size:12.5px;color:var(--ink);">week(s)<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;color:var(--muted);"><path d="m6 9 6 6 6-6"/></svg></div>
+            </div>
+            <!-- On weekdays (weekly) — Mon–Fri selected -->
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <span style="font-size:12.5px;color:var(--ink);">On</span>
+              <div style="display:flex;gap:4px;">
+                <span style="display:inline-flex;align-items:center;justify-content:center;height:28px;width:38px;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface-strong);font-size:11px;font-weight:600;color:var(--muted);">Sun</span>
+                <span style="display:inline-flex;align-items:center;justify-content:center;height:28px;width:38px;border:1px solid var(--blue);border-radius:6px;background:var(--blue);font-size:11px;font-weight:600;color:#fff;">Mon</span>
+                <span style="display:inline-flex;align-items:center;justify-content:center;height:28px;width:38px;border:1px solid var(--blue);border-radius:6px;background:var(--blue);font-size:11px;font-weight:600;color:#fff;">Tue</span>
+                <span style="display:inline-flex;align-items:center;justify-content:center;height:28px;width:38px;border:1px solid var(--blue);border-radius:6px;background:var(--blue);font-size:11px;font-weight:600;color:#fff;">Wed</span>
+                <span style="display:inline-flex;align-items:center;justify-content:center;height:28px;width:38px;border:1px solid var(--blue);border-radius:6px;background:var(--blue);font-size:11px;font-weight:600;color:#fff;">Thu</span>
+                <span style="display:inline-flex;align-items:center;justify-content:center;height:28px;width:38px;border:1px solid var(--blue);border-radius:6px;background:var(--blue);font-size:11px;font-weight:600;color:#fff;">Fri</span>
+                <span style="display:inline-flex;align-items:center;justify-content:center;height:28px;width:38px;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface-strong);font-size:11px;font-weight:600;color:var(--muted);">Sat</span>
+              </div>
+            </div>
+            <!-- At HH:MM -->
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:12.5px;color:var(--ink);">At</span>
+              <div style="height:32px;width:60px;border:1px solid var(--line-strong);border-radius:7px;background:var(--surface-strong);display:flex;align-items:center;justify-content:space-between;padding:0 9px;font-size:12.5px;color:var(--ink);">09<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;color:var(--muted);"><path d="m6 9 6 6 6-6"/></svg></div>
+              <span style="color:var(--muted);">:</span>
+              <div style="height:32px;width:60px;border:1px solid var(--line-strong);border-radius:7px;background:var(--surface-strong);display:flex;align-items:center;justify-content:space-between;padding:0 9px;font-size:12.5px;color:var(--ink);">00<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;color:var(--muted);"><path d="m6 9 6 6 6-6"/></svg></div>
+            </div>
+            <!-- Timezone -->
+            <div>
+              <div style="font-size:11.5px;color:var(--muted);margin-bottom:4px;">Timezone</div>
+              <div style="height:34px;width:224px;border:1px solid var(--line-strong);border-radius:7px;background:var(--surface-strong);display:flex;align-items:center;justify-content:space-between;padding:0 11px;font-size:12.5px;color:var(--ink);">Europe/Berlin<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;color:var(--muted);"><path d="m6 9 6 6 6-6"/></svg></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- Estimated run duration -->
+      <div style="margin-bottom:16px;">
+        <div style="font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:2px;">Estimated run duration</div>
+        <div style="font-size:12px;color:var(--muted);">About 45s – 3.4 hr.</div>
+      </div>
+      <!-- Submit -->
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;justify-content:flex-end;">
+          <button data-action="schedule -> armed" class="btn primary" style="padding:7px 15px;font-size:13px;display:inline-flex;align-items:center;gap:6px;">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+        </div>
+        <span style="font-size:11.5px;color:var(--muted);">A natural-language prompt in the always-visible assistant panel fills these controls when the run carries a request — e.g. “every weekday at 9am”.</span>
+      </div>
+    </div>
+  </div>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The step is the run's <strong style="color:var(--ink);">first gate</strong> whenever an agent opens un-triggered: the workspace content is replaced by this form until a choice is made and submitted. Under the heading <em>When should this run?</em> sit three selectable rows — <em>Run right after setup</em>, <em>Schedule for later</em>, and <em>Recurring</em>. <em>Schedule for later</em> reveals a <strong style="color:var(--ink);">Run&nbsp;at</strong> date-time field and its own <strong style="color:var(--ink);">Timezone</strong> select; <em>Recurring</em> reveals a <strong style="color:var(--ink);">structured builder</strong> — <em>Repeat every</em> N day(s) / week(s) / month(s) / quarter / year, the frequency-appropriate selectors beneath it (weekday toggles for weekly; a day-of-month or nth-weekday choice for monthly, quarterly and yearly; a quarter anchor; a month), an <em>At</em> hour:minute time-of-day, and its own <strong style="color:var(--ink);">Timezone</strong> select. There is <strong style="color:var(--ink);">no raw cron field</strong> — the host compiles the builder's selections into the stored 5-field cron expression. An <em>Estimated run duration</em> line sits above the actions, and submitting <strong style="color:var(--ink);">Continue</strong> arms the trigger and advances the run — there is no separate confirm step. When the run carries a natural-language prompt, the always-visible assistant panel pre-fills these controls (the <em>loading</em> state); a validation failure — a past instant, or a recurring schedule with no time chosen — surfaces inline on the field (the <em>error</em> state).</p>
+
+  <!-- Persistent trigger tab -->
+  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Persistent trigger tab</h3>
+  <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">/trigger · configuration summary + Cancel trigger / Release now (admin)</p>
+  <div data-conformance-id="scheduling-trigger-tab" data-state="error" style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px; max-width: 640px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — Armed recurring trigger (viewer is an admin)</div>
+    <div style="padding: 18px 20px;">
+      <!-- Trigger configuration summary -->
+      <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:14px 15px;margin-bottom:16px;">
+        <div style="font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:8px;">Trigger configuration</div>
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;"><span style="color:var(--muted);">Type</span><span style="color:var(--ink);">recurring</span></div>
+        <div style="height:1px;background:var(--line);margin:1px 0;"></div>
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;"><span style="color:var(--muted);">Schedule</span><span style="color:var(--ink);">Every weekday at 9:00 AM</span></div>
+        <div style="height:1px;background:var(--line);margin:1px 0;"></div>
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;"><span style="color:var(--muted);">Timezone</span><span style="color:var(--ink);">Europe/Berlin</span></div>
+      </div>
+      <!-- Steps held until trigger fires -->
+      <div style="margin-bottom:16px;">
+        <div style="font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:4px;">Steps held until trigger fires</div>
+        <p style="margin:0;font-size:12px;color:var(--muted);font-style:italic;line-height:1.5;">No side-effect steps detected. The trigger acts as a start gate only — the run begins when the trigger fires and runs to completion.</p>
+      </div>
+      <!-- Trigger controls -->
+      <div style="display:flex;justify-content:flex-end;gap:8px;">
+        <button data-action="cancel -> cancelled" class="btn" style="padding:6px 13px;font-size:12.5px;background:var(--surface-muted);color:var(--ink);border:1px solid var(--line-strong);">Cancel trigger</button>
+        <button data-action="release -> released" class="btn" style="padding:6px 13px;font-size:12.5px;background:var(--surface-muted);color:var(--ink);border:1px solid var(--line-strong);">Release now</button>
+      </div>
+    </div>
+  </div>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Once a <em>scheduled</em> or <em>recurring</em> trigger is armed, the run keeps a persistent <code>/trigger</code> tab. It opens with a read-only <strong style="color:var(--ink);">Trigger configuration</strong> summary — <em>Type</em>, the human-readable <em>Schedule</em> (a recurring row shows the server-rendered plain-language reading of the schedule; a one-off shows its formatted instant), and <em>Timezone</em> — followed by a <strong style="color:var(--ink);">Steps held until trigger fires</strong> list (the side-effect steps gated behind the trigger, or a note that it acts as a start gate only). Two right-aligned controls follow, each confirming through an AlertDialog before it fires: <strong style="color:var(--ink);">Cancel trigger</strong> deletes the trigger and pauses the run (disabled once the trigger has been released); <strong style="color:var(--ink);">Release now</strong> — admin only — makes every gated step eligible immediately. This surface is unchanged by the retirement; only the in-flow step above becomes host-standard.</p>
+
+  <!-- Modes matrix -->
+  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Modes</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 12px;">Three modes, one required control each. Every mode records an IANA timezone; the stored shape is the platform's per-run schedule row — no per-agent copy.</p>
+  <div class="matrix" style="max-width:640px;margin:0 0 10px;">
+    <table>
+      <thead><tr><th>Mode</th><th>Required control</th><th>Stored as</th></tr></thead>
+      <tbody>
+        <tr><td style="font-size:12.5px;color:var(--ink);">Run right after setup</td><td style="font-size:12px;color:var(--muted);">— (none)</td><td style="font-family:var(--font-mono);font-size:11.5px;color:var(--muted);">triggerType: immediate</td></tr>
+        <tr><td style="font-size:12.5px;color:var(--ink);">Schedule for later</td><td style="font-size:12px;color:var(--muted);">Run at — a future date &amp; time</td><td style="font-family:var(--font-mono);font-size:11.5px;color:var(--muted);">scheduledAt (ISO 8601 UTC) · timezone</td></tr>
+        <tr><td style="font-size:12.5px;color:var(--ink);">Recurring</td><td style="font-size:12px;color:var(--muted);">Recurring builder — frequency, interval, day/weekday &amp; time-of-day</td><td style="font-family:var(--font-mono);font-size:11.5px;color:var(--muted);">cronExpression (host-compiled) · timezone</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Retirement of the in-stepper trigger HITL -->
+  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Retiring the in-stepper trigger HITL</h3>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The previous approach delivered scheduling as a per-agent renderer chain: a hand-inlined <em>configure</em> subflow, a separate read-only <em>confirm</em> gate, and an exact-version trigger dependency pinned into every embedding agent. That chain is retired. The <strong style="color:var(--ink);">confirm gate is removed</strong> — the in-flow step arms the trigger directly on <em>Continue</em> — and no agent declares a trigger renderer or pins a trigger dependency. What stays is exactly the platform machinery it always ran on: the per-run schedule storage, the schedule firing, and the persistent <code>/trigger</code> tab with its Cancel / Release-now controls. The change is only that the in-flow renderer is now <strong style="color:var(--ink);">host-standard</strong>, available to every agent for free rather than copied into each one.</p>
+
 <footer>
     <span>Cinatra · Application Design v0.5.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
