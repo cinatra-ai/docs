@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app.html",
-  "contentHash": "sha256:51727dd076305c1f3212cc86832b23137de32078518b4aad69f72703ef04bb00",
+  "contentHash": "sha256:75af122efd507b6a10dd30c5d92b641f55e21f3dd3293e3d9b26ee792c07249c",
   "surfaces": [
     {
       "id": "status-pills",
@@ -62,6 +62,37 @@
       ],
       "states": [
         "empty",
+        "error"
+      ]
+    },
+    {
+      "id": "scheduling-step",
+      "fields": [],
+      "actions": [
+        {
+          "action": "schedule",
+          "outcome": "armed"
+        }
+      ],
+      "states": [
+        "error",
+        "loading"
+      ]
+    },
+    {
+      "id": "scheduling-trigger-tab",
+      "fields": [],
+      "actions": [
+        {
+          "action": "cancel",
+          "outcome": "cancelled"
+        },
+        {
+          "action": "release",
+          "outcome": "released"
+        }
+      ],
+      "states": [
         "error"
       ]
     }
