@@ -292,7 +292,7 @@
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.4.2</div>
+      <div>Version 0.5.0</div>
     </div>
   </div>
 
@@ -906,7 +906,7 @@
 
   <div style="border: 1px solid var(--line); border-left: 2px solid var(--blue); border-radius: 6px; background: var(--surface); padding: 14px 16px; margin: 0 0 4px; max-width: 80ch;">
     <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin: 0 0 8px;">The stage &amp; its gutters</div>
-    <p style="font-family: var(--font-body); font-size: 13px; line-height: 1.55; color: var(--muted); margin: 0;">A fixed <code>16rem</code> (256px) sidebar — <code>3rem</code> collapsed — sits beside a fluid content stage; every width above is a max-width centred (<code>mx-auto</code>) inside that stage — never edge-anchored. Content carries <strong style="color:var(--ink);">equal left and right gutters</strong> — <code>px-5</code> → <code>sm:px-8</code> (20 → 32px) — so it is symmetric at every viewport: pure gutter below its cap, growing side margins above it. The topbar and breadcrumb ride the <strong style="color:var(--ink);">same centred <code>max-w-7xl</code> stage</strong> as the Full column — equal gutters below the cap, equal growing margins above it — so chrome and full-width content stay aligned.</p>
+    <p style="font-family: var(--font-body); font-size: 13px; line-height: 1.55; color: var(--muted); margin: 0;">A fixed <code>16rem</code> (256px) sidebar — <code>3rem</code> collapsed — sits beside a fluid content stage; every content width above is a max-width centred (<code>mx-auto</code>) inside that stage — page content below the top bar is never edge-anchored. Content carries <strong style="color:var(--ink);">equal left and right gutters</strong> — <code>px-5</code> → <code>sm:px-8</code> (20 → 32px) — so it is symmetric at every viewport: pure gutter below its cap, growing side margins above it. The <strong style="color:var(--ink);">top-bar is chrome, not content</strong>: its header is full-bleed and its control row spans the <strong style="color:var(--ink);">full available width</strong> — the viewport minus the persistent sidebar (the sidebar's inner edge is the left bound when it is shown; otherwise viewport <code>x=0</code>) — carrying only the standard edge gutters (<code>px-5</code> → <code>sm:px-8</code>). So the top-bar's left element sits at the <strong style="color:var(--ink);">far-left edge</strong> and its right element at the <strong style="color:var(--ink);">far-right edge</strong>, independent of the <code>max-w-7xl</code> content cap. The breadcrumb is the top-bar's left element and moves <em>with</em> the bar — it anchors at that far-left edge; it does <strong style="color:var(--ink);">not</strong> ride the content stage. Only the content <strong style="color:var(--ink);">below</strong> the top bar stays capped and centred on the <code>max-w-*</code> stage.</p>
   </div>
 
   <!-- ── Text layout ─────────────────────────────────────── -->
@@ -1796,7 +1796,7 @@
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">A thin wrapper over Recharts with the tokens pre-mapped: indigo for the primary series (faded indigo for prior periods), sea-green for positive trends and brand red for negative, the navy hairline for gridlines, and mono ticks. Keep charts quiet — one or two series, no drop shadows or gradients beyond a faint area fill.</p>
 
 <footer>
-    <span>Cinatra · Application Design v0.4.2</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design v0.5.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
