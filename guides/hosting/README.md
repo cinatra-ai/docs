@@ -19,6 +19,7 @@ If you are an end user, see the [User Guide](../user/README.md). If you administ
 - [Troubleshooting](troubleshooting.md) — common failure modes, how to read the logs, when to restart what
 - [Operations](operations.md) — how a release is built and deployed (and why merging is not deploying)
 - [Upgrading](upgrading.md) — `cinatra update` for the CLI vs. an instance, the dev (fast-forward `origin/main`) and prod (latest `v*` release) paths, and how migrations apply automatically
+- [Upgrading stateful services across majors](https://docs.cinatra.ai/self-hosting/upgrading-stateful-services) — the deployed-version ledger, the fail-closed `db upgrade-preflight`, hardened backups, and the safe order when a backing store crosses a major version
 - [Backup & restore](backup-and-restore.md) — what a backup bundle contains (and the encryption key it does not), how to create and restore one, the API-config export/import, and disaster recovery
 
 ---
