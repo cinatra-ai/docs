@@ -113,6 +113,7 @@ This talks to the database directly (it does not need a running app), applies th
 
 - **Take a backup first.** For anything with data you care about, capture a bundle before moving the code: `cinatra instance backup create`. See [Backup & restore](backup-and-restore.md).
 - **Know your blast radius for production.** A production release ships everything merged up to the tag you move to, not one change. Review the difference between the deployed tag and your target before promoting — see [Operations](operations.md#deploying-ships-the-current-main-line-not-one-change).
+- **Crossing a stateful-service major?** If the upgrade moves a backing store (Postgres, MariaDB, Neo4j, Redis/Valkey, RabbitMQ, MinIO, Verdaccio) across a major version, a code update is not enough — the data volume needs a guarded migration. Run `cinatra instance db upgrade-preflight` and follow [Upgrading stateful services across majors](https://docs.cinatra.ai/self-hosting/upgrading-stateful-services).
 
 ---
 
