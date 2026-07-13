@@ -11,9 +11,9 @@ TeamAI and Cinatra both want a team's AI work to stop happening in scattered, pe
 | **Agent runtime** | The vendor's cloud; custom assistants and automated workflows run inside the TeamAI workspace | WayFlow (Cinatra's Open Agent Specification (OAS) Flow agent runtime), a Python sidecar running on infrastructure you control |
 | **Large language model (LLM) access** | Multi-provider, switchable per conversation or workflow — OpenAI, Anthropic (Claude), Google (Gemini), Meta, and DeepSeek, per the site | Multi-provider through `@cinatra-ai/llm` (OpenAI, Anthropic, Gemini), on your own provider keys |
 | **Authoring** | In-workspace: custom assistants ("agents"), a 500+-prompt library, custom plugins, and automated multi-step workflows, built inside the hosted workspace | Agents authored as OAS Flow files (declarative JSON), or built conversationally inside the platform's chat assistant |
-| **Hosting** | Hosted SaaS; no self-hosted option identified in TeamAI's public materials as of 2026-07-11 | Self-hosted (Next.js + PostgreSQL + Redis + WayFlow sidecar) |
-| **License** | Hosted product; no open-source license identified in TeamAI's public materials as of 2026-07-11 | Open source (Apache 2.0) |
-| **Pricing** | Workspace-based (not per-seat), credit-metered, in USD as of 2026-07-11: Individual $5/mo, Starter $25/mo, Professional $149/mo, Enterprise $849/mo, each with an included monthly credit allotment then per-credit overage; annual billing saves 15% | Run the platform at your own infrastructure cost; no per-run vendor fee from Cinatra |
+| **Hosting** | Hosted SaaS; no self-hosted option identified in TeamAI's public materials as of 2026-07-13 | Self-hosted (Next.js + PostgreSQL + Redis + WayFlow sidecar) |
+| **License** | Hosted product; no open-source license identified in TeamAI's public materials as of 2026-07-13 | Open source (Apache 2.0) |
+| **Pricing** | Workspace-based (not per-seat), credit-metered, in USD as of 2026-07-13: Individual $5/mo, Starter $25/mo, Professional $149/mo, Enterprise $849/mo, each with an included monthly credit allotment then per-credit overage; annual billing saves 15% | Run the platform at your own infrastructure cost; no per-run vendor fee from Cinatra |
 
 ## What TeamAI is, in TeamAI's framing
 
@@ -24,9 +24,8 @@ TeamAI's pitch is *"A Collaborative Multi-LLM AI Platform"* — *"The Multi-LLM 
 - **Custom assistants / agents** — domain-specific assistants for functions like marketing, sales, and support, and *"custom AI agent workflows that streamline projects and automate your entire project lifecycle."*
 - **Integrations** — native connections to Slack, Google Workspace, and Guru, plus a Jira integration the site describes as running over the Model Context Protocol (MCP) for project automation.
 - **Prompt library and plugins** — a customizable library the site puts at 500+ pre-built prompts, plus custom plugins to extend the workspace, and a Chrome extension for browser access.
-- **Usage reporting** — reporting on model and credit usage.
 
-Pricing (teamai.com, USD, as of 2026-07-11) is billed by workspace rather than by seat, with an included monthly credit allotment and per-credit overage beyond it: **Individual** $5/month (single user, 500 included credits), **Starter** $25/month (up to 10 users, 5,000 credits, 10 datastores / assistants / plugins), **Professional** $149/month (up to 25 users, 20,000 credits, 25 datastores / assistants / plugins, up to 10 workflows), and **Enterprise** $849/month (up to 1,000 users across 10 workspaces, 200,000 credits, unlimited datastores / assistants / plugins / workflows, with SAML SSO and SCIM). Annual billing is stated to save 15%. The site positions workspace-based pricing as more cost-effective than per-seat team plans. As of 2026-07-11, TeamAI's public materials present a hosted SaaS offering; no self-hosted deployment option and no open-source license were identified in them.
+Pricing (teamai.com, USD, as of 2026-07-13) is billed by workspace rather than by seat, with an included monthly credit allotment and per-credit overage beyond it: **Individual** $5/month (single user, 500 included credits), **Starter** $25/month (up to 10 users, 5,000 credits, 10 datastores / assistants / plugins), **Professional** $149/month (up to 25 users, 20,000 credits, 25 datastores / assistants / plugins, up to 10 workflows), and **Enterprise** $849/month (up to 1,000 users across 10 workspaces, 200,000 credits, unlimited datastores / assistants / plugins / workflows, with SAML SSO and SCIM). Annual billing is stated to save 15%. The site positions workspace-based pricing as more cost-effective than per-seat team plans. As of 2026-07-13, TeamAI's public materials present a hosted SaaS offering; no self-hosted deployment option and no open-source license were identified in them.
 
 ## What Cinatra is
 
@@ -36,7 +35,7 @@ Cinatra is a self-hosted application platform. Every layer — the Next.js app, 
 
 ### 1. Execution environment
 
-- **TeamAI:** the vendor's cloud runs the workspace — chat, the knowledge base, custom assistants, and automated workflows all execute in TeamAI's infrastructure, reachable from a browser, the Chrome extension, and connected tools. As of 2026-07-11, no self-hosted deployment option was identified in TeamAI's public materials.
+- **TeamAI:** the vendor's cloud runs the workspace — chat, the knowledge base, custom assistants, and automated workflows all execute in TeamAI's infrastructure, reachable from a browser, the Chrome extension, and connected tools. As of 2026-07-13, no self-hosted deployment option was identified in TeamAI's public materials.
 - **Cinatra:** BullMQ jobs on your own server; the WayFlow sidecar executes agents server-side. Runs survive page reloads, network drops, and process restarts, and continue while every laptop is closed.
 
 ### 2. Knowledge and memory
@@ -61,7 +60,7 @@ Cinatra is a self-hosted application platform. Every layer — the Next.js app, 
 
 ### 6. UI / human-in-the-loop
 
-- **TeamAI:** the primary interaction is collaborative chat and configured assistants over a shared workspace, with automated workflows running multi-step tasks; usage reporting gives visibility into model and credit usage.
+- **TeamAI:** the primary interaction is collaborative chat and configured assistants over a shared workspace, with automated workflows running multi-step tasks.
 - **Cinatra:** A2UI declarative HITL surfaces — setup forms before a run starts, mid-run review panels (recipient lists, draft emails, custom renderers) — published on a parallel Redis channel alongside the AG-UI lifecycle stream, with a shared approval queue and full run history visible to the team.
 
 ### 7. Hosting, data control, and audit
@@ -71,17 +70,17 @@ Cinatra is a self-hosted application platform. Every layer — the Next.js app, 
 
 ### 8. Open standards and portability
 
-- **TeamAI:** the site describes its Jira integration as MCP-based, a genuine open-standards touchpoint; assistants, workflows, datastores, and prompts themselves live inside the workspace, and no portable format another runtime could load was identified in TeamAI's public materials as of 2026-07-11.
+- **TeamAI:** the site describes its Jira integration as MCP-based, a genuine open-standards touchpoint; assistants, workflows, datastores, and prompts themselves live inside the workspace, and no portable format another runtime could load was identified in TeamAI's public materials as of 2026-07-13.
 - **Cinatra:** agents are OAS Flow files any OAS-compliant runtime can load; A2A, AG-UI, and A2UI cover execution, lifecycle events, and HITL surfaces; extensions are versioned packages installable on any instance. Cinatra also exposes its own primitives over MCP, so external MCP clients can drive it directly.
 
 ### 9. Pricing model
 
-- **TeamAI:** workspace-based (not per-seat) subscription plans from $5 to $849/month, each with an included monthly credit allotment and per-credit overage, annual billing saving 15% (USD, as of 2026-07-11) — a managed cloud where the vendor runs the compute.
+- **TeamAI:** workspace-based (not per-seat) subscription plans from $5 to $849/month, each with an included monthly credit allotment and per-credit overage, annual billing saving 15% (USD, as of 2026-07-13) — a managed cloud where the vendor runs the compute.
 - **Cinatra:** your infrastructure cost plus your LLM provider bills. No seats, credits, or storage tiers from Cinatra.
 
 ## Where They Overlap
 
-The overlap is real. Both are **multi-provider** — several frontier LLMs behind one surface — and both let a team **standardize on shared assets** (TeamAI's custom assistants, prompt library, and datastores; Cinatra's skills, agents, and extensions) so individual usage compounds into team capability. Both run **multi-step automations** rather than one-shot chats. Both touch **MCP**: TeamAI describes its Jira integration as MCP-based, and Cinatra exposes its whole platform over MCP for external clients to drive. And both aim squarely at teams, not just individuals, with workspace-level sharing and reporting.
+The overlap is real. Both are **multi-provider** — several frontier LLMs behind one surface — and both let a team **standardize on shared assets** (TeamAI's custom assistants, prompt library, and datastores; Cinatra's skills, agents, and extensions) so individual usage compounds into team capability. Both run **multi-step automations** rather than one-shot chats. Both touch **MCP**: TeamAI describes its Jira integration as MCP-based, and Cinatra exposes its whole platform over MCP for external clients to drive. And both aim squarely at teams, not just individuals, with workspace-level sharing.
 
 ## When each makes sense
 
@@ -106,4 +105,4 @@ TeamAI bets that what a team needs is a managed multi-LLM workspace: chat across
 
 ## Notes on source
 
-This comparison was assembled from TeamAI's public homepage and pricing pages at <https://teamai.com/> and <https://teamai.com/pricing/>, verified 2026-07-11. TeamAI's own descriptions (the multi-provider model list, the RAG-with-citations knowledge base, the integration set, the MCP-based Jira integration, the 500+-prompt library) are reported as the vendor states them, with pricing given in USD with its named plans, credit model, and billing basis as of the verification date. Where TeamAI's public materials publish no information — a self-hosted deployment option, an open-source license, a portable agent format — this page says so and qualifies it to the verification date rather than inferring a missing capability from silence. TeamAI's positioning changes; re-confirm each claim against the live site before relying on it.
+This comparison was assembled from TeamAI's public homepage and pricing pages at <https://teamai.com/> and <https://teamai.com/pricing/>, verified 2026-07-13. TeamAI's own descriptions (the multi-provider model list, the RAG-with-citations knowledge base, the integration set, the MCP-based Jira integration, the 500+-prompt library) are reported as the vendor states them, with pricing given in USD with its named plans, credit model, and billing basis as of the verification date. Where TeamAI's public materials publish no information — a self-hosted deployment option, an open-source license, a portable agent format — this page says so and qualifies it to the verification date rather than inferring a missing capability from silence. TeamAI's positioning changes; re-confirm each claim against the live site before relying on it.
