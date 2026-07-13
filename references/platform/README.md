@@ -71,6 +71,7 @@ Architecture, subsystem contracts, invariants, and protocol references for the C
 - [Notifications](notifications.md)
 
 ## Skills
+- [Skills lifecycle](skills-lifecycle.md) — states, revisions, content authority, catalog rebuilds
 - [Skill matching](skill-matching.md)
 - [Skills storage layout](skills-storage-layout.md)
 - [Shell skills](shell-skills.md)

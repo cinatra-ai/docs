@@ -31,6 +31,7 @@ The administration surface at `/configuration` groups the platform-level control
 - [Cost and usage](cost-and-usage.md) — per-provider, per-agent, and per-skill spend, plus budgets
 - [Telemetry and logging](telemetry-and-logging.md) — what the instance records, where to watch it, and audit trails
 - [The Cinatra Drupal module](drupal-module.md) — install, connect, the `use Cinatra assistant` permission, the local-widget / server-side token delivery model, and uninstall
+- The skills system behind `/configuration/skills`: [Skills lifecycle](../../references/platform/skills-lifecycle.md) (states, revisions, rollback semantics) and [Skill matching](../../references/platform/skill-matching.md) (the matches tab, batch re-evaluation, trust thresholds); the background maintenance jobs are operator-enabled — see the [Hosting Guide → Skills maintenance](../hosting/skills-maintenance.md)
 - The [Hosting Guide → Configuration](../hosting/configuration.md) page documents the environment variables behind the in-app settings; admins sometimes need to coordinate with whoever operates the deployment
 
 ## How admin actions are audited

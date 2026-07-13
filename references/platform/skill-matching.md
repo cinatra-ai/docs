@@ -16,13 +16,17 @@ Three sources can write a decision row for a `(agent, skill)` pair:
 
 Three transports write to the same evaluator core; they only differ in scope and latency.
 
-**Inline on install or update.** Installing a skill or saving an agent enqueues a single scoped BullMQ (a Redis-backed job queue) job (`skill-match-inline-for-skill` or `skill-match-inline-for-agent`) on the existing `cinatra-background-jobs` queue. The job fans out across the matching set — agents × the new skill, or skills × the new agent — capped at a fixed pair count per event so a sudden install storm cannot blow up cost. Job IDs are SHA-256 prefixes of the changed entity's ID, so back-to-back reinstalls coalesce into a single execution while pending.
+**Inline on install or update.** Installing a skill or saving an agent enqueues a single scoped BullMQ (a Redis-backed job queue) job (`skill-match-inline-for-skill` or `skill-match-inline-for-agent`) on the existing `cinatra-background-jobs` queue. The job fans out across the matching set — agents × the new skill, or skills × the new agent — evaluating in fixed 200-pair chunks. An event larger than one chunk spills the remainder into continuation jobs over a frozen, de-duplicated candidate set carrying a per-run nonce, so every pair is evaluated exactly once even if the catalog churns mid-run, and two concurrent runs for the same entity cannot coalesce and drop a chunk. Job IDs are SHA-256 prefixes of the changed entity's ID, so back-to-back reinstalls coalesce into a single execution while pending.
 
 **Per-row from the admin tab.** The "Re-evaluate" button next to each row in `/configuration/skills?tab=matches` runs synchronously through an admin-gated Model Context Protocol (MCP) handler and refreshes that one row's timestamp.
 
 **Batch ("Re-evaluate all").** Submitting the batch packages every current pair into a single OpenAI Batch API request. Submission is two-click: the first click computes a cost estimate (`{ pairCount, estimatedInputTokens, estimatedOutputTokens, estimatedUsd, pricingVersion }`); the second click confirms and uploads the JSONL. The OpenAI Batch API returns a `batchId`; a poll job re-runs every 30 seconds and downloads results once the batch reaches a terminal status. The batch path is the only path with a non-trivial completion window — read the [OpenAI Batch API spec](https://platform.openai.com/docs/guides/batch) for the SLA details.
 
 A separate cron schedule can fire the batch path on a recurring cadence. The schedule is a single-row config (`enabled`, `cron_expression`, `timezone`); when enabled at boot the platform calls `upsertJobScheduler` with a stable scheduler ID so multiple Next.js workers never register duplicate scheduler entries.
+
+## Lifecycle gating and maintenance
+
+Candidate creation is lifecycle-gated: a custom or personal skill in a non-deliverable lifecycle state (`draft`, `archived` — see [Skills lifecycle](skills-lifecycle.md)) produces no new match evaluations on any transport. Existing rows for such skills are left in place — row hygiene belongs to the opt-in maintenance jobs (hash staleness sweep, tombstoned orphan garbage collection, drift sampler), documented with runbooks in the [Hosting Guide → Skills maintenance](../../guides/hosting/skills-maintenance.md).
 
 ## Storage
 
@@ -83,9 +87,9 @@ This is a PoC-grade guard: token overlap catches gross fabrication; a future ite
 
 ## Cost guardrails
 
-- Inline events have a hard pair-count cap (any overflow is logged with a structured `skill_match_inline_pairs_dropped` warning).
+- Inline events evaluate in fixed 200-pair chunks; an oversized event spills into continuation jobs over a frozen candidate set rather than dropping pairs, so per-job cost stays bounded while every pair is still evaluated.
 - The batch path requires a two-click cost-estimate confirmation before any tokens are spent.
-- Pricing is stored as a versioned snapshot constant (`SKILL_MATCH_PRICING_USD` with `inputPer1MTokens`, `outputPer1MTokens`, `source`, `capturedAt`). Bumping the evaluator version requires re-checking the snapshot.
+- Pricing is stored as a versioned snapshot constant (`SKILL_MATCH_PRICING_USD` with `inputPer1MTokens`, `outputPer1MTokens`, `source`, `capturedAt`). Bumping the evaluator version requires re-checking the snapshot, and estimates emit a staleness warning when the snapshot is older than 90 days — see the [cost model](../../guides/hosting/skills-maintenance.md#the-cost-model).
 - Token counting uses `gpt-tokenizer` (`cl100k_base`) for the cost-estimate function only; runtime truncation uses byte length on the SKILL.md content.
 
 ## Provider scope
