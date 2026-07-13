@@ -74,6 +74,18 @@ A single Redis instance is fine for typical deployments. Losing Redis loses in-f
 
 The BullMQ queue name to use. Default: `cinatra-background-jobs`. Set per-worktree to avoid queue collisions when running multiple dev servers in parallel.
 
+### `SKILL_MATCH_MAINTENANCE_CRON`
+
+Opt-in cron pattern for the skill-match maintenance tick (tombstoned orphan garbage collection followed by the hash staleness sweep). Unset means disabled — this is the default. An invalid pattern logs a boot warning and behaves as disabled. Accepts a 5- or 6-field cron expression, evaluated in UTC, e.g. `0 4 * * *` for daily at 04:00 UTC.
+
+See [Skills maintenance](skills-maintenance.md) for what the tick does and its cost bounds.
+
+### `SKILL_MATCH_PARITY_CRON`
+
+Opt-in cron pattern for the skill-match dual-store parity observation (it diffs the canonical match store against the legacy per-agent snapshot and records a report; it never deletes or retires anything). Unset means disabled — this is the default. Same pattern rules as above.
+
+See [Skills maintenance](skills-maintenance.md#runbook-the-dual-store-parity-observation) for the runbook.
+
 ---
 
 ## Agent runtime (WayFlow)
