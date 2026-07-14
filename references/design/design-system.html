@@ -292,7 +292,7 @@
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.6.0</div>
+      <div>Version 0.7.0</div>
     </div>
   </div>
 
@@ -302,13 +302,14 @@
   <div class="sect">
     <h2>Sub-references</h2>
     <div class="rule"></div>
-    <div class="source">3 sub-references</div>
+    <div class="source">4 sub-references</div>
   </div>
   <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 66ch; line-height: 1.55;">This page holds the cross-cutting fundamentals — surfaces, ink, accents, contrast, and layout. The shared component vocabulary and each application domain have their own self-contained reference:</p>
   <div class="domain-cards">
     <a class="domain-card" href="application-design-components.html"><div class="title">Components</div><div class="desc">The shadcn/ui roster Cinatra ships, the design rules each primitive inherits, and the standard scheduling step.</div><div class="open">Open reference &rarr;</div></a>
     <a class="domain-card" href="application-design-extensions.html"><div class="title">Extensions</div><div class="desc">Listing cards and install states, the extension detail modal, installed extensions, and the All-Agents agent card.</div><div class="open">Open reference &rarr;</div></a>
     <a class="domain-card" href="application-design-connectors.html"><div class="title">Connectors</div><div class="desc">The connector toolbar, the responsive card grid, and the connected / disconnected state language.</div><div class="open">Open reference &rarr;</div></a>
+    <a class="domain-card" href="application-design-notifications.html"><div class="title">Notifications</div><div class="desc">The unified /notifications surface — one chronological list of notifications and pending approvals, the filter chips, and the badge-only bell.</div><div class="open">Open reference &rarr;</div></a>
   </div>
 
   <!-- ── Surfaces ────────────────────────────────────────────── -->
@@ -1028,203 +1029,8 @@
     </div>
   </div></div></div>
 
-  <!-- ── Approvals inbox ─────────────────────────────────────── -->
-  <div class="sect">
-    <h2>IX. Approvals inbox</h2>
-    <div class="rule"></div>
-    <div class="source">1 surface · 2 directions · 4 states</div>
-  </div>
-  <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 66ch; line-height: 1.55;">The unified approvals surface at <code>Configuration → Approvals</code>. One federated page gathers every approval family — agent creation requests and the marketplace moderation queues — behind two <strong style="color:var(--ink);">direction</strong> tabs. Each family stays authoritative: the page reads from a source registry and every decision executes at its own source, so a section can be added or removed without touching the page. Sections stream independently — a slow or failing source never blocks its siblings.</p>
-
-  <!-- Page anatomy — populated reference render -->
-  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Page anatomy</h3>
-  <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">Configuration → Approvals · PageHeader + direction Tabs + per-source sections</p>
-  <div data-conformance-id="approvals-inbox" data-state="empty error" style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px; max-width: 640px;">
-    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — Inbox, connected</div>
-    <div style="padding: 18px 20px;">
-      <!-- Page header -->
-      <h1 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: var(--page-title-lg); letter-spacing: var(--title-tracking-tight); line-height: var(--page-title-line-height); margin: 0; color: var(--ink);">Approvals</h1>
-      <p style="margin: 4px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted);">Requests awaiting a decision, and the requests you have submitted.</p>
-      <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin: 14px 0 0;"></div>
-      <!-- Direction tabs + count pills -->
-      <div style="display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: flex-end; margin: 14px 0 18px;">
-        <div role="tablist" style="display: flex; gap: 0;">
-          <button role="tab" aria-selected="true" style="display:inline-flex;align-items:center;gap:7px;font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Inbox<span style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;padding:1px 5px;border-radius:9999px;background:var(--blue);color:#fff;font-size:10px;font-weight:600;">7</span></button>
-          <button role="tab" style="display:inline-flex;align-items:center;gap:7px;font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Your requests<span style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;padding:1px 5px;border-radius:9999px;background:var(--surface-muted);color:var(--muted);font-size:10px;font-weight:600;">2</span></button>
-        </div>
-        <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
-      </div>
-      <!-- Local source section: agent creation requests -->
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;">
-        <div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink);">Agent creation requests</div>
-      </div>
-      <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;margin-bottom:16px;">
-        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:11px 14px;">
-          <div style="min-width:0;">
-            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
-              <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Meeting Summarizer</span>
-              <span style="display:inline-flex;align-items:center;padding:2px 9px;border-radius:9999px;font-family:var(--font-sans);font-size:11px;font-weight:600;background:var(--surface-muted);color:var(--ink);border:1px solid var(--line);text-transform:capitalize;">proposed</span>
-            </div>
-            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">Requested by a teammate · 2 hours ago</p>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-            <button data-action="approve -> approved" class="btn primary" style="padding:5px 11px;font-size:12px;">Approve</button>
-            <button data-action="reject -> rejected" class="btn outline" style="padding:5px 11px;font-size:12px;">Reject</button>
-            <a style="font-family:var(--font-body);font-size:11.5px;color:var(--muted);text-decoration:underline;text-underline-offset:2px;">Details</a>
-          </div>
-        </div>
-      </div>
-      <!-- Marketplace group source section -->
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;">
-        <div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink);">Extension submissions</div>
-        <a style="font-family:var(--font-body);font-size:11.5px;color:var(--muted);text-decoration:underline;text-underline-offset:2px;">View all</a>
-      </div>
-      <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
-        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:11px 14px;">
-          <div style="min-width:0;">
-            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
-              <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Data Connector</span>
-              <span style="display:inline-flex;align-items:center;padding:2px 9px;border-radius:9999px;font-family:var(--font-sans);font-size:11px;font-weight:600;background:var(--surface-muted);color:var(--ink);border:1px solid var(--line);text-transform:capitalize;">pending</span>
-            </div>
-            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">vendor #42 · submitted 3 hours ago · promotion queued</p>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-            <button class="btn primary" style="padding:5px 11px;font-size:12px;">Approve</button>
-            <button class="btn outline" style="padding:5px 11px;font-size:12px;">Reject</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Your-requests direction — own pending row with the self-approve / publish control -->
-  <div data-conformance-id="approvals-your-requests" data-state="empty error" style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px; max-width: 640px;">
-    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — Your requests, self-approvable (sole admin / allowSelfApproval)</div>
-    <div style="padding: 18px 20px;">
-      <!-- Page header -->
-      <h1 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: var(--page-title-lg); letter-spacing: var(--title-tracking-tight); line-height: var(--page-title-line-height); margin: 0; color: var(--ink);">Approvals</h1>
-      <p style="margin: 4px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted);">Requests awaiting a decision, and the requests you have submitted.</p>
-      <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin: 14px 0 0;"></div>
-      <!-- Direction tabs + count pills — Your requests active -->
-      <div style="display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: flex-end; margin: 14px 0 18px;">
-        <div role="tablist" style="display: flex; gap: 0;">
-          <button role="tab" style="display:inline-flex;align-items:center;gap:7px;font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Inbox<span style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;padding:1px 5px;border-radius:9999px;background:var(--blue);color:#fff;font-size:10px;font-weight:600;">7</span></button>
-          <button role="tab" aria-selected="true" style="display:inline-flex;align-items:center;gap:7px;font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Your requests<span style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;padding:1px 5px;border-radius:9999px;background:var(--surface-muted);color:var(--muted);font-size:10px;font-weight:600;">1</span></button>
-        </div>
-        <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
-      </div>
-      <!-- Your own agent creation request -->
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;">
-        <div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink);">Agent creation requests</div>
-      </div>
-      <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
-        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:11px 14px;">
-          <div style="min-width:0;">
-            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
-              <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Research Assistant</span>
-              <span style="display:inline-flex;align-items:center;padding:2px 9px;border-radius:9999px;font-family:var(--font-sans);font-size:11px;font-weight:600;background:var(--surface-muted);color:var(--ink);border:1px solid var(--line);text-transform:capitalize;">proposed</span>
-            </div>
-            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">You requested this · created via chat · 12 minutes ago</p>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-            <button data-action="approve -> approved" class="btn primary" style="padding:5px 11px;font-size:12px;">Approve &amp; publish</button>
-            <button data-action="withdraw -> withdrawn" class="btn outline" style="padding:5px 11px;font-size:12px;">Withdraw</button>
-            <a style="font-family:var(--font-body);font-size:11.5px;color:var(--muted);text-decoration:underline;text-underline-offset:2px;">Details</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The page opens with the standard <strong style="color:var(--ink);">page header</strong> (title <em>Approvals</em>, one-line description, closing etched rule) and two <strong style="color:var(--ink);">direction tabs</strong> — <em>Inbox</em> (requests from others awaiting the viewer's decision) and <em>Your requests</em> (requests the viewer submitted). Underneath, one <strong style="color:var(--ink);">section per source</strong>: a 13px section header, an optional <em>View all</em> drill-down link on the right, and a card whose rows are hairline-divided (the last row drops its divider). Every row is a title line — linked identity + a status pill + any flags — over a muted meta line, with the action slot right-aligned. Sources render in a fixed registry order — <em>Inbox</em>: agent creation requests · workflow approvals · extension submissions · vendor applications; <em>Your requests</em>: agent creation requests · this instance's submissions · this instance's vendor application. A request the viewer authored is a <em>Your requests</em> item <strong style="color:var(--ink);">only</strong> — it never appears in the Inbox, and it contributes no badge and no row there, even when the viewer is the only administrator on the instance. Its own pending row lives under <em>Your requests</em>, and where the viewer is permitted to clear their own request — the sole platform administrator, or an instance carrying the <code>allowSelfApproval</code> configuration — the <strong style="color:var(--ink);">approve / publish control renders on that own pending row</strong>. That own row is where a sole administrator publishes the agent they created through <code>/chat</code>. The Inbox therefore only ever holds requests that someone else must decide.</p>
-
-  <!-- Chat creations are always pending -->
-  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Chat-created agents are always pending</h3>
-  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">An agent creation initiated from <code>/chat</code> is <strong style="color:var(--ink);">always recorded as a pending request</strong> — never instant-published — regardless of the author's role, up to and including a platform administrator and the sole administrator on the instance. This is the ratified deliberate-publish behavior: the conversational surface never grants an agent live in a single step, so a reviewable request always exists and the publish is always an explicit act. An <strong style="color:var(--ink);">instant grant</strong> — an agent created already live, with no pending step — exists only on the dedicated non-chat authoring surface, and only for a platform administrator. A sole administrator therefore still sees their own <code>/chat</code> creation as a pending row under <em>Your requests</em> and publishes it there with that row's approve / publish control (above) — never silently, and never from the Inbox.</p>
-
-  <!-- Direction tabs + count pills -->
-  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Direction tabs &amp; count pills</h3>
-  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The tabs use the standard underline treatment (see Tabs) and drive the shipped URL contract (<code>?direction=inbox</code> · <code>?direction=mine</code>). Each carries a <strong style="color:var(--ink);">count pill</strong> of the actionable items in that direction, summed across sources: the <em>Inbox</em> pill is the indigo <code>default</code> Badge, <em>Your requests</em> the muted one. A direction pill is hidden at zero and caps its label at <strong style="color:var(--ink);">99+</strong>. Remote (marketplace) sources report a <strong style="color:var(--ink);">capped</strong> count — a moderator only needs to know items exist, not the exact backlog — so a remote-only section reads at most <strong style="color:var(--ink);">9+</strong>. On load the page lands on the populated direction, preferring Inbox; legacy deep links resolve into Inbox anchored to their section.</p>
-
-  <!-- Four-state connectivity model -->
-  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Marketplace connectivity — four states</h3>
-  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 12px;">The four marketplace sources share one group. Connectivity is decided <em>locally</em> (credential presence only, no network) so a disconnected instance fires zero remote calls. Four states — <em>not connected</em> and <em>zero items</em> use the design-system <em>Empty</em> family; <em>not configured</em> is a footer hint and <em>section error</em> is an inline destructive card:</p>
-  <div data-conformance-id="approvals-marketplace-states" data-state="empty error" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:640px;margin:0 0 10px;">
-    <!-- (a) not connected -->
-    <div style="border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);">
-      <div style="padding:7px 12px;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:9px;letter-spacing:0.16em;color:var(--muted);text-transform:uppercase;font-weight:700;">a · Not connected</div>
-      <div style="padding:16px;text-align:center;">
-        <div style="font-size:13px;color:var(--ink);font-weight:600;margin-bottom:3px;">Marketplace not connected</div>
-        <div style="font-size:11.5px;color:var(--muted);line-height:1.45;margin-bottom:10px;">Connect a registry credential to review submissions and vendor applications from here.</div>
-        <button class="btn outline" style="padding:5px 11px;font-size:12px;">Connect registry</button>
-      </div>
-    </div>
-    <!-- (b) not configured -->
-    <div style="border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);">
-      <div style="padding:7px 12px;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:9px;letter-spacing:0.16em;color:var(--muted);text-transform:uppercase;font-weight:700;">b · Not configured</div>
-      <div style="padding:16px;">
-        <div style="border-radius:6px;border:1px solid var(--line);background:var(--surface-muted);padding:10px 12px;">
-          <div style="font-size:11.5px;font-weight:600;color:var(--ink);margin-bottom:2px;">Some marketplace sections are hidden</div>
-          <div style="font-size:11px;color:var(--muted);line-height:1.45;">Vendor application — its marketplace credential isn't configured on this instance.</div>
-          <a style="display:inline-block;margin-top:5px;font-size:11px;color:var(--muted);text-decoration:underline;text-underline-offset:2px;">Configure marketplace registries</a>
-        </div>
-      </div>
-    </div>
-    <!-- (c) section error -->
-    <div style="border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);">
-      <div style="padding:7px 12px;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:9px;letter-spacing:0.16em;color:var(--muted);text-transform:uppercase;font-weight:700;">c · Section error</div>
-      <div style="padding:16px;">
-        <div style="border-radius:6px;border:1px solid rgba(166,56,79,0.30);background:rgba(166,56,79,0.06);padding:14px;text-align:center;">
-          <div style="font-size:11.5px;color:var(--red);line-height:1.45;margin-bottom:6px;">The marketplace is temporarily unavailable. Try again in a moment.</div>
-          <a data-action="retry -> reloaded" style="font-size:11px;color:var(--muted);text-decoration:underline;text-underline-offset:2px;">Try again</a>
-        </div>
-      </div>
-    </div>
-    <!-- (d) zero items -->
-    <div style="border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);">
-      <div style="padding:7px 12px;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:9px;letter-spacing:0.16em;color:var(--muted);text-transform:uppercase;font-weight:700;">d · Zero items</div>
-      <div style="padding:16px;text-align:center;">
-        <div style="width:34px;height:34px;border:2px dashed var(--line-strong);border-radius:50%;margin:0 auto 10px;display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;color:var(--muted);"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-        <div style="font-size:13px;color:var(--ink);font-weight:600;margin-bottom:3px;">Nothing awaiting your decision</div>
-        <div style="font-size:11.5px;color:var(--muted);line-height:1.45;">New extension submissions appear here when they need a decision.</div>
-      </div>
-    </div>
-  </div>
-  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;"><strong style="color:var(--ink);">(a) Not connected</strong> — no marketplace credential of any kind resolves: the whole group collapses to one <em>Empty</em> with a <em>Connect registry</em> button, and no remote call is made. <strong style="color:var(--ink);">(b) Not configured</strong> — another marketplace credential is connected but this section's own is absent: the section is hidden and a single discoverable footer line names it, so a misconfiguration is never silently masked. <strong style="color:var(--ink);">(c) Section error</strong> — a source load failed: an inline error card with a <em>Try again</em> link, isolated to that section. <strong style="color:var(--ink);">(d) Zero items</strong> — connected and configured but nothing pending: the standard <em>Empty</em>. Local sources (agent creation requests) sit outside the group and always render regardless of marketplace connectivity.</p>
-
-  <!-- Actions -->
-  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Actions</h3>
-  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Decisions execute inline at the row. <strong style="color:var(--ink);">Approve</strong> is the primary button; <strong style="color:var(--ink);">Reject</strong> (and <strong style="color:var(--ink);">Withdraw</strong>, on your own pending submissions) is the outline button, and Reject reveals a required reason before it confirms. An action is either <em>locally</em> enforced — eligibility is knowable up front, so the button state is authoritative (agent creation requests) — or <em>action-time</em> enforced, where only the source can decide at submit time (the marketplace queues); the button shows optimistically and the source's refusal is surfaced in place. When a source supplies row-level eligibility metadata, the matching button is <strong style="color:var(--ink);">disabled and annotated</strong> with its reason; action-time enforcement at the source stays authoritative either way. A read-only row (a vendor application whose lifecycle lives elsewhere) carries a <em>Manage</em> link instead of buttons.</p>
-
-  <!-- Status vocabulary -->
-  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Status vocabulary</h3>
-  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 12px;">Each source maps its native status token onto the four Badge variants. A submission carries <strong style="color:var(--ink);">two axes</strong> — the decision (pending / approved / rejected) drives the pill; the promotion sub-state (queued / promoted / …) is appended to the meta line, never a second pill.</p>
-  <div class="matrix" style="max-width:640px;margin:0 0 10px;">
-    <table>
-      <thead><tr><th>Source</th><th>Status token</th><th>Variant</th></tr></thead>
-      <tbody>
-        <tr><td style="font-size:12.5px;color:var(--ink);">Agent creation request</td><td style="font-family:var(--font-mono);font-size:11.5px;color:var(--muted);">proposed</td><td><span style="display:inline-flex;align-items:center;padding:2px 9px;border-radius:9999px;font-family:var(--font-sans);font-size:11px;font-weight:600;background:var(--surface-muted);color:var(--ink);border:1px solid var(--line);">secondary</span></td></tr>
-        <tr><td style="font-size:12.5px;color:var(--muted);">&nbsp;</td><td style="font-family:var(--font-mono);font-size:11.5px;color:var(--muted);">approved · published</td><td><span style="display:inline-flex;align-items:center;padding:2px 9px;border-radius:9999px;font-family:var(--font-sans);font-size:11px;font-weight:600;background:var(--blue);color:#fff;border:1px solid var(--blue);">default</span></td></tr>
-        <tr><td style="font-size:12.5px;color:var(--muted);">&nbsp;</td><td style="font-family:var(--font-mono);font-size:11.5px;color:var(--muted);">rejected</td><td><span style="display:inline-flex;align-items:center;padding:2px 9px;border-radius:9999px;font-family:var(--font-sans);font-size:11px;font-weight:600;background:var(--red);color:var(--surface-strong);border:1px solid var(--red);">destructive</span></td></tr>
-        <tr><td style="font-size:12.5px;color:var(--ink);">Extension submission</td><td style="font-family:var(--font-mono);font-size:11.5px;color:var(--muted);">pending</td><td><span style="display:inline-flex;align-items:center;padding:2px 9px;border-radius:9999px;font-family:var(--font-sans);font-size:11px;font-weight:600;background:var(--surface-muted);color:var(--ink);border:1px solid var(--line);">secondary</span></td></tr>
-        <tr><td style="font-size:12.5px;color:var(--muted);">&nbsp;</td><td style="font-family:var(--font-mono);font-size:11.5px;color:var(--muted);">approved</td><td><span style="display:inline-flex;align-items:center;padding:2px 9px;border-radius:9999px;font-family:var(--font-sans);font-size:11px;font-weight:600;background:var(--blue);color:#fff;border:1px solid var(--blue);">default</span></td></tr>
-        <tr><td style="font-size:12.5px;color:var(--ink);">Vendor application</td><td style="font-family:var(--font-mono);font-size:11.5px;color:var(--muted);">applied</td><td><span style="display:inline-flex;align-items:center;padding:2px 9px;border-radius:9999px;font-family:var(--font-sans);font-size:11px;font-weight:600;background:var(--surface-muted);color:var(--ink);border:1px solid var(--line);">secondary</span></td></tr>
-        <tr><td style="font-size:12.5px;color:var(--muted);">&nbsp;</td><td style="font-family:var(--font-mono);font-size:11.5px;color:var(--muted);">approved</td><td><span style="display:inline-flex;align-items:center;padding:2px 9px;border-radius:9999px;font-family:var(--font-sans);font-size:11px;font-weight:600;background:var(--blue);color:#fff;border:1px solid var(--blue);">default</span></td></tr>
-        <tr><td style="font-size:12.5px;color:var(--muted);">Any source · fallback</td><td style="font-family:var(--font-mono);font-size:11.5px;color:var(--muted);">any other token (withdrawn · superseded · draft · none · …)</td><td><span style="display:inline-flex;align-items:center;padding:2px 9px;border-radius:9999px;font-family:var(--font-sans);font-size:11px;font-weight:600;background:transparent;color:var(--muted);border:1px solid var(--line-strong);">outline</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- SoD readable rejection -->
-  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Separation-of-duties refusal</h3>
-  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 12px;">When a source refuses a decision because the actor may not approve their own request, the raw error is replaced with a readable in-place explanation next to the row's actions — never a stack trace or a bare HTTP code. Only genuinely transient failures are marked retryable.</p>
-  <div class="callout danger" style="margin:0 0 6px;">
-    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>Refused</span>
-    <p>Someone else must review this — the marketplace does not allow the submitter or namespace owner to approve their own request.</p>
-  </div>
-  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The same treatment covers a state conflict (the row was already decided elsewhere) and a missing capability on the instance's credential — each rendered as its own readable line rather than a generic failure.</p>
-
 <footer>
-    <span>Cinatra · Application Design v0.6.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design v0.7.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
