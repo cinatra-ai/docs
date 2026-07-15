@@ -1,5 +1,7 @@
 # Code owners for cinatra-ai/docs.
 # FULL-tier repos require CODEOWNERS per org governance policy.
 # Listed owners are requested for review on PRs touching matching paths.
+# The catch-all is scoped to the org review account so routine PRs do not
+# auto-request the owner; the owner is still requested explicitly when needed.
 # Reference: https://docs.github.com/articles/about-code-owners
-* @groganz @megajustice
+* @megajustice
