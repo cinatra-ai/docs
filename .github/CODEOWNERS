@@ -1,7 +1,15 @@
 # Code owners for cinatra-ai/docs.
 # FULL-tier repos require CODEOWNERS per org governance policy.
-# Listed owners are requested for review on PRs touching matching paths.
-# The catch-all is scoped to the org review account so routine PRs do not
-# auto-request the owner; the owner is still requested explicitly when needed.
+#
+# Scoping policy: routine documentation paths have NO code owner, so ordinary
+# PRs do not auto-request a review from anyone. The same scoping applies to the
+# org review account (@megajustice) as to the owner (@groganz) — neither is a
+# catch-all owner on routine paths. Only the security-relevant paths below
+# request a review, and they request BOTH the owner and the org review account.
 # Reference: https://docs.github.com/articles/about-code-owners
-* @megajustice
+
+# Security-relevant paths — request the owner + the org review account.
+# /.github/ holds the CI workflows and governance gates.
+/.github/ @groganz @megajustice
+# /LICENSE governs the licensing terms of the published docs.
+/LICENSE @groganz @megajustice
