@@ -257,6 +257,16 @@
 
   code { font-family: var(--font-mono); font-size: 12px; background: var(--surface-muted); padding: 1px 5px; border-radius: 3px; }
 
+  /* Numbered normative clauses — each carries a stable anchor id
+     (§N.M) so a downstream conformance suite can cite one rule. */
+  .clauses { list-style: none; margin: 4px 0 20px; padding: 0; max-width: 70ch; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-strong); overflow: hidden; }
+  .clauses > li { position: relative; padding: 11px 16px 11px 62px; border-bottom: 1px solid var(--line); font-size: 13px; line-height: 1.55; color: var(--ink); }
+  .clauses > li:last-child { border-bottom: 0; }
+  .clauses > li b { font-weight: 600; }
+  .clauses > li code { font-family: var(--font-mono); font-size: 11.5px; background: var(--surface-muted); padding: 1px 5px; border-radius: 3px; }
+  .clauses .cnum { position: absolute; left: 14px; top: 11px; font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em; color: var(--blue); }
+  .clauses .cnum::before { content: "§"; opacity: 0.55; }
+
   /* ── Footer ───────────────────────────────────────────────── */
   footer { margin-top: 64px; padding-top: 18px; border-top: 1px solid var(--line-strong); font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; display: flex; justify-content: space-between; }
 </style>
@@ -272,7 +282,7 @@
       <p class="lede">How extensions surface in the Cinatra app — the ListingCard and its install-state machine, the extension detail modal, the installed-extensions manager, the All-Agents agent card, the extension settings page, and the post-install configuration-needs Callout. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.8.0</div>
+      <div>Version 0.9.0</div>
     </div>
   </div>
 
@@ -763,7 +773,7 @@
     <div class="rule"></div>
     <div class="source">Manage · list · 5 rows</div>
   </div>
-  <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 66ch; line-height: 1.55;"><b style="color:var(--ink);font-weight:600;">Manage installed agents, skills, connectors, and artifacts.</b> Each installed extension is one <b style="color:var(--ink);font-weight:600;">horizontal card</b>, split three ways: a <em>logo + name</em> panel on the left (the ListingCard mark of §I) — on the extension’s category colour, or fully greyed out when it is archived — with the <em>{Type} by {Vendor}</em> line beneath the name; a white middle carrying the <em>description</em>, then the <em>version</em> with its status beside it — a green check for <em>Active</em>, a green lock for a <em>Locked</em> system extension, a grey cross for <em>Archived</em>, plus an <em>Update&nbsp;available</em> chip when a newer compatible version is published; and a white <em>actions</em> panel on the right (<em>Settings</em>, <em>More details</em>). A status filter, <em>Marketplace</em> and <em>Upload</em> sit above the list.</p>
+  <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 66ch; line-height: 1.55;"><b style="color:var(--ink);font-weight:600;">Manage installed agents, skills, connectors, and artifacts.</b> Each installed extension is one <b style="color:var(--ink);font-weight:600;">horizontal card</b>, split three ways: a <em>logo + name</em> panel on the left (the ListingCard mark of §I) — on the extension’s category colour, or fully greyed out when it is archived — with the <em>{Type} by {Vendor}</em> line beneath the name; a white middle carrying the <em>description</em>, then the <em>version</em> with its status beside it — a green check for <em>Active</em>, a green lock for a <em>Locked</em> system extension, a grey cross for <em>Archived</em>, plus an <em>Update&nbsp;available</em> chip when a newer compatible version is published; and a white <em>actions</em> panel on the right (<em>Settings</em>, <em>More details</em>). A <em>status filter</em> — the four status views <b style="color:var(--ink);font-weight:600;">All · Active · Locked · Archived</b> (§III.1–§III.6 below) — plus <em>Marketplace</em> and <em>Upload</em> sit above the list.</p>
   <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — installed extensions</div>
     <div style="padding: 18px 20px;">
@@ -785,6 +795,67 @@
       <p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 12px 0 0; max-width: 66ch;">A <b style="color:var(--ink);font-weight:600;">green check</b> marks an <em>Active</em> extension; a <b style="color:var(--ink);font-weight:600;">green lock</b> marks a <em>Locked</em> system extension — always active, it cannot be archived or uninstalled, so it shares the live-green ink yet reads distinctly from a normal active row; a <b style="color:var(--ink);font-weight:600;">grey cross</b> marks an <em>Archived</em> one.</p>
     </div>
   </div>
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 22px 0 10px;"><b style="color:var(--ink);font-weight:600;">The status filter partitions the installed list into four views.</b> Above the list, a single-select control chooses which installed extensions show — <b style="color:var(--ink);font-weight:600;">All</b>, <b style="color:var(--ink);font-weight:600;">Active</b> (the default), <b style="color:var(--ink);font-weight:600;">Locked</b> or <b style="color:var(--ink);font-weight:600;">Archived</b> — and drives a shareable <code>?tab=</code> URL. <b style="color:var(--ink);font-weight:600;">Active</b>, <b style="color:var(--ink);font-weight:600;">Locked</b> and <b style="color:var(--ink);font-weight:600;">Archived</b> are a clean partition of the installed set by the lifecycle status above — a <em>Locked</em> extension lives under <b style="color:var(--ink);font-weight:600;">Locked</b>, not the default <b style="color:var(--ink);font-weight:600;">Active</b> view — and <b style="color:var(--ink);font-weight:600;">All</b> is their union.</p>
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — status filter</div>
+    <div style="padding: 18px 20px;">
+      <div style="display: flex; align-items: flex-start; gap: 26px; flex-wrap: wrap;">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Trigger · current view</div>
+          <button type="button" aria-haspopup="listbox" style="width: 120px; display: inline-flex; align-items: center; justify-content: space-between; gap: 8px; background: var(--surface-strong); border: 1px solid var(--line); border-radius: 7px; padding: 8px 11px; font-family: var(--font-sans); font-size: 12.5px; font-weight: 500; color: var(--ink);">Active<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--muted);"><path d="m6 9 6 6 6-6"/></svg></button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Options · order · selection</div>
+          <div role="listbox" aria-label="Filter installed extensions by state" style="width: 172px; background: var(--surface-strong); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 12px 30px rgba(21,33,58,0.16); padding: 5px; display: flex; flex-direction: column; gap: 2px;">
+            <div role="option" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 5px; font-family: var(--font-sans); font-size: 12.5px; color: var(--ink);">All</div>
+            <div role="option" aria-selected="true" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 5px; background: var(--surface-muted); font-family: var(--font-sans); font-size: 12.5px; font-weight: 600; color: var(--ink);">Active<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;color:var(--blue);"><path d="M20 6 9 17l-5-5"/></svg></div>
+            <div role="option" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 5px; font-family: var(--font-sans); font-size: 12.5px; color: var(--ink);">Locked</div>
+            <div role="option" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 5px; font-family: var(--font-sans); font-size: 12.5px; color: var(--ink);">Archived</div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; min-width: 200px;">
+          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;">URL · one per view</div>
+          <div style="display: grid; grid-template-columns: auto 1fr; gap: 5px 12px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); align-items: baseline;">
+            <span style="color: var(--ink);">All</span><span>?tab=all</span>
+            <span style="color: var(--ink);">Active</span><span>no query · default</span>
+            <span style="color: var(--ink);">Locked</span><span>?tab=locked</span>
+            <span style="color: var(--ink);">Archived</span><span>?tab=archived</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — filter empty states</div>
+    <div style="padding: 18px 20px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+        <div style="display: flex; flex-direction: column; gap: 9px;">
+          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">Active</span> · empty</div>
+          <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--surface); padding: 24px 16px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:26px;height:26px;color:var(--muted);"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: var(--ink);">No active extensions</div><p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0; max-width: 36ch;">No extensions are installed yet. Browse the marketplace to add one.</p><button type="button" class="btn outline" style="margin-top: 2px;">Browse marketplace</button></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 9px;">
+          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">Locked</span> · empty</div>
+          <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--surface); padding: 24px 16px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:26px;height:26px;color:var(--muted);"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: var(--ink);">No locked extensions</div><p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0; max-width: 36ch;">Required and system extensions that cannot be archived appear here when locked.</p></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 9px;">
+          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">Archived</span> · empty</div>
+          <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--surface); padding: 24px 16px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:26px;height:26px;color:var(--muted);"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: var(--ink);">No archived extensions</div><p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0; max-width: 36ch;">Extensions uninstalled after first use appear here. Their run history remains intact.</p></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 9px;">
+          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700;"><span style="color: var(--ink);">All</span> · empty</div>
+          <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--surface); padding: 24px 16px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:26px;height:26px;color:var(--muted);"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: var(--ink);">No extensions installed</div><p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0; max-width: 36ch;">Nothing is installed in any state yet. Browse the marketplace to add one.</p><button type="button" class="btn outline" style="margin-top: 2px;">Browse marketplace</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ol class="clauses" data-conformance-id="installed-extensions-status-views">
+    <li id="c-3-1"><span class="cnum">3.1</span> The status filter offers <b>exactly four</b> views, in this order — <b>All</b> · <b>Active</b> · <b>Locked</b> · <b>Archived</b>. It is a single-select control whose trigger shows the current view; these four are the whole filterable status set.</li>
+    <li id="c-3-2"><span class="cnum">3.2</span> Each view has a stable URL: the default <b>Active</b> view carries <b>no <code>?tab=</code> query</b> (its canonical URL), and <code>?tab=all</code>, <code>?tab=locked</code>, <code>?tab=archived</code> each address their view. <code>?tab=active</code> resolves to <b>Active</b> too, but is <b>non-canonical</b> — the selector never writes it (choosing <b>Active</b> clears the query). The no-query landing view stays <b>Active</b> — adding options must not change what users see today. Any <b>absent, empty, or otherwise invalid / unknown</b> <code>?tab=</code> value falls back to <b>Active</b> — a defined, tested fallback, never a 404 or a dead / misrendered tab, so a bookmarked or hand-edited URL always resolves.</li>
+    <li id="c-3-3"><span class="cnum">3.3</span> <b>Active</b>, <b>Locked</b> and <b>Archived</b> are a clean <b>partition</b> of the installed set: every installed extension falls in <b>exactly one</b> of <b>Active</b> (<code>status: active</code>), <b>Locked</b> (<code>status: locked</code>) or <b>Archived</b> (<code>status: archived</code>). A locked extension appears under <b>Locked</b> (and, as their union, <b>All</b>) and is <b>excluded from the default Active view</b>; no row is dropped or double-counted across views, and every view's count is exact.</li>
+    <li id="c-3-4"><span class="cnum">3.4</span> <b>All</b> lists extensions of <b>any</b> status together — the <b>union</b> of Active, Locked and Archived — each with its own per-status treatment from §III: active and locked read live, archived greys out.</li>
+    <li id="c-3-5"><span class="cnum">3.5</span> <b>Locked</b> lists <b>only</b> locked extensions — the always-active system / required extensions that cannot be archived or uninstalled (the green-lock status of §III). This is the <b>first dedicated view</b> of that set; before it, locked extensions had no view of their own.</li>
+    <li id="c-3-6"><span class="cnum">3.6</span> Every view has its own <b>empty state</b>, consistent with the existing pattern: <b>Active</b> — <em>No active extensions</em> (browse the marketplace to add one); <b>Locked</b> — <em>No locked extensions</em> (required and system extensions that cannot be archived appear here when locked); <b>Archived</b> — <em>No archived extensions</em> (uninstalled extensions appear here; their run history remains intact); <b>All</b> — <em>No extensions installed</em> (nothing installed in any state yet).</li>
+  </ol>
   <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — card spec-line, update states</div>
     <div style="padding: 18px 20px;">
@@ -979,7 +1050,7 @@
   </div>
   <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">The card is the §III <b style="color:var(--ink);font-weight:600;">installed-extension card</b>, rendered in the <b style="color:var(--ink);font-weight:600;">archived treatment</b> — greyed ground, desaturated kind emblem, muted name, byline and actions — because at least one required connector is not configured yet, so the extension can't run. A <b style="color:var(--ink);font-weight:600;">thin status strip</b> is attached seamlessly to the bottom of the card in the design system's <b style="color:var(--ink);font-weight:600;">Needs review</b> colours (the <code>.pill.hold</code> mustard tint over <code>--mustard-ink</code>, a mustard hairline on top). Its content is <b style="color:var(--ink);font-weight:600;">centred</b>: a warning glyph, then <em>Set up connections first:</em>, then each required connector's <b style="color:var(--ink);font-weight:600;">displayName</b> (its <code>manifest.displayName</code> — the same human-readable name the §I ListingCard and the Connectors grid use) as a link to that connector's setup page (§II of the Connectors design). Every connector among the installed extension and its auto-installed dependencies is checked against its <b style="color:var(--ink);font-weight:600;">own</b> readiness, and only the unconfigured ones are listed; the moment all are configured the card flips to its normal <b style="color:var(--ink);font-weight:600;">active</b> colours and the strip is absent. Install stays <b style="color:var(--ink);font-weight:600;">non-blocking</b> — the strip is a follow-up reminder, not a gate.</p>
 <footer>
-    <span>Cinatra · Application Design — Extensions v0.8.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Extensions v0.9.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
