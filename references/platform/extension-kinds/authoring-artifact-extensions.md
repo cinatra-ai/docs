@@ -10,6 +10,13 @@ This page is a router. The full author-facing contract already lives in a dedica
 
 - **[Authoring semantic artifact extensions](../../../guides/developer/semantic-artifact-extensions.md)** — the semantic-artifact contract: the manifest shape, the file layout (`package.json` + `src/index.ts` + `skills/<slug>-matcher/SKILL.md`), how matcher skills register and run, and what the runtime does with each field.
 
+An artifact extension may also **contribute its own presentational registry
+items** to the shared `@cinatra-ai` design registry via
+`cinatra.artifact.ui.registryItems` — see
+**[Authoring shadcn registry items](../../../guides/developer/authoring-registry-items.md)**
+for the identity grammar, the presentational-only rule, and the digest-pinned
+serving and lifecycle contract.
+
 Read it alongside the platform-level model:
 
 - **[Artifacts — architecture, threat model and invariants](../artifacts.md)** — the platform-level artifact model.

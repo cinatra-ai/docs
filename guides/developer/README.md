@@ -53,6 +53,7 @@ For end-user material, see the [User Guide](../user/README.md). For platform-adm
 - [Artifacts — LLM attachments and prompt-window upload](../../references/platform/artifacts-attachments-and-prompt-window-upload.md)
 - [Artifacts — preflight and legacy-media purge gate](../../references/platform/artifacts-preflight.md)
 - [Authoring semantic artifact extensions](semantic-artifact-extensions.md)
+- [Authoring shadcn registry items](authoring-registry-items.md) — contributing presentational `registryItems` to the shared design registry: identity, presentational constraints, digest-vs-alias serving, append-only lifecycle
 
 ## Skills
 

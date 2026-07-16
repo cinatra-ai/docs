@@ -11,6 +11,10 @@
 // extensions are metadata-only", "no runtime code", connector as the sole
 // "code-bearing kind", and an unpinned `shadcn@latest` CLI against the pinned
 // supply-chain contract. Those pages were rewritten in this same wave.
+// cinatra#1623 (S5) extended the epic: the design registry became EXTENSIBLE by
+// extensions (`registryItems`, published under a vendor namespace), so the
+// "host-only / not extensible / no extension can contribute an item" absolutes
+// are retired too and enumerated here beside the boundary claims.
 //
 // This gate is the FAIL-CLOSED enumeration that keeps them rewritten: if any of
 // the retired claims is reintroduced anywhere in the tracked Markdown corpus,
@@ -107,6 +111,31 @@ const PATTERNS = [
     "unpinned `shadcn@latest` CLI",
     "Pin the shadcn CLI (`shadcn@4.8.2`) — the pinned version is a supply-chain contract shared with the `@cinatra-ai` design-registry build; `@latest` can drift from the committed registry.",
   ],
+  // cinatra#1623 (epic #1620 S5): the design registry became EXTENSIBLE by
+  // extensions (`cinatra.artifact.ui.registryItems`, published under a vendor
+  // `@<namespace>/<slug>-<component>` identity to an append-only host). The
+  // retired absolutes said the opposite — the registry was host-only / not
+  // extensible / no extension could contribute an item. These patterns keep
+  // that reworded; each requires a `registr` anchor so a bare "no extension
+  // can …" elsewhere (e.g. the signed-trust config note) never trips them.
+  [
+    "registry_not_extensible",
+    /\bregistr(?:y|ies)\b[^\n]{0,15}\b(?:is|are|isn['’]?t|aren['’]?t|remains?|stays?|becomes?|was|were)\b[^\n]{0,15}\b(?:not extensible|closed to extension|host[- ]only|host[- ]authored only|not open to extension)\b/i,
+    "the shadcn design registry described as not-extensible / host-only",
+    "Superseded by cinatra#1623 (S5): extensions declare their own `cinatra.artifact.ui.registryItems`, served from the append-only registry host. Reword to the extensible-registry reality.",
+  ],
+  [
+    "only_host_authors_registry",
+    /\bonly (?:the )?(?:host|cinatra|core)\b[^\n]{0,25}\b(?:authors?|publish(?:es)?|contributes?|populates?|owns?)\b[^\n]{0,25}\bregistr/i,
+    'registry items framed as authored "only by the host"',
+    "Superseded by cinatra#1623 (S5): an extension contributes registry items under its vendor namespace. Drop the \"only the host\" absolute.",
+  ],
+  [
+    "extension_cannot_contribute_registry",
+    /(?:\bno\b[^\n]{0,15}\bextensions?\b[^\n]{0,15}\b(?:can|could|may)\b|\bextensions?\b[^\n]{0,20}\b(?:cannot|can['’]?t|may not|could not|is unable to|are unable to|never)\b)[^\n]{0,25}\b(?:contribute|publish|declare|add|author|ship|extend)\b[^\n]{0,30}\bregistr/i,
+    "an extension said to be unable to contribute registry items",
+    "Superseded by cinatra#1623 (S5): an extension declares presentational `registryItems` published under its vendor namespace. Drop the absolute.",
+  ],
 ];
 
 const KNOWN_PATTERN_IDS = new Set(PATTERNS.map(([id]) => id));
@@ -133,6 +162,13 @@ const SELFTEST_MUST_MATCH = [
   "- An artifact extension is a\nmetadata-only descriptor.",
   // wrapped across consecutive blockquote lines:
   "> An artifact extension is a\n> metadata-only descriptor",
+  // cinatra#1623 (S5): the retired registry-extensibility absolutes.
+  "the design registry is not extensible",
+  "the `@cinatra-ai` registry is host-only",
+  "registry items are host-authored only",
+  "only the host authors registry items",
+  "no extension can contribute a registry item",
+  "an artifact extension cannot publish registry items",
 ];
 const SELFTEST_MUST_NOT_MATCH = [
   "An artifact extension is declarative by default and may ship a cinatra.artifact.ui renderer.",
@@ -144,6 +180,13 @@ const SELFTEST_MUST_NOT_MATCH = [
   "The one sanctioned executable surface is an optional extension-shipped artifact renderer.",
   // adjacent list bullets must NOT merge into a false positive:
   "- an artifact type bullet\n- a metadata-only unrelated bullet",
+  // cinatra#1623 (S5): the NEW extensible-registry reality + legitimate
+  // registry sentences must stay clean.
+  "an extension declares its own registryItems, served from the append-only registry host.",
+  "an extension can contribute a registry item under its vendor namespace.",
+  "if no usable public key is configured, no extension can reach the signed-trust state.",
+  "the 14 host-authored generic primitives are built from registry.json.",
+  "Consumption is dev/build-time only — the app never fetches the registry at runtime.",
 ];
 
 // --- logical-line reflow ---------------------------------------------------
