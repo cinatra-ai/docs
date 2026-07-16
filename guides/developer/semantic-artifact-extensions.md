@@ -9,14 +9,25 @@ runtime does with each field. Read alongside
 
 ## TL;DR
 
-A semantic artifact extension is a metadata-only Cinatra extension
-under `extensions/cinatra-ai/<slug>-artifact/` that declares which
-representation forms a work-product type accepts + which classification
+A semantic artifact extension is a Cinatra extension under
+`extensions/cinatra-ai/<slug>-artifact/` that declares which
+representation forms a work-product type accepts and which classification
 skills classify it. The platform's matcher runtime queues a large language model (LLM)
 classification pass against every artifact whose authoritative MIME
 matches the extension's declared `accepts.file.mimeTypes`; the
 classifier returns `{matches, confidence}` and the assertion service
 writes a `draft` semantic assertion when confidence ≥ threshold.
+
+An artifact extension is **declarative by default** — it ships no
+`register(ctx)` server entry, and most artifact extensions never write a
+line of runtime code. But it MAY additionally **ship its own detail /
+preview renderer** through the versioned `cinatra.artifact.ui` block
+(epic [#1620](https://github.com/cinatra-ai/cinatra/issues/1620), landed
+in S1/S2): the extension owns its type's *view*, while core owns
+*dispatch*, the artifact *shell*, and the never-blank fallback *floor*.
+Shipping a renderer is opt-in — omit the `ui` block and the type renders
+with the host's generic renderer, exactly as before. See
+[Shipping a renderer — the `cinatra.artifact.ui` block](#shipping-a-renderer--the-cinatraartifactui-block).
 
 ## File layout
 
@@ -176,6 +187,173 @@ package is picked up by:
    artifact descriptor on `objectTypeRegistry`.
 3. Matcher runtime — queues a classification pass against any
    incoming resource whose authoritative MIME matches.
+
+## Shipping a renderer — the `cinatra.artifact.ui` block
+
+Declaring representation forms + a matcher makes the platform *recognize*
+your type. To also make it *look* like your type — a purpose-built detail
+view instead of the host's generic renderer — ship a renderer through the
+versioned `cinatra.artifact.ui` block (epic
+[#1620](https://github.com/cinatra-ai/cinatra/issues/1620) S1/S2). This
+block is **optional**: omit it and the type renders generically, exactly
+as a declarative-only extension always has.
+
+The boundary this restores: **core owns dispatch, the artifact shell, and
+the never-blank floor; the extension owns its type's view.** Before this
+block, every new artifact type's UI meant a core PR — core accreted
+per-type UI knowledge. Now the view ships from the type's own package.
+
+### The `ui` block shape (v1)
+
+```jsonc
+"cinatra": {
+  "kind": "artifact",
+  "apiVersion": "cinatra.ai/v1",
+  "artifact": {
+    "accepts": { "file": { "mimeTypes": ["application/pdf"] } },
+    "skills": { "matchers": ["@cinatra-ai/<slug>-artifact:<slug>-matcher"] },
+    "ui": {
+      "abiVersion": 1,
+      "sdkAbiRange": "^2.4.0",
+      "renderers": {
+        "detail":  { "entry": "./src/renderers/detail.tsx",  "propsApiVersion": 1 },
+        "preview": { "entry": "./src/renderers/preview.tsx", "propsApiVersion": 1, "representations": ["application/pdf"] }
+      }
+    }
+  }
+}
+```
+
+- **`abiVersion`** — the `ui`-block ABI, distinct from the SDK ABI.
+  Exactly `1` in v1; a future v2 is an additive, versioned migration. The
+  canonical schema is `packages/sdk-extensions/src/artifact-contract.ts`.
+- **`sdkAbiRange`** — **GENERATED (never hand-picked).** It pins the host
+  ABI range the renderer was built against (a caret range admitting the
+  build ABI and every later compatible minor). There is exactly one correct
+  value — `^<the canonical SDK ABI you built against>` — and the conformance
+  gate rejects any other. The opt-in scaffolder ui template (S4) emits it for
+  you; until then, copy that single canonical value rather than inventing one.
+- **`renderers`** — a **non-empty partial map** over the closed v1 slot
+  enum: `detail` (the artifact detail view) and `preview` (the neutral
+  inline-preview capability reused by in-core preview sites). Declare any
+  non-empty subset (e.g. `detail` only). Slots `listRow` / `card` /
+  `inline` are **reserved** for later waves and rejected in v1; the HITL
+  field-renderer and chat renderable-view systems are separate channels,
+  not slots of this enum.
+- Each renderer is `{ entry, propsApiVersion, representations? }` and
+  **nothing else**. The schema is `.strict()`: **a v1 renderer requests NO
+  host ports.** Any extra key (a `ports` / `requestedHostPorts` request, or
+  any other field) is rejected — a read-only renderer port is out of scope
+  pending an ABI-major process.
+  - **`entry`** — a package-relative, path-contained subpath (`"./…"`, no
+    `".."`, no absolute path or URL) that resolves to a real file and ships
+    inside the published `files` allowlist (or the tarball omits it). The
+    conformance gate checks containment + file resolution + `files` inclusion;
+    an `exports` subpath mapping is recommended for a stable import but is not
+    itself required.
+  - **`propsApiVersion`** — the props-contract version the renderer expects
+    (an integer ≥ 1; the current props ABI is `1`). The host refuses to
+    mount a renderer whose expected version the supplied snapshot does not
+    satisfy.
+  - **`representations`** — optional non-empty array of MIME patterns this
+    slot renders (e.g. `["application/pdf"]`).
+
+### The renderer contract (RSC, no ports, serializable props)
+
+A renderer is a **React Server Component module with a default export**.
+It receives ONE argument: a versioned, normalized, **serializable** props
+snapshot (`ArtifactRendererProps`, props ABI `1`), assembled host-side
+*after* the host has already access-checked the row. The snapshot carries
+plain JSON only — row metadata, the resolved representation, host-authorized
+preview/download URLs, the resolved effective identity, and sanctioned
+actions as navigational **hrefs**. Its canonical shape is
+`src/lib/artifacts/artifact-renderer-props.ts`. The versioned props **type** is
+re-exported for extensions by the SDK **as of the first renderer wave (S4)** —
+until S4 lands, the SDK export is not yet published, so the scaffolder's
+renderer stub (which lands in the same wave) is the source of the exact import;
+do not hand-guess a subpath:
+
+```tsx
+// ./src/renderers/detail.tsx  — the scaffolder wires the props-type import.
+export default function ContractDetail({ artifact, urls, actions }) {
+  return (
+    <article>
+      <h1>{artifact.title ?? "Untitled contract"}</h1>
+      {urls.preview ? <iframe src={urls.preview} title="preview" /> : null}
+      {actions.download ? <a href={actions.download}>Download</a> : null}
+    </article>
+  );
+}
+```
+
+The v1 props snapshot fields: `artifact` (id, title, objectType, mime,
+size, timestamps, ownerLevel, visibility, sourceUrl), `representation`
+(`{revisionId, mime}` or null), `urls` (`preview`, `download` — already
+access-checked), `identity` (the flattened effective identity), and
+`actions` (`download`, `openInSource` as hrefs). Nothing else crosses.
+
+- **v1 renderers request no host ports** — the renderer runs *only* from
+  this host-supplied authorized snapshot. Non-serializable host context (DB
+  handles, the request, server-action closures over `ctx`) NEVER crosses
+  the boundary. The renderer may run as a client component, so the
+  RSC→client serialization boundary must hold; the host pins this. Actions
+  are host-authorized links, never closures.
+- **UI primitives are vendored, not imported from the host.** Compose with
+  your package's *vendored* copies of the `@cinatra-ai` shadcn primitives
+  (relative imports into your own tree) and never reach into host internals
+  or pull an ad-hoc UI library. See [The `@cinatra-ai` design registry](#the-cinatra-ai-design-registry-vendored-primitives).
+
+### Failure isolation and "requires rebuild"
+
+Renderers are **build-known**, wired through a generated literal-import map
+(`src/lib/generated/artifact-renderers.ts`) resolved by the S2 dispatch spine
+(`src/lib/artifacts/artifact-renderer-loader.ts`) — the same generated-map
+pattern the connector `bundled-react` setup pages already use, and the loader,
+the map, and the failure-isolation behavior below are all landed (S2). Two
+consequences:
+
+- **Until your extension is in the base image build, its renderer is not
+  wired.** A runtime-installed claimant that is not yet in the build renders
+  **generically**, with a **"requires rebuild"** indicator — the type is
+  never blank and never errors; it just falls back to the generic view until
+  the next image includes it.
+- **Two-tier failure isolation.** A pre-render failure (module absent,
+  missing default export, props-ABI mismatch, or a key that crossed the
+  repeat-failure quarantine threshold) degrades to the generic renderer plus
+  a **sanitized** diagnostic (package + slot + failure class only — never a
+  raw error or a manifest value). A render-time throw is caught by the
+  route-segment error boundary; a renderer that keeps throwing is
+  quarantined and renders generically until restart. **The floor is never
+  blank.**
+
+### The publish / conformance gate
+
+`cinatra.artifact.ui` is validated **fail-closed at publish** by the
+extension-repo conformance gate (`scripts/extensions/conformance-gate.mjs`,
+`checkArtifactUi`) and **degraded-with-diagnostic at boot** — a malformed
+`ui` never rejects the whole manifest or drops your type registration /
+`objectTypes` claims; it only drops the renderer. The gate asserts:
+`abiVersion` is exactly `1`; `sdkAbiRange` equals the generated value;
+`renderers` is a non-empty map over `{detail, preview}` (reserved slots
+rejected); each `entry` is contained, resolves to a file, and ships in
+`files`; `propsApiVersion` is an integer ≥ 1; and no extra key (a port
+request) is present. Reproduce it locally with `node
+extension-kind-gate.mjs --package-root .` and the conformance run before you
+push.
+
+### The `@cinatra-ai` design registry (vendored primitives)
+
+Renderers do not consume the host's UI package directly. Cinatra publishes
+its shadcn design primitives as the `@cinatra-ai` registry — built from
+`registry.json` into `public/r/*.json` by
+`scripts/extensions/build-design-registry.mjs` and served flat at
+`/r/{name}.json`. The registry is consumed **at authoring time** with the
+**pinned** shadcn CLI (`pnpm dlx shadcn@4.8.2 add …`), never `@latest`;
+`scripts/extensions/vendor-extension-primitives.mjs` vendors the primitives
+into the extension's own tree so the renderer imports them by relative path.
+Consumption is dev/build-time only — the app never fetches the registry at
+runtime. The extensible-registry authoring contract (declaring your own
+`registryItems`) lands with S5 and is documented separately.
 
 ## Producer-asserted artifacts (no matcher)
 

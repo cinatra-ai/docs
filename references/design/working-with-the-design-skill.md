@@ -67,7 +67,7 @@ Only then write the styling. A change that lacks this record is expected to be c
 Design and shadcn/ui concerns compose but do not overlap:
 
 - **Design** owns *what color* and *what semantic*. The non-negotiables above, the token map, the register procedure, and the validation harness.
-- **shadcn/ui** owns *how to compose* and *how to add*. The component CLI (`pnpm dlx shadcn@latest add <component>`), the registry conventions, the variant CVA shape.
+- **shadcn/ui** owns *how to compose* and *how to add*. The component CLI (`pnpm dlx shadcn@4.8.2 add <component>`), the registry conventions, the variant CVA shape.
 
 When a primitive needs token-only changes, consult this page. When a primitive needs API changes or a new variant, consult the shadcn/ui component docs. Most primitive work touches both.
 

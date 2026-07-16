@@ -1,0 +1,34 @@
+name: artifact-ui-contradiction-gate
+
+# Blocking corpus contradiction gate for cinatra#1627 (epic cinatra#1620 S10
+# AC5): the docs corpus must not reintroduce the SUPERSEDED artifact-UI boundary
+# that epic #1620 flipped — "artifact extensions are metadata-only", "no runtime
+# code", connector as the sole "code-bearing kind", or an unpinned
+# `shadcn@latest` CLI. An artifact extension is declarative by default and MAY
+# ship a port-less `cinatra.artifact.ui` renderer (S1/S2). See
+# scripts/check-artifact-ui-contradictions.mjs for the retired-claim patterns
+# and the dated allowlist for verified non-artifact false positives
+# (.github/artifact-ui-contradiction-allowlist.json).
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  artifact-ui-contradiction-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout docs
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Setup Node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: "22"
+      - name: Self-test the contradiction patterns
+        run: node scripts/check-artifact-ui-contradictions.mjs --selftest
+      - name: Check for superseded artifact-UI boundary claims
+        run: node scripts/check-artifact-ui-contradictions.mjs
