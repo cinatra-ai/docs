@@ -352,8 +352,10 @@ its shadcn design primitives as the `@cinatra-ai` registry — built from
 `scripts/extensions/vendor-extension-primitives.mjs` vendors the primitives
 into the extension's own tree so the renderer imports them by relative path.
 Consumption is dev/build-time only — the app never fetches the registry at
-runtime. The extensible-registry authoring contract (declaring your own
-`registryItems`) lands with S5 and is documented separately.
+runtime. Declaring your OWN `registryItems` — publishing presentational
+components to the shared registry so other extensions can vendor them the same
+way — is a separate capability with its own contract: see
+[Authoring shadcn registry items](authoring-registry-items.md).
 
 ## Producer-asserted artifacts (no matcher)
 
