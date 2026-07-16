@@ -1,0 +1,4 @@
+{
+  "$comment": "Verified false positives for scripts/check-artifact-ui-contradictions.mjs (cinatra#1627, epic cinatra#1620 S10 AC5). Each entry suppresses ONE pattern id on ONE exact source LINE (the \"snippet\" is the full trimmed line, not just the matched phrase) — two different sentences in the same file can share a phrase, so a second unrelated line needs its own entry. Use an entry ONLY for genuine non-artifact product content the artifact-scoped pattern misfires on; never to re-admit a superseded artifact-boundary claim. Every entry needs owner + reviewBy so it cannot become permanent silently: once reviewBy passes the entry stops suppressing (the gate reds again) until a human re-verifies and renews the date, or removes the entry. Starts EMPTY: the rewritten corpus has no legitimate collisions.",
+  "entries": []
+}

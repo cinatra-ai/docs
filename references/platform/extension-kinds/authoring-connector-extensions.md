@@ -2,7 +2,7 @@
 
 Audience: developers shipping a `kind: "connector"` extension — an integration to an external system, or a provider behind a capability facade.
 
-The connector is the **one kind that is a code package with a `register(ctx)` server entry.** It runs privileged server code at activation, requests host ports, registers MCP tools and capability providers, ships setup/settings UI, and — when it owns Postgres tables — declares schema migrations the host runs. The four declarative kinds (agent, artifact, skill, workflow) do **not** go through this path; if you landed here for one of those, start at [Extension kinds — choose your kind](./).
+The connector is the **one kind with a privileged `register(ctx)` server entry.** It runs privileged server code at activation, requests host ports, registers MCP tools and capability providers, ships setup/settings UI, and — when it owns Postgres tables — declares schema migrations the host runs. The four declarative kinds (agent, artifact, skill, workflow) do **not** go through this path; if you landed here for one of those, start at [Extension kinds — choose your kind](./). (An artifact extension may ship an optional `cinatra.artifact.ui` **renderer** — an RSC `detail`/`preview` component — but that is a **port-less** view surface with no `register(ctx)`, no host ports, and no privileged activation; it is not this path.)
 
 ## What the kind contributes
 

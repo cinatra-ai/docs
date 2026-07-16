@@ -56,24 +56,24 @@ In `@theme inline`, `bg-muted` maps to `--surface-muted` (light surface backgrou
 
 ## Adding components
 
-Use the shadcn CLI — it reads `components.json` and writes source to `src/components/ui/`:
+Use the shadcn CLI — it reads `components.json` and writes source to `src/components/ui/`. **Pin the CLI version** (`shadcn@4.8.2`), never `@latest`: the pinned version is a supply-chain contract shared with the `@cinatra-ai` design-registry build (`scripts/extensions/build-design-registry.mjs` derives its committed `public/r/*.json` output with the same pinned CLI, gated for drift), so an unpinned CLI can silently produce output that no longer matches the committed registry.
 
 ```bash
-pnpm dlx shadcn@latest add <component>
-pnpm dlx shadcn@latest add table dialog tabs select separator skeleton
+pnpm dlx shadcn@4.8.2 add <component>
+pnpm dlx shadcn@4.8.2 add table dialog tabs select separator skeleton
 ```
 
 To preview changes before writing:
 
 ```bash
-pnpm dlx shadcn@latest add <component> --dry-run
-pnpm dlx shadcn@latest add <component> --diff
+pnpm dlx shadcn@4.8.2 add <component> --dry-run
+pnpm dlx shadcn@4.8.2 add <component> --diff
 ```
 
 To search available components:
 
 ```bash
-pnpm dlx shadcn@latest search <keyword>
+pnpm dlx shadcn@4.8.2 search <keyword>
 ```
 
 ## Component rules (summary from `.agents/skills/shadcn/`)
@@ -93,7 +93,7 @@ For the complete rules see `.agents/skills/shadcn/SKILL.md`. Key points:
 
 ### shadcn UI primitives (`src/components/ui/`)
 
-Added via `pnpm dlx shadcn@latest add <name>`. Own the source — edit freely.
+Added via `pnpm dlx shadcn@4.8.2 add <name>`. Own the source — edit freely.
 
 - `button.tsx` — variants: default (dark ink), outline, secondary, ghost, destructive, link
 - `card.tsx` — full composition with CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction
