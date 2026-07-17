@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+  <title>Cinatra — Application Design — Permissions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect x='8' y='8' width='496' height='496' rx='96' fill='%23ffffff' stroke='rgba(21,33,58,0.14)' stroke-width='16'/%3E%3Cg transform='translate(256 256) scale(1.04) translate(-256 -160)' fill='%23c79545'%3E%3Cpath d='M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z'/%3E%3Cpath d='M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z'/%3E%3C/g%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    /* — canonical palette — */
+    --paper:          #f1f1ed;
+    --surface:        #f7f7f3;
+    --surface-strong: #ffffff;
+    --surface-muted:  #e8e8e3;
+    --sidebar:        #eceeea;
+    --ink:            #15213a;
+    --blue:           #364e81;
+    --muted:          #5a6477;
+    --line:           rgba(21, 33, 58, 0.14);
+    --line-strong:    #15213a;
+    --logo:           #c79545;
+    --mustard-ink:    #7a5a1f;   /* darkened mustard: text/icon on warm mustard tints */
+    --toolbar:        #dcddd5;   /* toolbar chrome ground */
+    --toolbar-2:      #e3e4dc;   /* nested toolbar, level 2 */
+    --toolbar-3:      #e9eae2;   /* nested toolbar, level 3 */
+    --burgundy:       #7a2e3a;
+    --red:            #a6384f;
+    --green:          #3f6e6b;
+    --rust:           #b0613a;
+    --olive:          #6c6a3a;
+    --plum:           #574a68;
+    --clay:           #a86b72;
+    --stripe-mid:     #b8c4d4;
+    --stripe-light:   #e3e8ee;
+
+    --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;   /* display: headlines, wordmark, italic numerics, UI chrome */
+    --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;     /* body prose: paragraphs, card text, tables, liner-notes */
+    --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    /* — type scale — applied numeric type sizes tokenized as custom properties,
+       one source like the palette above. Page-title is the app h1 display ramp
+       (lg 28 / md 24 / sm 20); plus component titles, kicker/label tracking, badge sizes. */
+    --page-title-sm:             20px;
+    --page-title-md:             24px;
+    --page-title-lg:             28px;
+    --page-title-line-height:    1.05;
+    --title-tracking-tight:      -0.018em;
+    --listing-title-size:        18px;
+    --listing-title-line-height: 1.12;
+    --listing-title-tracking:    -0.012em;
+    --modal-title-size:          23px;
+    --rating-average-size:       40px;
+    --kicker-tracking:           0.18em;
+    --kicker-tracking-wide:      0.2em;
+    --page-label-tracking:       0.3em;
+    --badge-text-xs:             10px;
+    --badge-text-2xs:            9.5px;
+    --badge-tracking:            0.14em;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 14px; line-height: 1.5;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 56px 48px 96px; }
+
+  /* ── Masthead ─────────────────────────────────────────────── */
+  .mast { display: grid; grid-template-columns: auto 1fr auto; gap: 24px; align-items: center; padding-bottom: 22px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand .mark { color: var(--logo); }
+  .brand .word { font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 30px; color: var(--logo); letter-spacing: -0.022em; line-height: 1; text-shadow: 0 1px 0 rgba(122, 58, 30, 0.2); }
+  .bulbs { display: flex; gap: 9px; margin-top: 6px; }
+  .bulbs .bulb {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: radial-gradient(circle at 32% 32%, #fff5d8 0%, #f0c878 32%, #c79545 78%, #8a5e1f 100%);
+    box-shadow: 0 0 3px rgba(236,202,126,0.85), 0 0 6px rgba(199,149,69,0.35);
+    animation: bulb-flicker 2.4s infinite ease-in-out;
+  }
+  .bulbs .bulb:nth-child(2)  { animation-delay: -0.35s; }
+  .bulbs .bulb:nth-child(3)  { animation-delay: -0.70s; }
+  .bulbs .bulb:nth-child(4)  { animation-delay: -1.05s; }
+  .bulbs .bulb:nth-child(5)  { animation-delay: -1.40s; }
+  .bulbs .bulb:nth-child(6)  { animation-delay: -1.75s; }
+  .bulbs .bulb:nth-child(7)  { animation-delay: -0.20s; }
+  .bulbs .bulb:nth-child(8)  { animation-delay: -0.55s; }
+  .bulbs .bulb:nth-child(9)  { animation-delay: -0.90s; }
+  .bulbs .bulb:nth-child(10) { animation-delay: -1.25s; }
+  @keyframes bulb-flicker { 48% { opacity: 0.55; box-shadow: 0 0 1.5px rgba(236,202,126,0.4); } }
+
+  .kicker { font-size: 10.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+  /* Masthead headline for this reference document — bound to the app page-title lg token (28px), so the masthead rides the app page-title scale rather than a separate display size. Scoped to .mast so the generic h1 selector makes no independent page-title claim. */
+  .mast h1 { margin: 6px 0 6px; font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: var(--page-title-lg); letter-spacing: var(--title-tracking-tight); line-height: var(--page-title-line-height); }
+  .lede { font-size: 15px; color: var(--muted); max-width: 60ch; }
+  .lede b { color: var(--ink); font-weight: 600; }
+  .mast .meta { text-align: right; font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; line-height: 1.6; }
+
+  .etched-rule { border: 0; height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin: 18px 0 32px; }
+
+  /* ── Section header ───────────────────────────────────────── */
+  .sect { margin: 40px 0 18px; display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: baseline; }
+  .sect:first-of-type { margin-top: 0; }
+  .sect h2 { margin: 0; font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 24px; letter-spacing: -0.01em; }
+  .sect .rule { height: 1px; background: var(--line-strong); align-self: center; }
+  .sect .source { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .sect .source b { color: var(--ink); }
+
+  /* ── Swatch grid ──────────────────────────────────────────── */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+  .swatch {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    display: grid; grid-template-rows: 130px auto;
+    box-shadow: 0 1px 0 rgba(21,33,58,0.04), 0 1px 2px rgba(21,33,58,0.04);
+  }
+  /* Extension cards are clickable — white surface per design-system Rules of the road #8 (white means interactive). */
+  .swatch[style*="grid-template-rows: minmax(150px"] { background: var(--surface-strong); }
+  .swatch .chip {
+    position: relative;
+    background: var(--swatch);
+    border-bottom: 1px solid var(--line);
+  }
+  .swatch .chip .hex {
+    position: absolute; left: 14px; bottom: 12px;
+    font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+    color: var(--label-color, var(--ink));
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .swatch .info { padding: 12px 14px 14px; }
+  .swatch .info .role { font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 16px; line-height: 1.15; }
+  .swatch .info .token { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; color: var(--muted); margin-top: 2px; }
+  .swatch .info .use { font-size: 12.5px; color: var(--muted); margin-top: 8px; line-height: 1.45; text-wrap: pretty; }
+
+  /* Special chip treatments (hairlines need their own demo, etc.) */
+  .chip-hairline {
+    background: var(--paper);
+    display: grid; place-items: center;
+  }
+  .chip-hairline .demo {
+    width: 80%; height: 5px;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .chip-hairline.thin {
+    background: var(--surface-strong);
+  }
+  .chip-hairline.thin .demo {
+    border-top: 1px solid rgba(21,33,58,0.14);
+    border-bottom: 0;
+    height: 1px;
+  }
+  .chip-stripe {
+    background: var(--paper);
+    display: grid; place-items: center;
+  }
+  .chip-stripe .demo {
+    width: 84%; height: 36px;
+    background:
+      repeating-linear-gradient(90deg, #f7f3e8 0 6px, #e3e8ee 6px 7px, #f7f3e8 7px 13px, #b8c4d4 13px 14px);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+
+  /* ── Pocket-square palette ───────────────────────────────── */
+  .squares { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .sq {
+    background: var(--surface-strong);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px;
+    display: grid; gap: 10px;
+    box-shadow: 0 1px 0 rgba(21,33,58,0.04), 0 1px 2px rgba(21,33,58,0.04);
+  }
+  .sq .avatar {
+    width: 56px; height: 56px;
+    background: var(--ink); color: var(--surface-strong);
+    border-radius: 10px;
+    display: grid; place-items: center;
+    font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 26px;
+    position: relative;
+  }
+  .sq .avatar.light { color: var(--ink); }
+  .sq .name { font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 17px; line-height: 1; }
+  .sq .pair { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.06em; }
+
+  /* ── Pills + buttons demo ─────────────────────────────────── */
+  .demo-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 10px; border-radius: 9999px;
+    font-family: var(--font-sans); font-size: 12px; font-weight: 600;
+    border: 1px solid;
+  }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .pill.running { background: rgba(54,78,129,0.10); color: var(--blue);   border-color: rgba(54,78,129,0.30); }
+  .pill.running .dot { background: var(--blue); }
+  .pill.approved { background: rgba(63,110,107,0.12); color: var(--green); border-color: rgba(63,110,107,0.32); }
+  .pill.approved .dot { background: var(--green); }
+  .pill.hold { background: rgba(199,149,69,0.16); color: var(--mustard-ink); border-color: rgba(199,149,69,0.42); }
+  .pill.hold .dot { background: var(--logo); }
+  .pill.idle { background: transparent; color: var(--muted); border-color: var(--line-strong); }
+  .pill.idle .dot { background: var(--muted); }
+  .pill.failed { background: var(--red); color: var(--surface-strong); border-color: var(--red); }
+  .pill.failed .dot { background: var(--surface-strong); }
+
+  .btn { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; font: 500 13px var(--font-sans); border-radius: 7px; border: 1px solid var(--line-strong); background: var(--surface-strong); color: var(--ink); cursor: default; }
+  .btn.primary { background: var(--blue); color: var(--surface-strong); border-color: var(--blue); }
+  .btn.outline { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }
+  .btn.secondary { background: var(--surface-muted); color: var(--ink); border-color: transparent; }
+  .btn.destructive { background: rgba(166,56,79,0.10); color: var(--red); border-color: rgba(166,56,79,0.24); }
+  .btn.ghost { background: transparent; border-color: transparent; }
+  .btn.link { background: transparent; border-color: transparent; color: var(--blue); text-decoration: underline; text-underline-offset: 3px; padding: 7px 4px; }
+
+  /* ── Callouts (info / note / warning / success / danger) ──── */
+  .callout { display: grid; gap: 5px; max-width: 64ch; padding: 12px 15px 13px; border-radius: 8px; border: 1px solid; }
+  .callout-label { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+  .callout-label svg { width: 13px; height: 13px; flex: none; }
+  .callout p { margin: 0; font-family: var(--font-body); font-weight: 400; font-size: 13px; line-height: 1.55; color: var(--ink); text-wrap: pretty; }
+  .callout p code { font-family: var(--font-mono); font-size: 0.92em; }
+  .callout.note    { background: rgba(21,33,58,0.04);   border-color: rgba(21,33,58,0.18); }
+  .callout.note    .callout-label { color: var(--muted); }
+  .callout.info    { background: rgba(54,78,129,0.08);  border-color: rgba(54,78,129,0.30); }
+  .callout.info    .callout-label { color: var(--blue); }
+  .callout.success { background: rgba(63,110,107,0.10); border-color: rgba(63,110,107,0.32); }
+  .callout.success .callout-label { color: var(--green); }
+  .callout.warning { background: rgba(199,149,69,0.14); border-color: rgba(199,149,69,0.42); }
+  .callout.warning .callout-label { color: var(--mustard-ink); }
+  .callout.danger  { background: rgba(166,56,79,0.09);  border-color: rgba(166,56,79,0.34); }
+  .callout.danger  .callout-label { color: var(--red); }
+
+  /* ── Contrast matrix ──────────────────────────────────────── */
+  .matrix { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .matrix table { width: 100%; border-collapse: separate; border-spacing: 0; }
+  .matrix th, .matrix td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+  .matrix th { background: var(--surface); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .matrix .pair { display: inline-grid; grid-template-columns: 24px 24px auto; gap: 6px; align-items: center; }
+  .matrix .pair .a, .matrix .pair .b { width: 24px; height: 24px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08); }
+  .matrix .pair .a { margin-right: -10px; }
+  .matrix .ratio { font-family: var(--font-mono); font-weight: 600; font-size: 13px; }
+  .matrix .verdict { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
+  .v-aaa { background: rgba(63,110,107,0.18); color: var(--green); }
+  .v-aa  { background: rgba(63,110,107,0.12); color: var(--green); }
+  .v-large { background: rgba(199,149,69,0.18); color: var(--mustard-ink); }
+  .v-fail { background: rgba(166,56,79,0.12); color: var(--red); }
+  .matrix td.note { color: var(--muted); font-size: 12.5px; max-width: 320px; }
+  .matrix .preview { padding: 4px 10px; font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 13px; border-radius: 4px; display: inline-block; }
+
+  code { font-family: var(--font-mono); font-size: 12px; background: var(--surface-muted); padding: 1px 5px; border-radius: 3px; }
+
+  /* ── Footer ───────────────────────────────────────────────── */
+  footer { margin-top: 64px; padding-top: 18px; border-top: 1px solid var(--line-strong); font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; display: flex; justify-content: space-between; }
+
+
+  /* ── Permissions-local extensions (below the shared base) ─────
+     Reference-render helpers for the access-picker surface: the
+     example frame, the picker trigger + dropdown mock, scope-prefixed
+     rows (single checkmark / multi checkbox), between-group separators, the
+     implied-lock note, the search box, and the numbered normative
+     clauses. Colour, type and spacing all draw from the shared
+     tokens above. */
+  .ex { border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 14px; }
+  .ex > .cap { padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700; }
+  .ex > .body { padding: 18px 20px; }
+  .lede-p { font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 66ch; line-height: 1.55; }
+  .lede-p b { color: var(--ink); font-weight: 600; }
+  .tag { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px; border-radius: 9999px; font-family: var(--font-sans); font-size: 11px; font-weight: 600; border: 1px solid var(--line); background: var(--surface-muted); color: var(--ink); }
+  .tag.ext { background: rgba(54,78,129,0.10); color: var(--blue); border-color: rgba(54,78,129,0.30); }
+  .tag.floor { background: transparent; color: var(--muted); border-color: var(--line-strong); }
+  .tag.mono { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; }
+  .tag.ok { background: rgba(63,110,107,0.12); color: var(--green); border-color: rgba(63,110,107,0.32); }
+
+  /* Numbered normative clauses — each carries a stable anchor id
+     (§N.M) so a downstream conformance suite can cite one rule. */
+  .clauses { list-style: none; margin: 4px 0 20px; padding: 0; max-width: 70ch; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-strong); overflow: hidden; }
+  .clauses > li { position: relative; padding: 11px 16px 11px 62px; border-bottom: 1px solid var(--line); font-size: 13px; line-height: 1.55; color: var(--ink); }
+  .clauses > li:last-child { border-bottom: 0; }
+  .clauses > li b { font-weight: 600; }
+  .clauses > li code { font-family: var(--font-mono); font-size: 11.5px; background: var(--surface-muted); padding: 1px 5px; border-radius: 3px; }
+  .clauses .cnum { position: absolute; left: 14px; top: 11px; font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em; color: var(--blue); }
+  .clauses .cnum::before { content: "§"; opacity: 0.55; }
+
+  /* Access-picker mock — a faithful reference render of the shipped
+     AccessCombobox: the closed trigger, the white dropdown panel,
+     scope-prefixed rows, and between-group separators. */
+  .pk { max-width: 340px; }
+  .pk-trigger { display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 34px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05); }
+  .pk-trigger .lbl { display: inline-flex; align-items: baseline; gap: 6px; min-width: 0; }
+  .pk-trigger .pfx { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-family: var(--font-mono); flex: none; }
+  .pk-trigger .val { font-size: 14px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pk-trigger .chev { width: 16px; height: 16px; opacity: 0.5; color: var(--ink); flex: none; }
+  .pk-menu { margin-top: 7px; background: var(--surface-strong); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(21,33,58,0.14); }
+  .pk-search { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  .pk-search .box { flex: 1; display: flex; align-items: center; gap: 7px; height: 30px; background: var(--surface-strong); border: 1px solid var(--line); border-radius: 6px; padding: 0 9px; }
+  .pk-search .box span { font-size: 12.5px; color: var(--muted); }
+  .pk-search .clr { width: 18px; height: 18px; display: grid; place-items: center; border-radius: 4px; color: var(--muted); }
+  .pk-sep { height: 1px; background: var(--line); margin: 4px 0; }
+  .pk-row { display: flex; align-items: center; gap: 9px; padding: 8px 12px; font-size: 13.5px; color: var(--ink); }
+  .pk-row.hov { background: var(--surface-muted); }
+  .pk-row.sel { background: var(--surface-muted); }
+  .pk-lbl { display: inline-flex; align-items: center; min-width: 0; }
+  .pk-row .rt { font-family: var(--font-body); font-size: 12px; letter-spacing: 0.025em; color: var(--muted); margin-right: 4px; flex: none; }
+  .pk-row .chk { margin-left: auto; width: 15px; height: 15px; color: var(--ink); flex: none; }
+  .pk-row .cbx { width: 15px; height: 15px; border: 1.5px solid var(--line-strong); border-radius: 3px; flex: none; display: grid; place-items: center; background: var(--surface-strong); }
+  .pk-row .cbx.on { background: var(--blue); border-color: var(--blue); }
+  .pk-row .cbx.on svg { width: 11px; height: 11px; color: #fff; }
+  .pk-row.dis { color: var(--muted); }
+  .pk-row.dis .cbx { border-color: var(--line); opacity: 0.6; }
+  .pk-row .note { margin-left: auto; font-size: 11px; font-style: italic; color: var(--muted); white-space: nowrap; }
+  .pk-row .lock { width: 13px; height: 13px; color: var(--muted); flex: none; }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: start; }
+
+  /* Scope-token legend + conformance map reuse the shared .matrix. */
+  .matrix td.tok { font-family: var(--font-mono); font-size: 11.5px; color: var(--blue); white-space: nowrap; }
+  .matrix td.lbl2 { font-family: var(--font-sans); font-weight: 600; font-size: 13px; color: var(--ink); }
+  .matrix td.small { font-size: 12.5px; color: var(--muted); }
+  .anchor-ref { font-family: var(--font-mono); font-size: 11px; color: var(--blue); white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Masthead -->
+  <div class="mast">
+    <div>
+      <div class="kicker" style="margin-bottom: 8px;"><a href="design-system.html" style="color: var(--blue); text-decoration: none;">&larr; Cinatra — Application Design</a></div>
+      <h1>Cinatra — Application Design — Permissions</h1>
+      <p class="lede">The one access picker that decides <b>who can see and use</b> a thing in the Cinatra app — the consolidated <code>AccessCombobox</code> in its <b>single</b> and <b>multiple</b> selection modes, the closed <b>scope vocabulary</b>, every state, and the <b>containment</b> algebra that narrows the offered scopes to within a parent. Part of Cinatra Application Design; match it exactly.</p>
+    </div>
+    <div class="meta">
+      <div>Version 0.1.1</div>
+    </div>
+  </div>
+
+  <hr class="etched-rule" />
+
+  <div class="callout note" style="margin: 0 0 24px; max-width: 78ch;">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>What this page rules on</span>
+    <p>This page is the normative design for the app's <b>permissions / access picker</b>. The consolidation onto one implementation with an explicit <code>selectionMode</code> (§I–§IV) documents <b>shipped</b> reality (cinatra#1607 AC1, live in both modes), and the <b>containment</b> section (§VI) — the <code>parentScope</code> / <code>allowedScopes</code> algebra — is likewise <b>shipped</b> (cinatra#1607 AC2–AC5; see the §VI implementation-status callout). §VII maps every cinatra#1607 AC6/AC8 requirement to the clause here that specifies it.</p>
+  </div>
+
+  <!-- ── I. One picker, two selection modes ──────────────────── -->
+  <div class="sect">
+    <h2>I. One picker, two selection modes</h2>
+    <div class="rule"></div>
+    <div class="source">AccessCombobox · selectionMode</div>
+  </div>
+  <p class="lede-p"><b>One implementation, one import, one contract.</b> Every access decision in the app is made through a single component, <code>AccessCombobox</code>, parameterized by <code>selectionMode: "single" | "multiple"</code> (default <code>"single"</code>). It replaces the two former parallel pickers. The two modes render different UIs — a single-select <b>combobox</b> versus a <b>checkbox multi-select</b> list — but share one component contract, one import, and one pure label/selection module (<code>access-scope.ts</code>), which is the single source of truth for every scope label, scope prefix, and selection summary.</p>
+  <p class="lede-p"><b>Per-mode data shapes; one picker.</b> Single mode takes the flat active-org shape <code>{ orgName, orgId, teams[], projects[], workspaceExposed }</code>; multiple mode takes the nested <code>AvailableScopes { orgs[].teams[], projects[], canGrantWorkspace }</code>. A single universal upstream data model is not required — compatibility adapters may remain — but there is exactly one picker implementation.</p>
+
+  <ol class="clauses" data-conformance-id="access-combobox">
+    <li id="c-1-1"><span class="cnum">1.1</span> There is <b>exactly one</b> access-picker implementation, <code>AccessCombobox</code>, whose contract carries <code>selectionMode: "single" | "multiple"</code>; <code>selectionMode</code> defaults to <code>"single"</code> so install / permissions callers stay unchanged.</li>
+    <li id="c-1-2"><span class="cnum">1.2</span> The two modes render distinct treatments — a single-select combobox with a trailing check, and a checkbox multi-select list — but share one component contract, one import, and one pure module (<code>access-scope.ts</code>): that module owns the multi-mode labels + selection summary and the shared <b>“Unknown …”</b> entity fallback that <b>both</b> modes delegate to (the single mode’s own label helper defers to it), so the unknown-entity contract has no drifting second copy.</li>
+    <li id="c-1-3"><span class="cnum">1.3</span> Data shapes are per-mode (single: flat active-org; multiple: nested <code>AvailableScopes</code>); adapters may remain. A caller migrates by choosing a mode and passing that mode's shape — never by mounting a second component.</li>
+    <li id="c-1-4"><span class="cnum">1.4</span> <b>Single</b> drives the extension / agent <b>install-scope</b> dialogs, the agent-decision actions, and the read-only project <b>Permissions</b> tab. <b>Multiple</b> drives the permissions <b>grant</b> form, the extension access-control panel, and the <code>/connectors</code> + <code>/skills</code> scope <b>filters</b>.</li>
+  </ol>
+  <div class="callout note">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>Where the extension surface reuses this</span>
+    <p>The extension <em>Settings → Permissions</em> section that mounts this picker for connectors and artifacts (and links agents / skills to their own pages) is specified alongside the extension lifecycle in <a href="application-design-extensions.html">Application Design — Extensions</a>; this page is the normative design for the picker component that section reuses.</p>
+  </div>
+
+  <!-- ── II. The scope vocabulary ─────────────────────────────── -->
+  <div class="sect">
+    <h2>II. The scope vocabulary</h2>
+    <div class="rule"></div>
+    <div class="source">access-scope.ts · closed token set</div>
+  </div>
+  <p class="lede-p"><b>A closed set of scope tokens, each with one canonical label.</b> Every offered option is one of six scope kinds. The trigger shows <code>&lt;Type&gt;: &lt;name&gt;</code>; the dropdown rows reuse the same decomposition so the Personal / Project / Team / Organization / Workspace prefixes stay consistent. Scopes order <b>narrow → broad</b> everywhere they render.</p>
+
+  <div class="matrix" data-conformance-id="access-scope-vocabulary" style="margin-bottom: 16px;">
+    <table>
+      <thead>
+        <tr><th>Scope</th><th>Token</th><th>Trigger label</th><th>Row label</th><th style="text-align:left;">Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="lbl2">Personal</td><td class="tok">owner</td><td class="small">Personal: Only me</td><td class="small">Personal: Only me</td><td class="note">The narrowing floor. Always offered (§VI). Never “implied”.</td></tr>
+        <tr><td class="lbl2">Project</td><td class="tok">project:&lt;id&gt;</td><td class="small">Project: &lt;name&gt;</td><td class="small">Project: &lt;name&gt;</td><td class="note">Never implied by an org or team selection.</td></tr>
+        <tr><td class="lbl2">Team</td><td class="tok">team:&lt;id&gt;</td><td class="small">Team: &lt;org&gt; - &lt;name&gt;</td><td class="small">Team: &lt;name&gt;</td><td class="note">Implied (display-only) by its owning org / by Workspace: All.</td></tr>
+        <tr><td class="lbl2">Organization</td><td class="tok">org:&lt;id&gt;</td><td class="small">Organization: &lt;name&gt;</td><td class="small">Organization: &lt;name&gt;</td><td class="note">Legacy bare <code>org</code> is read-accepted; it denotes the active org.</td></tr>
+        <tr><td class="lbl2">Workspace (all)</td><td class="tok">workspace</td><td class="small">Workspace: All</td><td class="small">Workspace: All</td><td class="note">Broadest scope. Exclusive with Personal (multi mode).</td></tr>
+        <tr><td class="lbl2">Workspace (admins)</td><td class="tok">admin</td><td class="small">Workspace: Admins only</td><td class="small">Workspace: Admins only</td><td class="note">Offered only when <code>showAdmin</code> (multi) / on the permissions tab (single).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ol class="clauses">
+    <li id="c-2-1"><span class="cnum">2.1</span> The offered scopes are exactly the six kinds above; no other token renders as a selectable option.</li>
+    <li id="c-2-2"><span class="cnum">2.2</span> Scopes order <b>narrow → broad</b>: Personal → Project → Team → Organization → Workspace (all) → Workspace (admins). Both modes and the trigger summary honour this order.</li>
+    <li id="c-2-3"><span class="cnum">2.3</span> The list carries <b>no scope group headings</b>. Every row is <b>prefixed</b> with its scope kind — <code>Personal:</code> / <code>Project:</code> / <code>Team:</code> / <code>Organization:</code> / <code>Workspace:</code> — carrying the <code>&lt;Scope&gt;: &lt;name&gt;</code> row-label decomposition of §II (independent of the single-mode trigger, which is bare for some kinds per §3.1), and consecutive scope groups are divided by a <b>hairline separator</b> (never a line between rows within a group). The two Workspace rows (<em>All</em>, <em>Admins only</em>) share the one Workspace group.</li>
+    <li id="c-2-4"><span class="cnum">2.4</span> A team / project id that resolves to no name renders the explicit fallback <b>“Unknown team” / “Unknown project”</b> — <b>never</b> a truncated id. (An unresolved <b>org</b> takes the neutral organization label of §2.5, not a truncated id.) The raw id may appear only in a tooltip or secondary line, never in the label.</li>
+    <li id="c-2-5"><span class="cnum">2.5</span> An <code>org:&lt;id&gt;</code> token resolves to the active org’s <b>name</b> only when its id equals the supplied active <code>orgId</code>; otherwise it resolves to the neutral <b>“Anyone in the organization”</b> — never the wrong org’s name and never the raw token (the cross-org read-only Permissions-tab case).</li>
+  </ol>
+
+  <!-- ── III. Single-select mode ──────────────────────────────── -->
+  <div class="sect">
+    <h2>III. Single-select mode — the flat combobox</h2>
+    <div class="rule"></div>
+    <div class="source">selectionMode="single" · install + permissions</div>
+  </div>
+  <p class="lede-p"><b>One scope, chosen from a scope-prefixed list.</b> The single-select trigger is an outline combobox showing the current selection as <code>&lt;Type&gt;: &lt;name&gt;</code> with a trailing chevron, at the shared form-control height. Opening it lists the scopes as a flat, <b>scope-prefixed</b> list — each row prefixed <code>Personal:</code> / <code>Project:</code> / <code>Team:</code> / <code>Organization:</code> / <code>Workspace:</code>, with a hairline dividing consecutive scope groups and <b>no group heading</b>; a <b>trailing check</b> marks the selected row; choosing a row <b>closes</b> the popover. There is no text filter in single mode.</p>
+
+  <div class="cols">
+    <div class="ex" data-conformance-id="access-picker-single" data-state="empty">
+      <div class="cap">Example — permissions tab, admin viewer</div>
+      <div class="body">
+        <div class="pk" data-field="label=scope.displayName" data-action="select-scope -> value-set">
+          <div class="pk-trigger">
+            <span class="lbl"><span class="val">Anyone in Acme Corp</span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+          <div class="pk-menu" data-action="open-picker -> options-listed">
+            <div class="pk-row hov"><span class="pk-lbl"><span class="rt">Personal:</span>Only me</span></div>
+            <div class="pk-sep"></div>
+            <div class="pk-row"><span class="pk-lbl"><span class="rt">Project:</span>Atlas</span></div>
+            <div class="pk-sep"></div>
+            <div class="pk-row"><span class="pk-lbl"><span class="rt">Team:</span>Revenue</span></div>
+            <div class="pk-row"><span class="pk-lbl"><span class="rt">Team:</span>Engineering</span></div>
+            <div class="pk-sep"></div>
+            <div class="pk-row sel"><span class="pk-lbl"><span class="rt">Organization:</span>Acme Corp</span><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+            <div class="pk-sep"></div>
+            <div class="pk-row"><span class="pk-lbl"><span class="rt">Workspace:</span>All</span></div>
+            <div class="pk-row"><span class="pk-lbl"><span class="rt">Workspace:</span>Admins only</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ex" data-conformance-id="access-picker-single-installmode">
+      <div class="cap">Example — install-scope dialog (installMode)</div>
+      <div class="body">
+        <div class="pk">
+          <div class="pk-trigger">
+            <span class="lbl"><span class="val">Anyone in Acme Corp</span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+          <div class="pk-menu">
+            <div class="pk-row"><span class="pk-lbl"><span class="rt">Project:</span>Atlas</span></div>
+            <div class="pk-sep"></div>
+            <div class="pk-row"><span class="pk-lbl"><span class="rt">Team:</span>Revenue</span></div>
+            <div class="pk-row hov"><span class="pk-lbl"><span class="rt">Team:</span>Engineering</span></div>
+            <div class="pk-sep"></div>
+            <div class="pk-row sel"><span class="pk-lbl"><span class="rt">Organization:</span>Acme Corp</span><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          </div>
+        </div>
+        <p style="margin:12px 0 0;font-size:11.5px;color:var(--muted);line-height:1.5;">No <em>Personal: Only me</em>, <em>Workspace: All</em> or <em>Workspace: Admins only</em> — those are not install targets. With <code>installWorkspaceScopes</code> the two workspace rows return as server-driven target rows.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-conformance-id="access-picker-single-disabled">
+    <div class="cap">Example — disabled rows with reason (permissions tab, non-admin viewer)</div>
+    <div class="body">
+      <div class="cols">
+        <div class="pk">
+          <div class="pk-menu">
+            <div class="pk-row"><span class="pk-lbl"><span class="rt">Team:</span>Revenue</span></div>
+            <div class="pk-row dis" title="You are not a member of this team."><span class="pk-lbl"><span class="rt">Team:</span>Engineering</span><span class="note">Not a member</span></div>
+            <div class="pk-sep"></div>
+            <div class="pk-row dis" title="Only platform admins can scope this to the whole workspace."><span class="pk-lbl"><span class="rt">Workspace:</span>All</span><svg class="lock" style="margin-left:auto;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+            <div class="pk-row"><span class="pk-lbl"><span class="rt">Workspace:</span>Admins only</span></div>
+          </div>
+        </div>
+        <div style="align-self:center;">
+          <p style="margin:0;font-size:12.5px;color:var(--muted);line-height:1.55;max-width:40ch;"><b style="color:var(--ink);">Disabled ≠ removed.</b> A value in <code>disabledScopes</code> still renders — non-selectable, muted, with its <code>disabledReasons</code> text on a wrapper-span tooltip outside the disabled item (a disabled item suppresses pointer events on its own content). For a non-admin, <em>Workspace: All</em> is locked with the reason <em>“Only platform admins can scope this to the whole workspace.”</em>; <em>Workspace: Admins only</em> stays selectable.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ol class="clauses" data-conformance-id="access-combobox-single">
+    <li id="c-3-1"><span class="cnum">3.1</span> The trigger is an outline <b>combobox</b> (<code>role="combobox"</code>) rendering the current value plus a trailing chevron, at the shared form-control height (aligned to the text input). In single mode only <b>Team</b> and <b>Project</b> selections carry the uppercase <code>&lt;Type&gt;:</code> prefix; Personal, Organization, Workspace and Admin resolve to a bare name with no prefix.</li>
+    <li id="c-3-2"><span class="cnum">3.2</span> The open list renders the scopes as prefixed rows in five groups, narrow → broad, a hairline between groups and <b>no heading</b>: <b>(1) Personal:</b> · <b>(2) Project:</b> · <b>(3) Team:</b> · <b>(4) Organization: &lt;name&gt;</b> (always rendered) · <b>(5) Workspace:</b> (the <em>All</em> then <em>Admins only</em> rows share the one Workspace group). Project and Team rows render when they have rows or an unhydrated selection to synthesize.</li>
+    <li id="c-3-3"><span class="cnum">3.3</span> Selection is single: a <b>trailing check</b> marks the selected row, and choosing any row <b>closes</b> the popover. Single mode does not filter rows by typed text.</li>
+    <li id="c-3-4"><span class="cnum">3.4</span> A <code>team:</code> / <code>project:</code> selection that does not hydrate to any available row synthesizes an explicit, <b>checked</b> “Unknown team” / “Unknown project” row, so a selection is always visible with its check.</li>
+    <li id="c-3-5"><span class="cnum">3.5</span> Row states are visually distinct: idle rows are <b>white</b>; the hover / keyboard-active row is <b>muted</b>; the selected row keeps the muted tint.</li>
+    <li id="c-3-6"><span class="cnum">3.6</span> A value in <code>disabledScopes</code> renders the row <b>non-selectable</b> with its <code>disabledReasons</code> text (else “Not available”) on a wrapper-span tooltip outside the disabled item. Outside <code>installWorkspaceScopes</code>, only the org / team: / project: rows consult this list — the owner / admin / workspace rows have separate semantics (workspace gates on the admin check); under <code>installWorkspaceScopes</code> (§3.8) the workspace and admin rows also become server-driven and consult it.</li>
+    <li id="c-3-7"><span class="cnum">3.7</span> <b><code>installMode</code></b> hides the <em>Personal: Only me</em>, <em>Workspace: All</em> and <em>Workspace: Admins only</em> rows entirely (they are permissions values, not install targets), leaving org / team: / project: rows.</li>
+    <li id="c-3-8"><span class="cnum">3.8</span> <b><code>installWorkspaceScopes</code></b> (with <code>installMode</code>) additionally renders the <em>Workspace: All</em> and <em>Workspace: Admins only</em> rows as <b>server-driven</b> target rows whose enabled / disabled + reason state comes from <code>disabledScopes</code> / <code>disabledReasons</code>, not the client admin gate.</li>
+    <li id="c-3-9"><span class="cnum">3.9</span> On the permissions tab (not <code>installMode</code>), a <b>non-admin</b> sees <em>Workspace: All</em> disabled with a lock and the reason <em>“Only platform admins can scope this to the whole workspace.”</em>; <em>Workspace: Admins only</em> is always selectable.</li>
+    <li id="c-3-10"><span class="cnum">3.10</span> The org row value is the id-carrying <code>org:&lt;id&gt;</code> token (matching the server-built install-target row exactly); it falls back to the legacy bare <code>org</code> only when no <code>orgId</code> is supplied. The empty state reads <b>“No matches.”</b></li>
+  </ol>
+
+  <!-- ── IV. Multi-select mode ────────────────────────────────── -->
+  <div class="sect">
+    <h2>IV. Multi-select mode — the checkbox picker</h2>
+    <div class="rule"></div>
+    <div class="source">selectionMode="multiple" · grant + filters</div>
+  </div>
+  <p class="lede-p"><b>Many scopes, chosen with checkboxes.</b> The multi-select trigger shows a composed <b>summary</b> of the selection; opening it reveals a searchable, <b>scope-prefixed</b> checkbox list — divided by a hairline between scope groups, no group heading — that <b>stays open</b> as you toggle. Each row leads with a checkbox — there is no trailing check. A checked broad scope <b>display-implies</b> its narrower rows (checked + locked) without writing them into the stored selection.</p>
+
+  <div class="cols">
+    <div class="ex" data-conformance-id="access-picker-multiple" data-state="empty">
+      <div class="cap">Example — permissions grant form</div>
+      <div class="body">
+        <div class="pk" data-field="summary=selection.summary" data-action="toggle-scope -> selection-toggled">
+          <div class="pk-trigger" title="Project: Atlas · Team: Acme Corp - Revenue">
+            <span class="lbl"><span class="val">1 project, 1 team</span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+          <div class="pk-menu">
+            <div class="pk-search" data-action="search-scopes -> options-filtered">
+              <div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--muted);"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span>Search…</span></div>
+            </div>
+            <div class="pk-row"><span class="cbx"></span><span class="pk-lbl"><span class="rt">Personal:</span>Only me</span></div>
+            <div class="pk-sep"></div>
+            <div class="pk-row sel"><span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="pk-lbl"><span class="rt">Project:</span>Atlas</span></div>
+            <div class="pk-sep"></div>
+            <div class="pk-row sel"><span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="pk-lbl"><span class="rt">Team:</span>Revenue</span></div>
+            <div class="pk-row"><span class="cbx"></span><span class="pk-lbl"><span class="rt">Team:</span>Engineering</span></div>
+            <div class="pk-sep"></div>
+            <div class="pk-row"><span class="cbx"></span><span class="pk-lbl"><span class="rt">Organization:</span>Acme Corp</span></div>
+            <div class="pk-sep"></div>
+            <div class="pk-row"><span class="cbx"></span><span class="pk-lbl"><span class="rt">Workspace:</span>All</span></div>
+            <div class="pk-row"><span class="cbx"></span><span class="pk-lbl"><span class="rt">Workspace:</span>Admins only</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ex" data-conformance-id="access-picker-multiple-implication">
+      <div class="cap">Example — downward implication (display-only)</div>
+      <div class="body">
+        <div class="pk">
+          <div class="pk-trigger">
+            <span class="lbl"><span class="val">1 organization</span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+          <div class="pk-menu">
+            <div class="pk-row dis"><span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="pk-lbl"><span class="rt">Team:</span>Revenue</span><span class="note">Included via Acme Corp</span></div>
+            <div class="pk-row dis"><span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="pk-lbl"><span class="rt">Team:</span>Engineering</span><span class="note">Included via Acme Corp</span></div>
+            <div class="pk-sep"></div>
+            <div class="pk-row sel"><span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="pk-lbl"><span class="rt">Organization:</span>Acme Corp</span></div>
+            <div class="pk-sep"></div>
+            <div class="pk-row"><span class="cbx"></span><span class="pk-lbl"><span class="rt">Workspace:</span>All</span></div>
+          </div>
+        </div>
+        <p style="margin:12px 0 0;font-size:11.5px;color:var(--muted);line-height:1.5;">A checked <b style="color:var(--ink);">Acme Corp</b> implies its own team rows: checked, locked, <em>“Included via Acme Corp”</em>. Implied tokens are never written into the stored selection.</p>
+      </div>
+    </div>
+  </div>
+
+  <ol class="clauses" data-conformance-id="access-combobox-multiple">
+    <li id="c-4-1"><span class="cnum">4.1</span> The trigger renders the selection <b>summary</b>: one token shows its full <code>Type: Name</code>; N&gt;1 tokens show a pluralised, <b>narrow → broad</b> category breakdown (e.g. <em>“1 project, 1 team”</em>, <em>“2 teams, 1 organization”</em>); an empty selection falls back to the Personal label. When N&gt;1, a tooltip on the trigger lists every selected scope’s full label.</li>
+    <li id="c-4-2"><span class="cnum">4.2</span> A <b>Search</b> field filters the rows client-side; a small ✕ clears the query once present.</li>
+    <li id="c-4-3"><span class="cnum">4.3</span> Each row <b>leads with a checkbox</b> and its <b>scope-prefixed</b> label (<code>Personal:</code> / <code>Project:</code> / <code>Team:</code> / <code>Organization:</code> / <code>Workspace:</code>); there is no trailing check and <b>no group heading</b>. Consecutive scope groups are divided by a hairline separator (never a line between rows within a group), on a white surface.</li>
+    <li id="c-4-4"><span class="cnum">4.4</span> The popover <b>stays open</b> on toggle (Escape or an outside click closes it).</li>
+    <li id="c-4-5"><span class="cnum">4.5</span> <b>Downward implication is display-only.</b> A checked org implies its own team rows (checked + disabled, <em>“Included via &lt;org&gt;”</em>); a checked <em>Workspace: All</em> implies every scope row (<em>“Included via Workspace: All”</em>); projects are never implied by org/team. Implied tokens are never written to the stored selection.</li>
+    <li id="c-4-6"><span class="cnum">4.6</span> <code>owner</code> (Only me) and <code>workspace</code> (All) are <b>exclusive</b>: toggling either collapses the selection to just that token; unchecking workspace falls back to owner. <code>owner</code> is the narrowing floor — disabled while workspace is selected and when it is the sole selection (the floor cannot be unchecked); it becomes an enabled clear-to-owner action once a broader scope is also selected.</li>
+    <li id="c-4-7"><span class="cnum">4.7</span> Scoped tokens (org / team / project) and admin add / remove through the canonicaliser (dedupe, owner-strip-when-mixed, non-empty floor, no upward collapse).</li>
+    <li id="c-4-8"><span class="cnum">4.8</span> A value in <code>disabledScopes</code> renders <b>non-selectable</b> (a lock affordance) with its <code>disabledReasons</code> tooltip — used e.g. to render a connector’s access ceiling as a locked picker. The lock is an affordance only; the server write path independently rejects an out-of-ceiling grant.</li>
+    <li id="c-4-9"><span class="cnum">4.9</span> <code>showAdmin</code> (default true) gates the <em>Workspace: Admins only</em> row; a non-admin filter surface passes false so admin-only scopes are never selectable. When <code>canGrantWorkspace</code> is false, the <em>Workspace: All</em> row renders <b>disabled</b>.</li>
+    <li id="c-4-10"><span class="cnum">4.10</span> The <code>/connectors</code> + <code>/skills</code> <b>filter</b> surface mounts this mode via <code>ScopeFilterCombobox</code> with the filter-mode <code>toggleSelection</code> / <code>rowState</code>: “personal” is an ordinary OR-token, nothing is implied, and “workspace” is the cleared default (removed from the <code>?scope=</code> URL). The popover stays open with an optimistic local selection reconciled to the server-resolved value.</li>
+  </ol>
+
+  <!-- ── V. State axes ────────────────────────────────────────── -->
+  <div class="sect">
+    <h2>V. State axes — the finite render matrix</h2>
+    <div class="rule"></div>
+    <div class="source">empty · loading · disabled · gated · filtered</div>
+  </div>
+  <p class="lede-p"><b>A closed set of states, per mode.</b> The picker’s conformance is checked against this finite matrix: an empty offering, a loading offering, a disabled-with-reason row, a permission-gated row, and a containment-narrowed offering (§VI). Every cell renders per this spec, and nothing renders that this spec does not specify.</p>
+
+  <div class="cols">
+    <div class="ex" data-conformance-id="access-picker-empty" data-state="empty loading">
+      <div class="cap">Example — empty offering</div>
+      <div class="body">
+        <div class="pk">
+          <div class="pk-menu">
+            <div class="pk-search"><div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--muted);"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span>zzz</span></div><span class="clr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span></div>
+            <div style="padding:20px 12px;text-align:center;font-size:12.5px;color:var(--muted);">No matches.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ex" data-conformance-id="access-picker-gated">
+      <div class="cap">Example — permission-gated rows</div>
+      <div class="body">
+        <table style="width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;">
+          <tbody>
+            <tr><td style="padding:6px 8px;"><span class="tag mono">non-admin</span></td><td style="padding:6px 8px;color:var(--muted);">single: <em>Workspace: All</em> locked + reason; multi: <code>showAdmin=false</code> removes <em>Workspace: Admins only</em>.</td></tr>
+            <tr><td style="padding:6px 8px;"><span class="tag mono">canGrantWorkspace=false</span></td><td style="padding:6px 8px;color:var(--muted);">multi: <em>Workspace: All</em> renders disabled.</td></tr>
+            <tr><td style="padding:6px 8px;"><span class="tag mono">disabledScopes</span></td><td style="padding:6px 8px;color:var(--muted);">any listed value: rendered, non-selectable, reason on tooltip.</td></tr>
+            <tr><td style="padding:6px 8px;"><span class="tag mono">installMode</span></td><td style="padding:6px 8px;color:var(--muted);">owner / workspace / admin rows removed unless <code>installWorkspaceScopes</code>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── VI. Containment — parentScope & allowedScopes ────────── -->
+  <div class="sect">
+    <h2>VI. Containment — parentScope &amp; allowedScopes</h2>
+    <div class="rule"></div>
+    <div class="source">strict descendants + Personal always</div>
+  </div>
+  <p class="lede-p"><b>Narrow the offered scopes to within a parent.</b> An optional <code>parentScope</code> (distinct from the selected value) restricts the offered options to scopes <b>within</b> the parent — strict <b>descendants</b>, plus Personal always. A lower-level <code>allowedScopes</code> constraint covers arbitrary policies that do not reduce to a single parent identity. Both are display affordances: the server is the authority and independently rejects a forged or stale selection.</p>
+
+  <div class="cols">
+    <div class="ex" data-conformance-id="access-picker-containment">
+      <div class="cap">Example — parentScope = org:Acme (org parent)</div>
+      <div class="body">
+        <div class="pk" data-action="change-parent-scope -> options-narrowed">
+          <div class="pk-menu">
+            <div class="pk-row hov"><span class="pk-lbl"><span class="rt">Personal:</span>Only me</span></div>
+            <div class="pk-sep"></div>
+            <div class="pk-row"><span class="pk-lbl"><span class="rt">Project:</span>Atlas</span></div>
+            <div class="pk-sep"></div>
+            <div class="pk-row"><span class="pk-lbl"><span class="rt">Team:</span>Revenue</span></div>
+            <div class="pk-row"><span class="pk-lbl"><span class="rt">Team:</span>Engineering</span></div>
+          </div>
+        </div>
+        <p style="margin:12px 0 0;font-size:11.5px;color:var(--muted);line-height:1.5;">Only Acme’s teams + projects, plus <b style="color:var(--ink);">Personal: Only me</b>. The org itself and broader scopes (Workspace / Admins) are excluded.</p>
+      </div>
+    </div>
+    <div class="ex" data-conformance-id="access-picker-containment-leaf">
+      <div class="cap">Example — leaf / unknown parent → Personal only</div>
+      <div class="body">
+        <div class="pk">
+          <div class="pk-menu">
+            <div class="pk-row sel"><span class="pk-lbl"><span class="rt">Personal:</span>Only me</span><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          </div>
+        </div>
+        <p style="margin:12px 0 0;font-size:11.5px;color:var(--muted);line-height:1.5;">A leaf parent (<code>team:</code>/<code>project:</code>), a Personal parent, and an <b style="color:var(--ink);">unknown / stale</b> parent all fail closed to <b style="color:var(--ink);">Personal only</b> — never a wrong broad set.</p>
+      </div>
+    </div>
+  </div>
+
+  <ol class="clauses" data-conformance-id="access-combobox-containment">
+    <li id="c-6-1"><span class="cnum">6.1</span> <code>parentScope</code> restricts the offered options to <b>strict descendants</b> of the parent, plus Personal. <code>parentScope = org:&lt;id&gt;</code> offers only that org’s teams + projects (the org itself and broader Workspace / Admins scopes are <b>excluded</b>). A <b>leaf</b> parent (<code>team:</code> / <code>project:</code>) offers <b>Personal only</b>. A <b>Personal</b> parent offers Personal only. <b>No parent</b> (default) offers all options.</li>
+    <li id="c-6-2"><span class="cnum">6.2</span> <b>Containment never drops Personal:</b> under any parent, Personal is still offered — parent narrowing never removes it. This holds within the caller’s <code>includedScopeKinds</code> allow-list (§6.5): it means containment cannot remove Personal, not that it overrides a caller that excluded Personal.</li>
+    <li id="c-6-3"><span class="cnum">6.3</span> An <b>unknown / stale</b> parent <b>fails closed to Personal-only</b> — never a wrong broad set.</li>
+    <li id="c-6-4"><span class="cnum">6.4</span> <code>allowedScopes</code> is a lower-level containment constraint (a set / predicate) for arbitrary policies that do not reduce to one parent identity. <code>parentScope</code> is sugar for the common single-parent case; <code>allowedScopes</code> covers the general case; both may be honoured together (intersection). The agent-run form’s three-field visibility intersection maps onto <code>allowedScopes</code>, not onto a single <code>parentScope</code>.</li>
+    <li id="c-6-5"><span class="cnum">6.5</span> <b>Precedence.</b> <code>includedScopeKinds</code> is the caller’s explicit allow-list — a scope kind absent from it never renders. Within that set, <code>parentScope</code> / <code>allowedScopes</code> containment filters the org / team / project / workspace options but <b>never removes Personal</b> (containment never drops Personal, provided the caller included it); it is not an override of an explicit caller exclusion. A rendered Personal <b>may be disabled</b> (disabled ≠ removed).</li>
+    <li id="c-6-6"><span class="cnum">6.6</span> <b>Reconciliation.</b> When <code>parentScope</code> / <code>allowedScopes</code> changes and a current selection falls out of scope, the picker <b>clears the now-invalid selection(s) and surfaces the invalidation inline</b> — it never silently retains an invisible, out-of-scope value. Single-select resets to empty (forcing a re-pick) or to the in-scope default when one is given; multi-select drops only the out-of-scope entries and notes it.</li>
+    <li id="c-6-7"><span class="cnum">6.7</span> Controlled <code>value</code> and uncontrolled <code>defaultValue</code> are distinct props; scope identities are <b>typed</b> (<code>{ kind, id }</code>), not raw <code>org:&lt;id&gt;</code> strings threaded through the API.</li>
+    <li id="c-6-8"><span class="cnum">6.8</span> <b>Server authority is the boundary.</b> <code>parentScope</code> and the scope-kind params are <b>display input only</b> and are never accepted as proof of containment: the server derives the authoritative parent relationship from stored entities and independently rejects a forged or stale scope selection.</li>
+  </ol>
+
+  <div class="callout info">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Implementation status — shipped (cinatra#1607 AC2–AC5)</span>
+    <p>The first-class <code>parentScope</code> parameter, the <code>allowedScopes</code> constraint, the §6.5 precedence, the §6.6 reconciliation, and the §6.7 typed identities are <b>shipped</b> component contract: the picker carries them as props, and the agent-run permissions form mounts the general <code>allowedScopes</code> case (its three-field visibility intersection — §6.4) through the first-class prop. §6.8 (server authority) is enforced independent of the picker and holds request-level negative coverage: a scope outside the parent’s containment set is rejected server-side.</p>
+  </div>
+
+  <!-- ── VII. Conformance mapping + spec status ──────────────── -->
+  <div class="sect">
+    <h2>VII. Conformance mapping &amp; spec status</h2>
+    <div class="rule"></div>
+    <div class="source">cinatra#1607 AC6/AC8 · publish decision</div>
+  </div>
+  <p class="lede-p"><b>Every cinatra#1607 AC6/AC8 requirement maps to a clause here.</b> This page is the conformance target the picker-consolidation issue pins against. The mapping below carries no unmapped requirement.</p>
+
+  <div class="matrix" style="margin-bottom:18px;">
+    <table>
+      <thead>
+        <tr><th style="text-align:left;">cinatra#1607 requirement</th><th style="text-align:left;">Specified by</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="small"><b style="color:var(--ink);">AC6</b> — the access-picker design lives in a new <code>specs/app-permissions.html</code></td><td><span class="anchor-ref">this page</span> — §I–§VI; publish decision in §VII below</td></tr>
+        <tr><td class="small"><b style="color:var(--ink);">AC8</b> — each included scope-kind row renders per spec (scope-prefixed entries, groups divided by separators, no heading)</td><td><span class="anchor-ref">§II</span> · <span class="anchor-ref">#c-2-1</span> · <span class="anchor-ref">#c-2-3</span> · <span class="anchor-ref">#c-3-2</span> · <span class="anchor-ref">#c-4-3</span></td></tr>
+        <tr><td class="small">AC8 — single vs multi-select</td><td><span class="anchor-ref">§III</span> · <span class="anchor-ref">§IV</span> · <span class="anchor-ref">#c-1-1</span></td></tr>
+        <tr><td class="small">AC8 — disabled + reason rows</td><td><span class="anchor-ref">#c-3-6</span> · <span class="anchor-ref">#c-4-8</span> · <span class="anchor-ref">#c-3-9</span></td></tr>
+        <tr><td class="small">AC8 — empty states</td><td><span class="anchor-ref">#c-3-10</span> · <span class="anchor-ref">§V</span> (access-picker-empty)</td></tr>
+        <tr><td class="small">AC8 — <code>parentScope</code>-filtered render (org parent → only its teams/projects + Personal) &amp; no-parent (all options)</td><td><span class="anchor-ref">#c-6-1</span> · <span class="anchor-ref">#c-6-2</span></td></tr>
+        <tr><td class="small">AC8 — nothing renders that the spec does not specify (bidirectional)</td><td><span class="anchor-ref">§II</span> · <span class="anchor-ref">§V</span> · <span class="anchor-ref">#c-2-1</span></td></tr>
+        <tr><td class="small">AC1 — one implementation + <code>selectionMode</code> (context AC8 renders against)</td><td><span class="anchor-ref">#c-1-1</span> · <span class="anchor-ref">#c-1-2</span></td></tr>
+        <tr><td class="small">AC2 — <code>parentScope</code> containment algebra (strict descendants + Personal)</td><td><span class="anchor-ref">#c-6-1</span>…<span class="anchor-ref">#c-6-4</span></td></tr>
+        <tr><td class="small">AC3 — prop precedence + selection reconciliation + typed identities</td><td><span class="anchor-ref">#c-6-5</span> · <span class="anchor-ref">#c-6-6</span> · <span class="anchor-ref">#c-6-7</span></td></tr>
+        <tr><td class="small">AC4 — the demonstrated generic params (selectionMode, included scope-kinds, disabled + reason, defaults)</td><td><span class="anchor-ref">#c-3-7</span> · <span class="anchor-ref">#c-4-9</span> · <span class="anchor-ref">#c-6-5</span></td></tr>
+        <tr><td class="small">AC5 — server authority; parentScope is display input only</td><td><span class="anchor-ref">#c-6-8</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout info">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Spec status — published (cinatra#1607 AC6)</span>
+    <p>This page is <b>published</b> as part of Cinatra Application Design, per the owner’s cinatra#1607 AC6 ruling. It is the normative conformance target for the app’s permissions / access picker: a generated conformance manifest is published alongside the other Application Design conformance artifacts, the published <a href="application-design-extensions.html">Extensions</a> page cross-references this page for the picker it reuses, and conformance consumers pin the exact manifest bytes they verified against.</p>
+  </div>
+
+  <footer>
+    <span>Cinatra · Application Design — Permissions v0.1.1</span><!-- source-leak-allow -->
+    <span>Set in Archivo · Set on cream</span>
+  </footer>
+</div>
+</body>
+</html>

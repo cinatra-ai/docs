@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "1.0.0",
+  "spec": "specs/app-permissions.html",
+  "contentHash": "sha256:1cbbe3b7ecbbe2bc161e7b8259513a2300f835fafa41551c0500751ec73dda07",
+  "surfaces": [
+    {
+      "id": "access-combobox",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "access-scope-vocabulary",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "access-picker-single",
+      "fields": [
+        {
+          "field": "label",
+          "source": "scope.displayName"
+        }
+      ],
+      "actions": [
+        {
+          "action": "select-scope",
+          "outcome": "value-set"
+        },
+        {
+          "action": "open-picker",
+          "outcome": "options-listed"
+        }
+      ],
+      "states": [
+        "empty"
+      ]
+    },
+    {
+      "id": "access-picker-single-installmode",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "access-picker-single-disabled",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "access-combobox-single",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "access-picker-multiple",
+      "fields": [
+        {
+          "field": "summary",
+          "source": "selection.summary"
+        }
+      ],
+      "actions": [
+        {
+          "action": "toggle-scope",
+          "outcome": "selection-toggled"
+        },
+        {
+          "action": "search-scopes",
+          "outcome": "options-filtered"
+        }
+      ],
+      "states": [
+        "empty"
+      ]
+    },
+    {
+      "id": "access-picker-multiple-implication",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "access-combobox-multiple",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "access-picker-empty",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "empty",
+        "loading"
+      ]
+    },
+    {
+      "id": "access-picker-gated",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "access-picker-containment",
+      "fields": [],
+      "actions": [
+        {
+          "action": "change-parent-scope",
+          "outcome": "options-narrowed"
+        }
+      ],
+      "states": []
+    },
+    {
+      "id": "access-picker-containment-leaf",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "access-combobox-containment",
+      "fields": [],
+      "actions": [],
+      "states": []
+    }
+  ]
+}
