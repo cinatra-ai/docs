@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifacts.html",
-  "contentHash": "sha256:31ffed3fac4b1185c49a227c7f34cb3ca27ee9e12741893b1036789eef7b0e9f",
+  "contentHash": "sha256:03afa60dc218cca22ed188b7f034f7e3d2ee484e624f977c0d37a83f2c742f15",
   "surfaces": [
     {
       "id": "artifacts-facet",
@@ -15,14 +15,9 @@
       "states": []
     },
     {
-      "id": "objects-console",
+      "id": "restore-console-header",
       "fields": [],
-      "actions": [
-        {
-          "action": "switch-tab",
-          "outcome": "tab-changed"
-        }
-      ],
+      "actions": [],
       "states": [
         "error",
         "loading"
@@ -98,51 +93,7 @@
       ]
     },
     {
-      "id": "objects-raw-table",
-      "fields": [],
-      "actions": [],
-      "states": [
-        "empty",
-        "error",
-        "loading"
-      ]
-    },
-    {
-      "id": "objects-console-denied",
-      "fields": [],
-      "actions": [],
-      "states": [
-        "error"
-      ]
-    },
-    {
-      "id": "objects-types-registry",
-      "fields": [
-        {
-          "field": "name",
-          "source": "manifest.displayName"
-        },
-        {
-          "field": "name",
-          "source": "manifest.displayName"
-        },
-        {
-          "field": "name",
-          "source": "manifest.displayName"
-        },
-        {
-          "field": "name",
-          "source": "manifest.displayName"
-        }
-      ],
-      "actions": [],
-      "states": [
-        "error",
-        "loading"
-      ]
-    },
-    {
-      "id": "objects-undo",
+      "id": "restore-console",
       "fields": [],
       "actions": [
         {
@@ -152,11 +103,12 @@
       ],
       "states": [
         "empty",
-        "error"
+        "error",
+        "loading"
       ]
     },
     {
-      "id": "artifacts-undo-entry",
+      "id": "artifacts-restore-entry",
       "fields": [],
       "actions": [
         {
@@ -181,36 +133,21 @@
       ]
     },
     {
-      "id": "objects-merge-proposals",
+      "id": "extension-artifact-types",
       "fields": [],
-      "actions": [
-        {
-          "action": "open-proposal",
-          "outcome": "proposal-detail"
-        }
-      ],
+      "actions": [],
       "states": [
-        "empty",
         "error",
         "loading"
       ]
     },
     {
-      "id": "object-merge-proposal-detail",
+      "id": "extension-artifact-objects",
       "fields": [],
-      "actions": [
-        {
-          "action": "reject-proposal",
-          "outcome": "rejected"
-        },
-        {
-          "action": "approve-proposal",
-          "outcome": "applied"
-        }
-      ],
+      "actions": [],
       "states": [
-        "error",
-        "loading"
+        "empty",
+        "error"
       ]
     }
   ]
