@@ -14,7 +14,7 @@ Be precise about what is enforced today versus what is staging in:
 
 - **Shipped and enforced** (in `@cinatra-ai/execution-plane` and `@cinatra-ai/llm`): the `sandbox_execute` tool contract and single injection primitive; the execution-session mint/seal/verify spine; the broker (carrier verification, per-command run-liveness revalidation, per-org quotas and bounded queueing, audit and separated stdio retention, teardown hook); the local-dev sandbox worker (a fresh hardened container per command); the platform L0 base image and its hardened run profile; the per-run L2 workspace with an **enforced** disk quota; the attributing egress gateway; and read-only `/skills` staging with per-file digest verification.
 - **Staging in** (later slices / deployment wiring): injection ships behind a **default-off rollout merge gate** (`CINATRA_EXECUTION_PLANE_ROLLOUT`, which enables only for the exact string `on`) — while off, orchestration is byte-identical to before and no `sandbox_execute` tool reaches any provider. The remaining app-layer wiring (the service boundary, durable job/audit tables, the platform-admin settings and health surfaces, and the gateway's read-through package-registry cache) lands in the following slices. The rollout flag is a temporary merge gate, **not** the availability default described below.
-- **Later stages** (called out inline where relevant): **L1** declared environments and the trusted image builder land after S3 ([cinatra#1708](https://github.com/cinatra-ai/cinatra/issues/1708)); **L3** named persistent workspaces are phase 2; durable artifact export/import (and its taint enforcement) rides the objects/artifacts bridge.
+- **Later stages** (called out inline where relevant): the **L1** declared-environment substrate — the spec surfaces, the trusted image builder, and the content-addressed cache — landed with S3 ([cinatra#1708](https://github.com/cinatra-ai/cinatra/issues/1708)), but mounting a built layer into a live run and the config/promotion UI are the remaining app-layer wiring, so L1 is not yet reachable end-to-end; **L3** named persistent workspaces are phase 2; durable artifact export/import (and its taint enforcement) rides the objects/artifacts bridge.
 
 The isolation contract, egress rules, and environment tiers below are described in the present tense because that is exactly what the shipped code enforces **when a command runs**. Reachability from a default install follows the rollout above.
 
@@ -90,7 +90,7 @@ Neither path ever throws into the model call. Non-streaming injected calls are a
 
 ## Environment model
 
-Tool persistence is answered by a tiered environment model. Two tiers are live today; the others are called out as staged.
+Tool persistence is answered by a tiered environment model. L0 and L2 are reachable today; L1's substrate has landed but is not yet wired end-to-end (see below); L3 is phase 2.
 
 ### L0 base image
 
@@ -102,9 +102,29 @@ The **L2 workspace** is a named Docker volume mounted read-write at `/workspace`
 
 Workspaces are labeled for retention GC — reaping an idle workspace is a retention concern, not a lifecycle transition. Hard removal of a run (force-delete/purge) puts its workspace on immediate GC via the broker's teardown hook; an in-flight run is not interrupted by an extension being archived (the sandbox follows the run's lifecycle, not the extension's).
 
-### L1 declared environments — staged after S3
+### L1 declared environments
 
-Declared, content-addressed environments (an agent's definition declaring required packages, built once by a trusted builder into immutable cached layers, with a human-approved promotion affordance for model-driven additions) are **not yet shipped**. They land after S3 ([cinatra#1708](https://github.com/cinatra-ai/cinatra/issues/1708)). Until then, ad-hoc installs into the L2 workspace are the mechanism — L1 is an optimization, never a precondition.
+An agent's runs often depend on a specific tool being present — "this agent does not work without `pandoc`." **L1 declared environments** are the answer: an agent declares the packages its runs require once, a trusted builder turns the declaration into an immutable, content-addressed layer, and — once the last-mile wiring lands (see below) — every later run, and every same-recipe agent, mounts that layer instead of re-installing.
+
+The **substrate for this landed with S3** ([cinatra#1708](https://github.com/cinatra-ai/cinatra/issues/1708)): the declaration surfaces, the fail-closed spec parser, the immutable version-snapshot capture, and the trusted content-addressed builder + cache are in code and enforce the guarantees below when they run. What is **not yet wired** is the last mile — mounting a built layer into a live job, the per-agent config and promotion UI, and the durable template-storage column — so L1 is not yet reachable end-to-end from a running agent. Until it is, ad-hoc installs into the L2 workspace remain the mechanism; L1 is an optimization, never a precondition.
+
+**Declaring an environment — one internal type, two authoring surfaces.** A packaged agent declares `cinatra.execution.environment` in its manifest; a project agent declares the same thing in its in-app definition. Both normalize through one fail-closed parser (`packages/sdk-extensions/src/execution-environment.ts`) to one canonical spec with three optional package managers:
+
+- `os` — OS-level (Debian/apt) packages, installed **only** by the trusted builder as root at build time (decision D2); a running sandbox has no root path.
+- `pip` — Python requirement specifiers; **registry installs only** — no direct-URL, VCS, or local-path forms, because the builder's egress is registry-allowlisted (decision D3).
+- `npm` — npm specifiers, under the same registry-only restriction.
+
+Only an **agent** manifest may declare an environment. The parser is deliberately **fail-closed**: an unknown key, a malformed entry, or a declaration root that is present but not an object **rejects the whole declaration** rather than silently dropping a package — a silently-dropped dependency would produce a layer missing exactly what the author asked for. The per-manager grammars allowlist a conservative charset (shell metacharacters, option-injection dashes, and path/URL forms are refused at parse, never sanitized later), and per-manager entry counts and lengths are bounded.
+
+**Content-addressed identity.** Canonicalization is identity-bearing — the spec is trimmed, deduped, and sorted — so two agents that declare the same packages in a different order share one cache entry. The cache key is the **full effective build recipe**: the canonical spec plus the L0 base digest, the builder version, the platform/arch, the resolved lock-manifest digests, and the build policy. Any input change is therefore a different layer, and same-recipe agents single-flight one build (`packages/execution-plane/src/environment/`).
+
+**Immutable version snapshots.** For a project agent the resolved spec is captured into the agent-template's immutable version snapshot in canonical form. A run pinned to a version resolves its environment **exclusively from that snapshot, never the live template row**, so editing the template can never swap the environment under a pinned run; a new version is a new recipe and a new cache key (`packages/agents/src/execution-environment.ts`).
+
+**Trusted builder.** The builder derives its image `FROM` the digest-pinned L0 base, uses root only at build time, and pins the fixed non-root runtime UID on the final layer. Its egress is registry-allowlisted through the same attributing gateway the sandbox uses, on a verified internal network — a build with no gateway **fails closed**. **No credentials ever enter a build** (decision D5): the builder receives only enumerated proxy build-args. Every layer carries **signed provenance** — an HMAC over the recipe, image digest, partition, and builder identity — that is **verified before the layer is mounted**, and the mount contract is that signed digest, never a mutable tag.
+
+**Partitions, references, GC.** Layers are instance-shared by default; a recipe that installs a private-scoped package is org-partitioned with an instance-level share toggle. References are org-scoped: archiving an org drops only that org's references, never a shared layer (a restore is a cache hit or a lazy rebuild), and retention GC reaps only layers with no references left.
+
+**Promotion (decision D8).** When an agent repeatedly installs the same tool ad hoc — "`pandoc` on 6 of the last 10 runs" — the intended flow is for the platform to propose promoting it into the declared environment (that promotion surface is part of the not-yet-wired last mile above). That proposal is a **reviewable before/after diff**, never a silent or model-driven change: an approved promotion rides the agent's existing review path and lands as a new version → new recipe → new cache key.
 
 ### L3 named persistent workspaces — phase 2
 
