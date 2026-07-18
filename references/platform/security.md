@@ -146,11 +146,17 @@ Set the variable on both the Next.js app and the WayFlow container; the two valu
 
 ## Agent execution safety
 
-### Shell tool sandboxing
+### Sandboxed shell execution (the execution plane)
 
-Agents can be configured with shell tool access for executing local commands. The shell tool runs inside a dedicated OpenAI-style sandbox container built from the `runtime/` directory of the `@cinatra-ai/openai-connector` package — the agent does not get arbitrary shell access on the host.
+Models orchestrated by Cinatra — assistants, agents, and deterministic tasks — can be given a shell capability for running commands, scripts, and package installs. That execution **never runs in the app process**. It is brokered to the **execution plane**: a core-owned broker and a hardened-container sandbox worker, surfaced to the model as one core execution capability (the provider-agnostic `sandbox_execute` tool, translated per provider — a native shell on shell-capable OpenAI models, a named function tool otherwise). This supersedes the former OpenAI-connector Docker shell, which has been removed; the app image ships no Docker CLI, so an in-app executor is impossible by construction.
 
-The sandbox container has its own filesystem snapshot, no host network mounts by default, and limited capabilities. Agents that need filesystem access read from a host directory mounted explicitly into the sandbox.
+Each command runs in a fresh, hardened container: non-root (a fixed unprivileged UID), read-only root filesystem, all Linux capabilities dropped, `no-new-privileges`, and enforced CPU / memory / PID / wall-clock / output / **disk** quotas. The sandbox's only *persistent* writable mount is its own per-run workspace volume (plus a bounded, ephemeral `tmpfs` at `/tmp`) — there are **no host bind mounts** (the invariant is asserted on every dispatch), and the process environment is scrubbed by omission (no host variable crosses).
+
+The sandbox holds **no credentials and no host data** (decision D5). The execution session binds only an attributable `{orgId, userId, surface, runId?}` identity, sealed into an opaque, HMAC-signed, expiring carrier the broker verifies; authenticated actions stay in the MCP and connector tools. Anything a model brings back out of the sandbox is treated as untrusted, model-produced content — never a trusted record or an authenticated result.
+
+Internet access is on by default, but **all egress transits an attributing gateway** (per-job attribution, byte quotas, and SSRF/pivot defense); the restriction tiers — `default_internet`, `allowlist`, `none` — are enforced at the network layer, and a gateway-requiring mode with no gateway fails closed. Command allow/block lists are hygiene, not the security boundary. The capability is on by default across agents and chat, with a per-org/per-agent opt-out posture (the settings surface that stores and resolves it lands with the app-layer wiring); an unidentifiable caller is denied outright.
+
+The plane is staging in behind a default-off rollout gate while the remaining app-layer wiring lands. For the full threat model, the container contract, the egress posture, and the environment model (base image and per-run workspace), see [Sandboxed execution and shell skills](shell-skills.md).
 
 ### MCP primitive boundaries
 
@@ -171,6 +177,7 @@ A platform admin can apply an `agentAuthPolicy` to an agent template that restri
 - **Cross-organization data leakage** → resource scope is enforced in the kernel; cross-org reads require an explicit `withPlatformAdminBypass` call which is audited.
 - **Path traversal in package install** → installer rejects archives with non-canonical paths before unpacking.
 - **Timing attacks on the bridge token** → `timingSafeEqual` with a length-mismatch short-circuit.
+- **Prompt-injected model steered to run code** → execution is brokered to the execution-plane sandbox: non-root, no host mounts, a scrubbed environment, and no credentials or host data; all egress transits the attributing gateway (`allowlist` / `none` tiers enforced at the network layer), so exfiltration exposure is bounded to what is inside the sandbox — data the model pulled in, plus the org's own read-only staged skill snapshots — never credentials, host data, or another org's data. See [Sandboxed execution and shell skills](shell-skills.md).
 
 ---
 
