@@ -100,6 +100,51 @@ by hand is the version the next step builds on.
 
 ---
 
+## How different artifacts change
+
+Not every artifact behaves the same way when you or an agent try to edit it —
+what an artifact *is* decides whether it can change:
+
+- **Drafts you refine, then send.** Something Cinatra authored for you — a social
+  post, an email body — is a **draft** you can edit as many times as you like
+  (each edit is a new version). The design is that once it is scheduled or
+  published the draft **locks** and you keep a record of exactly what went out;
+  publishing never turns the draft into the post on the other platform — it
+  records that the post was made.
+- **Records that never change.** Some artifacts capture something that already
+  happened — an email that was *sent*, a reply that was *received*. These are
+  **records**: you can open and read them, but they are kept exactly as they
+  occurred and are never editable.
+- **Links to things that live in another tool.** An artifact can be a **link** to
+  content another system owns — a Google Doc, a WordPress post. You edit those in
+  the tool that owns them, and because that tool is in charge, the link can go out
+  of date or stop working if the original is changed or removed. When you need a
+  fixed copy that will not drift, take a snapshot — that snapshot becomes its own
+  record artifact.
+
+*(Publish-and-lock for drafts is **not yet available** — it arrives with the
+publication ledger and the connectors that produce these drafts. The machinery
+that tracks an external link as it goes stale or is removed upstream has shipped,
+but the connector sync that keeps those links current lands with those same
+connectors.)*
+
+## What an agent can find
+
+An agent finds artifacts to work with in two different ways, and it helps to know
+which is which:
+
+- **By meaning.** Cinatra keeps a searchable memory of the *gist* of your work, so
+  an agent can answer "find me the drafts about the spring launch" without knowing
+  exact titles. Only a safe summary of an artifact is placed in this memory — never
+  the raw contents.
+- **By exact detail.** Data an agent pulls back from another service (a list of
+  search results, a batch of records) is reachable by exact filters — a specific
+  id, a date range — rather than open-ended "find me things like this" search. This
+  keeps raw third-party data out of the general memory while still letting a run
+  use it precisely.
+
+---
+
 ## Sharing and permissions
 
 Artifacts follow the same access rules as the rest of your work, so there is no

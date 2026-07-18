@@ -9,6 +9,7 @@
 - **Data object** = a record whose identity is its relations + operational status (contact, account, list, email record/draft). Not an artifact.
 - Artifacts are a **typed projection over `cinatra.objects`** — one ownership/scope/Graphiti (a knowledge-graph indexer) stack — plus dedicated supporting tables (blob metadata, immutable artifact-version, normalized refs, provider-ref cache, audit/retention). **No parallel ownership stack.**
 - Artifact **representation forms** (`packages/objects/src/semantic-manifest.ts`): `file`, `dashboard`, `connectorRef`. These are internal substrate shapes — not extension packages. The typed meaning of an artifact is carried by one or more **semantic artifact extensions** (`kind:"artifact"` packages); the set of semantic types is extensible by adding extensions (no core edits).
+- Semantic artifact extensions fall into **two categories** — per-connector artifacts packs and connector-independent artifact extensions — governed by an atomicity rule, a per-type mutability class, and a naming grammar. See [§7. Per-connector artifacts extensions](#7-per-connector-artifacts-extensions-the-two-category-catalog).
 - **Context** = artifacts in their input-binding role: the set of artifact references an agent run consumes as grounding input, version-pinned at selection time. Context is not a separate substance and not its own extension kind. A consuming agent declares typed `contextSlots` on its Open Agent Specification (OAS), including which artifact extension types each slot accepts, and the built-in `@cinatra-ai/context-selection-agent` (a `kind:"agent"` extension) resolves each slot at run time against the ownership chain. See [Agent context slots](../../guides/developer/context-slots.md).
 
 ## 2. Hard invariants (BLOCKING — enforced by tests/greps)
@@ -74,3 +75,68 @@ The kind-agnostic `resolveExtensionTypeId` / `getPublishedExtensionKind` plumbin
 ## 6. Verification posture (worktree, no live server)
 
 Code-level verification in-worktree: `pnpm typecheck`, package vitest, targeted source greps (invariant guards). Live UAT covers upload→chat→library→MCP, browser, and OAuth flows.
+
+## 7. Per-connector artifacts extensions (the two-category catalog)
+
+Building on the objects-substrate artifact model above, epic [cinatra#1448](https://github.com/cinatra-ai/cinatra/issues/1448) fixes *which* artifact extensions exist for connector-owned content, how they are named, how their rows may change, and the one composition rule. The decisions below are ratified. The connector **packs** the catalog names are being delivered on their own sub-issues and are **not yet shipped**; the **substrate** every pack builds on — the mutability disposition, the claim-only registration mode, the plural-name grammar, and the `objectTypes` claims block — is merged and is what this section describes concretely. Where a behavior's enforcing machinery is still landing it is called out inline as **not yet shipped**, so nothing here reads as live before it is.
+
+### Two extension categories
+
+A semantic artifact extension is exactly one of two things, and **artifact coverage is always optional per connector** — no connector is required to define artifacts, and none is permanently forbidden them (a pack can be added later if agents need one):
+
+1. **Per-connector artifacts extensions** (`<platform>-artifacts`) claim the typed rows a connector's platform owns — one pack per platform (a connector pair, such as a LinkedIn member connector plus its community connector, shares one pack). The ratified wave-1 catalog names `email-artifacts`, `linkedin-artifacts`, `wordpress-artifacts`, and `drupal-artifacts`, with more (`x-artifacts`, `bluesky-artifacts`, `gdrive-artifacts`, …) gated on their connectors in a later wave. These packs land on their own sub-issues and are not yet in the tree.
+2. **Connector-independent artifact extensions** — authored deliverables that belong to no connector (the blog trio, brand-voice, contract, marketing docs, screenshot, slide-deck, and the `default-artifact` floor). This is unchanged and remains first-class.
+
+"Gated on a connector" is delivery sequencing only, **never a manifest dependency**: a pack installs and its claims activate even with zero rows before its connector ships (see [§7.4](#74-claims-ship-self-contained-schemas)).
+
+### 7.1 Atomicity — an artifact is never a composition of artifacts
+
+An artifact is **always atomic**. Composition is expressed by *agents defining relationships between atomic artifacts*, never by nesting one inside another:
+
+- **No bundle artifact types.** A multi-part deliverable (for example a Meta ads campaign draft) is one aggregate draft with its parts embedded as plain data — not a parent artifact pointing at child artifacts.
+- **Correlation, not containment.** An email *thread* is a relationship over sent/reply records, not an artifact; artifact content never embeds artifact-ID references.
+- **Correlation-key fields are soft provenance only.** String fields such as `runId`, `campaignId`, `contactId` may travel on a row as provenance, but they carry **no** foreign-key, cascade, pin, retention, or lifecycle authority. A missing or tombstoned correlation target never changes any read / pin / delete / GC / lifecycle outcome.
+
+### 7.2 Mutability as a claim disposition
+
+Each claimed type declares *how its rows may change* through the optional `mutability` class on its claim disposition (`packages/objects/src/claims.ts`, [cinatra#1449](https://github.com/cinatra-ai/cinatra/issues/1449)). It is one axis of the disposition; `projection` (`raw | artifact-safe | none` — what a row projects to Graphiti) is the other, orthogonal axis. An absent `mutability` defers to the registering type's own `lifecycle.mutableBy`.
+
+| Class | What it means | Post-create editability |
+|---|---|---|
+| `draftable` | Cinatra-authored content (a social post draft, an email body). Editable as new revisions *while it is a draft*; once scheduled/published it locks, and publishing is recorded separately — it never rewrites the draft into the third-party entity, and there is no direct draft→published edge. | the type baseline, gated to the draft state |
+| `record` | A create-only fact — a sent email, a received reply, a run-scoped delivery-target snapshot. Self-contained and immutable; any post-create update is rejected. | none |
+| `external` | A connector-owned pointer to third-party-canonical content (a Google Doc, a WordPress post). Its rows are written only by connector sync and can drift or vanish upstream. | none (agent/user) |
+
+Two invariants ride the disposition itself:
+
+- **`external ⇒ pinnable:false`** — you never pin a live external pointer; pin the immutable snapshot record instead (enforced on the disposition union in `claims.ts`).
+- **A mutability class may only *narrow* the type's baseline `mutableBy`, never widen it.** `record` / `external` narrow it to nobody (`effectiveMutableBy` returns `[]`); declaring `draftable` over a fully-immutable type is rejected (`validateMutabilityNarrowsBaseline`). The per-class semantics are documented in `packages/objects/AGENTS.md`.
+
+The disposition vocabulary and the narrowing rule are merged. So is the `external` class's substrate: the reference-state machine (`linked → stale → dangling`, moved only by connector sync — an upstream delete flags `dangling` and never silently tombstones the object row, a later probe re-links it), the bare-identity pointer builder, the http(s)-only open-in-source deeplink resolver, and the snapshot-as-new-artifact / pointer-pin policy are a pure leaf, `packages/objects/src/connector-ref.ts` ([cinatra#1451](https://github.com/cinatra-ai/cinatra/issues/1451)), that the external packs compose; the connector-sync DB write path and provider rendering ride those (not-yet-shipped) packs.
+
+**Not yet shipped.** The `draftable` *publish* machinery — the schedule→publish state machine with pinned-revision publish receipts (the publication-operation ledger, [cinatra#1450](https://github.com/cinatra-ai/cinatra/issues/1450)) — is still landing. Until it does, a type may be *classified* `draftable`, but the lock-on-publish transition is not yet driven end-to-end.
+
+### 7.3 Naming and the `-ref`-free type grammar
+
+- **Plural `-artifacts` for multi-type packs.** A pack that holds — or is expected to grow to — more than one type uses the plural `<platform>-artifacts` suffix; the singular `-artifact` stays valid for a single-type extension. The extension-name validator accepts both forms (`packages/extensions/src/artifact-handler.ts`, [cinatra#1453](https://github.com/cinatra-ai/cinatra/issues/1453)) and the pnpm workspace includes the plural glob. *(Not yet shipped: the boot-time filesystem discovery scan in `packages/objects/src/integration/register-artifact-extensions.ts` still matches only the singular suffix, so end-to-end auto-discovery of a plural-named directory is a pending follow-on.)*
+- **Type ids carry pure entity semantics — no `-ref` suffix.** Delivery form lives in `representation.form` (`file` / `connectorRef` / `dashboard`) and the authority class lives in the claim disposition, so the type id names only *what the thing is* (`gdrive:document`, not `gdrive:document-ref`; `email:sent-email`; `linkedin:post-draft`).
+- **An export is always a new artifact.** A PDF exported from a Google Doc is its own independent artifact, never a mutation of the external pointer it came from.
+
+### 7.4 Claims ship self-contained schemas
+
+A per-connector pack declares each row type it owns as an entry in its `cinatra.artifact.objectTypes[]` claims block, and each claim **ships its own JSON Schema** rather than a required dependency on the connector ([cinatra#1432](https://github.com/cinatra-ai/cinatra/issues/1432)). Consequences:
+
+- Installing a pack never force-installs its connector(s); a pack installed without its connector is *active-but-unbacked* (a `draftable` type may legitimately hold rows before a publisher connector exists).
+- Exactly one package remains the runtime registrar for a type — the claimant schema is *activation evidence*, not a second registrar. Cross-repo drift tests pin the claimant JSON Schema to the registering connector's Zod definition.
+
+**Claim-only manifest mode.** Multi-type connector packs register under a third manifest mode — **claim-only** — that mints no generic `<package>:artifact` umbrella and inherits no package-wide matcher/authoring behavior; instead each owned claim is registered as its own first-class artifact type, listable under its exact `objectTypeId` ([cinatra#1452](https://github.com/cinatra-ai/cinatra/issues/1452); the registration substrate is in `register-artifact-extensions.ts`). The two classic modes are unchanged: **descriptor-only** (mint the one umbrella) and **hybrid** (umbrella plus per-claim validators, as the `default-artifact` floor uses). *(Not yet shipped: the manifest `mode` field a pack sets to select claim-only is a pending schema handoff — the registration path exists and is exercised through the internal seam, but a pack cannot yet declare `mode` in its own manifest.)*
+
+### 7.5 Retrieved third-party data is never auto-persisted
+
+Data an agent *reads back* from a third party does not silently become an artifact:
+
+- Its **default home is the run transcript** (plus existing domain projections such as the CRM). Nothing is persisted as a typed artifact by default.
+- An agent may **opt in** to a typed `record` artifact where a deliverable needs durable evidence.
+- The **long tail** is covered by dynamic types plus org-scoped admin approval and the `default-artifact` floor ([cinatra#1433](https://github.com/cinatra-ai/cinatra/issues/1433)) — no dedicated extension per shape.
+
+What is and is not **semantically searchable** follows the projection axis, not the mutability one. Graphiti is a derived, rebuildable *recall* index: a claimed row projects only artifact-safe facets — or nothing at all, `projection:"none"` — so raw payloads never enter graph memory. Searching or filtering on the raw `data.*` fields is a Postgres concern served by an indexed query seam, not by Graphiti recall.

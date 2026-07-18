@@ -375,6 +375,87 @@ The producer-asserted flow is end-to-end: manifests may omit matcher
 skills, and producer paths create eligible assertions using declared
 `cinatra.produces` metadata.
 
+## Per-connector artifacts packs
+
+A second authoring path exists alongside the single-type, matcher-classified
+extension above: a **per-connector artifacts pack** that claims the typed rows
+a connector's platform owns. The full architecture — the two categories, the
+atomicity rule, the mutability classes, and the naming grammar — is the
+[Artifacts architecture §7](../../references/platform/artifacts.md#7-per-connector-artifacts-extensions-the-two-category-catalog);
+this section is the authoring-facing summary and marks what you can write in a
+manifest **today** versus what is still landing.
+
+### Which category are you building?
+
+- **A per-connector artifacts pack** (`<platform>-artifacts`) when the types are
+  the rows a connector platform owns — one pack per platform, claiming each row
+  type as a `cinatra.artifact.objectTypes[]` entry. Coverage is always optional:
+  a connector needs no pack, and a pack can be added later.
+- **A connector-independent artifact extension** (the single-type shape the rest
+  of this guide covers) for an authored deliverable that belongs to no connector
+  — a blog post, an ICP document, a contract.
+
+### Plural `-artifacts` naming
+
+A pack that holds — or will grow to — more than one type uses the plural
+`@cinatra-ai/<platform>-artifacts` suffix; the singular `-artifact` stays valid
+for a single-type extension. The name validator
+(`packages/extensions/src/artifact-handler.ts`) accepts both, and the pnpm
+workspace includes the plural glob. **Not yet shipped:** the boot-time
+filesystem discovery scan in
+`packages/objects/src/integration/register-artifact-extensions.ts` still matches
+only the singular suffix, so a plural-named directory is not auto-discovered
+end-to-end yet — the naming is accepted, the discovery widening is a pending
+follow-on.
+
+### Claim each type with a self-contained schema and a mutability class
+
+Each row type the pack owns is a `cinatra.artifact.objectTypes[]` claim that
+**ships its own JSON Schema** rather than a required dependency on the connector
+— installing a pack never force-installs its connector, and a pack installed
+without its connector is active-but-unbacked. Each claim carries a `dispositions`
+payload, and that payload's optional `mutability` class is **authorable today**
+(`packages/objects/src/claims.ts`):
+
+- `draftable` — Cinatra-authored, editable while a draft then locked (a post
+  draft, an email body);
+- `record` — create-only and immutable (a sent email, a received reply);
+- `external` — a connector-owned pointer to third-party content; its rows are
+  connector-sync-written and **must** declare `pinnable:false` (pin the snapshot
+  record, not the live pointer).
+
+A class may only *narrow* the registering type's baseline `mutableBy`, never
+widen it. Type ids carry pure entity semantics with **no `-ref` suffix**
+(`gdrive:document`, not `gdrive:document-ref`) — delivery form lives in
+`representation.form`. The per-class semantics and invariants are in
+`packages/objects/AGENTS.md`.
+
+The `external` reference machinery (`linked → stale → dangling` plus
+snapshot-as-new-artifact and the `pinnable:false` pointer policy) is a shipped
+substrate leaf, `packages/objects/src/connector-ref.ts`, that the external packs
+compose. **Not yet shipped:** the `draftable` publish ledger — the
+schedule→publish state machine and its lock-on-publish — is landing separately,
+so you can classify a type `draftable` today but the publish transition is not
+yet driven end-to-end.
+
+### Claim-only mode is substrate-ready, not yet author-selectable
+
+A multi-type connector pack is meant to register under the ratified **claim-only**
+mode — no generic `<package>:artifact` umbrella, each owned claim surfaced under
+its exact `objectTypeId`. The registration substrate is in place, but **the
+manifest `mode` field that selects it is not yet in the schema** — do not add a
+`mode` key to a manifest yet (a strict parse rejects it). Until the field lands,
+authored packs resolve to the classic descriptor-only / hybrid behavior.
+
+### Atomicity — do not compose artifacts
+
+An artifact is always atomic. Never model a multi-part deliverable as a parent
+artifact referencing child artifacts: embed the parts as plain data in one
+aggregate draft, and express cross-artifact relationships with correlation-key
+string fields (`runId`, `campaignId`) that are **soft provenance only** — no
+foreign-key, cascade, pin, retention, or lifecycle authority. An export (a PDF
+from a Google Doc) is always a new, independent artifact.
+
 ## Validation checklist
 
 Before shipping a new artifact extension:
