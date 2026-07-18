@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+  <title>Cinatra — Application Design — Artifacts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect x='8' y='8' width='496' height='496' rx='96' fill='%23ffffff' stroke='rgba(21,33,58,0.14)' stroke-width='16'/%3E%3Cg transform='translate(256 256) scale(1.04) translate(-256 -160)' fill='%23c79545'%3E%3Cpath d='M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z'/%3E%3Cpath d='M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z'/%3E%3C/g%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    /* — canonical palette — */
+    --paper:          #f1f1ed;
+    --surface:        #f7f7f3;
+    --surface-strong: #ffffff;
+    --surface-muted:  #e8e8e3;
+    --sidebar:        #eceeea;
+    --ink:            #15213a;
+    --blue:           #364e81;
+    --muted:          #5a6477;
+    --line:           rgba(21, 33, 58, 0.14);
+    --line-strong:    #15213a;
+    --logo:           #c79545;
+    --mustard-ink:    #7a5a1f;   /* darkened mustard: text/icon on warm mustard tints */
+    --toolbar:        #dcddd5;   /* toolbar chrome ground */
+    --toolbar-2:      #e3e4dc;   /* nested toolbar, level 2 */
+    --toolbar-3:      #e9eae2;   /* nested toolbar, level 3 */
+    --burgundy:       #7a2e3a;
+    --red:            #a6384f;
+    --green:          #3f6e6b;
+    --rust:           #b0613a;
+    --olive:          #6c6a3a;
+    --plum:           #574a68;
+    --clay:           #a86b72;
+    --stripe-mid:     #b8c4d4;
+    --stripe-light:   #e3e8ee;
+
+    --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;   /* display: headlines, wordmark, italic numerics, UI chrome */
+    --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;     /* body prose: paragraphs, card text, tables, liner-notes */
+    --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    /* — type scale — applied numeric type sizes tokenized as custom properties,
+       one source like the palette above. Page-title is the app h1 display ramp
+       (lg 28 / md 24 / sm 20); plus component titles, kicker/label tracking, badge sizes. */
+    --page-title-sm:             20px;
+    --page-title-md:             24px;
+    --page-title-lg:             28px;
+    --page-title-line-height:    1.05;
+    --title-tracking-tight:      -0.018em;
+    --listing-title-size:        18px;
+    --listing-title-line-height: 1.12;
+    --listing-title-tracking:    -0.012em;
+    --modal-title-size:          23px;
+    --rating-average-size:       40px;
+    --kicker-tracking:           0.18em;
+    --kicker-tracking-wide:      0.2em;
+    --page-label-tracking:       0.3em;
+    --badge-text-xs:             10px;
+    --badge-text-2xs:            9.5px;
+    --badge-tracking:            0.14em;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 14px; line-height: 1.5;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 56px 48px 96px; }
+
+  /* ── Masthead ─────────────────────────────────────────────── */
+  .mast { display: grid; grid-template-columns: auto 1fr auto; gap: 24px; align-items: center; padding-bottom: 22px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand .mark { color: var(--logo); }
+  .brand .word { font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 30px; color: var(--logo); letter-spacing: -0.022em; line-height: 1; text-shadow: 0 1px 0 rgba(122, 58, 30, 0.2); }
+  .bulbs { display: flex; gap: 9px; margin-top: 6px; }
+  .bulbs .bulb {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: radial-gradient(circle at 32% 32%, #fff5d8 0%, #f0c878 32%, #c79545 78%, #8a5e1f 100%);
+    box-shadow: 0 0 3px rgba(236,202,126,0.85), 0 0 6px rgba(199,149,69,0.35);
+    animation: bulb-flicker 2.4s infinite ease-in-out;
+  }
+  .bulbs .bulb:nth-child(2)  { animation-delay: -0.35s; }
+  .bulbs .bulb:nth-child(3)  { animation-delay: -0.70s; }
+  .bulbs .bulb:nth-child(4)  { animation-delay: -1.05s; }
+  .bulbs .bulb:nth-child(5)  { animation-delay: -1.40s; }
+  .bulbs .bulb:nth-child(6)  { animation-delay: -1.75s; }
+  .bulbs .bulb:nth-child(7)  { animation-delay: -0.20s; }
+  .bulbs .bulb:nth-child(8)  { animation-delay: -0.55s; }
+  .bulbs .bulb:nth-child(9)  { animation-delay: -0.90s; }
+  .bulbs .bulb:nth-child(10) { animation-delay: -1.25s; }
+  @keyframes bulb-flicker { 48% { opacity: 0.55; box-shadow: 0 0 1.5px rgba(236,202,126,0.4); } }
+
+  .kicker { font-size: 10.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+  /* Masthead headline for this reference document — bound to the app page-title lg token (28px), so the masthead rides the app page-title scale rather than a separate display size. Scoped to .mast so the generic h1 selector makes no independent page-title claim. */
+  .mast h1 { margin: 6px 0 6px; font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: var(--page-title-lg); letter-spacing: var(--title-tracking-tight); line-height: var(--page-title-line-height); }
+  .lede { font-size: 15px; color: var(--muted); max-width: 60ch; }
+  .lede b { color: var(--ink); font-weight: 600; }
+  .mast .meta { text-align: right; font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; line-height: 1.6; }
+
+  .etched-rule { border: 0; height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin: 18px 0 32px; }
+
+  /* ── Section header ───────────────────────────────────────── */
+  .sect { margin: 40px 0 18px; display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: baseline; }
+  .sect:first-of-type { margin-top: 0; }
+  .sect h2 { margin: 0; font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 24px; letter-spacing: -0.01em; }
+  .sect .rule { height: 1px; background: var(--line-strong); align-self: center; }
+  .sect .source { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .sect .source b { color: var(--ink); }
+
+  /* ── Swatch grid ──────────────────────────────────────────── */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+  .swatch {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    display: grid; grid-template-rows: 130px auto;
+    box-shadow: 0 1px 0 rgba(21,33,58,0.04), 0 1px 2px rgba(21,33,58,0.04);
+  }
+  /* Extension cards are clickable — white surface per design-system Rules of the road #8 (white means interactive). */
+  .swatch[style*="grid-template-rows: minmax(150px"] { background: var(--surface-strong); }
+  .swatch .chip {
+    position: relative;
+    background: var(--swatch);
+    border-bottom: 1px solid var(--line);
+  }
+  .swatch .chip .hex {
+    position: absolute; left: 14px; bottom: 12px;
+    font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+    color: var(--label-color, var(--ink));
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .swatch .info { padding: 12px 14px 14px; }
+  .swatch .info .role { font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 16px; line-height: 1.15; }
+  .swatch .info .token { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; color: var(--muted); margin-top: 2px; }
+  .swatch .info .use { font-size: 12.5px; color: var(--muted); margin-top: 8px; line-height: 1.45; text-wrap: pretty; }
+
+  /* Special chip treatments (hairlines need their own demo, etc.) */
+  .chip-hairline {
+    background: var(--paper);
+    display: grid; place-items: center;
+  }
+  .chip-hairline .demo {
+    width: 80%; height: 5px;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .chip-hairline.thin {
+    background: var(--surface-strong);
+  }
+  .chip-hairline.thin .demo {
+    border-top: 1px solid rgba(21,33,58,0.14);
+    border-bottom: 0;
+    height: 1px;
+  }
+  .chip-stripe {
+    background: var(--paper);
+    display: grid; place-items: center;
+  }
+  .chip-stripe .demo {
+    width: 84%; height: 36px;
+    background:
+      repeating-linear-gradient(90deg, #f7f3e8 0 6px, #e3e8ee 6px 7px, #f7f3e8 7px 13px, #b8c4d4 13px 14px);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+
+  /* ── Pocket-square palette ───────────────────────────────── */
+  .squares { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .sq {
+    background: var(--surface-strong);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px;
+    display: grid; gap: 10px;
+    box-shadow: 0 1px 0 rgba(21,33,58,0.04), 0 1px 2px rgba(21,33,58,0.04);
+  }
+  .sq .avatar {
+    width: 56px; height: 56px;
+    background: var(--ink); color: var(--surface-strong);
+    border-radius: 10px;
+    display: grid; place-items: center;
+    font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 26px;
+    position: relative;
+  }
+  .sq .avatar.light { color: var(--ink); }
+  .sq .name { font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 17px; line-height: 1; }
+  .sq .pair { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.06em; }
+
+  /* ── Pills + buttons demo ─────────────────────────────────── */
+  .demo-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 10px; border-radius: 9999px;
+    font-family: var(--font-sans); font-size: 12px; font-weight: 600;
+    border: 1px solid;
+  }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .pill.running { background: rgba(54,78,129,0.10); color: var(--blue);   border-color: rgba(54,78,129,0.30); }
+  .pill.running .dot { background: var(--blue); }
+  .pill.approved { background: rgba(63,110,107,0.12); color: var(--green); border-color: rgba(63,110,107,0.32); }
+  .pill.approved .dot { background: var(--green); }
+  .pill.hold { background: rgba(199,149,69,0.16); color: var(--mustard-ink); border-color: rgba(199,149,69,0.42); }
+  .pill.hold .dot { background: var(--logo); }
+  .pill.idle { background: transparent; color: var(--muted); border-color: var(--line-strong); }
+  .pill.idle .dot { background: var(--muted); }
+  .pill.failed { background: var(--red); color: var(--surface-strong); border-color: var(--red); }
+  .pill.failed .dot { background: var(--surface-strong); }
+
+  .btn { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; font: 500 13px var(--font-sans); border-radius: 7px; border: 1px solid var(--line-strong); background: var(--surface-strong); color: var(--ink); cursor: default; }
+  .btn.primary { background: var(--blue); color: var(--surface-strong); border-color: var(--blue); }
+  .btn.outline { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }
+  .btn.secondary { background: var(--surface-muted); color: var(--ink); border-color: transparent; }
+  .btn.destructive { background: rgba(166,56,79,0.10); color: var(--red); border-color: rgba(166,56,79,0.24); }
+  .btn.ghost { background: transparent; border-color: transparent; }
+  .btn.link { background: transparent; border-color: transparent; color: var(--blue); text-decoration: underline; text-underline-offset: 3px; padding: 7px 4px; }
+
+  /* ── Callouts (info / note / warning / success / danger) ──── */
+  .callout { display: grid; gap: 5px; max-width: 64ch; padding: 12px 15px 13px; border-radius: 8px; border: 1px solid; }
+  .callout-label { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+  .callout-label svg { width: 13px; height: 13px; flex: none; }
+  .callout p { margin: 0; font-family: var(--font-body); font-weight: 400; font-size: 13px; line-height: 1.55; color: var(--ink); text-wrap: pretty; }
+  .callout p code { font-family: var(--font-mono); font-size: 0.92em; }
+  .callout.note    { background: rgba(21,33,58,0.04);   border-color: rgba(21,33,58,0.18); }
+  .callout.note    .callout-label { color: var(--muted); }
+  .callout.info    { background: rgba(54,78,129,0.08);  border-color: rgba(54,78,129,0.30); }
+  .callout.info    .callout-label { color: var(--blue); }
+  .callout.success { background: rgba(63,110,107,0.10); border-color: rgba(63,110,107,0.32); }
+  .callout.success .callout-label { color: var(--green); }
+  .callout.warning { background: rgba(199,149,69,0.14); border-color: rgba(199,149,69,0.42); }
+  .callout.warning .callout-label { color: var(--mustard-ink); }
+  .callout.danger  { background: rgba(166,56,79,0.09);  border-color: rgba(166,56,79,0.34); }
+  .callout.danger  .callout-label { color: var(--red); }
+
+  /* ── Contrast matrix ──────────────────────────────────────── */
+  .matrix { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .matrix table { width: 100%; border-collapse: separate; border-spacing: 0; }
+  .matrix th, .matrix td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+  .matrix th { background: var(--surface); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .matrix .pair { display: inline-grid; grid-template-columns: 24px 24px auto; gap: 6px; align-items: center; }
+  .matrix .pair .a, .matrix .pair .b { width: 24px; height: 24px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08); }
+  .matrix .pair .a { margin-right: -10px; }
+  .matrix .ratio { font-family: var(--font-mono); font-weight: 600; font-size: 13px; }
+  .matrix .verdict { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
+  .v-aaa { background: rgba(63,110,107,0.18); color: var(--green); }
+  .v-aa  { background: rgba(63,110,107,0.12); color: var(--green); }
+  .v-large { background: rgba(199,149,69,0.18); color: var(--mustard-ink); }
+  .v-fail { background: rgba(166,56,79,0.12); color: var(--red); }
+  .matrix td.note { color: var(--muted); font-size: 12.5px; max-width: 320px; }
+  .matrix .preview { padding: 4px 10px; font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 13px; border-radius: 4px; display: inline-block; }
+
+  code { font-family: var(--font-mono); font-size: 12px; background: var(--surface-muted); padding: 1px 5px; border-radius: 3px; }
+
+  /* ── Footer ───────────────────────────────────────────────── */
+  footer { margin-top: 64px; padding-top: 18px; border-top: 1px solid var(--line-strong); font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; display: flex; justify-content: space-between; }
+
+  /* ── Artifacts-local extensions (below the shared base) ───────
+     Reference-render helpers for this surface: the example frame, the
+     library/raw row grids, and the render-preview panels. Colour, type and
+     spacing all draw from the shared tokens above. */
+  .ex { border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 14px; }
+  .ex > .cap { padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700; }
+  .ex > .body { padding: 18px 20px; }
+  .lede-p { font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 66ch; line-height: 1.55; }
+  .lede-p b { color: var(--ink); font-weight: 600; }
+  .tag { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px; border-radius: 9999px; font-family: var(--font-sans); font-size: 11px; font-weight: 600; border: 1px solid var(--line); background: var(--surface-muted); color: var(--ink); }
+  .tag.ext { background: rgba(54,78,129,0.10); color: var(--blue); border-color: rgba(54,78,129,0.30); }
+  .tag.floor { background: transparent; color: var(--muted); border-color: var(--line-strong); }
+  .tag.mono { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Masthead -->
+  <div class="mast">
+    <div>
+      <div class="kicker" style="margin-bottom: 8px;"><a href="design-system.html" style="color: var(--blue); text-decoration: none;">&larr; Cinatra — Application Design</a></div>
+      <h1>Cinatra — Application Design — Artifacts</h1>
+      <p class="lede"><code>/artifacts</code> is the <b>library</b> — everything the acting user's agents and uploads have produced, opened by each row's <b>effective identity</b>. Object administration lives on its own admin-gated page, <code>/configuration/objects</code>, and targeted restore has its own route. Part of Cinatra Application Design; match it exactly.</p>
+    </div>
+    <div class="meta">
+      <div>Version 0.4.0</div>
+    </div>
+  </div>
+
+  <hr class="etched-rule" />
+
+  <!-- ── I. Two surfaces — library + object console ──────────── -->
+  <div class="sect">
+    <h2>I. Two surfaces — the library and the object console</h2>
+    <div class="rule"></div>
+    <div class="source">/artifacts library · /configuration/objects admin</div>
+  </div>
+  <p class="lede-p"><b><code>/artifacts</code> is the library, and nothing else.</b> It lists exactly the acting user's artifacts, for <b>every</b> user — there is <b>no mode toggle</b> and no <em>Library</em> button, because the library is the lone view. The page opens with the standard <b>page header</b> (title <em>Artifacts</em>, a one-line description, a closing etched rule), then a <b>toolbar</b> over the list. The sidebar entry is unchanged. Object administration is <b>not</b> a mode of this page; it moved out entirely (§VIII).</p>
+  <p class="lede-p"><b>Object administration lives at <code>/configuration/objects</code>.</b> One admin-gated configuration page holds four URL-addressable tabs — <b>Raw objects</b> (the default, §IV), <b>Types</b> (§V), <b>Undo</b> (§VI) and <b>Merge review</b> (§VII) — built on the standard configuration idioms: a <b>page-level administrator gate</b> (a non-administrator gets the standard configuration refusal, not a per-tab panel) and tab navigation addressable as <code>?tab=</code>. The <em>Merge review</em> tab carries a nested detail route, <code>/configuration/objects/merge-proposals/[proposalId]</code>.</p>
+  <p class="lede-p"><b>One capability sits outside both surfaces.</b> A <b>targeted restore</b> — reversing a single change-set the acting user is authorized for — is authorized <b>per object</b>, not by the administrator role, so it is neither a library view nor an admin tab: it has its own route, <code>/restore/[changeSetId]</code>, reachable by any authorized user (§VI).</p>
+
+  <div class="ex">
+    <div class="cap">Example — /artifacts, the library (every user; no mode toggle)</div>
+    <div class="body">
+      <h1 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: var(--page-title-lg); letter-spacing: var(--title-tracking-tight); line-height: var(--page-title-line-height); margin: 0; color: var(--ink);">Artifacts</h1>
+      <p style="margin: 4px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted);">Everything your agents and uploads have produced.</p>
+      <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin: 14px 0 16px;"></div>
+      <!-- Toolbar: search · facet · scope — no mode control, the library is the lone view -->
+      <div style="display:flex;align-items:center;background:var(--toolbar);border-radius:8px;height:48px;overflow:hidden;">
+        <div style="display:flex;align-items:center;padding:7px;flex-shrink:0;">
+          <label style="display:flex;align-items:center;gap:8px;background:var(--surface-strong);border-radius:7px;padding:0 12px;height:34px;width:280px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;color:var(--muted);flex-shrink:0;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span style="flex:1;min-width:0;font:12.5px var(--font-sans);color:var(--muted);">Search artifacts</span></label>
+        </div>
+        <div style="width:1px;height:24px;background:rgba(21,33,58,.22);flex-shrink:0;align-self:center;"></div>
+        <div style="display:flex;align-items:center;padding:7px;flex-shrink:0;"><button type="button" data-conformance-id="artifacts-facet" data-action="filter-facet -> filtered" style="display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface-strong);cursor:pointer;white-space:nowrap;font:12.5px var(--font-sans);color:var(--ink);">Type: All<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;opacity:.5;"><path d="m6 9 6 6 6-6"/></svg></button></div>
+        <div style="width:1px;height:24px;background:rgba(21,33,58,.22);flex-shrink:0;align-self:center;"></div>
+        <div style="display:flex;align-items:center;padding:7px;flex-shrink:0;"><button type="button" style="display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface-strong);cursor:pointer;white-space:nowrap;"><span style="font-size:12px;letter-spacing:0.025em;color:var(--muted);margin-right:4px;font-family:var(--font-body);">Scope:</span><span style="font-size:14px;color:var(--ink);font-family:var(--font-body);">Workspace</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;opacity:.5;"><path d="m6 9 6 6 6-6"/></svg></button></div>
+        <div style="flex:1;min-width:0;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-conformance-id="objects-console" data-state="loading error">
+    <div class="cap">Example — /configuration/objects, administrator (four tabs; Raw objects active)</div>
+    <div class="body">
+      <h1 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: var(--page-title-lg); letter-spacing: var(--title-tracking-tight); line-height: var(--page-title-line-height); margin: 0; color: var(--ink);">Objects</h1>
+      <p style="margin: 4px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted);">The raw object store, the installed-type registry, undo history and enrichment merge review — administrators only.</p>
+      <!-- URL-addressable tab nav (?tab=) beneath the page header — underline tabs per the design system (Application Design — Components · Tabs): the active tab is indigo with a 2px indigo underline, inactive tabs slate, and the etched paired-line rule runs to the right of the last tab. Raw objects is the default. -->
+      <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin-top: 18px;">
+        <div role="tablist" data-action="switch-tab -> tab-changed" style="display: flex; gap: 0; padding: 0;">
+          <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Raw objects</button>
+          <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Types</button>
+          <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Undo</button>
+          <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Merge review</button>
+        </div>
+        <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── II. Library ─────────────────────────────────────────── -->
+  <div class="sect">
+    <h2>II. Library — the actor's artifacts</h2>
+    <div class="rule"></div>
+    <div class="source">Claimed + plain rows · per-actor claims</div>
+  </div>
+  <p class="lede-p"><b>Exactly the acting user's set.</b> The library lists precisely the claimed and faceted artifacts resolved <b>for the acting user</b> — claims are resolved per actor against each installing extension's access grants, so two users on the same workspace can see different libraries. It never shows non-artifact internals; those live only in the object console's <em>Raw objects</em> tab (§IV). Rows are <b>artifact identities</b>, not raw object types.</p>
+  <p class="lede-p"><b>Row anatomy.</b> Each row is a title line over a muted meta line, hairline-divided, the last row dropping its divider. The title line carries a leading <b>renderer glyph</b>, the <b>artifact name</b> (bound to the effective identity's display name — never the raw object type), and a <b>claimed-by chip</b>. Two row species read at a glance: a <b>claimed row</b>, whose effective identity is a real installed extension, carries that extension's name in an indigo chip and opens through that extension's renderer — or, when that extension ships no renderer for the representation, through the generic fallback (§III); a <b>plain row</b>, a generic <code>objects:object</code> presenting as the <b>default-artifact floor</b>, carries a muted <em>Default artifact</em> chip and always opens through the generic fallback (§III). The meta line carries the owner / visibility and the relative updated time; the row's right edge holds the <em>Open</em> affordance.</p>
+  <p class="lede-p"><b>Faceting &amp; search.</b> The <em>Type</em> facet filters the list by claiming extension or base type; the search field filters by name. An unfiltered library is grouped only by recency.</p>
+
+  <div class="ex" data-conformance-id="artifacts-library-list" data-state="empty error loading">
+    <div class="cap">Example — Library, populated</div>
+    <div class="body">
+      <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+        <!-- Claimed typed-data row: email draft, claimed by Outreach -->
+        <li data-field="name=identity.displayName" data-state="kind:artifact" style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-bottom:1px solid var(--line);">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
+              <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Q3 re-engagement email</span>
+              <span class="tag ext">Outreach</span>
+            </div>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">Team · Draft · updated 8 minutes ago</p>
+          </div>
+          <a class="btn outline" data-action="open-artifact -> rendered" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
+        </li>
+        <!-- Claimed typed-data row: prospect-list deliverable -->
+        <li data-state="kind:artifact" style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-bottom:1px solid var(--line);">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(63,110,107,0.12);color:var(--green);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
+              <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Enterprise ICP · 240 prospects</span>
+              <span class="tag ext">Prospect Lists</span>
+            </div>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">Organization · updated 2 hours ago</p>
+          </div>
+          <a class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
+        </li>
+        <!-- File-form row: uploaded PDF, default-artifact via MIME -->
+        <li data-state="kind:artifact" style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-bottom:1px solid var(--line);">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(176,97,58,0.12);color:var(--rust);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
+              <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">2026 pricing sheet.pdf</span>
+              <span class="tag floor">Default artifact</span>
+              <span class="tag mono">application/pdf</span>
+            </div>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">Private · uploaded yesterday</p>
+          </div>
+          <a class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
+        </li>
+        <!-- Plain row: generic object, default-artifact floor, no renderer -->
+        <li data-state="kind:artifact" style="display:flex;align-items:center;gap:14px;padding:12px 14px;">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:var(--surface-muted);color:var(--muted);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
+              <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Meeting notes — 2026-07-10</span>
+              <span class="tag floor">Default artifact</span>
+            </div>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">Team · updated 3 days ago</p>
+          </div>
+          <a class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+    <div class="ex" data-conformance-id="artifacts-library-empty" data-state="empty" style="margin-bottom:0;">
+      <div class="cap">Example — empty</div>
+      <div class="body" style="text-align:center;padding:34px 20px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:var(--surface-muted);color:var(--muted);display:grid;place-items:center;margin:0 auto 12px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg></div>
+        <p style="margin:0;font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">No artifacts yet</p>
+        <p style="margin:5px 0 0;font-size:12px;color:var(--muted);line-height:1.5;">Artifacts appear here as your agents produce work and as you upload files.</p>
+      </div>
+    </div>
+    <div class="ex" data-conformance-id="artifacts-library-error" data-state="error" style="margin-bottom:0;">
+      <div class="cap">Example — error</div>
+      <div class="body" style="text-align:center;padding:34px 20px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(166,56,79,0.09);color:var(--red);display:grid;place-items:center;margin:0 auto 12px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+        <p style="margin:0;font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Couldn't load your artifacts</p>
+        <p style="margin:5px 0 0;font-size:12px;color:var(--muted);line-height:1.5;">The library source failed. <a class="btn link" style="padding:0;font-size:12px;cursor:pointer;">Retry</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── III. Renderer dispatch ──────────────────────────────── -->
+  <div class="sect">
+    <h2>III. Renderer dispatch — how a row opens</h2>
+    <div class="rule"></div>
+    <div class="source">Effective identity · type · MIME · fallback</div>
+  </div>
+  <p class="lede-p"><b>Dispatch by effective identity.</b> Opening a row resolves its renderer from the row's <b>effective identity</b> — the single value returned by the objects effective-identity service (a binding outranks a classic assertion, and any non-floor identity requires an <b>installed</b> extension). Three dispatch cases cover every row:</p>
+  <ul style="margin:0 0 18px;padding-left:20px;max-width:66ch;font-size:13.5px;line-height:1.6;color:var(--muted);">
+    <li style="margin-bottom:6px;"><b style="color:var(--ink);font-weight:600;">Typed-data artifact</b> — a claimed <em>email draft</em> renders through its object type's registered renderer (the claiming extension's renderer).</li>
+    <li style="margin-bottom:6px;"><b style="color:var(--ink);font-weight:600;">File-form representation</b> — an uploaded <em>PDF</em> keeps the MIME viewer handler for its representation.</li>
+    <li style="margin-bottom:6px;"><b style="color:var(--ink);font-weight:600;">Generic fallback</b> — anything with no matching type renderer and no MIME handler (including a plain default-artifact row, or a claimed row whose extension ships no renderer for the representation) falls back to a read-only structured-data (JSON) view plus metadata. There is always a renderer; the fallback is never a blank.</li>
+  </ul>
+  <p class="lede-p"><b>Read authorization.</b> Before any representation is served, the surface enforces raw-data <b>read authorization</b> (canonical <code>object.*</code> authorization plus surface gating). A row the viewer may list but not read opens to a not-authorized panel, never to its bytes.</p>
+  <p class="lede-p"><b>Activation barrier.</b> A claim-derived identity is <b>library-visible for browsing</b> as soon as the claim is active, but a row is <b>not context-selectable or pinnable</b> until its binding assertion lands. Until then the row shows a muted <em>Preparing</em> affordance where <em>Pin</em> / <em>Add to context</em> would sit, and <em>Open</em> still renders the row read-only.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
+    <div class="ex" data-conformance-id="artifact-render-typed" data-state="loading error" style="margin-bottom:0;">
+      <div class="cap">Example — typed renderer (email draft)</div>
+      <div class="body" style="padding:14px;">
+        <div data-action="open-artifact -> rendered" style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+          <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line);"><span class="tag ext" style="font-size:10px;">Outreach</span><span style="font-family:var(--font-mono);font-size:9.5px;color:var(--muted);letter-spacing:0.04em;">type renderer</span></div>
+          <div style="padding:12px;">
+            <div style="font-size:11px;color:var(--muted);">To: prospects@acme.example</div>
+            <div style="font-family:var(--font-sans);font-weight:700;font-size:13.5px;color:var(--ink);margin:4px 0 8px;">Re-connecting on Q3 priorities</div>
+            <p style="margin:0;font-size:12px;line-height:1.5;color:var(--ink);">Hi there — following up on the pilot we scoped last quarter. Are you open to a short call next week?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ex" data-conformance-id="artifact-render-mime" data-state="loading error" style="margin-bottom:0;">
+      <div class="cap">Example — MIME handler (PDF)</div>
+      <div class="body" style="padding:14px;">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+          <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line);"><span class="tag mono" style="font-size:10px;">application/pdf</span><span style="font-family:var(--font-mono);font-size:9.5px;color:var(--muted);letter-spacing:0.04em;">MIME viewer</span></div>
+          <div style="padding:12px;display:grid;place-items:center;background:var(--paper);min-height:104px;">
+            <div style="width:78px;height:96px;background:var(--surface-strong);border:1px solid var(--line);border-radius:3px;box-shadow:0 1px 3px rgba(21,33,58,0.12);display:flex;flex-direction:column;gap:5px;padding:9px;"><div style="height:5px;width:70%;background:var(--surface-muted);border-radius:2px;"></div><div style="height:4px;width:90%;background:var(--surface-muted);border-radius:2px;"></div><div style="height:4px;width:82%;background:var(--surface-muted);border-radius:2px;"></div><div style="height:4px;width:88%;background:var(--surface-muted);border-radius:2px;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ex" data-conformance-id="artifact-render-fallback" data-state="loading error" style="margin-bottom:0;">
+      <div class="cap">Example — generic fallback (no renderer)</div>
+      <div class="body" style="padding:14px;">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+          <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line);"><span class="tag floor" style="font-size:10px;">Default artifact</span><span style="font-family:var(--font-mono);font-size:9.5px;color:var(--muted);letter-spacing:0.04em;">structured data</span></div>
+          <pre style="margin:0;padding:12px;font-family:var(--font-mono);font-size:11px;line-height:1.5;color:var(--ink);background:var(--surface);overflow-x:auto;">{
+  "title": "Meeting notes",
+  "attendees": 4,
+  "decided": true
+}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="callout note" style="margin-top:14px;">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Activation barrier</span>
+    <p>A row whose claim is active but whose binding has not yet been written is browsable and openable, but its <em>Pin</em> / <em>Add to context</em> controls are replaced by a muted <em>Preparing</em> label until the binding lands. Selection and pinning only ever operate on a settled binding.</p>
+  </div>
+
+  <!-- ── IV. Raw objects — the console's default tab ─────────── -->
+  <div class="sect">
+    <h2>IV. Raw objects — the object console's default tab</h2>
+    <div class="rule"></div>
+    <div class="source">/configuration/objects · default tab · full objects table</div>
+  </div>
+  <p class="lede-p"><b>Every row, unfiltered.</b> Raw objects is the <b>default tab</b> of <code>/configuration/objects</code> — the former <code>/data</code> browse semantics, unchanged, now living under the admin console rather than as a mode of <code>/artifacts</code>. It lists <b>every</b> objects row, including the non-artifact internals that never become artifacts (send attempts, sender configuration, run bookkeeping). It is a dense table: <b>object type</b> (the raw type id), <b>owner level / visibility</b> (the canonical column model — <code>user|team|organization|workspace</code> × <code>private|team|organization|public</code>), <b>source</b>, <b>canonical version</b>, and <b>updated</b>. A wide table scrolls inside its own container.</p>
+  <p class="lede-p"><b>Non-admins never reach the console.</b> The gate is <b>page-level</b>: <code>/configuration/objects</code> requires an administrator session, so a non-administrator gets the <b>standard configuration refusal</b> for the whole page (not a per-tab panel) — no Raw-objects deep link bypasses it.</p>
+
+  <div class="ex" data-conformance-id="objects-raw-table" data-state="empty error loading">
+    <div class="cap">Example — Raw objects tab, administrator</div>
+    <div class="body" style="padding:0;">
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Object type</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Owner / visibility</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Source</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Ver.</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Updated</th>
+            </tr>
+          </thead>
+          <tbody style="font-family:var(--font-mono);">
+            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">@cinatra-ai/artifact:object</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">team · team</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">route</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">3</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">8 min ago</td></tr>
+            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">@cinatra-ai/email:draft</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">organization · organization</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">agent</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">1</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">2 h ago</td></tr>
+            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">@cinatra-ai/email:send-attempt</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">organization · private</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">worker</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">1</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">2 h ago</td></tr>
+            <tr><td style="padding:10px 14px;color:var(--ink);">@cinatra-ai/objects:object</td><td style="padding:10px 14px;color:var(--muted);">organization · organization</td><td style="padding:10px 14px;color:var(--muted);">agent</td><td style="padding:10px 14px;color:var(--muted);">5</td><td style="padding:10px 14px;color:var(--muted);">1 d ago</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-conformance-id="objects-console-denied" data-state="error">
+    <div class="cap">Example — /configuration/objects, non-administrator (standard configuration refusal)</div>
+    <div class="body" style="text-align:center;padding:34px 20px;">
+      <div style="width:40px;height:40px;border-radius:10px;background:var(--surface-muted);color:var(--muted);display:grid;place-items:center;margin:0 auto 12px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      <p style="margin:0;font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Object administration is administrator-only</p>
+      <p style="margin:5px 0 0;font-size:12px;color:var(--muted);line-height:1.5;">The whole <code>/configuration/objects</code> page requires an administrator session — the standard configuration refusal, applied before any tab loads.</p>
+    </div>
+  </div>
+
+  <!-- ── V. Types — the installed-type registry (read-only) ──── -->
+  <div class="sect">
+    <h2>V. Types — the installed-type registry</h2>
+    <div class="rule"></div>
+    <div class="source">/configuration/objects · read-only · installed types</div>
+  </div>
+  <p class="lede-p"><b>Types exist only by installation.</b> The <em>Types</em> tab is a <b>read-only registry</b> of every object type the workspace has <b>installed</b>. Each type is <b>defined by exactly one installed <code>kind:"artifact"</code> extension</b>; the registry lists each type, the extension that <b>defines</b> it, and the extensions that <b>depend on</b> it. There is <b>no runtime type creation</b>, and the tab decides nothing: <b>no approval feed, no Promote/Archive, no Approved/Proposed pills, no per-type actions of any kind</b>. It inventories what is installed; it never changes it.</p>
+  <p class="lede-p"><b>One definer, declared dependents.</b> The type model is a <b>dependency</b> model. Exactly <b>one</b> artifact extension <b>defines</b> a given type; any other extension that needs that type <b>declares the defining extension as a dependency</b>, so the type is guaranteed present wherever it is used. Because a type has a single definer, every row names one <b>Defined by</b> extension and there is nothing to reconcile between installs: two extensions that both define the same type is an <b>install-time dependency conflict</b>, resolved before install rather than at runtime. The <em>Defined by</em> value is that extension's manifest <b>display name</b>; the <em>Used by</em> value lists the extensions that declared that dependency.</p>
+  <p class="lede-p"><b>The generic floor is defined too.</b> The generic <code>@cinatra-ai/objects:object</code> type — the lossless floor every unclassifiable save lands on — is <b>defined by the Default Artifact extension</b>, which every workspace installs. It appears as an ordinary registry row: the floor exists because an installed extension defines it, exactly like every other type.</p>
+
+  <div class="ex" data-conformance-id="objects-types-registry" data-state="loading error">
+    <div class="cap">Example — Types tab: each installed type, its defining extension, and its dependents (read-only)</div>
+    <div class="body" style="padding:0;">
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Type</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Defined by</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Used by</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- The generic floor — defined by the installed Default Artifact extension; an ordinary row -->
+            <tr>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;">
+                <div style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Object</div>
+                <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);margin-top:2px;">@cinatra-ai/objects:object</div>
+                <div style="font-size:11px;color:var(--muted);line-height:1.45;margin-top:4px;">The lossless floor — every unclassifiable save lands here.</div>
+              </td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;"><span data-field="name=manifest.displayName" style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Default Artifact</span></td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--muted);">—</td>
+            </tr>
+            <!-- One definer, two declared dependents -->
+            <tr>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;">
+                <div style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Email draft</div>
+                <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);margin-top:2px;">@cinatra-ai/email:draft</div>
+              </td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;"><span data-field="name=manifest.displayName" style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Outreach</span></td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Sequences, Inbox Zero Agent</td>
+            </tr>
+            <!-- One definer, one declared dependent -->
+            <tr>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;">
+                <div style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Prospect list</div>
+                <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);margin-top:2px;">@acme/prospect-lists:list</div>
+              </td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;"><span data-field="name=manifest.displayName" style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Prospect Lists</span></td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Lead Researcher</td>
+            </tr>
+            <!-- One definer, no dependents yet -->
+            <tr>
+              <td style="padding:12px 14px;vertical-align:top;">
+                <div style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Support case</div>
+                <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);margin-top:2px;">@acme/support:case</div>
+              </td>
+              <td style="padding:12px 14px;vertical-align:top;"><span data-field="name=manifest.displayName" style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Support Desk</span></td>
+              <td style="padding:12px 14px;vertical-align:top;color:var(--muted);">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout note" style="margin-top:14px;">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Read-only by design</span>
+    <p>Because a type exists only when an extension installs and defines it, there is nothing to approve here. An agent that needs a type <b>declares the defining artifact extension as a dependency</b>, so the type is present at install time; a save that matches no installed type is still stored, immediately and losslessly, as a plain <code>@cinatra-ai/objects:object</code> row (the Default Artifact floor). This tab is the inventory of that installed set — never a gate on it.</p>
+  </div>
+
+  <!-- ── VI. Undo — admin tab + per-object /restore route ────── -->
+  <div class="sect">
+    <h2>VI. Undo — data safety</h2>
+    <div class="rule"></div>
+    <div class="source">/configuration/objects Undo tab · /restore/[changeSetId]</div>
+  </div>
+  <p class="lede-p"><b>Two capabilities, authorized separately, on two surfaces.</b> Undo is <b>data safety</b>, and it is <b>two</b> surfaces with two authorizations — the spec rules on each. <b>(1) The Undo browser</b> — the flat list of recent destructive object operations across the whole workspace — is the destructive-operations analogue of Raw objects (§IV): it inventories <em>everyone's</em> change-sets, so it is <b>administrator-only</b> and lives as the <b>Undo tab of <code>/configuration/objects</code></b>, behind that page's administrator gate (§IV). <b>(2) A targeted restore</b> — reversing one specific change-set the acting user already holds a handle to — is authorized <b>per affected object</b>: an actor may restore a change-set when they hold restore authorization for <em>every</em> object it touched. That is the same per-object check the restore action enforces on confirm, and it is deliberately <b>not</b> the administrator role and carries <b>no administrator bypass</b> — so a <b>non-administrator who is per-object-authorized for a change-set may restore that one change-set</b>, and an administrator who is not per-object-authorized for some affected object is refused it. Because it is not administrator-gated, the targeted restore has its <b>own dedicated route</b>, <code>/restore/[changeSetId]</code> — not a tab of the admin console. This ruling <b>blesses the shipped restore action's per-object authorization</b> and <b>corrects</b> the post-consolidation gap where the only UI path to it had narrowed to administrators.</p>
+  <p class="lede-p"><b>The admin browser (Undo tab).</b> For an administrator the browser follows the design system's list-and-row idioms — each recent change-set a title line over a muted meta line, with a right-aligned <em>Undo</em> action that opens the restore confirmation for that change-set <b>in place</b> (an inline modal, unchanged from the former <code>/data-safety</code> surface); the empty state reads that there is nothing to undo. The confirm re-checks per-object authorization and applies the change-set's inverse. This in-console modal is the administrator's bulk-review path; the out-of-console entry points reach the same restore through the dedicated <code>/restore/[changeSetId]</code> route instead (below), never this cross-workspace browser.</p>
+
+  <div class="ex" data-conformance-id="objects-undo" data-state="empty error">
+    <div class="cap">Example — Undo tab, administrator browser</div>
+    <div class="body">
+      <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+        <li style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);">
+          <div style="min-width:0;flex:1;">
+            <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Deleted 12 objects · @cinatra-ai/email:draft</span>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">by a teammate · 6 minutes ago</p>
+          </div>
+          <button type="button" class="btn outline" data-action="undo -> restored" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Undo</button>
+        </li>
+        <li style="display:flex;align-items:center;gap:12px;padding:12px 14px;">
+          <div style="min-width:0;flex:1;">
+            <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Bulk visibility change · 40 objects</span>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">by you · 1 hour ago</p>
+          </div>
+          <button type="button" class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Undo</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="lede-p"><b>Entry points render only when the actor can act.</b> A targeted restore is reached from two entry affordances that live outside both surfaces — the in-chat post-mutation <em>Undo last action</em> chip beneath an agent-run card, and the <em>Saved …&nbsp;· Undo</em> toast on a successful mutation. Each deep-links to <code>/restore/[changeSetId]</code> for the addressed change-set (carrying the change-set id so that one restore surface opens directly). <b>Each affordance renders only when the acting user is eligible to restore that change-set</b> — per-object-authorized for every affected object, and the change-set still restorable. For a <b>non-eligible user no affordance appears</b>: no chip, no toast Undo action — the spec chooses <b>suppression</b> over a disabled control or an "ask an admin" state, because a transient safety affordance that cannot act is noise, and a rendered control must never <b>dead-end</b> on the not-authorized panel. The <code>/restore/[changeSetId]</code> route enforces the same eligibility server-side: it serves the single addressed change-set's restore surface for an authorized actor <em>of any role</em>, and refuses an unauthorized one with the standard not-authorized state — it never exposes the admin console's cross-workspace list to a non-administrator.</p>
+
+  <div class="ex" data-conformance-id="artifacts-undo-entry" data-action="request-undo -> restore-open">
+    <div class="cap">Example — targeted-restore entry points, by eligibility</div>
+    <div class="body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:16px;">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:14px;">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:11px;">Eligible actor — affordance shown</div>
+          <div style="display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:10px 12px;margin-bottom:11px;">
+            <span style="flex:1;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Saved draft</span>
+            <button type="button" class="btn link" style="padding:0;font-size:12px;cursor:pointer;">Undo</button>
+          </div>
+          <div style="border:1px dashed var(--line);border-radius:8px;padding:10px 12px;">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-bottom:9px;">agent run · deleted 3 objects</div>
+            <button type="button" class="btn outline" style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;font-size:12px;cursor:pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11"/></svg>Undo last action</button>
+          </div>
+        </div>
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:14px;">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:11px;">Not eligible — no affordance</div>
+          <div style="display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:10px 12px;margin-bottom:11px;">
+            <span style="flex:1;font-family:var(--font-sans);font-size:12.5px;color:var(--muted);">Saved draft</span>
+            <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">no Undo</span>
+          </div>
+          <div style="border:1px dashed var(--line);border-radius:8px;padding:10px 12px;">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-bottom:9px;">agent run · deleted 3 objects</div>
+            <p style="margin:0;font-size:11.5px;color:var(--muted);line-height:1.5;">No chip and no toast action — suppressed, not disabled, and never a link that dead-ends on the not-authorized panel.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-conformance-id="restore-route" data-state="loading error">
+    <div class="cap">Example — /restore/[changeSetId], authorized non-administrator</div>
+    <div class="body">
+      <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;max-width:440px;margin:0 auto;">
+        <div style="display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);">
+          <span style="flex:none;width:30px;height:30px;border-radius:8px;background:rgba(199,149,69,0.16);color:var(--mustard-ink);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11"/></svg></span>
+          <span style="font-family:var(--font-sans);font-weight:700;font-size:14px;color:var(--ink);">Restore this change?</span>
+        </div>
+        <div style="padding:14px;">
+          <p style="margin:0 0 4px;font-family:var(--font-sans);font-weight:600;font-size:13px;color:var(--ink);">Deleted 3 objects · @cinatra-ai/email:draft</p>
+          <p style="margin:0 0 14px;font-size:11.5px;color:var(--muted);line-height:1.5;">change-set cs_5e21… · by an agent run · 2 minutes ago. You are authorized to restore every affected object — no administrator role required.</p>
+          <div style="display:flex;gap:8px;justify-content:flex-end;">
+            <button type="button" class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;">Cancel</button>
+            <button type="button" class="btn primary" data-action="confirm-restore -> restored" style="padding:5px 12px;font-size:12px;cursor:pointer;">Restore</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── VII. Merge review (console tab — enrichment review) ──── -->
+  <div class="sect">
+    <h2>VII. Merge review — enrichment proposals</h2>
+    <div class="rule"></div>
+    <div class="source">/configuration/objects Merge review tab · nested detail route · CAS-merge</div>
+  </div>
+  <p class="lede-p"><b>Agents propose; a reviewer applies.</b> Enrichment agents never write objects directly — they submit <b>merge proposals</b>: a set of <b>proposed fields</b>, each with its own <b>provenance</b> (a source, and where known a confidence), captured against a <b>base version</b> of the target object. Approving a proposal applies its fields over the object's current data through the canonical <b>history-aware writer</b> under the merge policy, using the captured base version as the optimistic-concurrency (CAS) expectation. This surface — the review feed and the per-proposal detail — is the human gate on that agent-proposed write. It formerly lived at <code>/data-safety/merge-proposals</code>; §VIII removes <code>/data-safety</code>, so it lands here as the <b>Merge review tab</b> of <code>/configuration/objects</code>, beside <em>Raw objects</em> (§IV), <em>Types</em> (§V) and <em>Undo</em> (§VI). A proposal's detail is a <b>nested route</b>, <code>/configuration/objects/merge-proposals/[proposalId]</code>, and its back-link returns to the tab.</p>
+  <p class="lede-p"><b>Why here, and not the notifications approvals feed.</b> A merge proposal is a <b>diff to review with apply-merge semantics</b> — per-field values, provenance, a version-fenced apply — not a <b>decide-once approval row</b>. The retired <code>/configuration/approvals</code> inbox's successor, the unified <code>/notifications</code> surface, federates lightweight decide-once approvals read-time from the approval-source registry; it is not a home for a field-level review surface. So the <b>review surface stays with the object-administration family</b> under <code>/configuration/objects</code>, where route consolidation (§VIII) placed every object-admin surface. A notification that a proposal is awaiting review — deep-linking here — is a compatible future addition; that is notification, not relocation of the review.</p>
+  <p class="lede-p"><b>Access — an administrator page with a per-object belt (consistent with §VI).</b> The <b>feed lists every pending proposal in the workspace</b>, across all users — so, exactly like <em>Raw objects</em> (§IV) and the <em>Undo</em> browser (§VI), it is <b>administrator-only</b>: it lives behind the page-level administrator gate on <code>/configuration/objects</code> (§IV), so a non-administrator never reaches the tab or its nested detail route. <b>Per-object authorization then rides beneath that admin gate as defense-in-depth</b>: reading a proposal's proposed values additionally requires <code>object.read</code> on the target object, and <b>Approve</b> / <b>Reject</b> additionally require <code>object.update</code> on it, with <b>no administrator bypass over that object check</b> — an administrator who cannot themselves read or update the target object is refused the proposal. This layers §VI's per-object principle <b>under</b> the role gate rather than <b>instead of</b> it: unlike a targeted restore, a merge proposal has <b>no per-actor entry point</b> (it surfaces only through the admin feed), so the page keeps the administrator gate and the per-object check is the belt beneath it — the model is a conjunction (<b>administrator and per-object-authorized</b>), where §VI's targeted restore was per-object-only. Beneath that page gate, the per-proposal <b>detail</b> route addresses one opaque proposal id: an administrator who clears the page gate but lacks <code>object.read</code> on that proposal's target object gets the standard <b>not-found</b> — existence hidden at the record level — rather than a mode-level refusal, so naming a specific proposal never confirms to a reader who cannot see its object that the record exists.</p>
+  <p class="lede-p"><b>States &amp; affordances.</b> The feed is a dense table of <b>pending</b> proposals only — <b>proposal</b> (id), <b>object</b> (id and type), <b>source</b>, <b>base version</b> and <b>created</b> — each row opening its detail; wide, it scrolls inside its own container, and its empty state reads exactly <b>&ldquo;No pending merge proposals.&rdquo;</b> A proposal <b>detail</b> shows the proposal <b>status</b> (<em>Pending</em> / <em>Applied</em> / <em>Rejected</em>), its target object, base version, source and proposing actor, and every <b>proposed field</b> with its value and per-field provenance. While a proposal is <b>Pending</b> the detail offers <b>Approve</b> and <b>Reject</b>; once decided, those actions retire. <b>Approve</b> applies the proposed fields over the object's current data with the captured base version as the CAS expectation — a concurrent write to the object since the proposal was submitted surfaces as a typed <b>version conflict</b> and returns the proposal to <b>Pending</b> for re-review; the applied merge is an ordinary reversible change-set, itself undoable through <em>Undo</em> (§VI). <b>Reject</b> marks the proposal rejected and changes no object data.</p>
+
+  <div class="ex" data-conformance-id="objects-merge-proposals" data-state="empty error loading">
+    <div class="cap">Example — Merge review tab, proposals feed (administrator)</div>
+    <div class="body" style="padding:0;">
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Proposal</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Object</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Source</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Base ver.</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Created</th>
+            </tr>
+          </thead>
+          <tbody style="font-family:var(--font-mono);">
+            <tr>
+              <td style="padding:10px 14px;border-bottom:1px solid var(--line);"><a data-action="open-proposal -> proposal-detail" style="color:var(--blue);text-decoration:underline;text-underline-offset:3px;cursor:pointer;">mp_9f3c1a2b…</a></td>
+              <td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">obj_2a4e… <span style="color:var(--ink);">@acme/support:case</span></td>
+              <td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">enrichment-agent</td>
+              <td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">v5</td>
+              <td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">8 min ago</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 14px;border-bottom:1px solid var(--line);"><a style="color:var(--blue);text-decoration:underline;text-underline-offset:3px;cursor:pointer;">mp_71b0e8d4…</a></td>
+              <td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">obj_c19f… <span style="color:var(--ink);">@cinatra-ai/email:draft</span></td>
+              <td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">enrichment-agent</td>
+              <td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">v1</td>
+              <td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">2 h ago</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 14px;"><a style="color:var(--blue);text-decoration:underline;text-underline-offset:3px;cursor:pointer;">mp_04ad55c9…</a></td>
+              <td style="padding:10px 14px;color:var(--muted);">obj_8b72… <span style="color:var(--ink);">@acme/prospect-lists:artifact</span></td>
+              <td style="padding:10px 14px;color:var(--muted);">enrichment-agent</td>
+              <td style="padding:10px 14px;color:var(--muted);">v3</td>
+              <td style="padding:10px 14px;color:var(--muted);">1 d ago</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-conformance-id="object-merge-proposal-detail" data-state="loading error">
+    <div class="cap">Example — Merge proposal detail route (pending), administrator</div>
+    <div class="body">
+      <!-- Detail header: title + status pill + Reject/Approve actions (pending only) -->
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+          <span style="flex:none;width:30px;height:30px;border-radius:8px;background:rgba(87,74,104,0.12);color:var(--plum);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg></span>
+          <span style="font-family:var(--font-sans);font-weight:700;font-size:15px;color:var(--ink);">Merge proposal mp_9f3c1a2b…</span>
+          <span class="pill hold" style="font-size:11px;"><span class="dot"></span>Pending</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+          <button type="button" class="btn outline" data-action="reject-proposal -> rejected" style="padding:5px 12px;font-size:12px;cursor:pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>Reject</button>
+          <button type="button" class="btn primary" data-action="approve-proposal -> applied" style="padding:5px 12px;font-size:12px;cursor:pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M20 6 9 17l-5-5"/></svg>Approve</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+        <!-- Status card -->
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+          <div style="padding:9px 12px;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Status</div>
+          <div style="padding:12px;display:grid;gap:8px;font-size:12.5px;">
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--muted);">Object</span><span style="font-family:var(--font-mono);font-size:11.5px;color:var(--ink);">obj_2a4e…</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--muted);">Object type</span><span style="color:var(--ink);">@acme/support:case</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--muted);">Base version</span><span style="font-family:var(--font-mono);color:var(--ink);">v5</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--muted);">Source</span><span style="color:var(--ink);">enrichment-agent</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--muted);">Proposed by</span><span style="font-family:var(--font-mono);font-size:11.5px;color:var(--ink);">agent · run_be3d…</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--muted);">Submitted</span><span style="color:var(--ink);">8 minutes ago</span></div>
+          </div>
+        </div>
+        <!-- Proposed fields card -->
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+          <div style="padding:9px 12px;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Proposed fields (2)</div>
+          <div style="padding:12px;display:grid;gap:10px;">
+            <div style="border:1px solid var(--line);border-radius:6px;padding:9px 10px;background:var(--surface);">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;justify-content:space-between;">
+                <span class="tag mono">industry</span>
+                <span style="font-family:var(--font-mono);font-size:9.5px;color:var(--muted);">source: web-research · confidence 0.82</span>
+              </div>
+              <pre style="margin:6px 0 0;padding:8px;font-family:var(--font-mono);font-size:11px;line-height:1.5;color:var(--ink);background:var(--surface-muted);border-radius:4px;overflow-x:auto;">"SaaS — vertical B2B"</pre>
+            </div>
+            <div style="border:1px solid var(--line);border-radius:6px;padding:9px 10px;background:var(--surface);">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;justify-content:space-between;">
+                <span class="tag mono">employee_count</span>
+                <span style="font-family:var(--font-mono);font-size:9.5px;color:var(--muted);">source: apollo · confidence 0.91</span>
+              </div>
+              <pre style="margin:6px 0 0;padding:8px;font-family:var(--font-mono);font-size:11px;line-height:1.5;color:var(--ink);background:var(--surface-muted);border-radius:4px;overflow-x:auto;">240</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout info" style="margin-top:14px;">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Version fence &amp; reversibility</span>
+    <p><b>Approve</b> writes through the canonical history-aware writer with the proposal's captured <b>base version</b> as the CAS expectation: if the object changed since the proposal was submitted the apply is refused as a typed <b>version conflict</b> and the proposal returns to <b>Pending</b> for re-review — an approval never silently overwrites a newer edit. Because the apply is a reversible internal change, an applied merge is an ordinary change-set on the <em>Undo</em> browser (§VI), reversible under the same per-object rules.</p>
+  </div>
+
+  <!-- ── VIII. Route consolidation & retirement ──────────────── -->
+  <div class="sect">
+    <h2>VIII. Route consolidation &amp; retirement</h2>
+    <div class="rule"></div>
+    <div class="source">/data* + /artifacts?mode= removed · no redirects</div>
+  </div>
+  <p class="lede-p"><b>Three destinations, cleanly separated.</b> The library serves every user at <code>/artifacts</code>; object administration lives on <code>/configuration/objects</code> as four tabs — <em>Raw objects</em> (§IV), <em>Types</em> (§V), <em>Undo</em> (§VI) and <em>Merge review</em> (§VII), plus the nested <code>/configuration/objects/merge-proposals/[proposalId]</code> detail route; targeted restore lives at <code>/restore/[changeSetId]</code> (§VI). Two families of route are <b>removed</b>: the former <code>/data</code>, <code>/data/types</code> and <code>/data-safety</code> browsers, and the old <code>/artifacts?mode=</code> admin modes (<code>raw</code> / <code>types</code> / <code>undo</code> / <code>merge</code>) together with the mode toggle itself — the review surface at <code>/data-safety/merge-proposals</code> was <b>relocated</b> (§VII), not dropped. Backward compatibility is out of scope: there are <b>no redirects</b>. A stale <code>/data*</code> link 404s; a legacy <code>/artifacts?mode=…</code> deep link simply <b>falls through to the library</b> — no crash, no refusal panel — because <code>/artifacts</code> now has only the one view.</p>
+  <div class="callout warning">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>No redirects</span>
+    <p>The old <code>/data*</code> routes are deleted outright — not redirected — and the <code>/artifacts?mode=</code> admin modes are gone. Any remaining link to <code>/data</code>, <code>/data/types</code> or <code>/data-safety</code> is a bug to fix at the link; a stray <code>?mode=</code> query on <code>/artifacts</code> is ignored and the library renders.</p>
+  </div>
+
+  <footer>
+    <span>Cinatra · Application Design — Artifacts v0.4.0</span><!-- source-leak-allow -->
+    <span>Set in Archivo · Set on cream</span>
+  </footer>
+</div>
+</body>
+</html>
