@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "1.0.0",
+  "spec": "specs/app-artifacts.html",
+  "contentHash": "sha256:b29efe71f33a8b35a9be018f90c7cce16439aafe8e322955c52f38bc79b3c227",
+  "surfaces": [
+    {
+      "id": "artifacts-facet",
+      "fields": [],
+      "actions": [
+        {
+          "action": "filter-facet",
+          "outcome": "filtered"
+        }
+      ],
+      "states": []
+    },
+    {
+      "id": "artifacts-console-header",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "error",
+        "loading"
+      ]
+    },
+    {
+      "id": "artifacts-library-list",
+      "fields": [
+        {
+          "field": "name",
+          "source": "identity.displayName"
+        }
+      ],
+      "actions": [
+        {
+          "action": "open-artifact",
+          "outcome": "rendered"
+        }
+      ],
+      "states": [
+        "empty",
+        "error",
+        "kind:artifact",
+        "loading"
+      ]
+    },
+    {
+      "id": "artifacts-library-empty",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "empty"
+      ]
+    },
+    {
+      "id": "artifacts-library-error",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "error"
+      ]
+    },
+    {
+      "id": "artifact-render-typed",
+      "fields": [],
+      "actions": [
+        {
+          "action": "open-artifact",
+          "outcome": "rendered"
+        }
+      ],
+      "states": [
+        "error",
+        "loading"
+      ]
+    },
+    {
+      "id": "artifact-render-mime",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "error",
+        "loading"
+      ]
+    },
+    {
+      "id": "artifact-render-fallback",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "error",
+        "loading"
+      ]
+    },
+    {
+      "id": "artifacts-type-definitions",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "empty",
+        "error",
+        "loading"
+      ]
+    },
+    {
+      "id": "objects-stored-list",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "empty",
+        "error",
+        "loading"
+      ]
+    },
+    {
+      "id": "restore-console",
+      "fields": [],
+      "actions": [
+        {
+          "action": "undo",
+          "outcome": "restored"
+        }
+      ],
+      "states": [
+        "empty",
+        "error",
+        "loading"
+      ]
+    },
+    {
+      "id": "artifacts-restore-entry",
+      "fields": [],
+      "actions": [
+        {
+          "action": "request-undo",
+          "outcome": "restore-open"
+        }
+      ],
+      "states": []
+    },
+    {
+      "id": "restore-route",
+      "fields": [],
+      "actions": [
+        {
+          "action": "confirm-restore",
+          "outcome": "restored"
+        }
+      ],
+      "states": [
+        "error",
+        "loading"
+      ]
+    }
+  ]
+}
