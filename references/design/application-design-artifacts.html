@@ -283,7 +283,7 @@
     <div>
       <div class="kicker" style="margin-bottom: 8px;"><a href="design-system.html" style="color: var(--blue); text-decoration: none;">&larr; Cinatra — Application Design</a></div>
       <h1>Cinatra — Application Design — Artifacts</h1>
-      <p class="lede"><code>/artifacts</code> is the <b>library</b> — everything the acting user's agents and uploads have produced, each row opened by its <b>type's renderer</b>. Object <b>change-set restore</b> has its own page, <code>/configuration/objects</code>; a type's <b>definitions and the objects stored under them</b> live inside <b>extension management</b>, on the defining extension's <b>settings page</b>; and <b>artifact change review</b> lives on the shared artifact-review surface. Part of Cinatra Application Design; match it exactly.</p>
+      <p class="lede"><code>/artifacts</code> is the <b>library</b> — everything the acting user's agents and uploads have produced, each row opened by its <b>type's renderer</b>. <code>/configuration/artifacts</code> is the <b>Artifacts</b> console — a <b>tablist</b> page whose <b>Type definitions</b> tab lists every type every artifact extension defines, whose <b>Stored objects</b> tab inventories every stored object across every artifact extension, and whose <b>Restore objects</b> tab browses and undoes object change sets. <b>Artifact change review</b> lives on the shared artifact-review surface. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
       <div>Version 0.5.0</div>
@@ -292,15 +292,15 @@
 
   <hr class="etched-rule" />
 
-  <!-- ── I. Two surfaces — the library + the restore console ──── -->
+  <!-- ── I. Two surfaces — the library + the artifacts console ──── -->
   <div class="sect">
-    <h2>I. Two surfaces — the library and the restore console</h2>
+    <h2>I. Two surfaces — the library and the artifacts console</h2>
     <div class="rule"></div>
-    <div class="source">/artifacts library · /configuration/objects restore</div>
+    <div class="source">/artifacts library · /configuration/artifacts console</div>
   </div>
   <p class="lede-p"><b><code>/artifacts</code> is the library, and nothing else.</b> It lists exactly the acting user's artifacts, for <b>every</b> user — there is <b>no mode toggle</b>, because the library is the lone view. The page opens with the standard <b>page header</b> (title <em>Artifacts</em>, a one-line description, a closing etched rule), then a <b>toolbar</b> over the list. The sidebar entry points here.</p>
-  <p class="lede-p"><b><code>/configuration/objects</code> is the restore console — and nothing else.</b> It is a <b>single-purpose</b> page that browses past <b>object change sets</b> (time-keyed, across every extension) and restores them (§IV). A <b>type's definitions and the objects stored under it</b> live inside <b>extension management</b>, on the defining extension's <b>settings page</b> (§V); and <b>artifact change review</b> lives on the shared <b>artifact-review surface</b> (§VI). Because the page has one job, it carries <b>no tablist</b>.</p>
-  <p class="lede-p"><b>A targeted restore has its own route.</b> Reversing a single change set the acting user is authorized for is authorized <b>per object</b>, so it also has a dedicated route, <code>/configuration/objects/restore/[changeSetId]</code>, nested under the restore console and reachable by any authorized user (§IV).</p>
+  <p class="lede-p"><b><code>/configuration/artifacts</code> is the Artifacts console.</b> It opens with the standard page header (title <em>Artifacts</em>) closed by a canonical underline <b>tablist</b> — <b>Type definitions</b> first, <b>Stored objects</b> second, <b>Restore objects</b> third (Application Design — Components · Tabs). The <b>Type definitions</b> tab lists every type every artifact extension defines; the <b>Stored objects</b> tab is a workspace-wide inventory of every stored object across every artifact extension; the <b>Restore objects</b> tab browses past <b>object change sets</b> (time-keyed, across every extension) and undoes them (§IV). <b>Artifact change review</b> lives on the shared <b>artifact-review surface</b> (§V).</p>
+  <p class="lede-p"><b>A targeted restore has its own route.</b> Reversing a single change set the acting user is authorized for is authorized <b>per object</b>, so it also has a dedicated route, <code>/configuration/artifacts/restore/[changeSetId]</code>, nested under the Artifacts console and reachable by any authorized user (§IV).</p>
 
   <div class="ex">
     <div class="cap">Example — /artifacts, the library (every user; no mode toggle)</div>
@@ -322,13 +322,20 @@
     </div>
   </div>
 
-  <div class="ex" data-conformance-id="restore-console-header" data-state="loading error">
-    <div class="cap">Example — /configuration/objects, the restore console (single purpose; no tablist)</div>
+  <div class="ex" data-conformance-id="artifacts-console-header" data-state="loading error">
+    <div class="cap">Example — /configuration/artifacts, the Artifacts console (tablist: Type definitions · Stored objects · Restore objects)</div>
     <div class="body">
-      <h1 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: var(--page-title-lg); letter-spacing: var(--title-tracking-tight); line-height: var(--page-title-line-height); margin: 0; color: var(--ink);">Object restore</h1>
-      <p style="margin: 4px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted);">Browse and undo past change sets over objects — every save, edit and delete, time-keyed across every extension.</p>
-      <!-- One job, so no tablist: the page header closes with the etched paired-line rule, exactly as a single-view page does (Application Design — Components · Section rule). -->
-      <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin: 16px 0 0;"></div>
+      <h1 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: var(--page-title-lg); letter-spacing: var(--title-tracking-tight); line-height: var(--page-title-line-height); margin: 0; color: var(--ink);">Artifacts</h1>
+      <p style="margin: 4px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted);">Every type your artifact extensions define, every stored object across them, and the change sets you can undo.</p>
+      <!-- Canonical underline tablist under the page header: the etched paired-line rule begins to the right of the last tab and runs to the page edge (Application Design — Components · Tabs). No pill tabs. -->
+      <div style="display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: flex-end; margin: 12px 0 0;">
+        <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+          <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Type definitions</button>
+          <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Stored objects</button>
+          <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Restore objects</button>
+        </div>
+        <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+      </div>
     </div>
   </div>
 
@@ -339,7 +346,7 @@
     <div class="source">Artifact rows · the acting user's set</div>
   </div>
   <p class="lede-p"><b>Exactly the acting user's set.</b> The library lists precisely the artifacts the <b>acting user</b> may see, resolved per actor against each defining extension's access grants, so two users on the same workspace can see different libraries. It never shows non-artifact internals. Rows are <b>artifacts</b>: each is an object of a <b>defined type</b>, presented by its display name — never a raw type id.</p>
-  <p class="lede-p"><b>Row anatomy.</b> Each row is a title line over a muted meta line, hairline-divided, the last row dropping its divider. The title line carries a leading <b>renderer glyph</b>, the <b>artifact name</b> (the artifact's display name), and a muted <b>extension label</b> naming the type's <b>defining extension</b> — the extension whose settings page holds that type's definition (§V). The row opens through that type's renderer, or, when the extension ships no renderer for the representation, through the generic fallback (§III). A <b>file-form</b> artifact (an upload) shows its MIME type in a mono label and opens through the MIME viewer. The meta line carries the owner / visibility and the relative updated time; the row's right edge holds the <em>Open</em> affordance.</p>
+  <p class="lede-p"><b>Row anatomy.</b> Each row is a title line over a muted meta line, hairline-divided, the last row dropping its divider. The title line carries a leading <b>renderer glyph</b>, the <b>artifact name</b> (the artifact's display name), and a muted <b>extension label</b> naming the type's <b>defining extension</b> — the extension that <b>defines</b> that type, listed on the console's <em>Type definitions</em> tab (§IV). The row opens through that type's renderer, or, when the extension ships no renderer for the representation, through the generic fallback (§III). A <b>file-form</b> artifact (an upload) shows its MIME type in a mono label and opens through the MIME viewer. The meta line carries the owner / visibility and the relative updated time; the row's right edge holds the <em>Open</em> affordance.</p>
   <p class="lede-p"><b>Faceting &amp; search.</b> The <em>Type</em> facet filters the list by defining extension or type; the search field filters by name. An unfiltered library is grouped only by recency.</p>
 
   <div class="ex" data-conformance-id="artifacts-library-list" data-state="empty error loading">
@@ -459,19 +466,134 @@
     </div>
   </div>
 
-  <!-- ── IV. Restore console — undoing object change sets ────── -->
+  <!-- ── IV. The Artifacts console — type definitions, stored objects, restore ───────────── -->
   <div class="sect">
-    <h2>IV. Restore console — undoing object change sets</h2>
+    <h2>IV. The Artifacts console — type definitions, stored objects, restore</h2>
     <div class="rule"></div>
-    <div class="source">/configuration/objects · change sets · /configuration/objects/restore/[changeSetId]</div>
+    <div class="source">/configuration/artifacts · Type definitions · Stored objects · Restore objects · /configuration/artifacts/restore/[changeSetId]</div>
   </div>
-  <p class="lede-p"><b>What it restores.</b> <code>/configuration/objects</code> is the <b>restore console</b>: it browses <b>object change sets</b> and undoes them, and it does nothing else. Every save, edit or delete an agent run — or a user action — makes over objects is captured as a <b>reversible change set</b>. The console lists them <b>time-keyed, across every extension</b>, and each entry says exactly what it would restore: the <b>operation</b> (what changed), the <b>affected type</b>, how many objects, and <b>when</b>. The row's <em>Undo</em> action reverses that change set.</p>
-  <p class="lede-p"><b>Authorized per object.</b> A change set is restorable when the acting user holds <b>restore authorization for every object it touched</b> — the same per-object check the restore action enforces on confirm. There is <b>no administrator bypass</b>: an actor authorized for every affected object may restore it whatever their role, and an actor not authorized for some affected object is refused. The console lists the change sets the actor may act on; each row's right edge holds an <em>Undo</em> action that opens the restore confirmation <b>in place</b> (an inline modal), and the empty state reads that there is nothing to undo.</p>
-  <p class="lede-p"><b>Entry points outside the console.</b> Two affordances deep-link to a single change set's restore surface, <code>/configuration/objects/restore/[changeSetId]</code>: the in-chat <em>Undo last action</em> chip beneath an agent-run card, and the <em>Saved&nbsp;… · Undo</em> toast on a successful mutation. Each renders <b>only when the acting user is eligible</b> to restore that change set — authorized for every affected object, and the change set still restorable. For a non-eligible user <b>no affordance appears</b>: no chip, no toast action — <b>suppression</b> over a disabled control, because a transient safety affordance that cannot act is noise, and a rendered control must never <b>dead-end</b> on the not-authorized panel. Opened directly, the <code>/configuration/objects/restore/[changeSetId]</code> route holds to the same eligibility: it serves the addressed change set's restore surface for an authorized actor of any role, and shows the standard <b>not-authorized state</b> to anyone else.</p>
+  <p class="lede-p"><b>One page, three tabs.</b> <code>/configuration/artifacts</code> is the <b>Artifacts</b> console. Its page header carries a canonical underline <b>tablist</b> — <b>Type definitions</b> first, <b>Stored objects</b> second, <b>Restore objects</b> third (see Application Design — Components · Tabs; underline only, no pill tabs). The tablist selects between a <b>global type registry</b>, a <b>global stored-object inventory</b>, and the <b>change-set restore</b> console; the etched paired-line rule begins to the right of the last tab and runs to the page edge, and the tabs never stack a second rule.</p>
+
+  <p class="lede-p"><b>Type definitions — the global type registry.</b> The <b>Type definitions</b> tab lists <b>every type every artifact extension defines</b>, <b>alphabetically</b> across all extensions — one workspace-wide registry, never scoped to a single extension. A type exists <b>only because an installed artifact extension defines it</b>, so exactly <b>one</b> extension <b>defines</b> each type; any extension that needs it <b>declares the defining extension as a dependency</b>, which guarantees the type is present wherever it is used. Each row therefore names the <b>type</b> (its display name over its type id), the one <b>Defined by</b> extension (its manifest display name), and the <b>Used by</b> extensions that declared that dependency. It is a <b>read-only inventory</b>: record inspection only, taking no actions and making no decisions. The empty state reads that no artifact extension defines a type yet.</p>
+
+  <div class="ex" data-conformance-id="artifacts-type-definitions" data-state="empty error loading">
+    <div class="cap">Example — Type definitions tab, the global type registry (every artifact extension, alphabetical)</div>
+    <div class="body">
+      <div style="display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: flex-end; margin: 0 0 14px;">
+        <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+          <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Type definitions</button>
+          <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Stored objects</button>
+          <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Restore objects</button>
+        </div>
+        <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+      </div>
+      <div style="overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);">
+        <table style="width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Type</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Defined by</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Used by</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;">
+                <div style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Case</div>
+                <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);margin-top:2px;">@acme/support:case</div>
+              </td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Support Desk</td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Escalations</td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;">
+                <div style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Email draft</div>
+                <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);margin-top:2px;">@cinatra-ai/email:draft</div>
+              </td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Email</td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Sequences, Inbox Zero Agent</td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;">
+                <div style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Email thread</div>
+                <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);margin-top:2px;">@cinatra-ai/email:thread</div>
+              </td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Email</td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--muted);">—</td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;vertical-align:top;">
+                <div style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Prospect list</div>
+                <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);margin-top:2px;">@cinatra-ai/prospects:list</div>
+              </td>
+              <td style="padding:12px 14px;vertical-align:top;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Prospect Lists</td>
+              <td style="padding:12px 14px;vertical-align:top;color:var(--muted);">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout note" style="margin:-4px 0 18px;">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Every stored object has a defining extension</span>
+    <p>There is no untyped floor and no default catch-all extension: every object stored is an object of a type some installed artifact extension <b>defines</b>, and dependents guarantee that type is present at install time (an extension that needs a type declares its definer as a dependency). Record inspection therefore always resolves an object to the extension that <b>defines</b> its type — the <em>Defined by</em> extension listed here, and the type named against every row of the global <em>Stored objects</em> inventory below.</p>
+  </div>
+
+  <p class="lede-p"><b>Stored objects — the global inventory.</b> The <b>Stored objects</b> tab lists <b>every stored object of every artifact extension</b> — one workspace-wide inventory for <b>record inspection</b>, never scoped to a single extension. Each row names the object by its display name over a mono meta line (its <b>type id</b>, object id, version and updated time), and the row's right edge carries the object's <b>scope</b> as an <b>entity-named label</b> — <em>Team: Growth</em>, <em>Organization: Acme Corp</em>. It is a <b>read-only inventory</b>: record inspection only, taking no actions and making no decisions. The empty state reads that no objects are stored yet.</p>
+
+  <div class="ex" data-conformance-id="objects-stored-list" data-state="empty error loading">
+    <div class="cap">Example — Stored objects tab, the global inventory (every artifact extension)</div>
+    <div class="body">
+      <div style="display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: flex-end; margin: 0 0 14px;">
+        <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+          <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Type definitions</button>
+          <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Stored objects</button>
+          <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Restore objects</button>
+        </div>
+        <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+      </div>
+      <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+        <li style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);">
+          <div style="min-width:0;flex:1;">
+            <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Q3 re-engagement email</span>
+            <p style="margin:3px 0 0;font-family:var(--font-mono);font-size:10.5px;color:var(--muted);">@cinatra-ai/email:draft · obj_2a4e… · v1 · updated 8 minutes ago</p>
+          </div>
+          <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted);flex-shrink:0;">Team: Growth</span>
+        </li>
+        <li style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);">
+          <div style="min-width:0;flex:1;">
+            <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Renewal nudge — cohort B</span>
+            <p style="margin:3px 0 0;font-family:var(--font-mono);font-size:10.5px;color:var(--muted);">@cinatra-ai/email:draft · obj_9c71… · v3 · updated 2 hours ago</p>
+          </div>
+          <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted);flex-shrink:0;">Organization: Acme Corp</span>
+        </li>
+        <li style="display:flex;align-items:center;gap:12px;padding:12px 14px;">
+          <div style="min-width:0;flex:1;">
+            <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Enterprise ICP · 240 prospects</span>
+            <p style="margin:3px 0 0;font-family:var(--font-mono);font-size:10.5px;color:var(--muted);">@cinatra-ai/prospects:list · obj_4f10… · v2 · updated yesterday</p>
+          </div>
+          <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted);flex-shrink:0;">Organization: Acme Corp</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="lede-p"><b>Restore objects — undoing object change sets.</b> The <b>Restore objects</b> tab browses <b>object change sets</b> and undoes them. Every save, edit or delete an agent run — or a user action — makes over objects is captured as a <b>reversible change set</b>. The tab lists them <b>time-keyed, across every extension</b>, and each entry says exactly what it would restore: the <b>operation</b> (what changed), the <b>affected type</b>, how many objects, and <b>when</b>. The row's <em>Undo</em> action reverses that change set.</p>
+  <p class="lede-p"><b>Authorized per object.</b> A change set is restorable when the acting user holds <b>restore authorization for every object it touched</b> — the same per-object check the restore action enforces on confirm. There is <b>no administrator bypass</b>: an actor authorized for every affected object may restore it whatever their role, and an actor not authorized for some affected object is refused. The tab lists the change sets the actor may act on; each row's right edge holds an <em>Undo</em> action that opens the restore confirmation <b>in place</b> (an inline modal), and the empty state reads that there is nothing to undo.</p>
+  <p class="lede-p"><b>Entry points outside the console.</b> Two affordances deep-link to a single change set's restore surface, <code>/configuration/artifacts/restore/[changeSetId]</code>: the in-chat <em>Undo last action</em> chip beneath an agent-run card, and the <em>Saved&nbsp;… · Undo</em> toast on a successful mutation. Each renders <b>only when the acting user is eligible</b> to restore that change set — authorized for every affected object, and the change set still restorable. For a non-eligible user <b>no affordance appears</b>: no chip, no toast action — <b>suppression</b> over a disabled control, because a transient safety affordance that cannot act is noise, and a rendered control must never <b>dead-end</b> on the not-authorized panel. Opened directly, the <code>/configuration/artifacts/restore/[changeSetId]</code> route holds to the same eligibility: it serves the addressed change set's restore surface for an authorized actor of any role, and shows the standard <b>not-authorized state</b> to anyone else.</p>
 
   <div class="ex" data-conformance-id="restore-console" data-state="empty error loading">
-    <div class="cap">Example — restore console, the change-set list</div>
+    <div class="cap">Example — Restore objects tab, the change-set list</div>
     <div class="body">
+      <div style="display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: flex-end; margin: 0 0 14px;">
+        <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+          <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Type definitions</button>
+          <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Stored objects</button>
+          <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Restore objects</button>
+        </div>
+        <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+      </div>
       <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
         <li style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);">
           <div style="min-width:0;flex:1;">
@@ -529,7 +651,7 @@
   </div>
 
   <div class="ex" data-conformance-id="restore-route" data-state="loading error">
-    <div class="cap">Example — /configuration/objects/restore/[changeSetId], authorized actor (any role)</div>
+    <div class="cap">Example — /configuration/artifacts/restore/[changeSetId], authorized actor (any role)</div>
     <div class="body">
       <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;max-width:440px;margin:0 auto;">
         <div style="display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);">
@@ -548,134 +670,16 @@
     </div>
   </div>
 
-  <!-- ── V. Type definitions & stored objects — in extension management ── -->
+  <!-- ── V. Change review — on the artifact-review surface ──── -->
   <div class="sect">
-    <h2>V. Type definitions &amp; stored objects — in extension management</h2>
-    <div class="rule"></div>
-    <div class="source">Extension settings page · Defined by / Used by · read-only</div>
-  </div>
-  <p class="lede-p"><b>Types live with their defining extension.</b> A type exists <b>only because an installed artifact extension defines it</b>, so its definition — and the objects stored under it — belong to that extension's <b>settings page in extension management</b> — the page the extension's <em>Settings</em> action opens (see Application Design — Extensions §V), not the <em>More details</em> listing modal. Grouping is by the <b>defining</b> extension, never by whoever created a given object: a consumer extension may create objects of a depended-on type, but the type and its stored objects are shown under the extension that <b>defines</b> the type.</p>
-  <p class="lede-p"><b>The dependency model — Defined by / Used by.</b> Exactly <b>one</b> artifact extension <b>defines</b> a type; any extension that needs it <b>declares the defining extension as a dependency</b>, so the type is guaranteed present wherever it is used. Each type therefore names one <b>Defined by</b> extension (its manifest display name), and its <b>Used by</b> lists the extensions that declared that dependency.</p>
-  <p class="lede-p"><b>What the settings page shows.</b> On an artifact extension's settings page, the artifact domain contributes two <b>read-only</b> panels, appended as <b>additional sections</b> below the settings sections extension management already shows (<b>Permissions</b>, <b>Marketplace</b>, <b>Maintenance</b>) and above the closing <b>Danger zone</b>, in the same narrow column and the same section styling: a <b>Type definitions</b> table — each type this extension defines, with a <b>schema summary</b> and its <b>Used by</b> dependents; and a <b>Stored objects</b> panel — the objects stored under those types, for record inspection. They are a <b>read-only inventory</b>: record inspection only, taking no actions and making no decisions.</p>
-
-  <p class="lede-p"><b>Where the sections slot in.</b> The mock below is the <b>defining extension's settings page exactly as extension management already draws it</b> — the same narrow column, the same header, the same grouped sections (see Application Design — Extensions §V). The artifact domain appends <b>two more sections to that column</b> — <b>Type definitions</b> and <b>Stored objects</b> — with the section styling the page already uses. The extension's existing settings sections and the extensions list are untouched; the two artifact sections are simply added, read-only.</p>
-
-  <div class="ex">
-    <div class="cap">Example — the defining extension's settings page: the artifact sections appended below the existing ones</div>
-    <div class="body">
-      <div style="max-width:600px;margin:0 auto;">
-
-        <!-- Header — the settings-page header extension management already renders (the §II detail header chrome: logo tile · title · {kind} by {vendor}) -->
-        <div style="display:flex;align-items:center;gap:18px;">
-          <span style="flex:none;width:64px;height:64px;border-radius:15px;background:var(--surface-strong);border:1px solid var(--line);display:grid;place-items:center;box-shadow:0 2px 6px rgba(21,33,58,0.10);color:var(--blue);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:32px;height:32px;"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
-          <div style="flex:1;min-width:0;">
-            <div style="font-family:var(--font-sans);font-style:italic;font-weight:800;font-size:23px;color:var(--ink);line-height:1.05;">Outreach</div>
-            <div style="display:flex;align-items:center;gap:5px;font-size:13px;color:var(--muted);margin-top:8px;white-space:nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex-shrink:0;color:var(--blue);"><path d="M12 3 2 8.5 12 14l10-5.5L12 3Z"/><path d="m2 15.5 10 5.5 10-5.5"/><path d="m2 12 10 5.5L22 12"/></svg><span><span style="color:var(--ink);">Artifact</span> by Cinatra</span></div>
-          </div>
-        </div>
-
-        <div style="height:5px;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);margin:20px 0 4px;"></div>
-
-        <!-- Existing settings-page sections extension management already shows — rendered muted here to stand as context, unchanged -->
-        <div style="opacity:0.5;">
-          <div style="padding:22px 0;border-bottom:1px solid var(--line);">
-            <div style="font-family:var(--font-sans);font-size:18px;font-weight:700;color:var(--ink);margin-bottom:12px;">Permissions</div>
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;height:36px;max-width:320px;background:var(--surface-strong);border:1px solid var(--line-strong);border-radius:7px;padding:0 12px;"><span style="font-size:14px;color:var(--ink);">Anyone in Acme Corp</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;opacity:.5;color:var(--ink);"><path d="m6 9 6 6 6-6"/></svg></div>
-          </div>
-          <div style="padding:22px 0;">
-            <div style="font-family:var(--font-sans);font-size:18px;font-weight:700;color:var(--ink);margin-bottom:12px;">Maintenance</div>
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;"><div style="max-width:44ch;"><div style="font-family:var(--font-sans);font-size:13px;font-weight:600;color:var(--ink);">Update</div><div style="font-size:12px;color:var(--muted);line-height:1.5;">Currently on version 0.4.2 — up to date.</div></div><button type="button" class="btn outline" disabled aria-disabled="true" style="flex:none;cursor:not-allowed;">Update</button></div>
-          </div>
-        </div>
-
-        <!-- Marker — where the artifact domain's sections begin -->
-        <div style="display:flex;align-items:center;gap:12px;margin:6px 0 2px;">
-          <div style="height:1px;flex:1;background:var(--line);"></div>
-          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--blue);font-weight:700;white-space:nowrap;">Added by the artifact domain · read-only</span>
-          <div style="height:1px;flex:1;background:var(--line);"></div>
-        </div>
-
-        <!-- New section 1 — Type definitions (Type · Schema · Used by) -->
-        <div data-conformance-id="extension-artifact-types" data-state="loading error" style="padding:22px 0;border-bottom:1px solid var(--line);">
-          <div style="font-family:var(--font-sans);font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px;">Type definitions</div>
-          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);margin-bottom:12px;">@cinatra-ai/email · defines 2 types</div>
-          <div style="overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);">
-            <table style="width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;">
-              <thead>
-                <tr>
-                  <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Type</th>
-                  <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Schema</th>
-                  <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Used by</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;">
-                    <div style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Email draft</div>
-                    <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);margin-top:2px;">@cinatra-ai/email:draft</div>
-                  </td>
-                  <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-family:var(--font-mono);font-size:11px;color:var(--muted);line-height:1.5;">subject, body, recipients[]</td>
-                  <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Sequences, Inbox Zero Agent</td>
-                </tr>
-                <tr>
-                  <td style="padding:12px 14px;vertical-align:top;">
-                    <div style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Email thread</div>
-                    <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);margin-top:2px;">@cinatra-ai/email:thread</div>
-                  </td>
-                  <td style="padding:12px 14px;vertical-align:top;font-family:var(--font-mono);font-size:11px;color:var(--muted);line-height:1.5;">messages[], participants[]</td>
-                  <td style="padding:12px 14px;vertical-align:top;color:var(--muted);">—</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- New section 2 — Stored objects (record inspection, read-only) -->
-        <div data-conformance-id="extension-artifact-objects" data-state="empty error" style="padding:22px 0;border-bottom:1px solid var(--line);">
-          <div style="font-family:var(--font-sans);font-size:18px;font-weight:700;color:var(--ink);margin-bottom:12px;">Stored objects</div>
-          <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
-            <li style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);">
-              <div style="min-width:0;flex:1;">
-                <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Q3 re-engagement email</span>
-                <p style="margin:3px 0 0;font-family:var(--font-mono);font-size:10.5px;color:var(--muted);">@cinatra-ai/email:draft · obj_2a4e… · v1 · updated 8 minutes ago</p>
-              </div>
-              <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">Team: Growth</span>
-            </li>
-            <li style="display:flex;align-items:center;gap:12px;padding:12px 14px;">
-              <div style="min-width:0;flex:1;">
-                <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Renewal nudge — cohort B</span>
-                <p style="margin:3px 0 0;font-family:var(--font-mono);font-size:10.5px;color:var(--muted);">@cinatra-ai/email:draft · obj_9c71… · v3 · updated 2 hours ago</p>
-              </div>
-              <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">Organization: Acme Corp</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- The page continues with the extension's own sections below, unchanged -->
-        <div style="padding:16px 0 0;display:flex;align-items:center;gap:8px;opacity:0.5;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--muted);"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-          <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.06em;color:var(--muted);">the extension's remaining sections (Danger zone, …) continue below</span>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <div class="callout note" style="margin-top:14px;">
-    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Every stored object has a defining extension</span>
-    <p>There is no untyped floor and no default catch-all extension: every object stored is an object of a type some installed artifact extension <b>defines</b>, and dependents guarantee that type is present at install time (an extension that needs a type declares its definer as a dependency). Record inspection therefore always resolves an object to the extension that defines its type — which is exactly where its <em>Stored objects</em> panel lives.</p>
-  </div>
-
-  <!-- ── VI. Change review — on the artifact-review surface ──── -->
-  <div class="sect">
-    <h2>VI. Change review — on the artifact-review surface</h2>
+    <h2>V. Change review — on the artifact-review surface</h2>
     <div class="rule"></div>
     <div class="source">Shared review surface · cinatra-ai/cinatra#1795</div>
   </div>
   <p class="lede-p"><b>One shared review surface.</b> Agent-proposed changes to artifacts — enrichment field merges and the like — are <b>reviewed on the shared, generic artifact-review surface</b>. That surface (immutable review targets, gate-provenance authorization, and the host decision chrome) is specified separately in <b>cinatra-ai/cinatra#1795</b>; this spec <b>references</b> it. A notification that a change awaits review deep-links to that surface — decide-once review lands in <code>/notifications</code> (see Application Design — Notifications), which federates pending approvals; a field-level artifact review opens on the artifact-review surface itself.</p>
   <div class="callout info">
     <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>One place for every decision</span>
-    <p>A change proposal is a <b>diff to review over an immutable target</b>, exactly the shape the generic artifact-review surface already handles — so every human decision over an artifact, whatever produced the proposal, is reviewed in <b>one</b> place. This spec owns the library, the renderer, the restore console and the extension-management fold; the review surface is <b>cinatra-ai/cinatra#1795</b>. An applied change is an ordinary reversible change set, undoable through the restore console (§IV).</p>
+    <p>A change proposal is a <b>diff to review over an immutable target</b>, exactly the shape the generic artifact-review surface already handles — so every human decision over an artifact, whatever produced the proposal, is reviewed in <b>one</b> place. This spec owns the library, the renderer, and the Artifacts console (type definitions, stored objects, restore); the review surface is <b>cinatra-ai/cinatra#1795</b>. An applied change is an ordinary reversible change set, undoable through the Artifacts console's <em>Restore objects</em> tab (§IV).</p>
   </div>
 
   <footer>

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifacts.html",
-  "contentHash": "sha256:fb69279de8dc165ae363125c014a2d18bd6c05a5e4ad8fdf6253d5629c2e256b",
+  "contentHash": "sha256:b29efe71f33a8b35a9be018f90c7cce16439aafe8e322955c52f38bc79b3c227",
   "surfaces": [
     {
       "id": "artifacts-facet",
@@ -15,7 +15,7 @@
       "states": []
     },
     {
-      "id": "restore-console-header",
+      "id": "artifacts-console-header",
       "fields": [],
       "actions": [],
       "states": [
@@ -93,6 +93,26 @@
       ]
     },
     {
+      "id": "artifacts-type-definitions",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "empty",
+        "error",
+        "loading"
+      ]
+    },
+    {
+      "id": "objects-stored-list",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "empty",
+        "error",
+        "loading"
+      ]
+    },
+    {
       "id": "restore-console",
       "fields": [],
       "actions": [
@@ -130,24 +150,6 @@
       "states": [
         "error",
         "loading"
-      ]
-    },
-    {
-      "id": "extension-artifact-types",
-      "fields": [],
-      "actions": [],
-      "states": [
-        "error",
-        "loading"
-      ]
-    },
-    {
-      "id": "extension-artifact-objects",
-      "fields": [],
-      "actions": [],
-      "states": [
-        "empty",
-        "error"
       ]
     }
   ]
