@@ -281,12 +281,12 @@
   <!-- Masthead -->
   <div class="mast">
     <div>
-      <div class="kicker" style="margin-bottom: 8px;"><a href="design-system.html" style="color: var(--blue); text-decoration: none;">&larr; Cinatra — Application Design</a></div>
+      <div class="kicker" style="margin-bottom: 8px;"><a href="app.html" style="color: var(--blue); text-decoration: none;">&larr; Cinatra — Application Design</a></div>
       <h1>Cinatra — Application Design — Artifacts</h1>
-      <p class="lede"><code>/artifacts</code> is the <b>library</b> — everything the acting user's agents and uploads have produced, each row opened by its <b>type's renderer</b>. <code>/configuration/artifacts</code> is the <b>Artifacts</b> console — a <b>tablist</b> page whose <b>Type definitions</b> tab lists every type every artifact extension defines, whose <b>Stored objects</b> tab inventories every stored object across every artifact extension, and whose <b>Restore objects</b> tab browses and undoes object change sets. <b>Artifact change review</b> lives on the shared artifact-review surface. Part of Cinatra Application Design; match it exactly.</p>
+      <p class="lede"><code>/artifacts</code> is the <b>library</b> — everything the acting user's agents and uploads have produced, each row opened by its <b>type's renderer</b>. The library also <b>ingests</b>: an <b>upload</b> affordance types a file by its MIME base, a <b>type picker</b> lets the user assert its meaning among installed types, and an <b>inline marketplace</b> adds a type when none fits (admins install; others request). <b>Dashboards are artifacts</b> too — they list as rows and open the dashboard itself at its canonical surface (never rendered inline). <code>/configuration/artifacts</code> is the <b>Artifacts</b> console — a <b>tablist</b> page whose <b>Type definitions</b> tab lists every type every artifact extension defines, whose <b>Stored objects</b> tab inventories every stored object across every artifact extension, and whose <b>Restore objects</b> tab browses and undoes object change sets. <b>Artifact change review</b> lives on the shared artifact-review surface. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.5.0</div>
+      <div>Version 0.6.0</div>
     </div>
   </div>
 
@@ -346,7 +346,7 @@
     <div class="source">Artifact rows · the acting user's set</div>
   </div>
   <p class="lede-p"><b>Exactly the acting user's set.</b> The library lists precisely the artifacts the <b>acting user</b> may see, resolved per actor against each defining extension's access grants, so two users on the same workspace can see different libraries. It never shows non-artifact internals. Rows are <b>artifacts</b>: each is an object of a <b>defined type</b>, presented by its display name — never a raw type id.</p>
-  <p class="lede-p"><b>Row anatomy.</b> Each row is a title line over a muted meta line, hairline-divided, the last row dropping its divider. The title line carries a leading <b>renderer glyph</b>, the <b>artifact name</b> (the artifact's display name), and a muted <b>extension label</b> naming the type's <b>defining extension</b> — the extension that <b>defines</b> that type, listed on the console's <em>Type definitions</em> tab (§IV). The row opens through that type's renderer, or, when the extension ships no renderer for the representation, through the generic fallback (§III). A <b>file-form</b> artifact (an upload) shows its MIME type in a mono label and opens through the MIME viewer. The meta line carries the owner / visibility and the relative updated time; the row's right edge holds the <em>Open</em> affordance.</p>
+  <p class="lede-p"><b>Row anatomy.</b> Each row is a title line over a muted meta line, hairline-divided, the last row dropping its divider. The title line carries a leading <b>renderer glyph</b>, the <b>artifact name</b> (the artifact's display name), and a muted <b>extension label</b> naming the type's <b>defining extension</b> — the extension that <b>defines</b> that type, listed on the console's <em>Type definitions</em> tab (§IV). The row opens through that type's renderer, or, when the extension ships no renderer for the representation, through the generic fallback (§III). A <b>file-form</b> artifact (an upload) shows its MIME type in a mono label and opens through the MIME viewer. A <b>dashboard</b> row is the one exception: it renders nothing inline and instead <b>navigates to the dashboard's canonical surface</b> (§VIII). The meta line carries the owner / visibility and the relative updated time; the row's right edge holds the <em>Open</em> affordance.</p>
   <p class="lede-p"><b>Faceting &amp; search.</b> The <em>Type</em> facet filters the list by defining extension or type; the search field filters by name. An unfiltered library is grouped only by recency.</p>
 
   <div class="ex" data-conformance-id="artifacts-library-list" data-state="empty error loading">
@@ -682,8 +682,277 @@
     <p>A change proposal is a <b>diff to review over an immutable target</b>, exactly the shape the generic artifact-review surface already handles — so every human decision over an artifact, whatever produced the proposal, is reviewed in <b>one</b> place. This spec owns the library, the renderer, and the Artifacts console (type definitions, stored objects, restore); the review surface is <b>cinatra-ai/cinatra#1795</b>. An applied change is an ordinary reversible change set, undoable through the Artifacts console's <em>Restore objects</em> tab (§IV).</p>
   </div>
 
+  <!-- ── VI. Upload & typing — the library ingest path ──────── -->
+  <div class="sect">
+    <h2>VI. Upload &amp; typing — the library ingest path</h2>
+    <div class="rule"></div>
+    <div class="source">/artifacts library · MIME-base type · user-meaning picker · cinatra#1883 D3 · rulings 1–2</div>
+  </div>
+  <p class="lede-p"><b>The library ingests, not just lists.</b> The library toolbar (§I) carries a primary <b>Upload</b> action at its right edge, and the whole list region is a <b>drop target</b>. An upload takes two conceptual steps: a file is <b>typed by its MIME base</b> deterministically, then the user <b>may assert its meaning</b> in a type picker. The base step is <b>exactly-one-or-refuse</b> and never asks the user; the meaning step is optional and always the user's. This section is <b>design only</b> — the pipeline, the required-base extensions and the classifier machinery are <b>cinatra-ai/cinatra#1883</b> (D3, slices A1–A3).</p>
+  <p class="lede-p"><b>MIME-base typing — one base or a visible refusal.</b> A file's <b>detected MIME</b> resolves to <b>exactly one</b> installed required <b>base type</b> — the roster is <em>image</em>, <em>pdf</em>, <em>audio</em>, <em>video</em>, <em>chart</em>, and (ruling 1) <em>zip</em>, <em>text</em>, <em>document</em> (office formats) and <em>json</em>. The bases are <b>MIME-disjoint</b>: a detected MIME either lands on <b>one base</b> or is <b>refused</b> (§VI.3). The base is the artifact's <b>format axis</b> and is set at write; the picker never changes it (§VI.1). A base-typed artifact with <b>no</b> asserted meaning is a <b>complete, valid file artifact</b> — meaning is optional, not a precondition.</p>
+  <p class="lede-p"><b>Placement &amp; states.</b> The <em>Upload</em> control sits in the toolbar; the drop target is the list. The affordance reads across these states — <b>idle</b> (the button, plus a faint hint that files can be dropped), <b>drag-over</b> (the list region highlights and reads <em>Drop to upload</em>), <b>uploading</b> (a transient progress row at the top of the list), <b>typed</b> (the new row appears, or the type picker opens when the user chooses to assert meaning), and <b>refused</b> (the recourse panel — §VI.3). These interaction states are shown as example frames below; the machine-checkable state axis (§IX) stays the closed <code>loading · error · empty · kind:artifact</code> set.</p>
+
+  <div class="ex" data-conformance-id="artifacts-upload-affordance" data-action="upload-file -> typed" data-state="loading error">
+    <div class="cap">Example — the Upload affordance in the library toolbar (idle)</div>
+    <div class="body">
+      <div style="display:flex;align-items:center;background:var(--toolbar);border-radius:8px;height:48px;overflow:hidden;">
+        <div style="display:flex;align-items:center;padding:7px;flex-shrink:0;">
+          <label style="display:flex;align-items:center;gap:8px;background:var(--surface-strong);border-radius:7px;padding:0 12px;height:34px;width:240px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;color:var(--muted);flex-shrink:0;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span style="flex:1;min-width:0;font:12.5px var(--font-sans);color:var(--muted);">Search artifacts</span></label>
+        </div>
+        <div style="width:1px;height:24px;background:rgba(21,33,58,.22);flex-shrink:0;align-self:center;"></div>
+        <div style="display:flex;align-items:center;padding:7px;flex-shrink:0;"><button type="button" style="display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface-strong);cursor:pointer;white-space:nowrap;font:12.5px var(--font-sans);color:var(--ink);">Type: All<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;opacity:.5;"><path d="m6 9 6 6 6-6"/></svg></button></div>
+        <div style="flex:1;min-width:0;"></div>
+        <div style="display:flex;align-items:center;gap:8px;padding:7px;flex-shrink:0;">
+          <span style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.04em;color:var(--muted);">or drop a file</span>
+          <button type="button" class="btn primary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>Upload</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:14px;">
+    <div class="ex" data-conformance-id="artifacts-upload-dragover" style="margin-bottom:0;">
+      <div class="cap">Example — drag-over</div>
+      <div class="body" style="padding:14px;">
+        <div style="border:2px dashed var(--blue);border-radius:8px;background:rgba(54,78,129,0.06);padding:26px 16px;display:grid;place-items:center;text-align:center;">
+          <div style="width:34px;height:34px;border-radius:9px;background:rgba(54,78,129,0.12);color:var(--blue);display:grid;place-items:center;margin-bottom:9px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg></div>
+          <p style="margin:0;font-family:var(--font-sans);font-weight:600;font-size:13px;color:var(--blue);">Drop to upload</p>
+          <p style="margin:4px 0 0;font-size:11.5px;color:var(--muted);">Typed by its file kind on drop.</p>
+        </div>
+      </div>
+    </div>
+    <div class="ex" data-conformance-id="artifacts-upload-progress" data-state="loading" style="margin-bottom:0;">
+      <div class="cap">Example — uploading</div>
+      <div class="body" style="padding:14px;">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:12px 14px;display:flex;align-items:center;gap:12px;">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:var(--surface-muted);color:var(--muted);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <span style="font-family:var(--font-sans);font-weight:600;font-size:13px;color:var(--ink);">2026 pricing sheet.pdf</span>
+            <div style="height:4px;border-radius:2px;background:var(--surface-muted);margin-top:7px;overflow:hidden;"><div style="width:62%;height:100%;background:var(--blue);"></div></div>
+          </div>
+          <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted);flex-shrink:0;">62%</span>
+        </div>
+      </div>
+    </div>
+    <div class="ex" data-conformance-id="artifacts-upload-typed" data-state="kind:artifact" style="margin-bottom:0;">
+      <div class="cap">Example — typed (base resolved, no meaning yet)</div>
+      <div class="body" style="padding:14px;">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:12px 14px;display:flex;align-items:center;gap:12px;">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(176,97,58,0.12);color:var(--rust);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;"><span style="font-family:var(--font-sans);font-weight:600;font-size:13px;color:var(--ink);">2026 pricing sheet.pdf</span><span class="tag mono">application/pdf</span></div>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">Base <b style="color:var(--ink);font-weight:600;">pdf</b> · <a class="btn link" style="padding:0;font-size:11.5px;cursor:pointer;">Set meaning</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-sans);font-style:italic;font-weight:700;font-size:16px;color:var(--ink);margin:22px 0 8px;">VI.1 · The installed-type picker — a user meaning assertion, never a re-type</h3>
+  <p class="lede-p"><b>Meaning, not format.</b> After the base resolves, the user may open the <b>type picker</b> to assert what the file <em>means</em>. The picker admits <b>only installed, file-accepting types whose <code>accepts</code> include the detected MIME</b> — it is a <b>user-sourced meaning assertion</b> over those types, <b>never a re-type</b>: the format base (§VI) is fixed, and a PDF stays a PDF. Confirming the picker writes a <b>user-sourced eligible</b> meaning assertion, which outranks any matcher or agent assertion (see Renderer dispatch §III; the ranked model is cinatra#1883 D1). If no installed type accepts the <b>detected MIME</b>, the picker offers the <b>inline marketplace</b> (§VII).</p>
+  <p class="lede-p"><b>Derived meaning &amp; suggestion chips (ruling 2).</b> A classifier may derive a meaning for the file. When its confidence is <b>at or above the pack's threshold</b>, that meaning <b>auto-surfaces</b> as the row's presented identity — presentation only, with an org-level toggle as escape hatch — and the picker opens pre-selected on it. When confidence is <b>below threshold</b>, the candidate never auto-applies; it appears as a <b>suggestion chip</b> the user may confirm. Confirming a suggestion records the user's choice as a <b>user-sourced meaning</b> — which outranks the machine's — and the machine's suggestion is <b>never silently promoted</b> into it; dismissing it leaves the base-only row. The assertion lifecycle and the matcher service are cinatra#1883 D1/D2 (slice A3); this spec fixes only the visible provenance and ranking.</p>
+
+  <div class="ex" data-conformance-id="artifacts-type-picker" data-field="type=installedTypes.accepting-mime" data-action="assert-meaning -> meaning-asserted" data-state="loading error">
+    <div class="cap">Example — type picker (installed types accepting application/pdf; a below-threshold suggestion offered)</div>
+    <div class="body">
+      <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;max-width:460px;">
+        <div style="padding:11px 14px;border-bottom:1px solid var(--line);"><span style="font-family:var(--font-sans);font-weight:700;font-size:14px;color:var(--ink);">What is this?</span><p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">Assert what <b style="color:var(--ink);font-weight:600;">2026 pricing sheet.pdf</b> means. This sets its meaning, not its file kind (<span class="tag mono" style="font-size:9.5px;">application/pdf</span>).</p></div>
+        <div style="padding:12px 14px;">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Suggested</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
+            <button type="button" data-action="confirm-suggestion -> meaning-asserted" style="display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:9999px;border:1px dashed rgba(199,149,69,0.55);background:rgba(199,149,69,0.12);color:var(--mustard-ink);font-family:var(--font-sans);font-size:12px;font-weight:600;cursor:pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a1.5 1.5 0 0 1-2.6 1L8 19"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5"/></svg>Pricing sheet · Sales <span style="font-family:var(--font-mono);font-size:9px;opacity:.75;">0.61</span></button>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Installed types that accept PDF</div>
+          <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;">
+            <li style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer;"><span style="flex:1;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Contract <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">@acme/legal:contract</span></span><span class="tag ext" style="font-size:10px;">Legal</span></li>
+            <li style="display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;"><span style="flex:1;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Pricing sheet <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">@acme/sales:pricing-sheet</span></span><span class="tag ext" style="font-size:10px;">Sales</span></li>
+          </ul>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;">
+            <a class="btn link" data-action="open-marketplace-tab -> marketplace-open" style="padding:0;font-size:12px;cursor:pointer;">None of these — find a type…</a>
+            <div style="display:flex;gap:8px;"><button type="button" class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;">Keep as file</button><button type="button" class="btn primary" style="padding:5px 12px;font-size:12px;cursor:pointer;">Confirm</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="callout note" style="margin-top:14px;">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Meaning ranks above the machine; the base never moves</span>
+    <p>The picker only ever asserts a <b>user-sourced meaning</b> — the highest-ranked identity in Renderer dispatch (§III). It cannot change the file's <b>base</b> (its format axis, set at upload): the choices are the installed types whose <code>accepts</code> admit the detected MIME, never a different file kind. Confirming a below-threshold <b>suggestion chip</b> yields a fresh user-sourced meaning; the machine's draft is never promoted into it (lifecycle: cinatra#1883 D1).</p>
+  </div>
+
+  <h3 style="font-family:var(--font-sans);font-style:italic;font-weight:700;font-size:16px;color:var(--ink);margin:22px 0 8px;">VI.3 · Refusal with recourse</h3>
+  <p class="lede-p"><b>A refused upload is visible, and offers a way forward.</b> <b>Refusal is the base case only</b>: when a file's <b>detected MIME lands on no installed base</b> the file cannot be stored, so the upload is <b>refused</b> — but never silently (this supersedes the chat silent-drop; cinatra#1883 D6). The refusal names the file kind and gives <b>recourse</b>: for a user who can install, a deep link to the <b>marketplace</b> filtered to a <b>base</b> that accepts the detected MIME; for everyone else, a one-click <b>Request install</b> (ruling 4, §VII). The panel never dead-ends. This is <b>distinct from missing meaning</b>: when the base <em>did</em> resolve but no installed <b>meaning type</b> fits, nothing is refused — the artifact is kept as a base-only file row (§VI), and the picker's <em>None of these</em> path (§VI.1) offers a <b>meaning type</b> from the same marketplace.</p>
+
+  <div class="ex" data-conformance-id="artifacts-upload-refused" data-action="open-marketplace -> marketplace-open" data-state="error">
+    <div class="cap">Example — refused upload (no installed base accepts the detected MIME) with recourse</div>
+    <div class="body">
+      <div style="border:1px solid rgba(166,56,79,0.34);border-radius:8px;background:rgba(166,56,79,0.06);padding:14px 16px;display:flex;align-items:flex-start;gap:12px;max-width:520px;">
+        <span style="flex:none;width:32px;height:32px;border-radius:8px;background:rgba(166,56,79,0.12);color:var(--red);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span>
+        <div style="min-width:0;flex:1;">
+          <p style="margin:0;font-family:var(--font-sans);font-weight:600;font-size:13px;color:var(--ink);">Can't type <b>schematic.dwg</b></p>
+          <p style="margin:4px 0 10px;font-size:12px;color:var(--muted);line-height:1.5;">No installed <b>base type</b> accepts <span class="tag mono" style="font-size:9.5px;">image/vnd.dwg</span>. Install a base that handles it, then re-upload.</p>
+          <button type="button" class="btn primary" style="padding:5px 12px;font-size:12px;cursor:pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>Find a base in the marketplace</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── VII. Installing a type — the inline marketplace tab ──── -->
+  <div class="sect">
+    <h2>VII. Installing a type — the inline marketplace tab</h2>
+    <div class="rule"></div>
+    <div class="source">Inline · kind:artifact catalog · admin install · non-admin request · cinatra#1883 D4 · ruling 4</div>
+  </div>
+  <p class="lede-p"><b>Install without leaving the upload — and installing is admin-only.</b> When no installed type fits, the picker (§VI.1) and the refusal panel (§VI.3) switch to an <b>inline Marketplace tab</b>, beside an <b>Installed</b> tab, inside the same picker panel — so the upload context and the return path are <b>never lost</b>. The tab is the public catalog filtered to <b>artifact-kind</b> packs (cinatra#1883 D4; the storefront itself is Application Design — Marketplace), narrowed to a <b>base</b> when reached from a refusal (§VI.3) or a <b>meaning type</b> when reached from the picker. <b>Whether the tab installs or only requests depends on the actor</b>: a platform administrator installs; everyone else requests (ruling 4).</p>
+  <p class="lede-p"><b>Administrator — install inline.</b> A platform administrator browses the artifact-kind packs, picks one, confirms an <b>install-scope dialog</b>, and the pack installs <b>without a redirect</b>. The card shows an <b>installing</b> state; once the install settles the new type becomes <b>selectable</b> and the picker (§VI.1) refreshes to include it. The install mechanics — scope, dependency resolution and registry readiness — are Application Design — Extensions / cinatra#1883 D4; this spec fixes only the visible flow and its states.</p>
+  <p class="lede-p"><b>Non-administrator — one-click Request install (ruling 4).</b> Marketplace installs from the picker stay <b>platform-admin-only</b>. A non-admin gets a <b>functional</b> one-click <b>Request install</b> on each pack: it <b>notifies the platform admins</b> — carrying the pack, the requester and a marketplace deep link — and coalesces repeat clicks onto one request, then flips the card to a muted <b>Request sent</b> state. The admin completes the install from that notification (Application Design — Notifications; the notification's dedup and payload are cinatra#1883 D4). No dead-end, no disabled button with no path.</p>
+
+  <div class="ex" data-conformance-id="artifacts-marketplace-tab" data-field="name=manifest.displayName" data-action="install-type -> installed" data-state="empty error loading kind:artifact">
+    <div class="cap">Example — inline marketplace tab, administrator (artifact-kind packs; one installing)</div>
+    <div class="body">
+      <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;max-width:560px;">
+        <!-- Picker-panel tab strip: the Marketplace tab lives beside Installed; the picker context is preserved. -->
+        <div style="display:flex;align-items:center;gap:0;padding:0 14px;border-bottom:1px solid var(--line);">
+          <button role="tab" style="font-size:12.5px;padding:10px 12px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Installed</button>
+          <button role="tab" aria-selected="true" style="font-size:12.5px;padding:10px 12px;color:var(--blue);font-weight:600;background:transparent;border:0;border-bottom:2px solid var(--blue);margin-bottom:-1px;cursor:pointer;font-family:var(--font-sans);">Marketplace</button>
+          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-left:auto;">kind: artifact · accepts PDF</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid var(--line);background:var(--surface);">
+          <a class="btn link" data-action="return-to-picker -> picker-open" style="padding:0;font-size:11.5px;cursor:pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="m15 18-6-6 6-6"/></svg>Back to picker</a>
+          <span style="font-family:var(--font-mono);font-size:9.5px;color:var(--muted);">typing 2026 pricing sheet.pdf</span>
+        </div>
+        <ul style="list-style:none;margin:0;padding:0;">
+          <li style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(63,110,107,0.12);color:var(--green);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+            <div style="min-width:0;flex:1;"><span style="font-family:var(--font-sans);font-weight:600;font-size:13px;color:var(--ink);">Contract</span><p style="margin:2px 0 0;font-size:11.5px;color:var(--muted);">Accepts PDF, DOCX · defines <span style="font-family:var(--font-mono);font-size:10px;">@acme/legal:contract</span></p></div>
+            <button type="button" class="btn primary" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Install</button>
+          </li>
+          <li style="display:flex;align-items:center;gap:12px;padding:12px 14px;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg></span>
+            <div style="min-width:0;flex:1;"><span style="font-family:var(--font-sans);font-weight:600;font-size:13px;color:var(--ink);">Pricing sheet</span><p style="margin:2px 0 0;font-size:11.5px;color:var(--muted);">Installing · selectable once it settles…</p></div>
+            <span class="pill running" style="font-size:11px;flex-shrink:0;"><span class="dot"></span>Installing</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-conformance-id="artifacts-marketplace-request" data-field="name=manifest.displayName" data-action="request-install -> request-sent" data-state="kind:artifact">
+    <div class="cap">Example — non-administrator: one-click Request install (before / after)</div>
+    <div class="body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:16px;">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:12px 14px;display:flex;align-items:center;gap:12px;">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(63,110,107,0.12);color:var(--green);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+          <div style="min-width:0;flex:1;"><span style="font-family:var(--font-sans);font-weight:600;font-size:13px;color:var(--ink);">Contract</span><p style="margin:2px 0 0;font-size:11.5px;color:var(--muted);">Needs a platform admin to install.</p></div>
+          <button type="button" class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Request install</button>
+        </div>
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:12px 14px;display:flex;align-items:center;gap:12px;">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(63,110,107,0.12);color:var(--green);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+          <div style="min-width:0;flex:1;"><span style="font-family:var(--font-sans);font-weight:600;font-size:13px;color:var(--ink);">Contract</span><p style="margin:2px 0 0;font-size:11.5px;color:var(--muted);">Requested · admins notified.</p></div>
+          <span class="pill hold" style="font-size:11px;flex-shrink:0;"><span class="dot"></span>Request sent</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="callout info" style="margin-top:14px;">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Install stays admin-only; the request is real</span>
+    <p>A non-admin never installs from the picker (ruling 4). <b>Request install</b> is a functional action, not a placeholder: it <b>notifies the platform admins</b> — the pack, the requester and a marketplace deep link — reflects a <b>Request sent</b> state, and coalesces repeated clicks onto one request; the admin installs from that notification. The notification's dedup and payload are cinatra#1883 D4.</p>
+  </div>
+
+  <!-- ── VIII. Dashboards as artifacts ───────────────────────── -->
+  <div class="sect">
+    <h2>VIII. Dashboards as artifacts</h2>
+    <div class="rule"></div>
+    <div class="source">Library rows · pointer detail · scope chips · cinatra#1883 D7/D9 · ruling 5</div>
+  </div>
+  <p class="lede-p"><b>A dashboard is an artifact.</b> Every dashboard has a paired artifact row of the type <code>@cinatra-ai/dashboard-artifact:dashboard</code>, so it lists in the library and opens like any other artifact (cinatra#1883 D7/B1–B2). It reads as a normal <b>library row</b> — a dashboard glyph, its name, the muted <b>defining-extension</b> label (Dashboards, or a meaning pack), scope and updated time — with <b>one difference from a file row: no <em>Download</em></b>. A dashboard is a live view, not a file, so the row offers only <em>Open</em>, which navigates straight to the dashboard itself at its <b>canonical surface</b> — a dashboard is <b>never previewed or rendered inline</b> in the library (ruling, cinatra#1883).</p>
+
+  <div class="ex" data-conformance-id="artifacts-dashboard-row" data-field="name=identity.displayName" data-state="kind:artifact">
+    <div class="cap">Example — a dashboard row in the library (Open only; no Download)</div>
+    <div class="body">
+      <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+        <li style="display:flex;align-items:center;gap:14px;padding:12px 14px;">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(87,74,104,0.14);color:var(--plum);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;"><span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Pipeline health — Q3</span><span class="tag ext">Dashboards</span></div>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">Team: Growth · updated 20 minutes ago</p>
+          </div>
+          <a class="btn outline" data-action="open-dashboard -> dashboard-canonical" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="lede-p"><b>The artifact detail page — a pointer, not a viewer.</b> A dashboard-typed artifact's detail route <code>/artifacts/[id]</code> is a <b>pointer surface</b>: it <b>never previews or renders the dashboard inline</b>. It shows the artifact's <b>metadata</b> — the dashboard glyph, its name, the defining-extension label, the scope chips and the updated time — over a single primary <b>Open dashboard</b> affordance that navigates to the dashboard's <b>canonical surface</b> (cinatra#1883 D7). A dashboard is a live view with its own home, so it is always opened <em>there</em>; the library row and this detail page only <b>point</b> to it. There is <b>no read-only grid, no embedded portlet render, and no in-page rendering</b> here — the canonical surface owns both viewing and editing.</p>
+
+  <div class="ex" data-conformance-id="artifact-dashboard-pointer" data-field="name=identity.displayName" data-state="loading error">
+    <div class="cap">Example — /artifacts/[id], the dashboard pointer detail (metadata + Open dashboard + scope chips; no inline render)</div>
+    <div class="body">
+      <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);">
+          <span style="flex:none;width:30px;height:30px;border-radius:8px;background:rgba(87,74,104,0.14);color:var(--plum);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
+          <span style="font-family:var(--font-sans);font-weight:700;font-size:15px;color:var(--ink);">Pipeline health — Q3</span>
+          <span class="tag ext" style="font-size:10px;">Dashboards</span>
+          <!-- scope chips (§VIII, D9) -->
+          <div data-conformance-id="artifact-dashboard-scope-chips" data-action="open-scope -> scope-view" style="display:inline-flex;flex-wrap:wrap;gap:6px;margin-left:auto;">
+            <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);align-self:center;">In scope</span>
+            <button type="button" class="tag" style="cursor:pointer;font-size:11px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>Team: Growth</button>
+            <button type="button" class="tag" style="cursor:pointer;font-size:11px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>Organization: Acme Corp</button>
+          </div>
+        </div>
+        <div style="padding:16px 14px;display:flex;flex-wrap:wrap;align-items:center;gap:14px;">
+          <div style="min-width:0;flex:1;">
+            <p style="margin:0;font-size:12.5px;color:var(--ink);">A dashboard is a live view — this page <b>points</b> to it, it does not render here.</p>
+            <p style="margin:5px 0 0;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);">@cinatra-ai/dashboard-artifact:dashboard · updated 20 minutes ago</p>
+          </div>
+          <a class="btn" data-action="open-dashboard -> dashboard-canonical" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;font-size:12.5px;cursor:pointer;flex-shrink:0;">Open dashboard<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="lede-p"><b>Scope chips &amp; routing (D9).</b> A dashboard has <b>exactly one canonical home</b> — its single <code>entityRef</code>, one canonical entity identity that never changes (cinatra#700; cinatra#1883 D9). Beyond that home, a dashboard can be <b>listed in other scopes</b> as <b>secondary reference listings</b> (a separate listing relation, not a second home; cinatra#1883 D9), and the pointer detail page renders one <b>scope chip</b> per listing. A chip opens the dashboard <b>in that scope's context</b>; the library row and the <b>Open dashboard</b> affordance both open the dashboard at its <b>canonical surface</b>; none of these <b>re-anchor</b> the dashboard — the singular <code>entityRef</code> is never moved.</p>
+  <div class="callout success">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Dashboards are always visible in their scope (ruling 5)</span>
+    <p>A dashboard is <b>always visible to everyone in its scope</b> — project, team or organization — with <b>no admin-specific access anywhere</b>. The scope chips name exactly the scopes in which every member can already see it; there is no admin-gated dashboard state and no admin-only access. This differs from the workspace-wide object console (§IV), which is record inspection, not a per-scope visibility grant.</p>
+  </div>
+
+  <!-- ── IX. Axes the spec carries — responsive · theme · state ─ -->
+  <div class="sect">
+    <h2>IX. Axes the spec carries — responsive · theme · state</h2>
+    <div class="rule"></div>
+    <div class="source">Breakpoints · single cream theme · the data-state set</div>
+  </div>
+  <p class="lede-p"><b>Every new surface honors the three axes the Application Design family carries.</b> The affordances above (§VI–§VIII) are specified once and hold across breakpoint, theme and state — a conformance run checks each axis, so the spec names them.</p>
+  <p class="lede-p"><b>Responsive.</b> The library sits at the wide data width (<code>max-w-7xl</code>). On a narrow viewport the toolbar <b>wraps</b> — the search field takes the full row, the <em>Type</em> / <em>Scope</em> / <em>Upload</em> controls wrap beneath it, and <em>Upload</em> stays reachable (never behind an overflow). The type picker and the inline marketplace tab are <b>bounded panels</b> that shrink to the viewport (<code>max-width:100%</code>); the marketplace pack list is single-column already. The dashboard <b>pointer detail</b> card wraps to the narrow width — its scope chips flow to a new line and the <em>Open dashboard</em> affordance drops beneath the metadata — and any wide table scrolls inside its own container rather than widening the page.</p>
+  <p class="lede-p"><b>Theme.</b> There is <b>one theme</b> — the shared cream palette. Every new surface draws only from the shared tokens (the <code>:root</code> block); no affordance introduces a colour, and the base style block is identical to every sibling spec (Conventions · self-contained specs). <em>Set on cream.</em></p>
+  <p class="lede-p"><b>State.</b> The machine-checkable state axis is the closed <code>data-state</code> set — <code>loading</code>, <code>error</code>, <code>empty</code>, plus <code>kind:artifact</code> — carried on the conformance surfaces above. The richer interaction states each affordance moves through are shown as example frames and bound to their outcomes via <code>data-action</code>. The table names them so a build covers each:</p>
+
+  <div class="ex" data-conformance-id="artifacts-axes-state">
+    <div class="cap">Example — interaction states per new affordance</div>
+    <div class="body" style="padding:0;">
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Affordance</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Interaction states</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">data-state</th>
+            </tr>
+          </thead>
+          <tbody style="font-family:var(--font-body);">
+            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">Upload (§VI)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">idle · drag-over · uploading · typed · refused</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--font-mono);color:var(--muted);">loading · error · kind:artifact</td></tr>
+            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">Type picker (§VI.1)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">choosing · suggestion · confirmed · auto-surfaced</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--font-mono);color:var(--muted);">loading · error</td></tr>
+            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">Marketplace tab (§VII)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">browse · installing · request-sent · empty · error</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--font-mono);color:var(--muted);">empty · error · loading · kind:artifact</td></tr>
+            <tr><td style="padding:10px 14px;color:var(--ink);">Dashboard pointer (§VIII)</td><td style="padding:10px 14px;color:var(--muted);">loading · ready · open-dashboard · error</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--muted);">loading · error</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <footer>
-    <span>Cinatra · Application Design — Artifacts v0.5.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Artifacts v0.6.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
