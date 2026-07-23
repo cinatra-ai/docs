@@ -292,7 +292,7 @@
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.7.2</div>
+      <div>Version 0.9.0</div>
     </div>
   </div>
 
@@ -1031,8 +1031,43 @@
     </div>
   </div></div></div>
 
+  <!-- ── The Assistants sidebar entry ─────────────────────────── -->
+  <div class="sect">
+    <h2>IX. The Assistants sidebar entry</h2>
+    <div class="rule"></div>
+    <div class="source">one entry · below Chat</div>
+  </div>
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 14px; line-height: 1.6; color: var(--ink); margin: 0 0 10px; text-wrap: pretty;">A single sidebar entry titled <strong style="color:var(--ink);">Assistants</strong> sits <strong style="color:var(--ink);">directly below Chat</strong> and above <strong style="color:var(--ink);">Agents</strong>. It is one nav entry — <strong style="color:var(--ink);">not a group</strong>, and it introduces no section heading. It carries the standard sidebar-row treatment (13px sans with a leading icon; the active row on the indigo 6% tint — see <a href="application-design-components.html">Sidebar</a> in Components), exactly like the Chat entry above it and the Agents entry below. <strong style="color:var(--ink);">Agents is unchanged</strong> — no label or heading is introduced above it.</p>
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 14px; line-height: 1.6; color: var(--ink); margin: 0 0 18px; text-wrap: pretty;">Selecting <strong style="color:var(--ink);">Assistants</strong> opens the Assistants surface, the same way Chat opens chat and Agents opens agents.</p>
+
+  <div data-conformance-id="sidebar-assistants-entry" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:14px; align-items:start; margin-top:4px;">
+
+    <!-- Surface: the entry in place — below Chat, above Agents -->
+    <div style="border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--surface-strong);">
+      <div style="padding:8px 14px; background:var(--surface); border-bottom:1px solid var(--line); font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.18em; color:var(--muted); text-transform:uppercase; font-weight:700;">Assistants below Chat</div>
+      <div style="padding:16px; background:var(--paper);">
+        <div style="max-width:236px; background:var(--sidebar); border:1px solid var(--line); border-radius:9px; padding:8px;">
+          <div style="display:flex; align-items:center; gap:9px; padding:6px 9px; border-radius:6px; font-family:var(--font-sans); font-size:13px; color:var(--ink);">
+            <span style="width:16px;height:16px;color:var(--muted);display:grid;place-items:center;flex:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+            <span style="flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Chat</span>
+          </div>
+          <div data-action="open-assistants -> assistants" style="display:flex; align-items:center; gap:9px; padding:6px 9px; border-radius:6px; font-family:var(--font-sans); font-size:13px; color:var(--blue); font-weight:600; background:rgba(54,78,129,0.06); margin-top:2px;">
+            <span style="width:16px;height:16px;color:var(--blue);display:grid;place-items:center;flex:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg></span>
+            <span style="flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Assistants</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:9px; padding:6px 9px; border-radius:6px; font-family:var(--font-sans); font-size:13px; color:var(--ink); margin-top:2px;">
+            <span style="width:16px;height:16px;color:var(--muted);display:grid;place-items:center;flex:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
+            <span style="flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Agents</span>
+          </div>
+        </div>
+      </div>
+      <div style="padding:10px 14px 13px; font-size:12.5px; color:var(--muted); line-height:1.45; text-wrap:pretty;">One entry, active here, sitting between Chat and Agents. No group container and no section heading; Agents keeps its existing form.</div>
+    </div>
+
+  </div>
+
 <footer>
-    <span>Cinatra · Application Design v0.7.2</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design v0.9.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app.html",
-  "contentHash": "sha256:78e2bec7980c31b60b17f9e59455520223559b8e06d2ed4cf69a4215f8004b58",
+  "contentHash": "sha256:d69ff1a6ac5cf3f5e7ae2d93c43134eec74d7a798e5a68cca20d97010c5f318d",
   "surfaces": [
     {
       "id": "status-pills",
@@ -13,6 +13,17 @@
       "id": "button-variants",
       "fields": [],
       "actions": [],
+      "states": []
+    },
+    {
+      "id": "sidebar-assistants-entry",
+      "fields": [],
+      "actions": [
+        {
+          "action": "open-assistants",
+          "outcome": "assistants"
+        }
+      ],
       "states": []
     }
   ]
