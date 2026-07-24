@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifacts.html",
-  "contentHash": "sha256:4d197470dd57ac1c64910294197923cb6c51083869248df34d98a0617982135e",
+  "contentHash": "sha256:6079f4afd6c106373c154fee7d016ca139c753c0ae4adad7b6948db02b6c6502",
   "surfaces": [
     {
       "id": "artifacts-facet",
@@ -317,6 +317,70 @@
           "outcome": "scope-view"
         }
       ],
+      "states": []
+    },
+    {
+      "id": "scope-dashboards-tab",
+      "fields": [
+        {
+          "field": "name",
+          "source": "identity.displayName"
+        }
+      ],
+      "actions": [
+        {
+          "action": "open-add-picker",
+          "outcome": "add-picker-open"
+        },
+        {
+          "action": "open-dashboard",
+          "outcome": "dashboard-canonical"
+        },
+        {
+          "action": "remove-listing",
+          "outcome": "listing-removed"
+        }
+      ],
+      "states": [
+        "empty",
+        "error",
+        "kind:artifact",
+        "loading"
+      ]
+    },
+    {
+      "id": "scope-dashboards-add-picker",
+      "fields": [
+        {
+          "field": "candidate",
+          "source": "collectionAdd.listable"
+        }
+      ],
+      "actions": [
+        {
+          "action": "add-listing",
+          "outcome": "listing-added"
+        },
+        {
+          "action": "request-promotion",
+          "outcome": "promotion-requested"
+        }
+      ],
+      "states": [
+        "empty",
+        "error",
+        "loading"
+      ]
+    },
+    {
+      "id": "scope-dashboards-write-access",
+      "fields": [
+        {
+          "field": "manage-controls",
+          "source": "collectionAdd.actorMayWriteScope"
+        }
+      ],
+      "actions": [],
       "states": []
     },
     {
