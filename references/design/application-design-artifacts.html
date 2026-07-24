@@ -286,7 +286,7 @@
       <p class="lede"><code>/artifacts</code> is the <b>library</b> — everything the acting user's agents and uploads have produced, each row opened by its <b>type's renderer</b>. The library also <b>ingests</b>: an <b>upload</b> affordance types a file by its MIME base, a <b>type picker</b> lets the user assert its meaning among installed types, and an <b>inline marketplace</b> adds a type when none fits (admins install; others request). <b>Dashboards are artifacts</b> too — they list as rows and open the dashboard itself at its canonical surface (never rendered inline); a <b>team, project or organization</b> lists the dashboards in its scope on its <b>Dashboards tab</b>, where a scope manager can <b>add an existing dashboard as a secondary listing</b> (§IX). <code>/configuration/artifacts</code> is the <b>Artifacts</b> console — a <b>tablist</b> page whose <b>Type definitions</b> tab lists every type every artifact extension defines, whose <b>Stored objects</b> tab inventories every stored object across every artifact extension, and whose <b>Restore objects</b> tab browses and undoes object change sets. <b>Artifact change review</b> lives on the shared artifact-review surface. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.7.0</div>
+      <div>Version 0.8.0</div>
     </div>
   </div>
 
@@ -917,53 +917,98 @@
     <p>A dashboard is <b>always visible to everyone in its scope</b> — project, team or organization — with <b>no admin-specific access anywhere</b>. The scope chips name exactly the scopes in which every member can already see it; there is no admin-gated dashboard state and no admin-only access. This differs from the workspace-wide object console (§IV), which is record inspection, not a per-scope visibility grant.</p>
   </div>
 
-  <!-- ── IX. The scope Dashboards tab — listings & add-to-scope ── -->
+  <!-- ── IX. The Dashboards tab — every entity page's first tablist entry ── -->
   <div class="sect">
-    <h2>IX. The scope Dashboards tab — listings &amp; add-to-scope</h2>
+    <h2>IX. The Dashboards tab — every entity page's first tablist entry</h2>
     <div class="rule"></div>
-    <div class="source">Scope collections · secondary listings · add / remove · cinatra#1897 B4 · #1886 C2 · #1883 D9/D11 · ruling 5</div>
+    <div class="source">Entity-page tablist (Dashboards · Settings) · secondary listings · add / remove · cinatra#1897 B4 · #1886 C2 · #1883 D9/D11 · #1904 · ruling 5</div>
   </div>
-  <p class="lede-p"><b>Team, project and organization scopes have a Dashboards tab.</b> A <b>team</b>, <b>project</b> or <b>organization</b> lists the dashboards in its scope on its <b>Dashboards tab</b> — a surface on that scope's own entity page, while the dashboards-collection model is fixed here in the Artifacts family. (A personal <b>user</b> scope and the whole-<b>workspace</b> scope are not add-to-scope targets — this surface is the three shared scopes only, the ones cinatra#1897 defines.) The tab lists <b>two kinds of row</b>: a dashboard whose <b>canonical home</b> is this scope (§VIII — the singular <code>entityRef</code>), and a <b>secondary reference listing</b> added here (a separate listing relation, never a second home; cinatra#1883 D9). Both open the dashboard at its <b>canonical surface</b> — never rendered inline (§VIII). This section is <b>design only</b> — the junction store, the entity-scope fix and the authorization wiring are <b>cinatra#1897</b> (B4), built over the <b>cinatra#1886</b> collection-add contract.</p>
-  <p class="lede-p"><b>Home vs. Listed — the §VIII home / listing distinction, per row.</b> Each row carries a leading dashboard glyph, the dashboard name, the muted defining-extension label and the updated time, and a right-edge <b>relation badge</b> — new to this surface — that renders the §VIII distinction between a <b>canonical home</b> and a <b>secondary reference listing</b>: a <b>Home</b> badge on a dashboard canonically homed in this scope, or a <b>Listed</b> badge on a secondary reference listing (whose own canonical home is named in the meta line in §VIII's entity-named form — e.g. <em>Organization: Acme Corp</em>). Only a <b>Listed</b> row carries a <b>Remove</b> control — a listing can be unlisted; a <b>Home</b> row cannot (its home is its identity, moved nowhere by this tab — re-homing and deletion are not this surface). <b>Open</b> on any row navigates to the dashboard's <b>canonical surface</b>, exactly as in §VIII — the tab <b>points</b>, it never renders a dashboard inline.</p>
+  <p class="lede-p"><b>Every entity page opens on a Dashboards tab.</b> A <b>personal</b>, <b>project</b>, <b>team</b> or <b>organization</b> page carries a <b>canonical underline tablist</b> (Application Design — Components · Tabs) whose <b>first entry is Dashboards</b>. On a <b>project</b>, <b>team</b> or <b>organization</b> the <b>second entry is Settings</b> — that entity's management pane, where rename, visibility and the members / access section live folded together. A <b>personal</b> scope has <b>no Settings pane</b>, so its tablist is <b>Dashboards</b> alone. Dashboards is a plain tablist entry like any other — no pill, no bespoke chrome — and the etched paired-line rule begins to the right of the last tab and runs to the page edge. This section fixes the <b>Dashboards</b> tab; the Settings pane is its own surface.</p>
+  <p class="lede-p"><b>What the Dashboards tab lists.</b> On a <b>team</b>, <b>project</b> or <b>organization</b> the tab lists the dashboards <b>in that scope</b> — a dashboard whose <b>canonical home</b> is this scope (the singular entity identity of §VIII), and any <b>secondary reference listing</b> added here (a separate listing relation, never a second home; §VIII). Both open the dashboard at its <b>canonical surface</b>, never rendered inline (§VIII), and a scope <b>manager</b> can <b>add an existing dashboard as a listing</b> (§IX.1). On a <b>personal</b> scope the tab shows <b>the acting user's own dashboards</b>; a personal user scope and the whole-<b>workspace</b> scope are <b>not add-to-scope targets</b> — they carry no <em>Add</em>, so add-to-scope is the three shared scopes only.</p>
+  <p class="lede-p"><b>Row anatomy — no relation badge, no per-row type label.</b> Each row carries a leading dashboard glyph, the dashboard <b>name</b>, the <b>updated time</b>, and an <b>Open</b> affordance. Every row on this tab is a dashboard, so <b>no row repeats a <em>Dashboards</em> type label</b>, and a row does <b>not</b> advertise where the dashboard lives — whether it is homed here or merely listed here is <b>not surfaced</b>. A dashboard's <b>canonical home never moves</b>: this tab neither re-homes nor deletes. The single place the home / listing difference shows is the <b>Remove</b> control, which appears <b>only on a removable row</b> — a <b>secondary listing</b>, which can be unlisted — and <b>never</b> on a dashboard homed in this scope. Removability is read from the presence of <em>Remove</em> alone; there is <b>no <em>Home</em> or <em>Listed</em> badge</b>. <b>Open</b> navigates to the dashboard's canonical surface exactly as in §VIII — the tab <b>points</b>, it never renders a dashboard inline.</p>
 
   <div class="ex" data-conformance-id="scope-dashboards-tab" data-field="name=identity.displayName" data-state="empty error loading kind:artifact">
-    <div class="cap">Example — a team's Dashboards tab (one Home row + two secondary listings; Add shown to a scope manager)</div>
+    <div class="cap">Example — a team page, Dashboards tab selected (one homed row, no Remove; two listings, with Remove); Settings is the second tab</div>
     <div class="body">
-      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 12px;">
-        <div style="min-width:0;flex:1;">
-          <h1 style="font-family:var(--font-sans);font-style:italic;font-weight:800;font-size:var(--page-title-lg);letter-spacing:var(--title-tracking-tight);line-height:var(--page-title-line-height);margin:0;color:var(--ink);">Dashboards</h1>
-          <p style="margin:4px 0 0;font-size:13px;line-height:1.5;color:var(--muted);">The dashboards in <b style="color:var(--ink);font-weight:600;">Team: Growth</b> — homed here or listed here.</p>
+      <!-- The entity is the page; Dashboards is a tablist entry, Settings the second (Components · Tabs). -->
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;">
+        <h1 style="font-family:var(--font-sans);font-style:italic;font-weight:800;font-size:var(--page-title-lg);letter-spacing:var(--title-tracking-tight);line-height:var(--page-title-line-height);margin:0;color:var(--ink);">Growth</h1>
+        <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);">Team</span>
+      </div>
+      <!-- Canonical underline tablist: Dashboards first, Settings second; the etched paired-line rule runs from the last tab to the page edge. No pill tabs. -->
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:flex-end;margin:12px 0 18px;">
+        <div role="tablist" style="display:flex;gap:0;padding:0;">
+          <button role="tab" aria-selected="true" style="font-size:13px;padding:9px 14px 11px;color:var(--blue);font-weight:600;background:transparent;border:0;border-bottom:2px solid var(--blue);margin-bottom:-1px;cursor:pointer;font-family:var(--font-sans);">Dashboards</button>
+          <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Settings</button>
         </div>
+        <div style="height:5px;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);align-self:flex-end;margin-bottom:11px;"></div>
+      </div>
+      <!-- Dashboards tab content: a manager sees Add; then the list. -->
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 12px;">
+        <p style="min-width:0;flex:1;margin:0;font-size:13px;line-height:1.5;color:var(--muted);">The dashboards in <b style="color:var(--ink);font-weight:600;">Team: Growth</b>.</p>
         <button type="button" class="btn primary" data-action="open-add-picker -> add-picker-open" style="padding:6px 14px;font-size:12.5px;cursor:pointer;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M5 12h14"/><path d="M12 5v14"/></svg>Add dashboard</button>
       </div>
       <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
         <li style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);">
           <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(87,74,104,0.14);color:var(--plum);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
           <div style="min-width:0;flex:1;">
-            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;"><span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Pipeline health — Q3</span><span class="tag ext">Dashboards</span></div>
-            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">canonical home · updated 20 minutes ago</p>
+            <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Pipeline health — Q3</span>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">updated 20 minutes ago</p>
           </div>
-          <span class="tag" style="font-size:10.5px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Home</span>
           <a class="btn outline" data-action="open-dashboard -> dashboard-canonical" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
         </li>
         <li style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);">
           <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(87,74,104,0.14);color:var(--plum);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
           <div style="min-width:0;flex:1;">
-            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;"><span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Revenue attribution</span><span class="tag ext">Dashboards</span></div>
-            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">home: Organization: Acme Corp · updated 2 hours ago</p>
+            <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Revenue attribution</span>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">updated 2 hours ago</p>
           </div>
-          <span class="tag floor" style="font-size:10.5px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 0 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/></svg>Listed</span>
           <button type="button" class="btn outline" data-action="remove-listing -> listing-removed" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Remove</button>
           <a class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
         </li>
         <li style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 14px;">
           <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(87,74,104,0.14);color:var(--plum);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
           <div style="min-width:0;flex:1;">
-            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;"><span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Onboarding funnel</span><span class="tag ext">Dashboards</span></div>
-            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">home: Team: Product · updated yesterday</p>
+            <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Onboarding funnel</span>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">updated yesterday</p>
           </div>
-          <span class="tag floor" style="font-size:10.5px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 0 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/></svg>Listed</span>
           <button type="button" class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Remove</button>
+          <a class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="cap">Example — a personal scope: the Dashboards tab is the only tab (no Settings pane), listing the user's own dashboards, and there is no add-to-scope</div>
+    <div class="body">
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;">
+        <h1 style="font-family:var(--font-sans);font-style:italic;font-weight:800;font-size:var(--page-title-lg);letter-spacing:var(--title-tracking-tight);line-height:var(--page-title-line-height);margin:0;color:var(--ink);">Personal</h1>
+        <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);">Your scope</span>
+      </div>
+      <!-- Personal has no Settings pane, so its tablist is Dashboards alone. -->
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:flex-end;margin:12px 0 18px;">
+        <div role="tablist" style="display:flex;gap:0;padding:0;">
+          <button role="tab" aria-selected="true" style="font-size:13px;padding:9px 14px 11px;color:var(--blue);font-weight:600;background:transparent;border:0;border-bottom:2px solid var(--blue);margin-bottom:-1px;cursor:pointer;font-family:var(--font-sans);">Dashboards</button>
+        </div>
+        <div style="height:5px;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);align-self:flex-end;margin-bottom:11px;"></div>
+      </div>
+      <p style="margin:0 0 12px;font-size:13px;line-height:1.5;color:var(--muted);">The dashboards you own.</p>
+      <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+        <li style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(87,74,104,0.14);color:var(--plum);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Weekly focus</span>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">updated 3 hours ago</p>
+          </div>
+          <a class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
+        </li>
+        <li style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 14px;">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(87,74,104,0.14);color:var(--plum);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Reading queue</span>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">updated yesterday</p>
+          </div>
           <a class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
         </li>
       </ul>
@@ -983,11 +1028,11 @@
           <label style="display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:0 11px;height:32px;margin-bottom:12px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--muted);flex-shrink:0;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span style="flex:1;min-width:0;font:12.5px var(--font-sans);color:var(--muted);">Search your dashboards</span></label>
           <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;">
             <li style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);">
-              <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Expansion pipeline<span style="display:block;font-family:var(--font-mono);font-size:9.5px;color:var(--muted);margin-top:2px;">home: Team: Growth-EMEA · team-visible</span></span>
+              <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Expansion pipeline<span style="display:block;font-family:var(--font-mono);font-size:9.5px;color:var(--muted);margin-top:2px;">the team can already see this</span></span>
               <button type="button" class="btn primary" style="padding:4px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Add</button>
             </li>
             <li style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);">
-              <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Win/loss review<span style="display:block;font-family:var(--font-mono);font-size:9.5px;color:var(--muted);margin-top:2px;">home: Organization: Acme Corp · org-visible</span></span>
+              <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Win/loss review<span style="display:block;font-family:var(--font-mono);font-size:9.5px;color:var(--muted);margin-top:2px;">the team can already see this</span></span>
               <button type="button" class="btn primary" style="padding:4px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Add</button>
             </li>
             <li style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:rgba(199,149,69,0.06);">
@@ -1017,7 +1062,6 @@
           <div style="display:flex;justify-content:flex-end;margin-bottom:10px;"><span class="btn primary" style="padding:5px 12px;font-size:12px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M5 12h14"/><path d="M12 5v14"/></svg>Add dashboard</span></div>
           <div style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:10px 12px;">
             <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Revenue attribution</span>
-            <span class="tag floor" style="font-size:10px;">Listed</span>
             <span class="btn outline" style="padding:4px 10px;font-size:11.5px;">Remove</span>
           </div>
         </div>
@@ -1026,7 +1070,6 @@
           <div style="display:flex;justify-content:flex-end;margin-bottom:10px;"><span style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">no Add</span></div>
           <div style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:10px 12px;">
             <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Revenue attribution</span>
-            <span class="tag floor" style="font-size:10px;">Listed</span>
             <span class="btn outline" style="padding:4px 10px;font-size:11.5px;">Open</span>
           </div>
         </div>
@@ -1075,7 +1118,7 @@
     <div class="source">Breakpoints · single cream theme · the data-state set</div>
   </div>
   <p class="lede-p"><b>Every new surface honors the three axes the Application Design family carries.</b> The affordances above (§VI–§IX) are specified once and hold across breakpoint, theme and state — a conformance run checks each axis, so the spec names them.</p>
-  <p class="lede-p"><b>Responsive.</b> The library sits at the wide data width (<code>max-w-7xl</code>). On a narrow viewport the toolbar <b>wraps</b> — the search field takes the full row, the <em>Type</em> / <em>Scope</em> / <em>Upload</em> controls wrap beneath it, and <em>Upload</em> stays reachable (never behind an overflow). The type picker and the inline marketplace tab are <b>bounded panels</b> that shrink to the viewport (<code>max-width:100%</code>); the marketplace pack list is single-column already. The dashboard <b>pointer detail</b> card wraps to the narrow width — its scope chips flow to a new line and the <em>Open dashboard</em> affordance drops beneath the metadata — and any wide table scrolls inside its own container rather than widening the page. The <b>scope Dashboards tab</b> (§IX) wraps too — its header <em>Add dashboard</em> affordance drops beneath the title, each row's chip and controls flow to a new line rather than overflowing, and the <b>add-to-scope picker</b> is a <b>bounded panel</b> that shrinks to the viewport (<code>max-width:100%</code>).</p>
+  <p class="lede-p"><b>Responsive.</b> The library sits at the wide data width (<code>max-w-7xl</code>). On a narrow viewport the toolbar <b>wraps</b> — the search field takes the full row, the <em>Type</em> / <em>Scope</em> / <em>Upload</em> controls wrap beneath it, and <em>Upload</em> stays reachable (never behind an overflow). The type picker and the inline marketplace tab are <b>bounded panels</b> that shrink to the viewport (<code>max-width:100%</code>); the marketplace pack list is single-column already. The dashboard <b>pointer detail</b> card wraps to the narrow width — its scope chips flow to a new line and the <em>Open dashboard</em> affordance drops beneath the metadata — and any wide table scrolls inside its own container rather than widening the page. The <b>Dashboards tab</b> (§IX) wraps too — the entity-page tablist (<em>Dashboards</em>, and <em>Settings</em> on the shared scopes) keeps its single underline row, its <em>Add dashboard</em> affordance drops beneath the tab strip, each row's controls flow to a new line rather than overflowing, and the <b>add-to-scope picker</b> is a <b>bounded panel</b> that shrinks to the viewport (<code>max-width:100%</code>).</p>
   <p class="lede-p"><b>Theme.</b> There is <b>one theme</b> — the shared cream palette. Every new surface draws only from the shared tokens (the <code>:root</code> block); no affordance introduces a colour, and the base style block is identical to every sibling spec (Conventions · self-contained specs). <em>Set on cream.</em></p>
   <p class="lede-p"><b>State.</b> The machine-checkable state axis is the closed <code>data-state</code> set — <code>loading</code>, <code>error</code>, <code>empty</code>, plus <code>kind:artifact</code> — carried on the conformance surfaces above. The richer interaction states each affordance moves through are shown as example frames and bound to their outcomes via <code>data-action</code>. The table names them so a build covers each:</p>
 
@@ -1096,7 +1139,7 @@
             <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">Type picker (§VI.1)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">choosing · suggestion · confirmed · auto-surfaced</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--font-mono);color:var(--muted);">loading · error</td></tr>
             <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">Marketplace tab (§VII)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">browse · installing · request-sent · empty · error</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--font-mono);color:var(--muted);">empty · error · loading · kind:artifact</td></tr>
             <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">Dashboard pointer (§VIII)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">loading · ready · open-dashboard · error</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--font-mono);color:var(--muted);">loading · error</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">Scope Dashboards tab (§IX)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">read-only · manager · empty · loading · error · open-dashboard · remove-listing</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--font-mono);color:var(--muted);">empty · error · loading · kind:artifact</td></tr>
+            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">Dashboards tab (§IX)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">read-only · manager · empty · loading · error · open-dashboard · remove-listing</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--font-mono);color:var(--muted);">empty · error · loading · kind:artifact</td></tr>
             <tr><td style="padding:10px 14px;color:var(--ink);">Add-to-scope picker (§IX.1)</td><td style="padding:10px 14px;color:var(--muted);">listable · adding · added · promotion-offer · not-addable · error</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--muted);">empty · error · loading</td></tr>
           </tbody>
         </table>
@@ -1105,7 +1148,7 @@
   </div>
 
   <footer>
-    <span>Cinatra · Application Design — Artifacts v0.7.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Artifacts v0.8.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
