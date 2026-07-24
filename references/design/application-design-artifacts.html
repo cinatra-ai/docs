@@ -283,10 +283,10 @@
     <div>
       <div class="kicker" style="margin-bottom: 8px;"><a href="design-system.html" style="color: var(--blue); text-decoration: none;">&larr; Cinatra — Application Design</a></div>
       <h1>Cinatra — Application Design — Artifacts</h1>
-      <p class="lede"><code>/artifacts</code> is the <b>library</b> — everything the acting user's agents and uploads have produced, each row opened by its <b>type's renderer</b>. The library also <b>ingests</b>: an <b>upload</b> affordance types a file by its MIME base, a <b>type picker</b> lets the user assert its meaning among installed types, and an <b>inline marketplace</b> adds a type when none fits (admins install; others request). <b>Dashboards are artifacts</b> too — they list as rows and open the dashboard itself at its canonical surface (never rendered inline). <code>/configuration/artifacts</code> is the <b>Artifacts</b> console — a <b>tablist</b> page whose <b>Type definitions</b> tab lists every type every artifact extension defines, whose <b>Stored objects</b> tab inventories every stored object across every artifact extension, and whose <b>Restore objects</b> tab browses and undoes object change sets. <b>Artifact change review</b> lives on the shared artifact-review surface. Part of Cinatra Application Design; match it exactly.</p>
+      <p class="lede"><code>/artifacts</code> is the <b>library</b> — everything the acting user's agents and uploads have produced, each row opened by its <b>type's renderer</b>. The library also <b>ingests</b>: an <b>upload</b> affordance types a file by its MIME base, a <b>type picker</b> lets the user assert its meaning among installed types, and an <b>inline marketplace</b> adds a type when none fits (admins install; others request). <b>Dashboards are artifacts</b> too — they list as rows and open the dashboard itself at its canonical surface (never rendered inline); a <b>team, project or organization</b> lists the dashboards in its scope on its <b>Dashboards tab</b>, where a scope manager can <b>add an existing dashboard as a secondary listing</b> (§IX). <code>/configuration/artifacts</code> is the <b>Artifacts</b> console — a <b>tablist</b> page whose <b>Type definitions</b> tab lists every type every artifact extension defines, whose <b>Stored objects</b> tab inventories every stored object across every artifact extension, and whose <b>Restore objects</b> tab browses and undoes object change sets. <b>Artifact change review</b> lives on the shared artifact-review surface. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.6.0</div>
+      <div>Version 0.7.0</div>
     </div>
   </div>
 
@@ -690,7 +690,7 @@
   </div>
   <p class="lede-p"><b>The library ingests, not just lists.</b> The library toolbar (§I) carries a primary <b>Upload</b> action at its right edge, and the whole list region is a <b>drop target</b>. An upload takes two conceptual steps: a file is <b>typed by its MIME base</b> deterministically, then the user <b>may assert its meaning</b> in a type picker. The base step is <b>exactly-one-or-refuse</b> and never asks the user; the meaning step is optional and always the user's. This section is <b>design only</b> — the pipeline, the required-base extensions and the classifier machinery are <b>cinatra-ai/cinatra#1883</b> (D3, slices A1–A3).</p>
   <p class="lede-p"><b>MIME-base typing — one base or a visible refusal.</b> A file's <b>detected MIME</b> resolves to <b>exactly one</b> installed required <b>base type</b> — the roster is <em>image</em>, <em>pdf</em>, <em>audio</em>, <em>video</em>, <em>chart</em>, and (ruling 1) <em>zip</em>, <em>text</em>, <em>document</em> (office formats) and <em>json</em>. The bases are <b>MIME-disjoint</b>: a detected MIME either lands on <b>one base</b> or is <b>refused</b> (§VI.3). The base is the artifact's <b>format axis</b> and is set at write; the picker never changes it (§VI.1). A base-typed artifact with <b>no</b> asserted meaning is a <b>complete, valid file artifact</b> — meaning is optional, not a precondition.</p>
-  <p class="lede-p"><b>Placement &amp; states.</b> The <em>Upload</em> control sits in the toolbar; the drop target is the list. The affordance reads across these states — <b>idle</b> (the button, plus a faint hint that files can be dropped), <b>drag-over</b> (the list region highlights and reads <em>Drop to upload</em>), <b>uploading</b> (a transient progress row at the top of the list), <b>typed</b> (the new row appears, or the type picker opens when the user chooses to assert meaning), and <b>refused</b> (the recourse panel — §VI.3). These interaction states are shown as example frames below; the machine-checkable state axis (§IX) stays the closed <code>loading · error · empty · kind:artifact</code> set.</p>
+  <p class="lede-p"><b>Placement &amp; states.</b> The <em>Upload</em> control sits in the toolbar; the drop target is the list. The affordance reads across these states — <b>idle</b> (the button, plus a faint hint that files can be dropped), <b>drag-over</b> (the list region highlights and reads <em>Drop to upload</em>), <b>uploading</b> (a transient progress row at the top of the list), <b>typed</b> (the new row appears, or the type picker opens when the user chooses to assert meaning), and <b>refused</b> (the recourse panel — §VI.3). These interaction states are shown as example frames below; the machine-checkable state axis (§X) stays the closed <code>loading · error · empty · kind:artifact</code> set.</p>
 
   <div class="ex" data-conformance-id="artifacts-upload-affordance" data-action="upload-file -> typed" data-state="loading error">
     <div class="cap">Example — the Upload affordance in the library toolbar (idle)</div>
@@ -917,14 +917,165 @@
     <p>A dashboard is <b>always visible to everyone in its scope</b> — project, team or organization — with <b>no admin-specific access anywhere</b>. The scope chips name exactly the scopes in which every member can already see it; there is no admin-gated dashboard state and no admin-only access. This differs from the workspace-wide object console (§IV), which is record inspection, not a per-scope visibility grant.</p>
   </div>
 
-  <!-- ── IX. Axes the spec carries — responsive · theme · state ─ -->
+  <!-- ── IX. The scope Dashboards tab — listings & add-to-scope ── -->
   <div class="sect">
-    <h2>IX. Axes the spec carries — responsive · theme · state</h2>
+    <h2>IX. The scope Dashboards tab — listings &amp; add-to-scope</h2>
+    <div class="rule"></div>
+    <div class="source">Scope collections · secondary listings · add / remove · cinatra#1897 B4 · #1886 C2 · #1883 D9/D11 · ruling 5</div>
+  </div>
+  <p class="lede-p"><b>Team, project and organization scopes have a Dashboards tab.</b> A <b>team</b>, <b>project</b> or <b>organization</b> lists the dashboards in its scope on its <b>Dashboards tab</b> — a surface on that scope's own entity page, while the dashboards-collection model is fixed here in the Artifacts family. (A personal <b>user</b> scope and the whole-<b>workspace</b> scope are not add-to-scope targets — this surface is the three shared scopes only, the ones cinatra#1897 defines.) The tab lists <b>two kinds of row</b>: a dashboard whose <b>canonical home</b> is this scope (§VIII — the singular <code>entityRef</code>), and a <b>secondary reference listing</b> added here (a separate listing relation, never a second home; cinatra#1883 D9). Both open the dashboard at its <b>canonical surface</b> — never rendered inline (§VIII). This section is <b>design only</b> — the junction store, the entity-scope fix and the authorization wiring are <b>cinatra#1897</b> (B4), built over the <b>cinatra#1886</b> collection-add contract.</p>
+  <p class="lede-p"><b>Home vs. Listed — the §VIII home / listing distinction, per row.</b> Each row carries a leading dashboard glyph, the dashboard name, the muted defining-extension label and the updated time, and a right-edge <b>relation badge</b> — new to this surface — that renders the §VIII distinction between a <b>canonical home</b> and a <b>secondary reference listing</b>: a <b>Home</b> badge on a dashboard canonically homed in this scope, or a <b>Listed</b> badge on a secondary reference listing (whose own canonical home is named in the meta line in §VIII's entity-named form — e.g. <em>Organization: Acme Corp</em>). Only a <b>Listed</b> row carries a <b>Remove</b> control — a listing can be unlisted; a <b>Home</b> row cannot (its home is its identity, moved nowhere by this tab — re-homing and deletion are not this surface). <b>Open</b> on any row navigates to the dashboard's <b>canonical surface</b>, exactly as in §VIII — the tab <b>points</b>, it never renders a dashboard inline.</p>
+
+  <div class="ex" data-conformance-id="scope-dashboards-tab" data-field="name=identity.displayName" data-state="empty error loading kind:artifact">
+    <div class="cap">Example — a team's Dashboards tab (one Home row + two secondary listings; Add shown to a scope manager)</div>
+    <div class="body">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 12px;">
+        <div style="min-width:0;flex:1;">
+          <h1 style="font-family:var(--font-sans);font-style:italic;font-weight:800;font-size:var(--page-title-lg);letter-spacing:var(--title-tracking-tight);line-height:var(--page-title-line-height);margin:0;color:var(--ink);">Dashboards</h1>
+          <p style="margin:4px 0 0;font-size:13px;line-height:1.5;color:var(--muted);">The dashboards in <b style="color:var(--ink);font-weight:600;">Team: Growth</b> — homed here or listed here.</p>
+        </div>
+        <button type="button" class="btn primary" data-action="open-add-picker -> add-picker-open" style="padding:6px 14px;font-size:12.5px;cursor:pointer;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M5 12h14"/><path d="M12 5v14"/></svg>Add dashboard</button>
+      </div>
+      <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+        <li style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(87,74,104,0.14);color:var(--plum);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;"><span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Pipeline health — Q3</span><span class="tag ext">Dashboards</span></div>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">canonical home · updated 20 minutes ago</p>
+          </div>
+          <span class="tag" style="font-size:10.5px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Home</span>
+          <a class="btn outline" data-action="open-dashboard -> dashboard-canonical" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
+        </li>
+        <li style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(87,74,104,0.14);color:var(--plum);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;"><span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Revenue attribution</span><span class="tag ext">Dashboards</span></div>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">home: Organization: Acme Corp · updated 2 hours ago</p>
+          </div>
+          <span class="tag floor" style="font-size:10.5px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 0 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/></svg>Listed</span>
+          <button type="button" class="btn outline" data-action="remove-listing -> listing-removed" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Remove</button>
+          <a class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
+        </li>
+        <li style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 14px;">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(87,74,104,0.14);color:var(--plum);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;"><span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Onboarding funnel</span><span class="tag ext">Dashboards</span></div>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">home: Team: Product · updated yesterday</p>
+          </div>
+          <span class="tag floor" style="font-size:10.5px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 0 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/></svg>Listed</span>
+          <button type="button" class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Remove</button>
+          <a class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-sans);font-style:italic;font-weight:700;font-size:16px;color:var(--ink);margin:22px 0 8px;">IX.1 · Add to scope — the picker over dashboards the scope may list</h3>
+  <p class="lede-p"><b>The picker's pool is the acting user's own dashboards; only scope-visible ones are directly addable.</b> <em>Add dashboard</em> opens a picker over the dashboards the <b>acting user can see</b>, excluding any already homed or listed here. This is the <b>cinatra#1886</b> collection-add contract made visible: a candidate is <b>addable</b> iff the <b>actor may see it</b> AND <b>a generic member of the scope could already see it</b> (the scope-vantage guard) — the two reads the contract composes with the scope-write gate (§IX.2). A candidate the actor can see but the <b>scope cannot yet</b> is <b>not directly addable</b> and is <b>never widened silently</b>: it still appears in the picker, but only with its <b>recourse</b> (below) — never an in-place add.</p>
+  <p class="lede-p"><b>Recourse when the scope can't see it — the promotion request.</b> When a candidate is invisible to the scope, its row names the <b>visibility it must reach</b> for the scope to see it and offers the <b>promotion request</b> in that vocabulary — <em>team</em> on a team tab, <em>organization</em> on an organization tab (cinatra#1437; cinatra#1886), and a <b>team</b> target is offered only to a <b>member</b> of that team (a non-member sees no offer). The request is the recourse, not an immediate add: the dashboard lists only once its visibility has actually widened and been granted. A <b>project</b> tab has <b>no promotion recourse</b> — a project is a resource refinement, not a visibility tier — so a candidate the project cannot see is simply <b>not addable</b> there, stated plainly with no offer (fail-closed, exactly as the contract yields a <b>null</b> recourse for that scope kind).</p>
+
+  <div class="ex" data-conformance-id="scope-dashboards-add-picker" data-field="candidate=collectionAdd.listable" data-action="add-listing -> listing-added" data-state="empty error loading">
+    <div class="cap">Example — the add-to-scope picker (addable rows + a scope-invisible candidate offering the promotion request)</div>
+    <div class="body">
+      <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;max-width:480px;">
+        <div style="padding:11px 14px;border-bottom:1px solid var(--line);"><span style="font-family:var(--font-sans);font-weight:700;font-size:14px;color:var(--ink);">Add a dashboard to Team: Growth</span><p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">Lists an existing dashboard here as a reference — its <b style="color:var(--ink);font-weight:600;">canonical home does not move</b>. Only dashboards this team can already see are listable.</p></div>
+        <div style="padding:12px 14px;">
+          <label style="display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:0 11px;height:32px;margin-bottom:12px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--muted);flex-shrink:0;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span style="flex:1;min-width:0;font:12.5px var(--font-sans);color:var(--muted);">Search your dashboards</span></label>
+          <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;">
+            <li style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);">
+              <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Expansion pipeline<span style="display:block;font-family:var(--font-mono);font-size:9.5px;color:var(--muted);margin-top:2px;">home: Team: Growth-EMEA · team-visible</span></span>
+              <button type="button" class="btn primary" style="padding:4px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Add</button>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);">
+              <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Win/loss review<span style="display:block;font-family:var(--font-mono);font-size:9.5px;color:var(--muted);margin-top:2px;">home: Organization: Acme Corp · org-visible</span></span>
+              <button type="button" class="btn primary" style="padding:4px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Add</button>
+            </li>
+            <li style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:rgba(199,149,69,0.06);">
+              <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Personal experiments<span style="display:block;font-family:var(--font-mono);font-size:9.5px;color:var(--muted);margin-top:2px;">private — the team can't see it yet</span></span>
+              <button type="button" class="btn outline" data-action="request-promotion -> promotion-requested" style="padding:4px 11px;font-size:11.5px;cursor:pointer;flex-shrink:0;white-space:nowrap;">Request team visibility…</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="callout note" style="margin-top:14px;">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>The contract's structured denial, rendered</span>
+    <p>The picker never <b>adds</b> a dashboard the scope can't see, and never widens one silently. Such a candidate — actor-visible but scope-invisible — is surfaced <b>only</b> as a <b>promotion request</b> naming the exact target visibility (<em>team</em> / <em>organization</em>), and a <b>team</b> target only to a <b>member</b> of that team; on a <b>project</b> tab, where no promotion widen applies, it reads as <b>not addable</b> with no offer. This is the cinatra#1886 evaluation order made visible — actor-see, then scope-write (§IX.2), then scope-see — with the recourse offered <b>only</b> on the scope-see failure (gates 1–2 having passed), and only when the actor could actually submit it.</p>
+  </div>
+
+  <h3 style="font-family:var(--font-sans);font-style:italic;font-weight:700;font-size:16px;color:var(--ink);margin:22px 0 8px;">IX.2 · Who sees Add and Remove — the scope-write gate</h3>
+  <p class="lede-p"><b>The management controls are gated to the scope's managers.</b> <em>Add dashboard</em> and every row's <em>Remove</em> appear only to a principal who may <b>write</b> (manage) this scope's Dashboards collection. Grounded in the shipped scope-authority vocabulary, that is a <b>team admin</b> on a team tab, an <b>organization admin or owner</b> on an organization tab, and a <b>project admin or owner</b> on a project tab. This is the design-side shape of the collection-add contract's injected <code>actor-may-write-scope</code> decision (cinatra#1886 C2, gate 2) — the gate cinatra#1897 (B4) owns: the precise predicate is #1897's to implement, and the population it names is pinned here.</p>
+  <p class="lede-p"><b>Everyone else sees a read-only tab.</b> A member without write authority still <b>sees the Dashboards tab and every row</b> — homed and listed alike — and opens any of them; they simply get <b>no Add affordance and no Remove control</b>. Suppression, not a disabled control: a management action the member cannot take is not rendered. The full add is authorized only when <b>all three</b> hold — the actor may see the dashboard, the actor may write the scope, and the whole scope may see the dashboard; when the first two hold but <b>only</b> the scope-see gate fails, the §IX.1 promotion recourse is offered (a failure of either earlier gate is a plain denial, no recourse).</p>
+
+  <div class="ex" data-conformance-id="scope-dashboards-write-access" data-field="manage-controls=collectionAdd.actorMayWriteScope">
+    <div class="cap">Example — the same tab for a scope manager vs. a member without write access (the permission axis)</div>
+    <div class="body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:16px;">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:14px;">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:11px;">Scope manager — Add + Remove shown</div>
+          <div style="display:flex;justify-content:flex-end;margin-bottom:10px;"><span class="btn primary" style="padding:5px 12px;font-size:12px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M5 12h14"/><path d="M12 5v14"/></svg>Add dashboard</span></div>
+          <div style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:10px 12px;">
+            <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Revenue attribution</span>
+            <span class="tag floor" style="font-size:10px;">Listed</span>
+            <span class="btn outline" style="padding:4px 10px;font-size:11.5px;">Remove</span>
+          </div>
+        </div>
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:14px;">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:11px;">Member — read-only, still sees every row</div>
+          <div style="display:flex;justify-content:flex-end;margin-bottom:10px;"><span style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">no Add</span></div>
+          <div style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:10px 12px;">
+            <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Revenue attribution</span>
+            <span class="tag floor" style="font-size:10px;">Listed</span>
+            <span class="btn outline" style="padding:4px 10px;font-size:11.5px;">Open</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="callout success">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Read stays universal; only management is gated (ruling 5 holds)</span>
+    <p>Ruling 5 makes a dashboard <b>always visible to everyone in its scope</b> — this tab keeps that: every member sees every homed and listed dashboard and can open it, with <b>no admin-gated visibility anywhere</b>. The scope-write gate covers <b>curation of the collection</b> — adding and removing listings — a <b>different axis</b> from access to the dashboard. Gating who may <em>add or remove a listing</em> is not the admin-gated <em>access</em> ruling 5 forbids; the dashboard itself stays open to all in scope.</p>
+  </div>
+
+  <div class="ex">
+    <div class="cap">Example — the tab across its load states (permission-denied is the read-only member view, §IX.2)</div>
+    <div class="body" style="padding:14px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:14px;">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">empty</div>
+          <div style="border:1px dashed var(--line);border-radius:8px;padding:18px 12px;text-align:center;">
+            <p style="margin:0;font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">No dashboards in this scope yet</p>
+            <p style="margin:5px 0 0;font-size:11px;color:var(--muted);line-height:1.5;">A manager can <b style="color:var(--ink);font-weight:600;">Add</b> an existing dashboard, or create one that homes here.</p>
+          </div>
+        </div>
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:14px;">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">loading</div>
+          <div style="display:grid;gap:8px;">
+            <div style="height:38px;border-radius:8px;background:var(--surface-muted);"></div>
+            <div style="height:38px;border-radius:8px;background:var(--surface-muted);opacity:.7;"></div>
+            <div style="height:38px;border-radius:8px;background:var(--surface-muted);opacity:.45;"></div>
+          </div>
+        </div>
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:14px;">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">error</div>
+          <div style="border:1px solid rgba(166,56,79,0.34);border-radius:8px;background:rgba(166,56,79,0.06);padding:14px 12px;text-align:center;">
+            <p style="margin:0;font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Couldn't load this scope's dashboards</p>
+            <button type="button" class="btn outline" style="margin-top:9px;padding:4px 12px;font-size:11.5px;cursor:pointer;">Retry</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── X. Axes the spec carries — responsive · theme · state ─ -->
+  <div class="sect">
+    <h2>X. Axes the spec carries — responsive · theme · state</h2>
     <div class="rule"></div>
     <div class="source">Breakpoints · single cream theme · the data-state set</div>
   </div>
-  <p class="lede-p"><b>Every new surface honors the three axes the Application Design family carries.</b> The affordances above (§VI–§VIII) are specified once and hold across breakpoint, theme and state — a conformance run checks each axis, so the spec names them.</p>
-  <p class="lede-p"><b>Responsive.</b> The library sits at the wide data width (<code>max-w-7xl</code>). On a narrow viewport the toolbar <b>wraps</b> — the search field takes the full row, the <em>Type</em> / <em>Scope</em> / <em>Upload</em> controls wrap beneath it, and <em>Upload</em> stays reachable (never behind an overflow). The type picker and the inline marketplace tab are <b>bounded panels</b> that shrink to the viewport (<code>max-width:100%</code>); the marketplace pack list is single-column already. The dashboard <b>pointer detail</b> card wraps to the narrow width — its scope chips flow to a new line and the <em>Open dashboard</em> affordance drops beneath the metadata — and any wide table scrolls inside its own container rather than widening the page.</p>
+  <p class="lede-p"><b>Every new surface honors the three axes the Application Design family carries.</b> The affordances above (§VI–§IX) are specified once and hold across breakpoint, theme and state — a conformance run checks each axis, so the spec names them.</p>
+  <p class="lede-p"><b>Responsive.</b> The library sits at the wide data width (<code>max-w-7xl</code>). On a narrow viewport the toolbar <b>wraps</b> — the search field takes the full row, the <em>Type</em> / <em>Scope</em> / <em>Upload</em> controls wrap beneath it, and <em>Upload</em> stays reachable (never behind an overflow). The type picker and the inline marketplace tab are <b>bounded panels</b> that shrink to the viewport (<code>max-width:100%</code>); the marketplace pack list is single-column already. The dashboard <b>pointer detail</b> card wraps to the narrow width — its scope chips flow to a new line and the <em>Open dashboard</em> affordance drops beneath the metadata — and any wide table scrolls inside its own container rather than widening the page. The <b>scope Dashboards tab</b> (§IX) wraps too — its header <em>Add dashboard</em> affordance drops beneath the title, each row's chip and controls flow to a new line rather than overflowing, and the <b>add-to-scope picker</b> is a <b>bounded panel</b> that shrinks to the viewport (<code>max-width:100%</code>).</p>
   <p class="lede-p"><b>Theme.</b> There is <b>one theme</b> — the shared cream palette. Every new surface draws only from the shared tokens (the <code>:root</code> block); no affordance introduces a colour, and the base style block is identical to every sibling spec (Conventions · self-contained specs). <em>Set on cream.</em></p>
   <p class="lede-p"><b>State.</b> The machine-checkable state axis is the closed <code>data-state</code> set — <code>loading</code>, <code>error</code>, <code>empty</code>, plus <code>kind:artifact</code> — carried on the conformance surfaces above. The richer interaction states each affordance moves through are shown as example frames and bound to their outcomes via <code>data-action</code>. The table names them so a build covers each:</p>
 
@@ -944,7 +1095,9 @@
             <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">Upload (§VI)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">idle · drag-over · uploading · typed · refused</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--font-mono);color:var(--muted);">loading · error · kind:artifact</td></tr>
             <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">Type picker (§VI.1)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">choosing · suggestion · confirmed · auto-surfaced</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--font-mono);color:var(--muted);">loading · error</td></tr>
             <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">Marketplace tab (§VII)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">browse · installing · request-sent · empty · error</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--font-mono);color:var(--muted);">empty · error · loading · kind:artifact</td></tr>
-            <tr><td style="padding:10px 14px;color:var(--ink);">Dashboard pointer (§VIII)</td><td style="padding:10px 14px;color:var(--muted);">loading · ready · open-dashboard · error</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--muted);">loading · error</td></tr>
+            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">Dashboard pointer (§VIII)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">loading · ready · open-dashboard · error</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--font-mono);color:var(--muted);">loading · error</td></tr>
+            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);">Scope Dashboards tab (§IX)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);">read-only · manager · empty · loading · error · open-dashboard · remove-listing</td><td style="padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--font-mono);color:var(--muted);">empty · error · loading · kind:artifact</td></tr>
+            <tr><td style="padding:10px 14px;color:var(--ink);">Add-to-scope picker (§IX.1)</td><td style="padding:10px 14px;color:var(--muted);">listable · adding · added · promotion-offer · not-addable · error</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--muted);">empty · error · loading</td></tr>
           </tbody>
         </table>
       </div>
@@ -952,7 +1105,7 @@
   </div>
 
   <footer>
-    <span>Cinatra · Application Design — Artifacts v0.6.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Artifacts v0.7.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
