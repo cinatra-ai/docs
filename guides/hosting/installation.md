@@ -87,7 +87,7 @@ That target runs `scripts/setup.sh`, which does the following in order:
 2. **Starts the supporting services** with `docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d` — Postgres, Redis, Verdaccio, Nango, Graphiti, WayFlow, and the optional test CMS containers. The base compose is **safe-by-default** (it does not publish the Postgres/Redis/Neo4j ports); `docker-compose.dev.yml` re-publishes them on `127.0.0.1` so the host-run app can reach them. If you start services manually, include both `-f` files — a bare `docker compose up -d` will not expose the DB ports.
 3. **Installs Node dependencies** with `pnpm install`.
 4. **Runs the app's setup script** (`pnpm setup:dev`) which creates the configured Postgres schema, applies migrations, and prepares the Better Auth (the auth server library Cinatra uses) tables.
-5. **Builds the OpenAI shell image** so agents that use the shell tool can run.
+5. **Checks whether an installed extension ships a `runtime/Dockerfile`** and, when exactly one does, builds it. No extension ships one today — the connector-owned shell image was retired with the execution plane — so on a current tree this step reports that it is skipping the build and moves on. The sandboxed execution plane's own base image is separate (`docker/sandbox/Dockerfile`); it is not built by `make setup`, and the plane stays off until an operator opts in. See [Sandboxed execution and shell skills](../../references/platform/shell-skills.md).
 6. **Validates the services** — runs `scripts/check-services.mjs` and reports any supporting service that is not reachable. Re-run it any time with `make check`.
 
 The script is idempotent — running it on an already-set-up environment skips work that is already done.

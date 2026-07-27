@@ -8,7 +8,7 @@ An agent should be **as self-contained as possible** — everything it needs to 
 
 **What an agent extension CAN contain:**
 - `SKILL.md` — behavioral spec: instructions, step sequences, decision logic
-- Scripts (shell, Python, JS) referenced in SKILL.md and invoked by the large language model (LLM) via the shell tool
+- Scripts (shell, Python, JS) referenced in SKILL.md and run by the large language model (LLM) on the sandboxed execution plane
 - Extra reference files (prompt templates, lookup tables, config defaults)
 - Pure LLM reasoning and content generation — no MCP needed for these
 
@@ -197,7 +197,7 @@ description: {one-line description}
 This section lists every MCP tool the agent calls on its own initiative — data the agent fetches from the platform rather than receiving as user input. It is part of the self-retrieval boundary documentation (see the Input Boundary section in the compiler SKILL.md).
 
 **Rule 8 — SKILL.md may include scripts or auxiliary files.**
-If the agent invokes shell scripts, Python files, or reference documents, those files live in the same `agents/{slug}/scripts/` directory alongside SKILL.md. The agent accesses them via the local skill shell tool (`sourcePath`).
+If the agent invokes shell scripts, Python files, or reference documents, those files live in the same `agents/{slug}/scripts/` directory alongside SKILL.md. The catalog records their on-disk `sourcePath`; the model reads them through the catalog-restricted skill reader at the virtual path `/skills/<slug>`, and running them happens in the sandbox, never on the app host — see [Sandboxed execution and shell skills](../../references/platform/shell-skills.md).
 
 **Rule 9 — Agents never access data via direct DB queries.**
 All data reads and writes go through MCP primitives. An agent must never import or call Drizzle ORM, `pg`, or any database library directly. The platform owns the data layer; agents own the task logic.

@@ -148,15 +148,33 @@ Set the variable on both the Next.js app and the WayFlow container; the two valu
 
 ### Sandboxed shell execution (the execution plane)
 
-Models orchestrated by Cinatra — assistants, agents, and deterministic tasks — can be given a shell capability for running commands, scripts, and package installs. That execution **never runs in the app process**. It is brokered to the **execution plane**: a core-owned broker and a hardened-container sandbox worker, surfaced to the model as one core execution capability (the provider-agnostic `sandbox_execute` tool, translated per provider — a native shell on shell-capable OpenAI models, a named function tool otherwise). This supersedes the former OpenAI-connector Docker shell, which has been removed; the app image ships no Docker CLI, so an in-app executor is impossible by construction.
+Models orchestrated by Cinatra — assistants, agents, and deterministic tasks — can be given a shell capability for running commands, scripts, and package installs. That execution **never runs in the app process**. It is brokered to the **execution plane**: a core-owned broker and a hardened-container sandbox worker, surfaced to the model as one core execution capability (the provider-agnostic `sandbox_execute` tool, translated per provider — a native shell on shell-capable OpenAI models, a named function tool otherwise).
 
-Each command runs in a fresh, hardened container: non-root (a fixed unprivileged UID), read-only root filesystem, all Linux capabilities dropped, `no-new-privileges`, and enforced CPU / memory / PID / wall-clock / output / **disk** quotas. The sandbox's only *persistent* writable mount is its own per-run workspace volume (plus a bounded, ephemeral `tmpfs` at `/tmp`) — there are **no host bind mounts** (the invariant is asserted on every dispatch), and the process environment is scrubbed by omission (no host variable crosses).
+The older OpenAI-connector Docker shell — the `shellTools` capability, its in-connector executor, its **Local shell** configuration tab, and its runtime image — is **retired and removed**. The connector is now a pure credential/provider surface, and the app image ships no Docker CLI, so an in-app executor is impossible by construction.
 
-The sandbox holds **no credentials and no host data** (decision D5). The execution session binds only an attributable `{orgId, userId, surface, runId?}` identity, sealed into an opaque, HMAC-signed, expiring carrier the broker verifies; authenticated actions stay in the MCP and connector tools. Anything a model brings back out of the sandbox is treated as untrusted, model-produced content — never a trusted record or an authenticated result.
+This summary is split the same three ways as the full page, so nothing reads as enforced that is not.
 
-Internet access is on by default, but **all egress transits an attributing gateway** (per-job attribution, byte quotas, and SSRF/pivot defense); the restriction tiers — `default_internet`, `allowlist`, `none` — are enforced at the network layer, and a gateway-requiring mode with no gateway fails closed. Command allow/block lists are hygiene, not the security boundary. The capability is on by default across agents and chat, with a per-org/per-agent opt-out posture (the settings surface that stores and resolves it lands with the app-layer wiring); an unidentifiable caller is denied outright.
+#### Intended contract
 
-The plane is staging in behind a default-off rollout gate while the remaining app-layer wiring lands. For the full threat model, the container contract, the egress posture, and the environment model (base image and per-run workspace), see [Sandboxed execution and shell skills](shell-skills.md).
+The plane exists so that a model — including a prompt-injected one — steered toward running code executes somewhere with no ambient authority, no secrets, and no host data. Scoped business credentials never enter a sandbox; authenticated actions stay in the MCP and connector tools. Internet access is on by default (that parity with the assistant's web access is what lets a model install tools), bounded by an attributing gateway rather than blocked. The capability is designed to be on for every agent and chat surface with a per-org and per-agent opt-out, and unidentifiable callers get nothing. Anything a model brings back out of a sandbox is untrusted, model-produced content — never a trusted record or an authenticated result.
+
+#### Enforced by merged code
+
+Each of these is applied when a command runs; the enforcing symbol and a commit-pinned link for every one is in the [claims table](shell-skills.md#enforced-claims-table).
+
+- A fresh, hardened container per command: non-root at a fixed unprivileged UID, read-only root filesystem, all Linux capabilities dropped, `no-new-privileges`, and CPU / memory / PID / wall-clock / output limits. The workspace **disk** quota is measured after every command with a trusted binary, and a normally-exited command over quota terminates the job.
+- **No host bind mounts** — asserted on every dispatch, not left to configuration. The profile grants no writable mount beyond the per-run workspace volume and a bounded `tmpfs` at `/tmp`.
+- The process environment is scrubbed by omission: the worker passes an enumerated environment and never forwards its own.
+- A caller with no attributable `{orgId, userId, surface}` identity is refused the capability; the identity is sealed into an opaque, HMAC-signed, expiring carrier that only the broker opens, and it never reaches a provider.
+- All egress transits the attributing gateway. The gateway **denies by default**: an unattributed or unregistered request is refused `407`, a non-allowlisted host or an exhausted byte quota `403`, and every destination host is resolved and IP-pinned with the protected ranges — loopback, private, link-local (including the cloud-metadata address), CGNAT, and IPv6 unique-local — refused, in every mode. `none` means no network at all. A gateway-requiring tier with no gateway configured refuses the job rather than granting unattributed egress.
+- Every command — executed, refused, terminated alike — is submitted to the existing authz audit kernel as one `audit_events` row keeping attribution, outcome and environment identity. What such a row can ever contain is fixed by one mapper: the **executed command text, the per-destination egress list, prompt text, credentials, and `stdout`/`stderr` are never in it**, negatively pinned by test, with the org-admin read a second explicit allowlist. The write itself is best-effort — a sink failure never propagates into a model's tool loop, and the broker has already enforced its decision before the sink runs.
+- Sandbox readiness requires a completed broker↔worker handshake — a real container running a probe command — before any executor is registered. Readiness is tri-state and fails closed.
+
+#### Gated
+
+The plane's activation is opt-in and off by default: `CINATRA_EXECUTION_PLANE_ROLLOUT` enables it only for the exact string `on`. Left unset, no boot phase is contributed at all, no executor is registered, no `sandbox_execute` tool reaches any provider, and orchestration behaves exactly as an install without the plane. That flag is a rollout gate, not the availability policy — the "on by default across agents and chat" posture above describes what an operator gets after turning it on. The remote broker placement, the org-level availability settings surface, the gateway's read-through registry cache, durable artifact export from a sandbox, and named persistent workspaces land later.
+
+For the full threat model, the container contract, the egress posture, the audit record, and the environment model, see [Sandboxed execution and shell skills](shell-skills.md).
 
 ### MCP primitive boundaries
 
@@ -177,7 +195,7 @@ A platform admin can apply an `agentAuthPolicy` to an agent template that restri
 - **Cross-organization data leakage** → resource scope is enforced in the kernel; cross-org reads require an explicit `withPlatformAdminBypass` call which is audited.
 - **Path traversal in package install** → installer rejects archives with non-canonical paths before unpacking.
 - **Timing attacks on the bridge token** → `timingSafeEqual` with a length-mismatch short-circuit.
-- **Prompt-injected model steered to run code** → execution is brokered to the execution-plane sandbox: non-root, no host mounts, a scrubbed environment, and no credentials or host data; all egress transits the attributing gateway (`allowlist` / `none` tiers enforced at the network layer), so exfiltration exposure is bounded to what is inside the sandbox — data the model pulled in, plus the org's own read-only staged skill snapshots — never credentials, host data, or another org's data. See [Sandboxed execution and shell skills](shell-skills.md).
+- **Prompt-injected model steered to run code** → the model has no in-process executor to reach; when the plane is switched on, execution is brokered to a sandbox that is non-root, has no host mounts, a scrubbed environment, and no credentials or host data, and whose egress transits the attributing gateway (`allowlist` / `none` tiers enforced at the network layer, denied by default). Exfiltration exposure is bounded to what is inside the sandbox — data the model pulled in, plus the org's own read-only staged skill snapshots — never credentials, host data, or another org's data. See [Sandboxed execution and shell skills](shell-skills.md).
 
 ---
 
