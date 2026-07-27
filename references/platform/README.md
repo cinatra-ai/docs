@@ -74,7 +74,7 @@ Architecture, subsystem contracts, invariants, and protocol references for the C
 - [Skills lifecycle](skills-lifecycle.md) — states, revisions, content authority, catalog rebuilds
 - [Skill matching](skill-matching.md)
 - [Skills storage layout](skills-storage-layout.md)
-- [Shell skills](shell-skills.md)
+- [Sandboxed execution and shell skills](shell-skills.md) — the execution plane, its threat model, and the environment model
 
 ## Open standards & protocols
 - [Open standards in Cinatra](open-standards.md) — A2A, AG-UI, A2UI, OAS

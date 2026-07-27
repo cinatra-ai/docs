@@ -45,7 +45,7 @@ For end-user material, see the [User Guide](../user/README.md). For platform-adm
 ## Building and extending
 
 - [Building TypeScript packages for extensions](building-packages.md) — extension architecture and package conventions
-- [Shell skills](../../references/platform/shell-skills.md) — give an agent shell tool access
+- [Sandboxed execution and shell skills](../../references/platform/shell-skills.md) — where an agent's commands, scripts and installs actually run
 
 ## Artifacts
 

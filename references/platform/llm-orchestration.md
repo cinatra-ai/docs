@@ -15,35 +15,22 @@ Skills are delivered to the LLM via the `skillIds` parameter — **never** by du
 
 The orchestration wrapper (`runSkillAwareDeterministicLlmTask` / `runResolvedSkillAwareDeterministicLlmTask`) **auto-selects the delivery method per provider**:
 
-- **OpenAI**: skills are preferentially delivered as the **`shell` tool** via `buildSkillTools()` internally. The LLM reads `SKILL.md` from the on-disk `sourcePath` recorded by `upsertSkill`. Chat/widget paths MUST resolve every skill to a catalog entry with `sourcePath` — enforced upstream by `ensureChatSkillRegistered` / per-widget self-heals. When `buildSkillTools` is called with skill IDs and NONE resolve with `sourcePath` (e.g. the `/api/llm-bridge` agent path with GitHub-installed or user-scoped skills that resolve null under the model actor's visibility filter), it falls back to `read_skill` so the LLM can still invoke the skill catalog primitive. A console warning is emitted so operators can see partial-resolution.
-- **Anthropic**: skills are delivered as `shell` when shell is supported, OR as `read_skill` when the Anthropic adapter runs in native-Model Context Protocol (MCP) mode (the adapter strips the shell tool and injects `read_skill` directly — `buildSkillTools()` is NOT involved on that carve-out).
-- **Gemini**: skill content is read directly via `readSkillContent()` and inlined into the system prompt. This avoids the extra round-trip where Gemini has to call a function tool to read the skill.
+Provider-specific delivery is centralized behind `SkillDeliveryAdapter` (`packages/llm/src/tools/skill-delivery.ts`), one implementation per provider:
+
+- **OpenAI** (`OpenAiShellSkillDelivery`): skills are delivered as a **shell surface** built by `buildSkillTools()`. The LLM reads `SKILL.md` from the on-disk `sourcePath` recorded by `upsertSkill`. Chat/widget paths MUST resolve every skill to a catalog entry with `sourcePath` — enforced upstream by `ensureChatSkillRegistered` / per-widget self-heals. When no requested skill resolves with a `sourcePath` (for example the `/api/llm-bridge` agent path with GitHub-installed or user-scoped skills that resolve null under the model actor's visibility filter), `buildSkillTools` emits **no tool** and logs a structured warning — there is no function-tool fallback to catch it, so fix the upstream registration.
+- **Anthropic** (`AnthropicContainerSkillDelivery`): skills are referenced as pre-synced Anthropic Custom Skills through a single container-skills tool, which the provider translates into `container.skills`. Function-tool or shell skill delivery on the Anthropic path is a structural violation and is rejected at the provider boundary — never a workaround.
+- **Gemini** (`GeminiInlineSkillDelivery`): skill content is read directly via `readSkillContent()` and inlined into the system prompt. This avoids the extra round-trip where Gemini has to call a function tool to read the skill.
 
 Consumers pass `skillIds` to the wrapper — the delivery method is chosen automatically. **Do not call `buildSkillTools` or `readSkillContent` directly** — they are internal to the orchestration layer.
 
-When skills are delivered as the shell tool (OpenAI path), `buildSkillTools()` builds:
+### How the OpenAI shell surface reaches the wire
 
-1. A `type: "shell"` tool with local file paths for every skill whose catalog record has a `sourcePath` on disk. The shell tool uses `cat`/`head`/`tail` executed locally via `readSkillFileContent` — no Docker required.
+`buildSkillTools()` returns one local, catalog-restricted skill reader (`createLocalSkillShellTool`) carrying the mounted skills. It exposes **virtual** paths — `/skills/<slug>` — never a host filesystem path, and supports `cat` / `head` / `tail` within the mounted skill directories only. What that becomes on the wire is decided by the OpenAI adapter, under the singular-native-shell rule:
 
-`read_skill` is the fall-back tool for: (a) the Anthropic native-MCP adapter, (b) the `/api/llm-bridge` shell-incompat path, and (c) `buildSkillTools` when no skill resolves with `sourcePath`. New chat/widget code paths should ensure their skills have `sourcePath` via `registerExtensionSkill`.
+- **Execution-authorized, shell-capable model** — skill delivery is merged into the single native `type: "shell"` declaration emitted for the sandbox execution tool, with the skills listed from their read-only staged snapshots under `/skills/<slug>`.
+- **Skills but no execution, or a model that rejects the native shell** — a restricted `skill_file_read` named function tool, never a privileged shell.
 
-The shell tool declaration in the API request includes the skill directory path:
-
-```json
-{
-  "type": "shell",
-  "environment": {
-    "type": "local",
-    "skills": [{ "name": "agent-scrape", "description": "...", "path": "/abs/path/to/skill/dir" }]
-  }
-}
-```
-
-This path is present in the request only when `sourcePath` is set on the skill record. Skills persisted via `upsertSkill` always have `sourcePath` set.
-
-### Docker-based shell
-
-Passing `includeShell: true` to `buildSkillTools()` uses the Docker executor instead of the local file reader. Only needed for write-capable shell tasks. Regular skill reading does not require Docker.
+The legacy `read_skill` function tool is retired on every path. So is the connector-owned Docker shell: there is no `includeShell` branch, no in-connector executor, and no Docker requirement for reading a skill. Script *execution* happens on the execution plane — see [Sandboxed execution and shell skills](shell-skills.md).
 
 ## Execution-time skill usage
 

@@ -49,7 +49,7 @@ Each `SKILL.md` is the skill's content — the know-how an agent or the assistan
 
 - **Skill matching** — how skills are matched to agents and the assistant: [Skill matching](../skill-matching.md).
 - **Storage layout** — where `SKILL.md` content and catalog rows live: [Skills storage layout](../skills-storage-layout.md).
-- **Shell skills** — skills mounted into the shell surface: [Shell skills](../shell-skills.md).
+- **Shell skills** — skills mounted into the shell surface: [Sandboxed execution and shell skills](../shell-skills.md).
 
 ## Cross-kind concerns
 
