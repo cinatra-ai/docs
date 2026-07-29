@@ -21,10 +21,9 @@ writes a `draft` semantic assertion when confidence ≥ threshold.
 An artifact extension is **declarative by default** — it ships no
 `register(ctx)` server entry, and most artifact extensions never write a
 line of runtime code. But it MAY additionally **ship its own detail /
-preview renderer** through the versioned `cinatra.artifact.ui` block
-(epic [#1620](https://github.com/cinatra-ai/cinatra/issues/1620), landed
-in S1/S2): the extension owns its type's *view*, while core owns
-*dispatch*, the artifact *shell*, and the never-blank fallback *floor*.
+preview renderer** through the versioned `cinatra.artifact.ui` block: the
+extension owns its type's *view*, while core owns *dispatch*, the artifact
+*shell*, and the never-blank fallback *floor*.
 Shipping a renderer is opt-in — omit the `ui` block and the type renders
 with the host's generic renderer, exactly as before. See
 [Shipping a renderer — the `cinatra.artifact.ui` block](#shipping-a-renderer--the-cinatraartifactui-block).
@@ -193,10 +192,9 @@ package is picked up by:
 Declaring representation forms + a matcher makes the platform *recognize*
 your type. To also make it *look* like your type — a purpose-built detail
 view instead of the host's generic renderer — ship a renderer through the
-versioned `cinatra.artifact.ui` block (epic
-[#1620](https://github.com/cinatra-ai/cinatra/issues/1620) S1/S2). This
-block is **optional**: omit it and the type renders generically, exactly
-as a declarative-only extension always has.
+versioned `cinatra.artifact.ui` block. This block is **optional**: omit it
+and the type renders generically, exactly as a declarative-only extension
+always has.
 
 The boundary this restores: **core owns dispatch, the artifact shell, and
 the never-blank floor; the extension owns its type's view.** Before this
@@ -308,8 +306,7 @@ access-checked), `identity` (the flattened effective identity), and
 Renderers are **build-known**, wired through a generated literal-import map
 (`src/lib/generated/artifact-renderers.ts`) resolved by the S2 dispatch spine
 (`src/lib/artifacts/artifact-renderer-loader.ts`) — the same generated-map
-pattern the connector `bundled-react` setup pages already use, and the loader,
-the map, and the failure-isolation behavior below are all landed (S2). Two
+pattern the connector `bundled-react` setup pages already use. Two
 consequences:
 
 - **Until your extension is in the base image build, its renderer is not
@@ -382,8 +379,9 @@ extension above: a **per-connector artifacts pack** that claims the typed rows
 a connector's platform owns. The full architecture — the two categories, the
 atomicity rule, the mutability classes, and the naming grammar — is the
 [Artifacts architecture §7](../../references/platform/artifacts.md#7-per-connector-artifacts-extensions-the-two-category-catalog);
-this section is the authoring-facing summary and marks what you can write in a
-manifest **today** versus what is still landing.
+this section is the authoring-facing summary of what a manifest can declare.
+Where a capability is not selectable from a manifest, that limit is called out
+inline with the section it belongs to.
 
 ### Which category are you building?
 
@@ -433,16 +431,15 @@ widen it. Type ids carry pure entity semantics with **no `-ref` suffix**
 The `external` reference machinery (`linked → stale → dangling` plus
 snapshot-as-new-artifact and the `pinnable:false` pointer policy) is a shipped
 substrate leaf, `packages/objects/src/connector-ref.ts`, that the external packs
-compose. **Not yet shipped:** the `draftable` publish ledger — the
-schedule→publish state machine and its lock-on-publish — is landing separately,
-so you can classify a type `draftable` today but the publish transition is not
-yet driven end-to-end.
+compose. The `draftable` publish ledger — the schedule→publish state machine
+and its lock-on-publish — is not driven end-to-end: you can classify a type
+`draftable`, but the publish transition does not run.
 
 ### Claim-only mode is substrate-ready, not yet author-selectable
 
-A multi-type connector pack is meant to register under the ratified **claim-only**
-mode — no generic `<package>:artifact` umbrella, each owned claim surfaced under
-its exact `objectTypeId`. The registration substrate is in place, but **the
+A multi-type connector pack is designed to register in **claim-only** mode — no
+generic `<package>:artifact` umbrella; each owned claim is surfaced under its
+exact `objectTypeId`. The registration substrate is in place, but **the
 manifest `mode` field that selects it is not yet in the schema** — do not add a
 `mode` key to a manifest yet (a strict parse rejects it). Until the field lands,
 authored packs resolve to the classic descriptor-only / hybrid behavior.
