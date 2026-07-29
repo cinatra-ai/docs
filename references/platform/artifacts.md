@@ -78,7 +78,7 @@ Code-level verification in-worktree: `pnpm typecheck`, package vitest, targeted 
 
 ## 7. Per-connector artifacts extensions (the two-category catalog)
 
-Building on the objects-substrate artifact model above, epic [cinatra#1448](https://github.com/cinatra-ai/cinatra/issues/1448) fixes *which* artifact extensions exist for connector-owned content, how they are named, how their rows may change, and the one composition rule. The decisions below are ratified. The connector **packs** the catalog names are being delivered on their own sub-issues and are **not yet shipped**; the **substrate** every pack builds on — the mutability disposition, the claim-only registration mode, the plural-name grammar, and the `objectTypes` claims block — is merged and is what this section describes concretely. Where a behavior's enforcing machinery is still landing it is called out inline as **not yet shipped**, so nothing here reads as live before it is.
+Building on the objects-substrate artifact model above, epic [cinatra#1448](https://github.com/cinatra-ai/cinatra/issues/1448) fixes *which* artifact extensions exist for connector-owned content, how they are named, how their rows may change, and the one composition rule. The connector **packs** the catalog names are **not yet shipped**; the **substrate** every pack builds on — the mutability disposition, the claim-only registration mode, the plural-name grammar, and the `objectTypes` claims block — is what this section describes concretely. Where a behavior's enforcing machinery is not yet in place it is called out inline as **not yet shipped**, so nothing here reads as live before it is.
 
 ### Two extension categories
 
@@ -114,7 +114,7 @@ Two invariants ride the disposition itself:
 
 The disposition vocabulary and the narrowing rule are merged. So is the `external` class's substrate: the reference-state machine (`linked → stale → dangling`, moved only by connector sync — an upstream delete flags `dangling` and never silently tombstones the object row, a later probe re-links it), the bare-identity pointer builder, the http(s)-only open-in-source deeplink resolver, and the snapshot-as-new-artifact / pointer-pin policy are a pure leaf, `packages/objects/src/connector-ref.ts` ([cinatra#1451](https://github.com/cinatra-ai/cinatra/issues/1451)), that the external packs compose; the connector-sync DB write path and provider rendering ride those (not-yet-shipped) packs.
 
-**Not yet shipped.** The `draftable` *publish* machinery — the schedule→publish state machine with pinned-revision publish receipts (the publication-operation ledger, [cinatra#1450](https://github.com/cinatra-ai/cinatra/issues/1450)) — is still landing. Until it does, a type may be *classified* `draftable`, but the lock-on-publish transition is not yet driven end-to-end.
+**Not yet shipped.** The `draftable` *publish* machinery — the schedule→publish state machine with pinned-revision publish receipts (the publication-operation ledger, [cinatra#1450](https://github.com/cinatra-ai/cinatra/issues/1450)) — is not driven end-to-end. A type may be *classified* `draftable`, but the lock-on-publish transition does not run.
 
 ### 7.3 Naming and the `-ref`-free type grammar
 
