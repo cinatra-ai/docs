@@ -16,6 +16,113 @@
 // not run through the pattern check at all, and not something a PR can widen
 // by adding an allowlist entry.
 //
+// TWIN RELATIONSHIP (cinatra-ai/ci scripts/check-meta-commentary.mjs). The org
+// reusable in cinatra-ai/ci is the vendored twin of this check: it is what every
+// OTHER repo's published Markdown is scanned with, and a widened pattern list
+// lands THERE first, because caller repos enforce the list at the SHA they pin.
+// The two files were byte-identical through docs#119 and are NOT identical any
+// more; what is kept in sync is the PATTERN LIST and the documented policy
+// below, plus the line-pinned allowlist semantics and the reviewBy-expiry
+// handling. The recorded, deliberate divergences:
+//
+//   - SCAN SCOPE. This check derives a fixed REPO_ROOT from its own location and
+//     scans the WHOLE tracked Markdown tree — the docs repo IS the published
+//     surface. The ci engine scans a caller-supplied `--docs <dir>` or a
+//     `--paths <spec>` SET, resolved against the process cwd (the caller repo
+//     checkout), because a caller repo publishes only part of its tree.
+//   - SKIP_PATHS. This check skips the two contributor-docs pages above (the
+//     owner-sanctioned #114 exception). The ci twin's set is deliberately EMPTY:
+//     an integration `docs/` is the product-only page contract with no
+//     docs-about-docs pages, so it is stricter, never weaker, on the same files.
+//   - CLI SURFACE / EXIT CODES. This check takes only `--allowlist` / `--now`
+//     and exits 0 or 1; the ci engine adds `--docs` / `--paths` / `--help` and a
+//     config-error exit 2, which exist only because its scan scope is caller-
+//     configured. There is nothing here to configure.
+//   - ALLOWLIST WIRING. This repo's allowlist is a real, populated file at the
+//     default path and its loader treats any read failure as an empty allowlist.
+//     The ci engine's allowlist is OPTIONAL per caller repo, so it separates an
+//     absent file (empty allowlist) from a present-but-unreadable one (a hard
+//     config error). That loader difference is out of scope for a pattern sync
+//     and is left as-is here.
+//
+// WHAT THE PATTERN LIST COVERS, AND WHAT IT DELIBERATELY DOES NOT (docs#156
+// AC5). Three violation classes are enforced; the rule-outs are as much a part
+// of the policy as the patterns, because a pattern that fires on ordinary
+// product prose costs more than the violation it catches.
+//
+//   1. DOCS-PRODUCTION META (the original #114 class) — how the page itself is
+//      produced: "compiled from", "published from", "do not hand-edit", "this
+//      page is generated…", "canonical source".
+//      This class covers ASSET-PRODUCTION notes too ("the banner PNGs are
+//      generated from the brand kit — never hand-edit them"): a published
+//      surface carries no production note, so such a note is REMOVED, not
+//      exempted, and needs no separate pattern (`generated from` /
+//      `do not hand-edit` already match it).
+//
+//   2. TRANSITION / IN-FLIGHT NOTES — prose that narrates work in flight rather
+//      than the capability as it stands: "forthcoming", "coming soon",
+//      "(pending)", "to be added", and the rephrasings AC5 adds — "still
+//      landing", "not yet landed", "is landing separately/in a later release".
+//      A published page states what the product does; a roadmap state ages into
+//      a lie the moment the work ships.
+//
+//   3. PLANNING PROVENANCE — internal decision-process vocabulary in published
+//      prose: a capability described by the work item that produced it or the
+//      decision that approved it ("epic #123 … landed", "the ratified
+//      claim-only mode", "the decisions below are ratified", "per the ruling")
+//      instead of by what it does. A reader of a published guide is not a
+//      participant in the planning process and cannot resolve those references.
+//
+// These are lexical heuristics, not semantic judgements. The check cannot know
+// that "#1620" names a work item, that "landed" describes it, or that a
+// "decision" is internal. What it requires instead is a BOUND ADJACENCY — a
+// planning noun directly against the number, a history verb reachable from that
+// reference across only punctuation and auxiliaries or a linking preposition,
+// "ratified" inside a short unbroken window of internal decision vocabulary.
+// That is a proxy for the relation, not proof of it; bare same-line proximity
+// was rejected because it fails benign prose ("See issue #123 for
+// troubleshooting. If the webhook has not landed after five minutes, retry.").
+//
+// RULED OUT — candidates considered for classes 2 and 3 and deliberately NOT
+// patterned, each because it fires on legitimate published product prose:
+//   - Bare "land"/"landed"/"landing". Real published pages say "the run tells
+//     you when it lands", "an approval landed", "if you are landing here for
+//     the first time". Class 3 therefore requires the bound work-item relation
+//     described above; class 2 requires the explicit transition phrase.
+//   - "still in flight", "yet to land" and bare "landing later" — commoner in
+//     runtime prose ("requests still in flight are allowed to complete during
+//     shutdown", "events yet to land remain queued", "delayed events are
+//     landing later") than in roadmap prose.
+//   - "no need to hand-edit X" — advisory product prose, not a production
+//     instruction; only the prohibition spellings ("do not"/"never") are class 1.
+//   - A CHANGELOG entry naming a released version — "streaming support landed
+//     in 2.0" — is OUT (product history of the SOFTWARE, tied to a version a
+//     reader can install). What stays IN, on a CHANGELOG as much as on a guide,
+//     is history tied to an INTERNAL work item ("landed with epic #123"): the
+//     reference is unresolvable to a reader either way.
+//   - A BARE work-item link with no history claim (a "see #123 for the design"
+//     cross-reference) is OUT: too many reference pages link an issue
+//     legitimately, and the violation is the historical narration, not the
+//     link. Such a link is still worth removing from a published page in
+//     review — it is simply below the precision bar for a blocking pattern.
+//   - Bare "ratified", and "ratified" next to EXTERNAL-standards vocabulary.
+//     "The connector implements the ratified OAuth 2.1 specification" and "the
+//     security policy was ratified by the standards committee" are ordinary
+//     technical prose, so class 3 fires only when "ratified" sits within two
+//     tokens of INTERNAL decision vocabulary (mode / decision / ruling), across
+//     at most one hard wrap that does not cross into another list item,
+//     heading, quote or table row. "Only ratified algorithms run in FIPS mode"
+//     and "algorithms ratified\nby NIST run in FIPS mode" both stay green.
+//   - Any compound noun starting "the decision …": "following the decision
+//     tree, pick the matching branch", "following the decision returned by the
+//     policy engine". The ruling pattern requires the reference to TERMINATE
+//     at the noun (punctuation, end of line, "that", or a date), so every such
+//     continuation stays green.
+//   - CAPABILITY-BOUNDARY statements — "X is not yet supported", "not yet
+//     available", "not yet shipped". These describe what the product does
+//     TODAY, which is exactly what a published page is for; only the in-flight
+//     narration ("… because the work is still landing") is the violation.
+//
 // Deliberately "cheap", not exhaustive (same spirit as check-cited-paths.mjs):
 //   - Pattern-based phrase matching, not real NLP; a rephrased violation can
 //     slip through, and a legitimate sentence can coincidentally match.
@@ -54,13 +161,27 @@ const DEFAULT_ALLOWLIST_PATH = ".github/meta-commentary-gate-allowlist.json";
 // is why every pattern below is a multi-word phrase or a self-referential
 // "this page ... is generated/compiled/..." combination.
 const PATTERNS = [
-  ["generated_from", /\bgenerated from\b/i, '"generated from"'],
+  // docs#156 AC5: tolerate a single -ly adverb and AT MOST ONE hard wrap between
+  // the two words — "generated deterministically\nfrom the design system" is the
+  // same claim as "generated from", and hard-wrapped Markdown splits it
+  // routinely. The gap is spaces/tabs plus at most one newline (never `\s+`,
+  // which would join "## Generated" to a following block starting with "From").
+  // This widens the SAME phrase; the adverb form does newly fail sentences like
+  // "generated dynamically from the OpenAPI schema" whose un-adverbed twin the
+  // pattern already failed — a genuine one goes in the allowlist, as before.
+  ["generated_from", /\bgenerated(?:[ \t]+\w+ly)?(?:[ \t]+|[ \t]*\r?\n[ \t]*)from\b/i, '"generated (…ly) from"'],
   ["compiled_from", /\bcompiled from\b/i, '"compiled from"'],
   ["compiled_into_chapter", /\bcompiled into (?:this|the) chapter\b/i, '"compiled into (this|the) chapter"'],
   ["published_from", /\bpublished from\b/i, '"published from"'],
   ["published_mirror", /\bpublished mirror\b/i, '"published mirror"'],
   ["byte_for_byte_copy", /\bbyte-for-byte copy\b/i, '"byte-for-byte copy"'],
-  ["do_not_hand_edit", /\b(?:do not|don't|does not) hand-edit\b/i, '"do not hand-edit"'],
+  // docs#156 AC5: "never hand-edit the PNGs" is the same PROHIBITION as "do not
+  // hand-edit" and was the exact phrasing the staged-listing sweep found; the
+  // product decision removes such notes rather than exempting them, so the
+  // pattern has to be able to see them. "no need to hand-edit" is deliberately
+  // NOT included — that is advisory product prose ("no need to hand-edit field
+  // mappings; the connector maintains them"), not a production instruction.
+  ["do_not_hand_edit", /\b(?:do not|don't|does not|never) hand-edit\b/i, '"do not / never hand-edit"'],
   ["overwritten_next_sync", /\boverwritten the next time\b/i, '"overwritten the next time"'],
   ["republished_from", /\brepublished from\b/i, '"republished from"'],
   ["synced_from_canonical", /\bsynced from the canonical\b/i, '"synced from the canonical"'],
@@ -92,6 +213,104 @@ const PATTERNS = [
     "self_referential_by",
     /\bthis (?:page|document|file|guide|chapter|hub|section)\b[^.\n]{0,60}\b(?:maintained|created|generated|compiled) by\b/i,
     '"this page/document/… maintained/created/generated/compiled by"',
+  ],
+
+  // --- Class: TRANSITION / in-flight notes (docs#156 AC5) -------------------
+  // The same family as "forthcoming" / "coming soon" / "to be added" above, in
+  // the rephrasings those literal patterns miss: prose that narrates work IN
+  // FLIGHT ("what you can write today versus what is still landing").
+  // Anchored on the transition phrase, never on bare "land"/"landed"/
+  // "landing" — published product prose legitimately says "the run tells you
+  // when it lands", "an approval landed", "if you are landing here for the
+  // first time".
+  //
+  // RESIDUAL RISK, recorded rather than hidden: "still landing" / "not yet
+  // landed" are lexical, so a sentence about RUNTIME objects rather than work
+  // ("if events are still landing in the old destination", "if the webhook has
+  // not yet landed, retry") would also fail. No such sentence exists on this
+  // corpus today; one that appears later is a line-pinned allowlist entry,
+  // which is exactly what that mechanism is for. Two further candidates were
+  // dropped for being commoner in runtime prose than in roadmap prose: "still
+  // in flight" ("requests still in flight are allowed to complete during
+  // shutdown") and "yet to land" ("events yet to land remain queued").
+  ["still_landing", /\bstill landing\b/i, '"still landing"'],
+  ["not_yet_landed", /\bnot yet landed\b/i, '"not yet landed"'],
+  [
+    // Either the literal "landing separately", or "landing in a <lifecycle
+    // noun>" — the noun is REQUIRED there, or "audit events are landing in a
+    // separate bucket" would fail. Bare "landing later" was dropped: "delayed
+    // events are landing later" is ordinary runtime prose.
+    "landing_separately",
+    /\b(?:is|are|will be) landing (?:separately\b|in a (?:later|future|separate|subsequent) (?:release|version|rollout|phase|milestone|update|wave)\b)/i,
+    '"is/are/will be landing separately | landing in a later release"',
+  ],
+
+  // --- Class: PLANNING PROVENANCE (docs#156 AC5) ---------------------------
+  // Internal decision-process vocabulary in published prose: a capability
+  // described by the work item that produced it or the decision that approved
+  // it, rather than by what it does.
+  //
+  // These are LEXICAL PROXIMITY HEURISTICS, not semantic guarantees — the check
+  // cannot know that "#1620" is a work item or that "ratified" refers to an
+  // internal decision. What it CAN require, and does, is an explicit relation:
+  // a planning noun immediately bound to the number, and a history verb bound
+  // to that reference by punctuation or a linking preposition. Bare proximity
+  // on one physical line was deliberately rejected — it fails benign prose
+  // like "See issue #123 for troubleshooting. If the webhook has not landed
+  // after five minutes, retry it."
+  [
+    // "epic [#1620](https://…/1620), landed in S1/S2" — the work-item
+    // reference, an optional Markdown link target, optional punctuation, up to
+    // two auxiliaries, then the history verb. Nothing else may intervene, and
+    // every gap is a BOUNDED run of spaces/tabs: never `\s*` (which would cross
+    // a blank line and join "See issue #123" to a following paragraph starting
+    // "Landed events…"), and never an unbounded run of adjacent optional
+    // quantifiers (which backtracks quadratically on a long space run).
+    "planning_workitem_landed",
+    /\b(?:epic|issue|ticket|milestone|slice|phase|workstream)s?[ \t]{0,3}\[?[ \t]{0,3}#[ \t]{0,3}\d+\]?(?:\([^)\s]{0,200}\))?[ \t]{0,4}[,;:—–-]?[ \t]{0,4}(?:(?:has|had|is|are|was|were|which)[ \t]{1,4}){0,2}(?:landed|shipped|merged|implemented|delivered)\b/i,
+    'work-item reference narrating implementation history, e.g. "epic #123, landed"',
+  ],
+  [
+    // The reverse order, bound by an explicit relating preposition:
+    // "landed with epic #1448", "shipped under epic #1620".
+    "planning_landed_workitem",
+    /\b(?:landed|shipped|merged|implemented|delivered)[ \t]{1,4}(?:in|with|under|via|as part of)[ \t]{1,4}(?:the[ \t]{1,4})?(?:epic|issue|ticket|milestone|slice|phase|workstream)s?[ \t]{0,3}\[?[ \t]{0,3}#[ \t]{0,3}\d+/i,
+    'implementation history pinned to a work item, e.g. "landed with epic #123"',
+  ],
+  [
+    // "ratified" bound to INTERNAL decision vocabulary only. `plan`,
+    // `proposal`, `policy` and `scope` were dropped: "the ratified W3C
+    // proposal" and "the security policy was ratified by the standards
+    // committee" are ordinary prose about an EXTERNAL standards process.
+    //
+    // The gap is bounded by TOKENS, not characters: at most two intervening
+    // words (a Markdown-emphasised modifier such as `**claim-only**` is one),
+    // then the decision noun. A character window was tried first and rejected
+    // — 24 characters still let "only ratified algorithms run in FIPS mode"
+    // through, and no window both admits the real wrapped instance and
+    // excludes that sentence. The gap may cross at most one hard wrap, and the
+    // wrap guard runs BEFORE the indentation is consumed (and covers `-`, `*`,
+    // `+`, `>`, `|`, `1.` and `1)` markers), so adjacent list items, headings,
+    // quotes and table rows cannot be joined.
+    "ratified_decision_vocab",
+    /\bratified\b(?:[ \t]{1,2}[^\s.!?]{1,24}){0,2}(?:[ \t]{1,2}|[ \t]*\r?\n(?![ \t]*(?:[-*+>|]|\d+[.)]))[ \t]*)(?:mode|decision|decisions|ruling)\b/i,
+    '"ratified" next to internal decision vocabulary, e.g. "the ratified claim-only mode"',
+  ],
+  [
+    "decision_was_ratified",
+    /\b(?:mode|decision|decisions|ruling)\b(?:[ \t]{1,2}[^\s.!?]{1,24}){0,2}(?:[ \t]{1,2}|[ \t]*\r?\n(?![ \t]*(?:[-*+>|]|\d+[.)]))[ \t]*)(?:is|are|was|were)[ \t]{1,4}ratified\b/i,
+    '"the decision(s) … is/are/was/were ratified"',
+  ],
+  [
+    // The reference must TERMINATE at the noun — punctuation, end of line, a
+    // following "that", or a date. A finite blacklist of compound nouns was
+    // tried first and rejected: it can never enumerate "the decision tree",
+    // "the decision diagram", "the decision returned by the policy engine".
+    // Requiring the phrase to end is structural, so all of those stay green
+    // while "per the ruling," and "per the owner ruling 2026-07-22," fail.
+    "ruling_reference",
+    /\b(?:per|as per|following|under) the (?:owner |product )?(?:ruling|decision)\b(?=[ \t]{0,4}[,;:.)]|[ \t]{1,4}(?:that\b|\d{4}-\d{2}-\d{2})|[ \t]*(?:\r?\n|$))/i,
+    '"per the ruling" / "per the decision"',
   ],
 ];
 
@@ -230,8 +449,11 @@ function main() {
     console.error(`Renew (bump reviewBy) only after re-confirming the match is still legitimate product content, or remove the entry.`);
   }
   console.error(
-    `\nPublished pages describe Cinatra the product, not how this documentation site itself ` +
-      `is authored, generated, or maintained. Remove the meta/process content, or relocate it ` +
+    `\nPublished pages describe Cinatra the product: not how this documentation site itself ` +
+      `is authored, generated, or maintained; not what is still in flight ("still landing", ` +
+      `"forthcoming"); and not the internal work item or decision a capability came from ` +
+      `("epic #123, landed", "the ratified <X> mode"). Remove the meta/transition/provenance ` +
+      `content and state the capability as it stands, or relocate it ` +
       `to guides/developer/contributing.md ("Contributing to this documentation site") if it is ` +
       `genuinely contributor-relevant.` +
       `\nA genuine false positive (real product content this pattern misfires on) goes in ` +
