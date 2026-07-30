@@ -23,7 +23,7 @@ Claude Code launches `mcp-remote` on demand. The first call triggers the OAuth f
 3. The authorization callback returns to `mcp-remote`'s loopback listener.
 4. `mcp-remote` stores the JSON Web Token (JWT) and returns the MCP tool list to Claude Code.
 
-From this point Claude Code sees every Cinatra primitive — `agent_run`, `accounts_list`, `wordpress_post_create_draft`, the lot. See [The external MCP server](../external-server.md) for the catalog.
+From this point Claude Code sees every Cinatra primitive — `agent_run`, `accounts_list`, `wordpress_site_tool_call`, the lot. See [The external MCP server](../external-server.md) for the catalog.
 
 When the JWT expires, `mcp-remote` re-runs the flow automatically.
 

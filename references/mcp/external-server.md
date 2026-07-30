@@ -24,7 +24,7 @@ The server exposes primitives across the platform's domain packages:
 - **Lists & objects** — typed CRUD plus list-membership operations.
 - **Skills** — catalog, installed, personal, match-evaluation.
 - **Extensions** — install, archive, restore, search.
-- **Connectors** — each connector contributes its own operations (Gmail send, Apollo people search, WordPress create-draft, and so on).
+- **Connectors** — each connector contributes its own operations (Gmail send, Apollo people search, a WordPress site's own MCP catalog, and so on).
 - **Dashboards** — list, get, create, update, publish, archive.
 - **Metrics** — cost and usage queries, time series, by-agent / by-provider rollups.
 - **Permissions** — invite, member updates, platform-role changes.
@@ -32,10 +32,10 @@ The server exposes primitives across the platform's domain packages:
 
 The full live list comes back over the MCP `tools/list` call. Each primitive declares its input schema (Zod-validated) and a description; the large language model (LLM) or the human reads those and picks the right one.
 
-Primitive names follow the convention `<domain>_<resource>_<action>` — for example `agent_run`, `accounts_list`, `wordpress_post_create_draft`. See [Primitives](primitives.md) for the naming rules and the actor-context envelope every primitive receives.
+Primitive names follow the convention `<domain>_<resource>_<action>` — for example `agent_run`, `accounts_list`, `wordpress_site_tool_call`. See [Primitives](primitives.md) for the naming rules and the actor-context envelope every primitive receives.
 
 > [!NOTE]
-> A connector's primitives can carry capability gaps an external caller should know about. For example, Cinatra's WordPress primitives are page-aware primitive by primitive: over `/api/mcp` you can read and update a WordPress *page* today by passing `postType: "page"` with a known page ID, while page listing (a dedicated `wordpress_pages_list` primitive) and page-aware status/delete have landed in the connector's `main` and ship in the next connector release; drafting a page stays post-only. See the [WordPress page contract](../platform/integrating-with-a-cms.md#wordpress-pages-vs-posts-the-current-page-contract) for the details and current limits.
+> A connector's primitives can carry capability gaps an external caller should know about. WordPress is a generic-catalog case rather than a fixed-operation one: `wordpress_site_tools_list` discovers and returns whatever ability catalog a connected site itself advertises, and `wordpress_site_tool_call` invokes one of those advertised abilities by name — so which content operations (including page-vs-post distinctions) are actually reachable for a given site depends on that site's catalog, not on a fixed Cinatra operation list. List the catalog first to find out. See [The WordPress catalog gateway, trusted-site mode, and the review gate](../platform/integrating-with-a-cms.md#the-wordpress-catalog-gateway-trusted-site-mode-and-the-review-gate) for the details and current limits.
 
 ## Same primitive contract, different surfaces
 

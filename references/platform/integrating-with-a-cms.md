@@ -80,9 +80,9 @@ Two credentials are involved; they must not be confused.
    - Exchanged, per session, through the CMS's same-origin token broker for a short-lived, origin/audience/scope-bound token; the stream request is Bearer-authenticated with **that short-lived token**, never the raw API key.
    - Scope: widget chat + content-editor function tool only. Not an OAuth grant; it does not unlock the full MCP primitive catalog.
 
-2. **The MCP bearer the content-editor agent uses to call back into the CMS.**
-   - For Drupal, the `drupal-content-editor` WayFlow agent calls into the configured Drupal site's `mcp_tools` module at `<siteUrl>/_mcp_tools` to read fields, create draft revisions, and write updates. The credential is a separate per-instance MCP key configured on the Drupal `mcp_tools` side.
-   - For WordPress, the equivalent uses HTTP basic auth (username + application password) against the WordPress REST API at `/wp/v2/posts/*`.
+2. **The per-instance CMS credential Cinatra uses to call into the site.**
+   - For Drupal, the `drupal-content-editor` WayFlow agent calls into the configured Drupal site's `mcp_tools` module at `<siteUrl>/_mcp_tools` to read fields, create draft revisions, and write updates. The credential is a separate per-instance MCP key configured on the Drupal `mcp_tools` side, sent as a Bearer token.
+   - For WordPress, the credential is the instance's admin username + Application Password, presented as HTTP Basic auth to the site's **own MCP catalog endpoint**: every content read/write through `wordpress_site_tool_call` / `wordpress_site_tools_list` — including the content-editor agent's edits behind them — authenticates this way, through the governed connector-instance invoker. The same Application Password also backs a small direct-REST carve-out that remains for exactly three operations — media upload, post delete, and post status — which call WordPress core REST routes (`/wp/v2/media`, `/wp/v2/(posts|pages)/{id}`) directly rather than a catalog ability.
 
 The two credentials live in different stores and have different rotation lifecycles. Rotating the widget API key on Cinatra does not affect the CMS-side MCP/REST credential, and vice versa.
 
@@ -101,28 +101,20 @@ The connector extensions each register a small primitive set the content-editor 
 - `drupal_node_update`, `drupal_node_publish` — write the draft, then publish.
 - `drupal_content_editor_run` — dispatch a high-level edit task to the `drupal-content-editor` WayFlow agent.
 
-`@cinatra-ai/wordpress-mcp-connector` registers an analogous but slightly larger set:
+`@cinatra-ai/wordpress-mcp-connector` takes a different shape. Rather than a fixed primitive per operation, it registers a generic, governed gateway onto a connected site's own MCP catalog, plus the same kind of dispatch relay Drupal has:
 
-- `wordpress_status`, `wordpress_instances_list` — metadata.
-- `wordpress_post_get`, `wordpress_posts_list`, `wordpress_post_get_latest`, `wordpress_post_status` — read.
-- `wordpress_post_create_draft`, `wordpress_post_update`, `wordpress_post_update_meta`, `wordpress_post_delete` — write.
-- `wordpress_media_upload` — media library.
-- `wordpress_content_editor_run` — dispatch the `wordpress-content-editor` WayFlow agent.
+- `wordpress_site_tool_call`, `wordpress_site_tools_list` — list a connected site's own MCP catalog, then call any ability it advertises by name (`toolName` + `args`), through the governed connector-instance invoker. See [The WordPress catalog gateway, trusted-site mode, and the review gate](#the-wordpress-catalog-gateway-trusted-site-mode-and-the-review-gate) below.
+- `wordpress_content_editor_run` — dispatch a high-level edit task to the `wordpress-content-editor` WayFlow agent.
 
-Each primitive is Zod-validated. Each runs through the standard MCP authorization gate. The primitives are also reachable from the external MCP server at `/api/mcp` — an external client with the right credentials can drive WordPress or Drupal from outside the embedded widget.
+Each primitive is Zod-validated at its own input envelope. Each runs through the standard MCP authorization gate. The primitives are also reachable from the external MCP server at `/api/mcp` — an external client with the right credentials can drive WordPress or Drupal from outside the embedded widget.
 
-### WordPress pages vs posts: the current page contract
+### The WordPress catalog gateway, trusted-site mode, and the review gate
 
-The WordPress primitives are **post-shaped by default and only partially page-aware** — page support is per-primitive rather than global, and which page operations an instance can perform depends on the connector version it runs:
+WordPress content operations are not exposed as fixed, named Cinatra primitives. `wordpress_site_tool_call` and `wordpress_site_tools_list` are a generic gateway onto whatever MCP catalog the connected site itself advertises — today, that means the community "Enable Abilities for MCP" plugin layered on WordPress's Abilities API (`WordPress/mcp-adapter` plus `WordPress/abilities-api`). Call `wordpress_site_tools_list` first to see the exact ability ids, schemas, and policy status a given site exposes, then call one by name with `wordpress_site_tool_call` — for example `ewpa/get-post`, `ewpa/get-posts`, `ewpa/create-post`, `ewpa/update-post`, `ewpa/update-post-meta`. Both primitives route through the governed connector-instance invoker (per-instance authorization, per-instance tool policy, ability classification, a destructive-confirmation hold on the chat/session surface, execution, and audit — all resolved host-side), so which abilities a caller can actually reach depends on the connected site's own catalog and that instance's tool policy, not on a Cinatra-maintained operation list. There is no dedicated Cinatra primitive for pages versus posts, media upload, or any other single operation; if the site's catalog advertises an ability for it (for example `ewpa/get-page`, for reading a page by ID), it is reachable the same way as any other ability — and if the catalog doesn't advertise one, Cinatra has nothing to fall back to.
 
-- **Read and update a page — supported.** `wordpress_post_get` and `wordpress_post_update` accept an optional `postType`. When a caller passes `postType: "page"`, the primitive routes to `/wp/v2/pages/{id}` instead of `/wp/v2/posts/{id}`, so an external `/api/mcp` client — or the content-editor agent — can read and edit a page, **provided it already knows the page's numeric ID**.
-- **Discover / list pages — landing in the next connector release.** A dedicated `wordpress_pages_list` primitive (page-only, offset-paginated like `wordpress_posts_list`) has merged into the connector's `main` and ships in the next connector release. `wordpress_posts_list` itself stays post-only, so page discovery is this separate primitive rather than a `postType` on the posts list. Until an instance runs a release that includes it, page IDs still cannot be listed through Cinatra's primitives and must be obtained out of band (for example, from the page's WordPress admin URL).
-- **Page status and delete — page-aware in the next connector release.** `wordpress_post_status` and `wordpress_post_delete` now accept `postType: "page"` and route to `/wp/v2/pages/{id}` on the connector's `main`, shipping in the same upcoming release; on the currently released connector both remain post-only.
-- **Create a page — still post-only.** `wordpress_post_create_draft` remains post-route based and ignores `postType`, so drafting a *page* is not yet supported through Cinatra's primitives.
+**Trusted-site mode** is a separate, opt-in path that only applies to workspace chat. Enabled per instance from the WordPress connector's settings page, it lets a connected site's read-only catalog tools be injected directly into the model provider's own toolbox instead of being mediated call-by-call through the governed invoker. It only ever injects a host-verified, non-empty read-tool allowlist, requires a current consent acknowledgement, and is re-evaluated on every assembly — agent runs, the public widget, and every other surface never get an injected toolbox. Writes are never injected this way; they always go through `wordpress_site_tool_call`. On the community plugin versions Cinatra has verified so far, the verified read-tool set is empty, so trusted-site mode ships built but currently injects nothing, even for a fully opted-in site.
 
-Page listing and page-aware status/delete have already landed in `cinatra-ai/wordpress-mcp-connector`'s `main`, but are not yet in a tagged connector release — so an instance on the current release still sees the older post-only behavior for those, while page create remains an open gap. The bullets above describe both the source-of-truth contract and what a released connector exposes today.
-
-This contract is separate from the external **WordPress MCP Adapter** server (`WordPress/mcp-adapter`), which Cinatra can inject as an additional toolbox for a public WordPress site: what page tools *that* server exposes depends on the adapter plugin's own behavior and version, not on the Cinatra primitives above.
+**The review-before-publish gate** still applies on the generic path. Calling `ewpa/update-post` through `wordpress_site_tool_call` runs the same review-before-publish check Cinatra's content-review system applies to any externally-published artifact: the proposed title/content/excerpt/status change is diffed against the live post, and if a tracked field actually changed, the write is held for a human to approve before it reaches WordPress — never applied silently. It also refuses a call with no editable field, and refuses any argument outside that reviewed set. Other write abilities the site's catalog may expose are not currently covered by this gate.
 
 ## What WordPress and Drupal don't share
 
@@ -130,13 +122,13 @@ Even with symmetric integrations the underlying CMSes diverge in places the agen
 
 | Concern | Drupal | WordPress |
 |---|---|---|
-| Draft-before-edit | True draft revision (`drupal_node_create_draft_revision`) | Demote-then-edit pattern (`wordpress_post_update` with `status: "draft"`) |
-| Read with edit context | Recent-content list (`mcp_tools_get_recent_content`) filtered by node ID — `mcp_tools` has no get-by-ID tool | Direct REST lookup (`/wp/v2/posts/{id}?context=edit`) |
-| Auth to the CMS-side endpoint | Bearer token (`mcp_tools` remote key) | HTTP basic (username + application password) |
-| ID type | `string` at the schema level; handlers parse it to a positive integer and send `nid` as a string (works around a `strtolower()` type quirk in `mcp_tools`) | `number` (positive integer, coerced at schema level) |
-| Media | Inline in the node structure | Separate `wordpress_media_upload` primitive |
+| Draft-before-edit | True draft revision (`drupal_node_create_draft_revision`) | Demote-then-edit pattern (`ewpa/update-post` with `status: "draft"`, called via `wordpress_site_tool_call`) |
+| Read with edit context | Recent-content list (`mcp_tools_get_recent_content`) filtered by node ID — `mcp_tools` has no get-by-ID tool | `ewpa/get-post` ability via `wordpress_site_tool_call`, through the governed connector-instance invoker — no direct REST call |
+| Auth to the CMS-side endpoint | Bearer token (`mcp_tools` remote key) | HTTP basic (username + application password) against the site's own MCP catalog endpoint |
+| ID type | `string` at the schema level; handlers parse it to a positive integer and send `nid` as a string (works around a `strtolower()` type quirk in `mcp_tools`) | `wordpress_site_tool_call`'s own `args` are forwarded to the target ability as provided; the review-gated `ewpa/update-post` path additionally validates `post_id` as a positive integer before forwarding |
+| Media | Inline in the node structure | No model-visible primitive — callers reach media only if the site's own catalog advertises an upload-capable ability; Cinatra's internal pipelines use the direct-REST media-upload carve-out (see [Auth model](#auth-model)) |
 
-The WordPress connector also enforces an "at least one field" refinement on `wordpress_post_update` to prevent silent no-ops. See `wordpress-mcp-connector/AGENTS.md` for the connector-package-internal conventions.
+The review-gated `ewpa/update-post` path also refuses a call with no editable field (title/content/excerpt/status), to prevent silent no-ops. See `wordpress-mcp-connector/AGENTS.md` for the connector-package-internal conventions.
 
 ## Adding a third CMS
 
@@ -167,6 +159,7 @@ When you need to verify a specific claim on this page:
 - WordPress connector: `wordpress-mcp-connector/src/`
 - Drupal widget-chat tool: `drupal-mcp-connector/src/widget-chat-tool.ts`
 - WordPress widget-chat tool: `wordpress-mcp-connector/src/widget-chat-tool.ts`
+- WordPress catalog gateway internals (page/post ability behavior, troubleshooting): `wordpress-mcp-connector/docs/external-mcp-adapter-pages.md`
 
 ---
 

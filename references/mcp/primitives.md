@@ -12,7 +12,7 @@ Primitive names follow `<domain>_<resource>_<action>`, with underscores througho
 
 - `agent_run`, `agent_run_get`, `agent_run_resume`
 - `objects_list`, `objects_get`, `objects_save`, `objects_update` (canonical Objects surface for object CRUD)
-- `wordpress_post_create_draft`, `gmail_email_send`
+- `wordpress_site_tool_call`, `gmail_email_send`
 - `dashboards_publish`, `extensions_install`
 - `lists_members_add`, `permissions_members_invite`
 
