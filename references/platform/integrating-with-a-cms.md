@@ -80,9 +80,9 @@ Two credentials are involved; they must not be confused.
    - Exchanged, per session, through the CMS's same-origin token broker for a short-lived, origin/audience/scope-bound token; the stream request is Bearer-authenticated with **that short-lived token**, never the raw API key.
    - Scope: widget chat + content-editor function tool only. Not an OAuth grant; it does not unlock the full MCP primitive catalog.
 
-2. **The MCP bearer the content-editor agent uses to call back into the CMS.**
-   - For Drupal, the `drupal-content-editor` WayFlow agent calls into the configured Drupal site's `mcp_tools` module at `<siteUrl>/_mcp_tools` to read fields, create draft revisions, and write updates. The credential is a separate per-instance MCP key configured on the Drupal `mcp_tools` side.
-   - For WordPress, the equivalent uses HTTP basic auth (username + application password) against the WordPress REST API at `/wp/v2/posts/*`.
+2. **The per-instance CMS credential Cinatra uses to call into the site.**
+   - For Drupal, the `drupal-content-editor` WayFlow agent calls into the configured Drupal site's `mcp_tools` module at `<siteUrl>/_mcp_tools` to read fields, create draft revisions, and write updates. The credential is a separate per-instance MCP key configured on the Drupal `mcp_tools` side, sent as a Bearer token.
+   - For WordPress, the credential is the instance's admin username + Application Password, presented as HTTP Basic auth to the site's **own MCP catalog endpoint**: every content read/write through `wordpress_site_tool_call` / `wordpress_site_tools_list` — including the content-editor agent's edits behind them — authenticates this way, through the governed connector-instance invoker. The same Application Password also backs a small direct-REST carve-out that remains for exactly three operations — media upload, post delete, and post status — which call WordPress core REST routes (`/wp/v2/media`, `/wp/v2/(posts|pages)/{id}`) directly rather than a catalog ability.
 
 The two credentials live in different stores and have different rotation lifecycles. Rotating the widget API key on Cinatra does not affect the CMS-side MCP/REST credential, and vice versa.
 
@@ -126,7 +126,7 @@ Even with symmetric integrations the underlying CMSes diverge in places the agen
 | Read with edit context | Recent-content list (`mcp_tools_get_recent_content`) filtered by node ID — `mcp_tools` has no get-by-ID tool | `ewpa/get-post` ability via `wordpress_site_tool_call`, through the governed connector-instance invoker — no direct REST call |
 | Auth to the CMS-side endpoint | Bearer token (`mcp_tools` remote key) | HTTP basic (username + application password) against the site's own MCP catalog endpoint |
 | ID type | `string` at the schema level; handlers parse it to a positive integer and send `nid` as a string (works around a `strtolower()` type quirk in `mcp_tools`) | `wordpress_site_tool_call`'s own `args` are forwarded to the target ability as provided; the review-gated `ewpa/update-post` path additionally validates `post_id` as a positive integer before forwarding |
-| Media | Inline in the node structure | No dedicated Cinatra primitive; reachable only if the connected site's own catalog advertises an upload-capable ability |
+| Media | Inline in the node structure | No model-visible primitive — callers reach media only if the site's own catalog advertises an upload-capable ability; Cinatra's internal pipelines use the direct-REST media-upload carve-out (see [Auth model](#auth-model)) |
 
 The review-gated `ewpa/update-post` path also refuses a call with no editable field (title/content/excerpt/status), to prevent silent no-ops. See `wordpress-mcp-connector/AGENTS.md` for the connector-package-internal conventions.
 
