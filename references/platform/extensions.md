@@ -149,7 +149,7 @@ The canonical list is `HOST_PORT_NAMES`. The surface is presented in full to the
 
 Every extension carries three manifest files:
 
-1. **`package.json` `cinatra` block** — the live manifest (`CinatraManifest`, `packages/sdk-extensions/src/manifest.ts`). Declares `kind`, `apiVersion`, the loader/ABI fields (`serverEntry`, `requestedHostPorts`, `sdkAbiRange`, `uiSurface`, `migrationsDir`, `configSchema`, `devFixtures`), and the canonical `dependencies` graph. (The pre-#118 `migrations` JSON-DSL field is retired and rejected fail-closed — use `migrationsDir`.)
+1. **`package.json` `cinatra` block** — the live manifest (`CinatraManifest`, `packages/sdk-extensions/src/manifest.ts`). Declares `kind`, `apiVersion`, the loader/ABI fields (`serverEntry`, `requestedHostPorts`, `sdkAbiRange`, `uiSurface`, `migrationsDir`, `configSchema`, `devFixtures`), and the canonical `dependencies` graph. (The legacy `migrations` JSON-DSL field is retired and rejected fail-closed — use `migrationsDir`.)
 
    ```jsonc
    {

@@ -2,7 +2,7 @@
 
 Cinatra is the open source AI workspace for teams — a workspace where people, AI assistants, and autonomous agents work together on durable workflows. This guide is for the people *using* the workspace day to day: starting agents in chat, reviewing their work at human-in-the-loop (HITL) gates, watching durable runs, browsing the marketplace, collaborating across team and instance boundaries.
 
-If you administer the `/configuration/*` area, see the [Admin Guide](../admin/README.md). If you install or operate Cinatra, see the [Hosting Guide](../hosting/README.md). If you write agents or contribute to the platform, see the [Developer Guide](../developer/README.md) — contribution work is planned with GSD ("Git. Ship. Done", the open-gsd spec-driven development framework). If you build against the Model Context Protocol (MCP) server, see the [MCP Guide](../../references/mcp/README.md). <!-- source-leak-allow -->
+If you administer the `/configuration/*` area, see the [Admin Guide](../admin/README.md). If you install or operate Cinatra, see the [Hosting Guide](../hosting/README.md). If you write agents or contribute to the platform, see the [Developer Guide](../developer/README.md) — contribution work is planned with GSD ("Git. Ship. Done", the open-gsd spec-driven development framework). If you build against the Model Context Protocol (MCP) server, see the [MCP Guide](../../references/mcp/README.md).
 
 ---
 

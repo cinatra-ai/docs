@@ -345,7 +345,7 @@
 
   <div class="callout note" style="margin: 0 0 24px; max-width: 78ch;">
     <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>What this page rules on</span>
-    <p>This page is the normative design for the app's <b>permissions / access picker</b>. The consolidation onto one implementation with an explicit <code>selectionMode</code> (§I–§IV) documents <b>shipped</b> reality (cinatra#1607 AC1, live in both modes), and the <b>containment</b> section (§VI) — the <code>parentScope</code> / <code>allowedScopes</code> algebra — is likewise <b>shipped</b> (cinatra#1607 AC2–AC5; see the §VI implementation-status callout). §VII maps every cinatra#1607 AC6/AC8 requirement to the clause here that specifies it.</p>
+    <p>This page is the normative design for the app's <b>permissions / access picker</b>: one implementation with an explicit <code>selectionMode</code> (§I–§IV), and the <b>containment</b> algebra — <code>parentScope</code> / <code>allowedScopes</code> — in §VI. Both are part of the <b>shipped</b> component contract, live in single- and multi-select modes alike; the §VI implementation-status callout records what the picker carries today.</p>
   </div>
 
   <!-- ── I. One picker, two selection modes ──────────────────── -->
@@ -646,43 +646,8 @@
   </ol>
 
   <div class="callout info">
-    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Implementation status — shipped (cinatra#1607 AC2–AC5)</span>
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Implementation status — shipped</span>
     <p>The first-class <code>parentScope</code> parameter, the <code>allowedScopes</code> constraint, the §6.5 precedence, the §6.6 reconciliation, and the §6.7 typed identities are <b>shipped</b> component contract: the picker carries them as props, and the agent-run permissions form mounts the general <code>allowedScopes</code> case (its three-field visibility intersection — §6.4) through the first-class prop. §6.8 (server authority) is enforced independent of the picker and holds request-level negative coverage: a scope outside the parent’s containment set is rejected server-side.</p>
-  </div>
-
-  <!-- ── VII. Conformance mapping + spec status ──────────────── -->
-  <div class="sect">
-    <h2>VII. Conformance mapping &amp; spec status</h2>
-    <div class="rule"></div>
-    <div class="source">cinatra#1607 AC6/AC8 · publish decision</div>
-  </div>
-  <p class="lede-p"><b>Every cinatra#1607 AC6/AC8 requirement maps to a clause here.</b> This page is the conformance target the picker-consolidation issue pins against. The mapping below carries no unmapped requirement.</p>
-
-  <div class="matrix" style="margin-bottom:18px;">
-    <table>
-      <thead>
-        <tr><th style="text-align:left;">cinatra#1607 requirement</th><th style="text-align:left;">Specified by</th></tr>
-      </thead>
-      <tbody>
-        <tr><td class="small"><b style="color:var(--ink);">AC6</b> — the access-picker design lives in a new <code>specs/app-permissions.html</code></td><td><span class="anchor-ref">this page</span> — §I–§VI; publish decision in §VII below</td></tr>
-        <tr><td class="small"><b style="color:var(--ink);">AC8</b> — each included scope-kind row renders per spec (scope-prefixed entries, groups divided by separators, no heading)</td><td><span class="anchor-ref">§II</span> · <span class="anchor-ref">#c-2-1</span> · <span class="anchor-ref">#c-2-3</span> · <span class="anchor-ref">#c-3-2</span> · <span class="anchor-ref">#c-4-3</span></td></tr>
-        <tr><td class="small">AC8 — single vs multi-select</td><td><span class="anchor-ref">§III</span> · <span class="anchor-ref">§IV</span> · <span class="anchor-ref">#c-1-1</span></td></tr>
-        <tr><td class="small">AC8 — disabled + reason rows</td><td><span class="anchor-ref">#c-3-6</span> · <span class="anchor-ref">#c-4-8</span> · <span class="anchor-ref">#c-3-9</span></td></tr>
-        <tr><td class="small">AC8 — empty states</td><td><span class="anchor-ref">#c-3-10</span> · <span class="anchor-ref">§V</span> (access-picker-empty)</td></tr>
-        <tr><td class="small">AC8 — <code>parentScope</code>-filtered render (org parent → only its teams/projects + Personal) &amp; no-parent (all options)</td><td><span class="anchor-ref">#c-6-1</span> · <span class="anchor-ref">#c-6-2</span></td></tr>
-        <tr><td class="small">AC8 — nothing renders that the spec does not specify (bidirectional)</td><td><span class="anchor-ref">§II</span> · <span class="anchor-ref">§V</span> · <span class="anchor-ref">#c-2-1</span></td></tr>
-        <tr><td class="small">AC1 — one implementation + <code>selectionMode</code> (context AC8 renders against)</td><td><span class="anchor-ref">#c-1-1</span> · <span class="anchor-ref">#c-1-2</span></td></tr>
-        <tr><td class="small">AC2 — <code>parentScope</code> containment algebra (strict descendants + Personal)</td><td><span class="anchor-ref">#c-6-1</span>…<span class="anchor-ref">#c-6-4</span></td></tr>
-        <tr><td class="small">AC3 — prop precedence + selection reconciliation + typed identities</td><td><span class="anchor-ref">#c-6-5</span> · <span class="anchor-ref">#c-6-6</span> · <span class="anchor-ref">#c-6-7</span></td></tr>
-        <tr><td class="small">AC4 — the demonstrated generic params (selectionMode, included scope-kinds, disabled + reason, defaults)</td><td><span class="anchor-ref">#c-3-7</span> · <span class="anchor-ref">#c-4-9</span> · <span class="anchor-ref">#c-6-5</span></td></tr>
-        <tr><td class="small">AC5 — server authority; parentScope is display input only</td><td><span class="anchor-ref">#c-6-8</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="callout info">
-    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Spec status — published (cinatra#1607 AC6)</span>
-    <p>This page is <b>published</b> as part of Cinatra Application Design, per the owner’s cinatra#1607 AC6 ruling. It is the normative conformance target for the app’s permissions / access picker: a generated conformance manifest is published alongside the other Application Design conformance artifacts, the published <a href="application-design-extensions.html">Extensions</a> page cross-references this page for the picker it reuses, and conformance consumers pin the exact manifest bytes they verified against.</p>
   </div>
 
   <footer>

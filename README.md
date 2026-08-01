@@ -18,7 +18,7 @@ Run your first agent with the [Quickstart](guides/hosting/quickstart.md), or rea
 
 - [User](guides/user/README.md) — running agents, chat, human-in-the-loop (HITL) review, dashboards, skills, cross-instance collaboration
 - [Admin](guides/admin/README.md) — the `/configuration/*` area: marketplace, extensions, permissions, providers, telemetry, instance settings
-- [Developer](guides/developer/README.md) — authoring agents and extensions, the contributor workflow (planned with GSD — "Git. Ship. Done", the open-gsd spec-driven development framework), and the day-to-day developer loop <!-- source-leak-allow -->
+- [Developer](guides/developer/README.md) — authoring agents and extensions, the contributor workflow (planned with GSD — "Git. Ship. Done", the open-gsd spec-driven development framework), and the day-to-day developer loop
 - [Hosting](guides/hosting/README.md) — installation, configuration, troubleshooting; what an operator needs to know
 - [Integrations](integrations/README.md) — connect Cinatra to the CMS/CRM/PM tools you already use (WordPress, Drupal, Twenty, Plane) and how to install any marketplace extension
 

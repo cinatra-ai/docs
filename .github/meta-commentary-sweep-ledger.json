@@ -1,0 +1,1416 @@
+{
+  "$comment": "SWEEP LEDGER for cinatra-ai/docs#160 (AC5, AC10). Committed beside the gate config it belongs to. Section 1 lists every unique occurrence the widened engine found on the published pages before the sweep, keyed by file + SOURCE line, with the pattern classes that fired on it and its disposition. Section 2 inventories every in-page CI-directive comment with a measured retain-or-remove decision. Both sections are GENERATED FROM EVIDENCE, not hand-written: section 1 by running the engine over the pre-sweep bytes of each touched file, section 2 by removing each marker in turn and diffing the owning gate's findings.",
+  "issue": "cinatra-ai/docs#160",
+  "sweptAt": "2026-08-01",
+  "contentSweep": {
+    "$comment": "One source line can carry several pattern classes, so the class totals below exceed the unique-occurrence count. That is the reconciliation AC5 asks for: uniqueOccurrences is the number of LINES changed, classTotals counts MATCHES by class.",
+    "uniqueOccurrences": 67,
+    "classTotals": {
+      "work-item citation": 50,
+      "ruling citation": 14,
+      "editorial / publish-status annotation": 11,
+      "acceptance-criterion citation": 26
+    },
+    "postSweepViolations": 0,
+    "entries": [
+      {
+        "file": "guides/admin/drupal-module.md",
+        "sourceLine": 60,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#221"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 677,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra-ai/cinatra#1795"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 679,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra-ai/cinatra#1795"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 682,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra-ai/cinatra#1795"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 689,
+        "patterns": [
+          "numbered_ruling_citation",
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "ruling citation",
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1883",
+          "rulings 1"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 691,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra-ai/cinatra#1883"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 692,
+        "patterns": [
+          "numbered_ruling_citation"
+        ],
+        "classes": [
+          "ruling citation"
+        ],
+        "matched": [
+          "ruling 1"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 752,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1883"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 753,
+        "patterns": [
+          "numbered_ruling_citation",
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "ruling citation",
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1883",
+          "ruling 2"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 780,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1883"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 784,
+        "patterns": [
+          "numbered_ruling_citation",
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "ruling citation",
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1883",
+          "ruling 4"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 804,
+        "patterns": [
+          "numbered_ruling_citation",
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "ruling citation",
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1883",
+          "ruling 4"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 806,
+        "patterns": [
+          "numbered_ruling_citation",
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "ruling citation",
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1883",
+          "ruling 4"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 807,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1883"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 808,
+        "patterns": [
+          "numbered_ruling_citation",
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "ruling citation",
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1883",
+          "ruling 4"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 859,
+        "patterns": [
+          "numbered_ruling_citation",
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "ruling citation",
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1883",
+          "ruling 4"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 866,
+        "patterns": [
+          "numbered_ruling_citation",
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "ruling citation",
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1883",
+          "ruling 5"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 868,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1883"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 886,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1883"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 914,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1883",
+          "cinatra#700"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 916,
+        "patterns": [
+          "numbered_ruling_citation"
+        ],
+        "classes": [
+          "ruling citation"
+        ],
+        "matched": [
+          "ruling 5"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 924,
+        "patterns": [
+          "numbered_ruling_citation",
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "ruling citation",
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1897",
+          "ruling 5"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 1019,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1886"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 1020,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1437",
+          "cinatra#1886"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 1049,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1886"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 1053,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1886",
+          "cinatra#1897"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 1080,
+        "patterns": [
+          "numbered_ruling_citation"
+        ],
+        "classes": [
+          "ruling citation"
+        ],
+        "matched": [
+          "ruling 5"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 1081,
+        "patterns": [
+          "numbered_ruling_citation"
+        ],
+        "classes": [
+          "ruling citation"
+        ],
+        "matched": [
+          "Ruling 5",
+          "ruling 5"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 959,
+        "patterns": [
+          "design_note_annotation"
+        ],
+        "classes": [
+          "editorial / publish-status annotation"
+        ],
+        "matched": [
+          "design note, outside"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 966,
+        "patterns": [
+          "design_note_annotation"
+        ],
+        "classes": [
+          "editorial / publish-status annotation"
+        ],
+        "matched": [
+          "design note, outside"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 972,
+        "patterns": [
+          "design_note_annotation"
+        ],
+        "classes": [
+          "editorial / publish-status annotation"
+        ],
+        "matched": [
+          "design note, outside"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 978,
+        "patterns": [
+          "design_note_annotation"
+        ],
+        "classes": [
+          "editorial / publish-status annotation"
+        ],
+        "matched": [
+          "design note, outside"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 989,
+        "patterns": [
+          "design_note_annotation"
+        ],
+        "classes": [
+          "editorial / publish-status annotation"
+        ],
+        "matched": [
+          "design note, outside"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-notifications.html",
+        "sourceLine": 526,
+        "patterns": [
+          "owner_gated_publish"
+        ],
+        "classes": [
+          "editorial / publish-status annotation"
+        ],
+        "matched": [
+          "owner-gated publish"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 348,
+        "patterns": [
+          "acceptance_criterion_citation",
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation",
+          "work-item citation"
+        ],
+        "matched": [
+          "AC1",
+          "AC2",
+          "AC5",
+          "AC6",
+          "AC8",
+          "cinatra#1607"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 649,
+        "patterns": [
+          "acceptance_criterion_citation",
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation",
+          "work-item citation"
+        ],
+        "matched": [
+          "AC2",
+          "AC5",
+          "cinatra#1607"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 653,
+        "patterns": [
+          "spec_status_annotation"
+        ],
+        "classes": [
+          "editorial / publish-status annotation"
+        ],
+        "matched": [
+          "spec status"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 655,
+        "patterns": [
+          "spec_status_annotation"
+        ],
+        "classes": [
+          "editorial / publish-status annotation"
+        ],
+        "matched": [
+          "spec status"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 657,
+        "patterns": [
+          "acceptance_criterion_citation",
+          "publish_decision",
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation",
+          "editorial / publish-status annotation",
+          "work-item citation"
+        ],
+        "matched": [
+          "AC6",
+          "AC8",
+          "cinatra#1607",
+          "publish decision"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 659,
+        "patterns": [
+          "acceptance_criterion_citation",
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation",
+          "work-item citation"
+        ],
+        "matched": [
+          "AC6",
+          "AC8",
+          "cinatra#1607"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 664,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1607"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 667,
+        "patterns": [
+          "acceptance_criterion_citation",
+          "publish_decision"
+        ],
+        "classes": [
+          "acceptance-criterion citation",
+          "editorial / publish-status annotation"
+        ],
+        "matched": [
+          "AC6",
+          "publish decision"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 668,
+        "patterns": [
+          "acceptance_criterion_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation"
+        ],
+        "matched": [
+          "AC8"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 669,
+        "patterns": [
+          "acceptance_criterion_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation"
+        ],
+        "matched": [
+          "AC8"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 670,
+        "patterns": [
+          "acceptance_criterion_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation"
+        ],
+        "matched": [
+          "AC8"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 671,
+        "patterns": [
+          "acceptance_criterion_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation"
+        ],
+        "matched": [
+          "AC8"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 672,
+        "patterns": [
+          "acceptance_criterion_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation"
+        ],
+        "matched": [
+          "AC8"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 673,
+        "patterns": [
+          "acceptance_criterion_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation"
+        ],
+        "matched": [
+          "AC8"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 674,
+        "patterns": [
+          "acceptance_criterion_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation"
+        ],
+        "matched": [
+          "AC1",
+          "AC8"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 675,
+        "patterns": [
+          "acceptance_criterion_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation"
+        ],
+        "matched": [
+          "AC2"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 676,
+        "patterns": [
+          "acceptance_criterion_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation"
+        ],
+        "matched": [
+          "AC3"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 677,
+        "patterns": [
+          "acceptance_criterion_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation"
+        ],
+        "matched": [
+          "AC4"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 678,
+        "patterns": [
+          "acceptance_criterion_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation"
+        ],
+        "matched": [
+          "AC5"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 684,
+        "patterns": [
+          "acceptance_criterion_citation",
+          "qualified_workitem_citation",
+          "spec_status_annotation"
+        ],
+        "classes": [
+          "acceptance-criterion citation",
+          "editorial / publish-status annotation",
+          "work-item citation"
+        ],
+        "matched": [
+          "AC6",
+          "Spec status",
+          "cinatra#1607"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 685,
+        "patterns": [
+          "acceptance_criterion_citation",
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "acceptance-criterion citation",
+          "work-item citation"
+        ],
+        "matched": [
+          "AC6",
+          "cinatra#1607"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/platform/artifacts.md",
+        "sourceLine": 102,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1449"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/platform/artifacts.md",
+        "sourceLine": 115,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1451"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/platform/artifacts.md",
+        "sourceLine": 117,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1450"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/platform/artifacts.md",
+        "sourceLine": 121,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1453"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/platform/artifacts.md",
+        "sourceLine": 127,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1432"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/platform/artifacts.md",
+        "sourceLine": 132,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1452"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/platform/artifacts.md",
+        "sourceLine": 140,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#1433"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/platform/extension-webhooks-and-streams.md",
+        "sourceLine": 9,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#340"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/platform/extension-webhooks-and-streams.md",
+        "sourceLine": 159,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#344"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/platform/extensions.md",
+        "sourceLine": 152,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "pre-#118"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/platform/pm-connector.md",
+        "sourceLine": 116,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#318"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      },
+      {
+        "file": "references/platform/pm-connector.md",
+        "sourceLine": 131,
+        "patterns": [
+          "qualified_workitem_citation"
+        ],
+        "classes": [
+          "work-item citation"
+        ],
+        "matched": [
+          "cinatra#318"
+        ],
+        "disposition": "removed",
+        "rationale": "Rewritten in product terms: the clause now states what the capability does; the internal reference a reader of the published site cannot resolve is gone. No allowlist entry — the policy defines no exception that covers a work-item, acceptance-criterion, ruling or publish-status citation on a published page."
+      }
+    ],
+    "reconciliationAgainstTheIssue": {
+      "$comment": "docs#160 quotes 37 work-item citations, 16 ruling citations and 10 editorial / publish-status annotations across the Application Design HTML pages. Those figures were produced by hand-sampling the pages; the figures above are produced by the ENGINE, so they differ, and the differences are recorded here rather than reconciled away.",
+      "issueStated": {
+        "workItemCitations": 37,
+        "rulingCitations": 16,
+        "editorialAnnotations": 10,
+        "scope": "the 7 references/design/*.html pages"
+      },
+      "measured": {
+        "htmlOccurrences": 54,
+        "htmlLineLevelByClass": {
+          "work-item citation": 30,
+          "acceptance-criterion citation": 18,
+          "ruling citation": 13,
+          "editorial / publish-status annotation": 11
+        },
+        "markdownOccurrences": 13,
+        "scope": "the whole tracked tree, engine-measured"
+      },
+      "whyTheyDiffer": [
+        "COUNTING UNIT. The issue counts CITATIONS; the engine counts unique OCCURRENCES (file + source line) and, separately, MATCHES. One line can carry three `cinatra#1883` citations, which is three citations but one occurrence and three matches. classTotals above counts matches; uniqueOccurrences counts lines.",
+        "THE ACCEPTANCE-CRITERION CLASS IS SEPARATE HERE. The issue folds `AC6`-style citations into its narrative; the engine patterns them as their own class (18 line-level occurrences on the HTML pages), so they are neither in the 37 nor in the 16.",
+        "MARKDOWN IS INCLUDED. 13 Markdown occurrences were swept under the AC4 decision (the qualified work-item form is now patterned). The issue lists 12 of them; the 13th, references/platform/extensions.md `pre-#118`, was found by the engine and is recorded above like any other.",
+        "ONE ISSUE-LISTED PAGE NEEDED NO EDIT. The issue's Gap-2 samples name four pages; the engine agrees exactly — artifacts, permissions, extensions and notifications — and confirms design-system, application-design-components and application-design-connectors were already clean."
+      ]
+    }
+  },
+  "ciDirectiveComments": {
+    "$comment": "AC10. Each marker was probed individually: remove it, re-run the gate that owns it exactly as this repo's CI runs it (profile ops-docs, this repo's .github/source-leak-gate.json), and diff the findings. A marker whose removal adds a finding on its own line is load-bearing and is RETAINED; one whose removal changes nothing suppresses nothing and is REMOVED. Verified collectively as well as individually: the gate reports the same 12 findings before and after the removals. RESIDUAL RISK, recorded: the source-leak rules live in cinatra-ai/ci and are SHA-pinned by this repo's caller; a future rule widening could make a removed marker's line fire, and the fix is to re-add that marker with fresh probe evidence.",
+    "total": 36,
+    "retained": 23,
+    "removed": 13,
+    "gateFindingsBefore": 12,
+    "gateFindingsAfter": 12,
+    "entries": [
+      {
+        "file": "README.md",
+        "sourceLine": 21,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "inert — removing it changes no source-leak-gate finding",
+        "decision": "remove"
+      },
+      {
+        "file": "guides/README.md",
+        "sourceLine": 7,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "inert — removing it changes no source-leak-gate finding",
+        "decision": "remove"
+      },
+      {
+        "file": "guides/developer/README.md",
+        "sourceLine": 3,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "inert — removing it changes no source-leak-gate finding",
+        "decision": "remove"
+      },
+      {
+        "file": "guides/developer/README.md",
+        "sourceLine": 110,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "inert — removing it changes no source-leak-gate finding",
+        "decision": "remove"
+      },
+      {
+        "file": "guides/developer/building-packages.md",
+        "sourceLine": 102,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report guides/developer/building-packages.md:102:SLG_METHODOLOGY",
+        "decision": "retain"
+      },
+      {
+        "file": "guides/developer/contributing.md",
+        "sourceLine": 11,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report guides/developer/contributing.md:11:SLG_METHODOLOGY",
+        "decision": "retain"
+      },
+      {
+        "file": "guides/developer/contributing.md",
+        "sourceLine": 131,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report guides/developer/contributing.md:131:SLG_METHODOLOGY",
+        "decision": "retain"
+      },
+      {
+        "file": "guides/developer/developing-agents.md",
+        "sourceLine": 3,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report guides/developer/developing-agents.md:3:SLG_METHODOLOGY",
+        "decision": "retain"
+      },
+      {
+        "file": "guides/developer/extension-publishing.md",
+        "sourceLine": 81,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report guides/developer/extension-publishing.md:81:SLG_METHODOLOGY",
+        "decision": "retain"
+      },
+      {
+        "file": "guides/developer/wp-drupal-plugin-development.md",
+        "sourceLine": 124,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report guides/developer/wp-drupal-plugin-development.md:124:SLG_METHODOLOGY",
+        "decision": "retain"
+      },
+      {
+        "file": "guides/user/README.md",
+        "sourceLine": 5,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "inert — removing it changes no source-leak-gate finding",
+        "decision": "remove"
+      },
+      {
+        "file": "references/design/README.md",
+        "sourceLine": 5,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "inert — removing it changes no source-leak-gate finding",
+        "decision": "remove"
+      },
+      {
+        "file": "references/design/application-design-artifacts.html",
+        "sourceLine": 1151,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/application-design-artifacts.html:1151:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/design/application-design-components.html",
+        "sourceLine": 1381,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/application-design-components.html:1381:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/design/application-design-connectors.html",
+        "sourceLine": 653,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/application-design-connectors.html:653:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 555,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/application-design-extensions.html:555:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 747,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/application-design-extensions.html:747:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 748,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/application-design-extensions.html:748:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 749,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/application-design-extensions.html:749:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 750,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/application-design-extensions.html:750:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 751,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/application-design-extensions.html:751:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 782,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "inert — removing it changes no source-leak-gate finding",
+        "decision": "remove"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 783,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "inert — removing it changes no source-leak-gate finding",
+        "decision": "remove"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 784,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "inert — removing it changes no source-leak-gate finding",
+        "decision": "remove"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 785,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "inert — removing it changes no source-leak-gate finding",
+        "decision": "remove"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 786,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "inert — removing it changes no source-leak-gate finding",
+        "decision": "remove"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 865,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/application-design-extensions.html:865:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 869,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/application-design-extensions.html:869:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 873,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/application-design-extensions.html:873:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 877,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "inert — removing it changes no source-leak-gate finding",
+        "decision": "remove"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 882,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "inert — removing it changes no source-leak-gate finding",
+        "decision": "remove"
+      },
+      {
+        "file": "references/design/application-design-extensions.html",
+        "sourceLine": 1054,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/application-design-extensions.html:1054:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/design/application-design-notifications.html",
+        "sourceLine": 530,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/application-design-notifications.html:530:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/design/application-design-permissions.html",
+        "sourceLine": 654,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/application-design-permissions.html:654:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/design/design-system.html",
+        "sourceLine": 1070,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/design/design-system.html:1070:SLG_MILESTONE_VERSION",
+        "decision": "retain"
+      },
+      {
+        "file": "references/mcp/migration-roadmap.md",
+        "sourceLine": 49,
+        "directive": "source-leak-allow",
+        "ownedBy": "source-leak-gate",
+        "effectProbe": "load-bearing — removing it makes the source-leak-gate report references/mcp/migration-roadmap.md:49:SLG_METHODOLOGY",
+        "decision": "retain"
+      }
+    ],
+    "reconciliationAgainstTheIssue": {
+      "$comment": "docs#160 states 35 CI-directive comment occurrences across 18 files. The live count on the swept base is 36 across the same 18 files; the extra one is recorded rather than reconciled away. Every occurrence is listed above with its measured decision."
+    }
+  }
+}

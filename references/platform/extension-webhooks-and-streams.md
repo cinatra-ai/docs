@@ -6,7 +6,7 @@ Connectors can receive push events from external systems (inbound webhooks) and 
 
 ## Inbound webhooks (`cinatra.webhooks`)
 
-The inbound-webhook facility (cinatra#340) lets a connector declare one or more named hooks. The host owns the route, the secret store, the idempotency ledger, and the Standard-Webhooks signature verification. The connector owns only the per-hook business logic that turns a verified payload into a handler outcome.
+The inbound-webhook facility lets a connector declare one or more named hooks. The host owns the route, the secret store, the idempotency ledger, and the Standard-Webhooks signature verification. The connector owns only the per-hook business logic that turns a verified payload into a handler outcome.
 
 ### Route contract
 
@@ -156,7 +156,7 @@ Secret format: `whsec_<base64>` — the `whsec_` prefix is the Standard-Webhooks
 
 ## Streams (`cinatra.streams`)
 
-The streams facility (cinatra#344) lets a connector expose a server-sent event stream at a host-owned generic route. The `@cinatra-ai/streams` package provides three vocabulary-free primitives — a durable Redis-Streams event log, a resumable per-connection SSE wrapper, and a generalized token broker — that the connector's handler is built on top of. The host owns the route and the SSE wire protocol; the connector owns the business logic.
+The streams facility lets a connector expose a server-sent event stream at a host-owned generic route. The `@cinatra-ai/streams` package provides three vocabulary-free primitives — a durable Redis-Streams event log, a resumable per-connection SSE wrapper, and a generalized token broker — that the connector's handler is built on top of. The host owns the route and the SSE wire protocol; the connector owns the business logic.
 
 > **Staged and inert on day one.** No extension declares `cinatra.streams` yet. The generated registry is `{}` and the route returns `404` for every request safely. The relay and run-stream migration onto `@cinatra-ai/streams` are follow-on work.
 
