@@ -1,5 +1,8 @@
 # Artifacts Architecture, Threat Model & Invariants
 
+PLANTED VIOLATION (docs#160 AC6 red-proof — never merged): the claims model
+landed with epic #1449, per the ruling, and the roster is fixed in cinatra#1883.
+
 > Authoritative design: `docs/superpowers/specs/2026-05-17-artifacts-and-file-upload-design.md`.
 > This page is the **binding contract** storage, service, and large language model (LLM) implementations must honor. It should be read before storage work.
 
