@@ -57,7 +57,7 @@ Open **Configuration → Web services → Cinatra** (`/admin/config/services/cin
 
 In the **Connect to Cinatra** section, enter your Cinatra instance URL (for example `https://cinatra.example.com`) and click **Connect with Cinatra**. Your browser is sent to a Cinatra consent screen where an organization admin approves the connection; Drupal then provisions the integration credential automatically and stores it server-side. **You never copy or paste a key.**
 
-Behind the scenes this is an OAuth-style handshake (cinatra#221): the Connect button is CSRF-protected and mints a PKCE challenge plus a single-use `state`; Cinatra redirects back to the module's callback (`/admin/config/services/cinatra/connect/callback`); and Drupal exchanges the returned short-lived code **server-side** for the long-lived per-site credential. The credential never reaches the browser at any point. After a successful connection the form shows which instance you are connected to.
+Behind the scenes this is an OAuth-style handshake: the Connect button is CSRF-protected and mints a PKCE challenge plus a single-use `state`; Cinatra redirects back to the module's callback (`/admin/config/services/cinatra/connect/callback`); and Drupal exchanges the returned short-lived code **server-side** for the long-lived per-site credential. The credential never reaches the browser at any point. After a successful connection the form shows which instance you are connected to.
 
 ### Connection-string fallback (no browser redirect)
 

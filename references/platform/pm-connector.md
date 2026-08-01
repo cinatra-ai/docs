@@ -113,7 +113,7 @@ lifecycle untouched (the *absence* of a row is the natural "not mirrored" state)
 | `sync_error` | last fail-open error (null = healthy) — retried by the background reconcile loop |
 | `version` | optimistic-concurrency counter for the background reconcile loop |
 
-> The `sync_error` / `version` columns support the **periodic reconcile loop (cinatra#318)**, a background job that re-checks every mirrored schedule every ~10 minutes and repairs any work item that drifted or failed to sync. A failed mirror is also re-synced on the next configure/delete of that trigger.
+> The `sync_error` / `version` columns support the **periodic reconcile loop**, a background job that re-checks every mirrored schedule every ~10 minutes and repairs any work item that drifted or failed to sync. A failed mirror is also re-synced on the next configure/delete of that trigger.
 
 The migration is **additive** (a brand-new `CREATE TABLE IF NOT EXISTS`), and
 the store (`packages/agents/src/pm-link-store.ts`) is server-only:
@@ -128,7 +128,7 @@ host bridge is fail-open at every PM path:
 - A PM provider that is absent, inactive, or unreachable must never throw out of
   `syncRunTriggerPmTask` / `deleteRunTriggerPmTask`, and never block or disable
   the local schedule. A failed push is recorded in the pm-link row (`sync_error`)
-  for the background reconcile loop (cinatra#318) to retry on its next tick; the
+  for the background reconcile loop to retry on its next tick; the
   trigger lifecycle continues regardless.
 - Each provider call is raced against a bounded **10s ceiling**
   (`PM_CALL_TIMEOUT_MS`). The trigger lifecycle awaits the mirror, so a

@@ -1,6 +1,6 @@
 # Developer Guide
 
-This guide is for people working on Cinatra's code — writing agents, building extensions, contributing to the platform, integrating with the open standards Cinatra speaks. Work here is planned with GSD ("Git. Ship. Done"), the [open-gsd](https://github.com/open-gsd/gsd-core) spec-driven development framework — see [Contributing](contributing.md#planning). <!-- source-leak-allow -->
+This guide is for people working on Cinatra's code — writing agents, building extensions, contributing to the platform, integrating with the open standards Cinatra speaks. Work here is planned with GSD ("Git. Ship. Done"), the [open-gsd](https://github.com/open-gsd/gsd-core) spec-driven development framework — see [Contributing](contributing.md#planning).
 
 For end-user material, see the [User Guide](../user/README.md). For platform-administration content, see the [Admin Guide](../admin/README.md). For installation and configuration, see the [Hosting Guide](../hosting/README.md). For the Model Context Protocol (MCP) server (external and internal), see the [MCP Guide](../../references/mcp/README.md).
 
@@ -107,7 +107,7 @@ Advanced, internal engineering references — contributor material, not part of 
 
 ## Contribute
 
-- [Contributing](contributing.md) — how to contribute, and how work is planned with GSD ("Git. Ship. Done", the open-gsd spec-driven development framework) <!-- source-leak-allow -->
+- [Contributing](contributing.md) — how to contribute, and how work is planned with GSD ("Git. Ship. Done", the open-gsd spec-driven development framework)
 
 ---
 

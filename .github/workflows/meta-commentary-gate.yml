@@ -3,10 +3,23 @@ name: meta-commentary-gate
 # Blocking conformance check for cinatra-ai/docs#114: published, user-facing
 # pages must not carry meta/implementation commentary about how the docs
 # themselves are produced, compiled, mirrored, or maintained ("this page is
-# compiled from…", "(hub forthcoming)", editorial TODOs, and the like). See
-# scripts/check-meta-commentary.mjs for the pattern list, the contributor-docs
-# skip-paths, and the reviewed allowlist for verified product-content false
-# positives (.github/meta-commentary-gate-allowlist.json).
+# compiled from…", "(hub forthcoming)", editorial TODOs, and the like), narrate
+# work in flight, or name the internal work item / acceptance criterion /
+# decision a capability came from. See scripts/check-meta-commentary.mjs for the
+# pattern list, the contributor-docs skip-paths, and the reviewed allowlist for
+# verified product-content false positives
+# (.github/meta-commentary-gate-allowlist.json).
+#
+# SCOPE: the whole tracked tree, MARKDOWN AND HTML (cinatra-ai/docs#160) — this
+# repo IS the published surface, and its Application Design reference pages ship
+# as HTML. There is deliberately no `paths:` trigger filter: the gate must run on
+# every PR that could touch a published surface, and a trigger-level filter is
+# exactly how a docs-only PR would come to skip it silently.
+#
+# The second job asserts TWIN PARITY (docs#160 AC2): this repo's engine and the
+# SHA-pinnable reusable in cinatra-ai/ci must agree on a corpus that is
+# byte-identical in both repos. It is a separate job so a parity divergence
+# reads as a parity divergence, not as a content violation.
 
 on:
   pull_request:
@@ -28,3 +41,15 @@ jobs:
           node-version: "22"
       - name: Check for meta/implementation commentary on published pages
         run: node scripts/check-meta-commentary.mjs
+
+  meta-commentary-twin-parity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout docs
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Setup Node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: "22"
+      - name: This engine reproduces the shared twin verdict exactly
+        run: node scripts/check-meta-commentary-parity.mjs
