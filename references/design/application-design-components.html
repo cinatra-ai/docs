@@ -291,7 +291,7 @@
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.2.0</div>
+      <div>Version 0.3.0</div>
     </div>
   </div>
 
@@ -1378,7 +1378,7 @@
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Retiring the in-stepper trigger HITL</h3>
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The previous approach delivered scheduling as a per-agent renderer chain: a hand-inlined <em>configure</em> subflow, a separate read-only <em>confirm</em> gate, and an exact-version trigger dependency pinned into every embedding agent. That chain is retired. The <strong style="color:var(--ink);">confirm gate is removed</strong> — the in-flow step arms the trigger directly on <em>Continue</em> — and no agent declares a trigger renderer or pins a trigger dependency. What stays is exactly the platform machinery it always ran on: the per-run schedule storage, the schedule firing, and the persistent <code>/trigger</code> tab with its Cancel / Release-now controls. The change is only that the in-flow renderer is now <strong style="color:var(--ink);">host-standard</strong>, available to every agent for free rather than copied into each one.</p>
 <footer>
-    <span>Cinatra · Application Design — Components v0.1.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Components v0.3.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>

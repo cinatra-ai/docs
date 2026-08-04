@@ -262,8 +262,8 @@
 
   /* ── Notifications-local extensions (below the shared base) ───
      Reference-render helpers for this surface: the example frame, the
-     row grids, the filter-chip rail, and the bell badge. Colour, type and
-     spacing all draw from the shared tokens above. */
+     card list, the toolbar row, the pager, and the bell badge. Colour, type
+     and spacing all draw from the shared tokens above. */
   .ex { border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 14px; }
   .ex > .cap { padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700; }
   .ex > .body { padding: 18px 20px; }
@@ -273,14 +273,55 @@
   .tag.ext { background: rgba(54,78,129,0.10); color: var(--blue); border-color: rgba(54,78,129,0.30); }
   .tag.floor { background: transparent; color: var(--muted); border-color: var(--line-strong); }
   .tag.mono { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; }
-  /* Read-dot: the unread marker carried by NOTIFICATION rows only (never approvals). */
-  .read-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); flex: none; }
-  /* Filter chip rail — the four chips that FILTER the single list (not tabs). */
-  .chips { display: inline-flex; flex-wrap: wrap; gap: 8px; }
-  .chip-f { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 13px; border-radius: 9999px; border: 1px solid var(--line-strong); background: var(--surface-strong); color: var(--ink); font-family: var(--font-sans); font-size: 12.5px; font-weight: 500; cursor: pointer; }
-  .chip-f[aria-pressed="true"] { background: var(--blue); color: var(--surface-strong); border-color: var(--blue); font-weight: 600; }
-  .chip-f .count { font-family: var(--font-mono); font-size: 10px; padding: 1px 6px; border-radius: 9999px; background: var(--surface-muted); color: var(--muted); }
-  .chip-f[aria-pressed="true"] .count { background: rgba(255,255,255,0.22); color: var(--surface-strong); }
+  /* The unread marker on the toggle button below is an envelope icon pair —
+     closed = unread, opened = read — not a passive dot; there is no separate
+     passive read-dot glyph elsewhere in this spec. */
+  /* Toolbar (design#104, round 3) — supersedes the tablist entirely. Composed strictly from two
+     existing shared components (Application Design — Components): Toolbar (the chrome, the
+     borderless-controls rule, and "the toolbar replaces the section rule for that view") and
+     Toggle / Toggle group (the single-select segmented control — "the canonical way to choose one
+     of two or more options"). Precedent: the app-connectors.html connection-filter toolbar, whose
+     segmented filter leads the bar and whose Sort & display icon button anchors the far right,
+     borderless, in the same toolbar chrome (specs/app-connectors.html :291-308) — this is that same
+     composition, not a new one. The filter segments carry no per-segment status colour (none of the
+     four names a fixed status the way Connected/Disconnected do), so they use a NEUTRAL version of
+     the toggle group's fill-not-border grammar rather than the connectors filter's colour-coded
+     deviation. */
+  .n-toolbar { display: flex; align-items: center; background: var(--toolbar); border-radius: 8px; height: 48px; overflow: hidden; margin: 16px 0 14px; }
+  .n-toolbar-group { display: flex; align-items: center; padding: 7px; flex-shrink: 0; }
+  .n-toolbar-sep { width: 1px; height: 24px; background: rgba(21,33,58,.22); flex-shrink: 0; align-self: center; }
+  .n-toolbar-spacer { flex: 1; min-width: 0; }
+  /* Round 5: rounds 3-4 matched this against app-connectors.html's WRITTEN spec excerpt
+     (border var(--line-strong), soft-tint selection) and were still rejected — because that written
+     excerpt itself doesn't match the shipped /connectors toolbar. Re-grounded directly against the
+     live, running app: the outer border and the divider between segments are a hairline token
+     (rgba(21,33,58,0.14) — the same value as this spec's own var(--line)), not the opaque
+     var(--line-strong); and selection is a SOLID fill with inverse (white) content, not a soft colour
+     tint — idle segments carry a light neutral tint instead of pure transparency. Radius (7px) was
+     already correct and is unchanged. These segments are neutral (no fixed status the way
+     Connected/Disconnected do), so the fill uses the page's own ink/surface-strong pair — the same
+     solid-fill-on-neutral pattern app-connectors.html's own "All" segment already uses — rather than a
+     status colour. */
+  .n-toggle-group { display: inline-flex; align-items: stretch; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; height: 34px; font-family: var(--font-sans); font-size: 12.5px; }
+  .n-toggle-seg { height: 100%; padding: 0 13px; border: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; background: var(--surface-muted); color: var(--muted); font-weight: 500; }
+  .n-toggle-seg + .n-toggle-seg { border-left: 1px solid var(--line); }
+  .n-toggle-seg[aria-pressed="true"] { background: var(--ink); color: var(--surface-strong); }
+  .n-toggle-seg .count { font-family: var(--font-mono); font-size: 10px; padding: 1px 6px; border-radius: 9999px; background: var(--surface-strong); color: var(--muted); }
+  .n-toggle-seg[aria-pressed="true"] .count { background: rgba(255,255,255,0.18); color: var(--surface-strong); }
+  /* Matches app-connectors.html's "+ Connector" icon+label toolbar button exactly (padding 0 12px,
+     ink, not the icon-only "Sort & display" button's 0 10px/muted — that one has no text label). */
+  .n-toolbar-icon-btn { padding: 0 12px; height: 34px; border-radius: 7px; background: transparent; border: 0; cursor: pointer; color: var(--ink); display: inline-flex; align-items: center; gap: 6px; font: 500 12.5px var(--font-sans); white-space: nowrap; }
+  /* Spaced clickable cards — supersede the hairline-divided row list (rule 8: --surface-strong is the
+     interactive surface). Whole-card activation is a stretched sibling overlay, never role="button" on
+     the card itself, so nested approval controls keep working assistive tech. */
+  .n-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .n-card { position: relative; display: flex; align-items: center; gap: 14px; padding: 12px 14px; background: var(--surface-strong); border: 1px solid var(--line); border-radius: 11px; transition: box-shadow 120ms ease, transform 120ms ease; }
+  .n-card:hover { box-shadow: 0 2px 6px rgba(21,33,58,0.10); transform: translateY(-1px); }
+  .n-card .stretch { position: absolute; inset: 0; z-index: 0; border-radius: inherit; margin: 0; padding: 0; border: 0; background: transparent; font: inherit; cursor: pointer; appearance: none; }
+  .n-card > * { position: relative; z-index: 1; }
+  /* Read/unread toggle — button + icon pair; the icon is an envelope in its two states (closed/opened). */
+  .n-toggle { flex: none; width: 26px; height: 26px; display: grid; place-items: center; border: 0; background: transparent; border-radius: 6px; cursor: pointer; color: var(--blue); }
+  .n-toggle:hover { background: rgba(54,78,129,0.08); }
   /* Bell = badge + link (no flyout). */
   .bell { position: relative; display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface-strong); color: var(--ink); cursor: pointer; text-decoration: none; }
   .bell .badge { position: absolute; top: -5px; right: -5px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 9999px; background: var(--red); color: var(--surface-strong); font-family: var(--font-mono); font-size: 9.5px; font-weight: 700; display: grid; place-items: center; box-shadow: 0 0 0 2px var(--paper); }
@@ -297,7 +338,7 @@
       <p class="lede">The unified <code>/notifications</code> surface — <b>one chronological list</b> that holds notifications and pending approvals together, filtered (not clustered), reached from a badge-only bell. It replaces the approvals inbox and the bell flyout. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.1.1</div>
+      <div>Version 0.1.3</div>
     </div>
   </div>
 
@@ -309,7 +350,7 @@
     <div class="rule"></div>
     <div class="source">Route /notifications · notifications + approvals · one list</div>
   </div>
-  <p class="lede-p"><b>One page replaces two.</b> <code>/notifications</code> is the single home for both notifications and pending approvals. It absorbs the former <code>/configuration/approvals</code> inbox and the bell flyout outright — both surfaces are gone (§VII). The page opens with the standard <b>page header</b> (title <em>Notifications</em>, a one-line description, a closing etched rule), then a <b>filter-chip rail</b> (§III), then the list.</p>
+  <p class="lede-p"><b>One page replaces two.</b> <code>/notifications</code> is the single home for both notifications and pending approvals. It absorbs the former <code>/configuration/approvals</code> inbox and the bell flyout outright — both surfaces are gone (§VIII). It sits in the <b>Wide</b> content width (the <code>max-w-3xl</code> · 768px column defined in the Application Design system, §VII Content widths) — the surface previously carried no width tier of its own. The page opens with the standard <b>page header</b> (title <em>Notifications</em>, a one-line description — <b>no closing rule of its own</b>: the toolbar below replaces it, per the Toolbar component's own rule), then a <b>toolbar</b> (§III), then the list.</p>
   <p class="lede-p"><b>Exactly one list, ordered by time.</b> Notifications and pending-approval rows are interleaved into a <b>single chronological list</b>, most-recent first by each item's created time. There are <b>no clusters and no section headers</b> — the <em>Needs your decision</em> / <em>Your requests</em> groupings carried over from the app spec's approvals inbox (app.html §IX) are <b>retired</b> and must not appear here. A view is never split into "your requests" versus "awaiting you"; those are expressed as filters over the one list, never as separate sections or lanes.</p>
   <p class="lede-p"><b>Approvals stay read-time federated.</b> Pending-approval rows are read at request time from the existing approval-source registry; they are <b>not</b> materialized as rows in the notifications table. Only the page is unified — the two data models are unchanged behind it. A notification row is a per-user read/unread row; an approval row is an org-shared decide-once item with eligibility (§II).</p>
 
@@ -318,21 +359,27 @@
     <div class="body">
       <h1 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: var(--page-title-lg); letter-spacing: var(--title-tracking-tight); line-height: var(--page-title-line-height); margin: 0; color: var(--ink);">Notifications</h1>
       <p style="margin: 4px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted);">Everything that needs your attention — updates and pending approvals, newest first.</p>
-      <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin: 14px 0 0;"></div>
-      <!-- Filter-chip rail + mark-all-read -->
-      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin:16px 0 14px;">
-        <div class="chips" role="group" aria-label="Filter notifications" data-conformance-id="notifications-filters" data-action="filter -> filtered">
-          <button type="button" class="chip-f" aria-pressed="true">All</button>
-          <button type="button" class="chip-f" aria-pressed="false">Needs action <span class="count">2</span></button>
-          <button type="button" class="chip-f" aria-pressed="false">Unread <span class="count">3</span></button>
-          <button type="button" class="chip-f" aria-pressed="false">In progress <span class="count">1</span></button>
+      <!-- Toolbar — filter switch options lead the bar; Mark all read anchors the far right; replaces the header's own closing rule (Toolbar component rule, unamended) -->
+      <div class="n-toolbar">
+        <div class="n-toolbar-group">
+          <div class="n-toggle-group" role="group" aria-label="Filter notifications" data-conformance-id="notifications-filters" data-action="filter -> filtered">
+            <button type="button" class="n-toggle-seg" aria-pressed="true">All</button>
+            <button type="button" class="n-toggle-seg" aria-pressed="false">Needs action <span class="count">2</span></button>
+            <button type="button" class="n-toggle-seg" aria-pressed="false">Unread <span class="count">3</span></button>
+            <button type="button" class="n-toggle-seg" aria-pressed="false">In progress <span class="count">1</span></button>
+          </div>
         </div>
-        <button type="button" class="btn ghost" style="padding:5px 10px;font-size:12px;color:var(--muted);cursor:pointer;">Mark all read</button>
+        <div class="n-toolbar-spacer"></div>
+        <div class="n-toolbar-sep"></div>
+        <div class="n-toolbar-group">
+          <button type="button" class="n-toolbar-icon-btn" aria-label="Mark all read"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/></svg>Mark all read</button>
+        </div>
       </div>
-      <!-- The single interleaved list -->
-      <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
-        <!-- Approval row — eligible to act (Needs action) -->
-        <li data-field="title=item.title" style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-bottom:1px solid var(--line);">
+      <!-- The single interleaved list — now spaced clickable cards, not hairline-divided rows -->
+      <ul class="n-list">
+        <!-- Approval + href — stretched link, no read semantics; inline decide actions layered above the overlay -->
+        <li class="n-card" data-field="title=item.title">
+          <a class="stretch" href="/agents/outreach/approvals/482" aria-label="Open: Approve access scope for Outreach agent"></a>
           <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(199,149,69,0.16);color:var(--mustard-ink);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></span>
           <div style="min-width:0;flex:1;">
             <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
@@ -346,17 +393,18 @@
             <button type="button" class="btn primary" data-action="decide-approval -> decided" style="padding:5px 12px;font-size:12px;cursor:pointer;">Review &amp; approve</button>
           </div>
         </li>
-        <!-- Notification row — unread -->
-        <li style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-bottom:1px solid var(--line);">
+        <!-- Notification + href, unread — stretched link auto-marks read then navigates; toggle shown mid-transition (still unread) -->
+        <li class="n-card">
+          <a class="stretch" href="/data/prospect-lists/240-rows" data-action="activate -> navigated" aria-label="Open: Prospect list finished — 240 rows"></a>
           <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M4 4h16v12H5.17L4 17.17z"/></svg></span>
           <div style="min-width:0;flex:1;">
             <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Prospect list finished — 240 rows</span>
             <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">Prospect Lists · 22 minutes ago</p>
           </div>
-          <span class="read-dot" title="Unread"></span>
+          <button type="button" class="n-toggle" data-action="toggle-read -> toggled" aria-label="Mark as read" title="Unread — mark as read"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/></svg></button>
         </li>
-        <!-- Approval row — pending but the viewer is NOT eligible (own request) -->
-        <li style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-bottom:1px solid var(--line);">
+        <!-- Approval, no href — NOT card-activatable (species exemption); pending but the viewer is not eligible -->
+        <li class="n-card">
           <span style="flex:none;width:34px;height:34px;border-radius:8px;background:var(--surface-muted);color:var(--muted);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
           <div style="min-width:0;flex:1;">
             <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
@@ -367,15 +415,27 @@
           </div>
           <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted);flex-shrink:0;">no action for you</span>
         </li>
-        <!-- Notification row — read -->
-        <li style="display:flex;align-items:center;gap:14px;padding:12px 14px;">
+        <!-- Notification, no href, read — stretched BUTTON toggles read (species: href-less notification); toggle icon mirrors it -->
+        <li class="n-card">
+          <button type="button" class="stretch" data-action="activate -> toggled" aria-label="Deploy to production succeeded — mark as unread"></button>
           <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(63,110,107,0.12);color:var(--green);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M20 6 9 17l-5-5"/></svg></span>
           <div style="min-width:0;flex:1;">
             <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Deploy to production succeeded</span>
             <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">Workflows · yesterday</p>
           </div>
+          <button type="button" class="n-toggle" aria-label="Mark as unread" title="Read — mark as unread"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 8.4c.5.38.8.97.8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 .8-1.6l8-6a2 2 0 0 1 2.4 0l8 6Z"/><path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10"/></svg></button>
         </li>
       </ul>
+      <!-- Pager (§VII) — known total, 25/page over the post-collapse rendered rows -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:14px;">
+        <div style="display:flex;gap:4px;align-items:center;font-family:var(--font-mono);font-size:13px;">
+          <button type="button" data-action="page-prev -> paged" aria-label="Previous page" style="padding:5px 8px;border:1px solid var(--line);border-radius:5px;background:var(--surface-strong);cursor:pointer;">‹</button>
+          <span aria-current="page" style="padding:5px 10px;border:1px solid var(--ink);border-radius:5px;background:var(--ink);color:var(--paper);">1</span>
+          <button type="button" style="padding:5px 10px;border:1px solid var(--line);border-radius:5px;background:var(--surface-strong);cursor:pointer;">2</button>
+          <button type="button" data-action="page-next -> paged" aria-label="Next page" style="padding:5px 8px;border:1px solid var(--line);border-radius:5px;background:var(--surface-strong);cursor:pointer;">›</button>
+        </div>
+        <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);">Page 1 of 2 · 27 total</span>
+      </div>
     </div>
   </div>
 
@@ -383,31 +443,57 @@
   <div class="sect">
     <h2>II. Row anatomy — one shell, two species</h2>
     <div class="rule"></div>
-    <div class="source">Uniform slots · read-state ≠ eligibility</div>
+    <div class="source">Spaced cards · uniform slots · read-state ≠ eligibility</div>
   </div>
-  <p class="lede-p"><b>One row shell, uniform slots.</b> Every row — notification or approval — is rendered through the same shell, whose <b>four regions</b> comprise <b>six uniform slots</b>: a leading <b>icon / kind glyph</b> (slot 1); a <b>title line</b> carrying the <b>title</b> (slot 2) plus, on approval rows, the <b>status pill</b> (slot 3); a <b>subtitle / meta line</b> carrying the source, actor and context (slot 4) together with the <b>timestamp</b> (slot 5); and a trailing <b>status / action slot</b> (slot 6) that carries EITHER the notification <b>read-dot</b> OR the approval <b>inline-action</b>. Every row fills all six slots — icon/kind, title, status pill, subtitle/meta, timestamp, and the trailing status/action — even when a given slot is empty. Rows are hairline-divided, the last row dropping its divider.</p>
-  <p class="lede-p"><b>Read-state is a notifications-only concept.</b> The <b>Unread</b> read-dot and the mark-read affordance apply to <b>notification rows only</b>. Approval rows carry <b>no read-state</b> at all — they are org-shared decide-once items, so there is no per-user "unread" to show; their status slot carries a status pill instead, and the <em>Unread</em> filter never counts them.</p>
-  <p class="lede-p"><b>“Needs action” is eligibility, not raw pendingness.</b> The <em>Needs action</em> state — the chip (§III) and the bell badge (§IV) — reflects rows the <b>viewer can actually decide</b>, not every pending approval. A read-only passthrough row (a legacy inbox item marked non-actionable) does <b>not</b> qualify; an approval the viewer themselves requested and cannot self-approve does <b>not</b> qualify. Eligibility, evaluated per viewer, drives the row's inline action, the <em>Needs action</em> chip, and the badge; a pending row the viewer cannot act on renders its status pill but exposes no decide action.</p>
+  <p class="lede-p"><b>One row shell, uniform slots.</b> Every row — notification or approval — is rendered through the same shell, whose <b>four regions</b> comprise <b>six uniform slots</b>: a leading <b>icon / kind glyph</b> (slot 1); a <b>title line</b> carrying the <b>title</b> (slot 2) plus, on approval rows, the <b>status pill</b> (slot 3); a <b>subtitle / meta line</b> carrying the source, actor and context (slot 4) together with the <b>timestamp</b> (slot 5); and a trailing <b>status / action slot</b> (slot 6) that carries EITHER the notification's <b>read/unread toggle</b> OR the approval's <b>inline-action</b>. Every row fills all six slots — icon/kind, title, status pill, subtitle/meta, timestamp, and the trailing status/action — even when a given slot is empty. Each row is now its own <b>spaced clickable card</b>, not a hairline-divided row: <code>--surface-strong</code> (white, per design-system Rules of the road #8 — the row is something the viewer touches now), a 1px <code>--line</code> border, a 10–12px radius, and a visible gap between cards; hovering a card lifts it 1px, matching the shared Card component (Application Design — Components).</p>
+  <p class="lede-p"><b>Read-state is a notifications-only concept.</b> The read/unread toggle and its icon apply to <b>notification rows only</b>. Approval rows carry <b>no read-state</b> at all — they are org-shared decide-once items, so there is no per-user "unread" to show; their status slot carries a status pill instead, and the <em>Unread</em> segment never counts them.</p>
+  <p class="lede-p"><b>“Needs action” is eligibility, not raw pendingness.</b> The <em>Needs action</em> state — the toggle-group segment (§III) and the bell badge (§IV) — reflects rows the <b>viewer can actually decide</b>, not every pending approval. A read-only passthrough row (a legacy inbox item marked non-actionable) does <b>not</b> qualify; an approval the viewer themselves requested and cannot self-approve does <b>not</b> qualify. Eligibility, evaluated per viewer, drives the row's inline action, the <em>Needs action</em> segment, and the badge; a pending row the viewer cannot act on renders its status pill but exposes no decide action.</p>
+
+  <p class="lede-p"><b>Whole-card activation, by species.</b> Clicking anywhere on a card — not only its title — is the card's <b>stretched sibling overlay</b> (a link or button positioned over the card surface, laid beneath the visible content in the same stacking context): a link when the row has somewhere to go, a button when it doesn't. It is <b>never <code>role="button"</code> on the card itself</b> — that forces every descendant presentational to assistive tech, which would break the approval cards' nested inline controls. Those inline controls (Decline / Approve, the read toggle) sit visually <b>above</b> the overlay so they keep receiving their own clicks.</p>
+  <div class="matrix" style="margin:0 0 14px;">
+    <table>
+      <thead><tr><th>Species</th><th>Card control</th><th>Activation behavior</th></tr></thead>
+      <tbody>
+        <tr><td>Notification&nbsp;+&nbsp;<code>href</code></td><td>Stretched link</td><td>Auto-marks read, then navigates</td></tr>
+        <tr><td>Notification, no <code>href</code></td><td>Stretched button</td><td>Toggles read / unread</td></tr>
+        <tr><td>Approval&nbsp;+&nbsp;<code>href</code></td><td>Stretched link</td><td>Navigates only — no read semantics (above)</td></tr>
+        <tr><td>Approval, no <code>href</code></td><td class="note">— not card-activatable —</td><td class="note">Inline decide actions only</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="lede-p" style="margin-top:-8px;"><b>Href-less approvals opt out of the whole card.</b> That fourth species carries no stretched overlay at all — the card itself does nothing on click; only its inline decide controls (when the viewer is eligible) are live. The exemption is <b>species-driven</b>, not a fixed list of approval kinds — whichever approval kinds happen to be href-less on a given instance are exempt, and whichever carry an <code>href</code> get the stretched link.</p>
+  <p class="lede-p"><b>The read/unread toggle — one envelope, two states.</b> Every notification card carries a small icon button in the trailing slot, sitting above the overlay: <b>unread</b> shows a <b>closed envelope</b> (the action marks it read); <b>read</b> shows an <b>opened envelope</b> (the action marks it unread). One glyph pair, two states — the same method as the joined-plug connected/disconnected pair (Application Design — Connectors). Approval cards never carry this control.</p>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
     <div class="ex" data-conformance-id="notification-row" data-state="loading" style="margin-bottom:0;">
-      <div class="cap">Example — notification row (carries read-state)</div>
-      <div class="body" style="padding:14px;">
-        <div style="display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:12px 14px;">
+      <div class="cap">Example — notification card, both toggle states</div>
+      <div class="body" style="padding:14px;display:grid;gap:10px;">
+        <div class="n-card" style="padding:12px 14px;">
+          <a class="stretch" href="/data/imports/finished" data-action="activate -> navigated" aria-label="Open: Import finished"></a>
           <span style="flex:none;width:32px;height:32px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M4 4h16v12H5.17L4 17.17z"/></svg></span>
           <div style="min-width:0;flex:1;">
             <span style="font-family:var(--font-sans);font-weight:600;font-size:13px;color:var(--ink);">Import finished</span>
             <p style="margin:2px 0 0;font-size:11px;color:var(--muted);">Data · 5 min ago</p>
           </div>
-          <span class="read-dot" title="Unread"></span>
+          <button type="button" class="n-toggle" data-action="toggle-read -> toggled" aria-label="Mark as read" title="Unread — mark as read"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/></svg></button>
         </div>
-        <p style="margin:10px 0 0;font-size:11px;color:var(--muted);line-height:1.5;">Status slot = <b style="color:var(--ink);">read-dot</b>. Timestamp in the meta line. No decide action.</p>
+        <div class="n-card" style="padding:12px 14px;">
+          <button type="button" class="stretch" data-action="activate -> toggled" aria-label="Weekly digest ready — mark as unread"></button>
+          <span style="flex:none;width:32px;height:32px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M4 4h16v12H5.17L4 17.17z"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <span style="font-family:var(--font-sans);font-weight:600;font-size:13px;color:var(--ink);">Weekly digest ready</span>
+            <p style="margin:2px 0 0;font-size:11px;color:var(--muted);">Reports · yesterday · no href</p>
+          </div>
+          <button type="button" class="n-toggle" aria-label="Mark as unread" title="Read — mark as unread"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 8.4c.5.38.8.97.8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 .8-1.6l8-6a2 2 0 0 1 2.4 0l8 6Z"/><path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10"/></svg></button>
+        </div>
+        <p style="margin:0;font-size:11px;color:var(--muted);line-height:1.5;">Status slot = the <b style="color:var(--ink);">toggle</b> (closed envelope unread, opened envelope read). Top card: <code>href</code>, stretched link, <em>activate&nbsp;→&nbsp;navigated</em>. Bottom card: no <code>href</code>, stretched button, <em>activate&nbsp;→&nbsp;toggled</em>. Timestamp in the meta line.</p>
       </div>
     </div>
     <div class="ex" data-conformance-id="approval-row" data-state="loading" style="margin-bottom:0;">
-      <div class="cap">Example — approval row (no read-state; eligibility-gated action)</div>
+      <div class="cap">Example — approval card (no read-state; eligibility-gated action)</div>
       <div class="body" style="padding:14px;">
-        <div style="display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:12px 14px;">
+        <div class="n-card" style="padding:12px 14px;">
+          <a class="stretch" href="/marketplace/connectors/install/482" data-action="activate -> navigated" aria-label="Open: Approve connector install"></a>
           <span style="flex:none;width:32px;height:32px;border-radius:8px;background:rgba(199,149,69,0.16);color:var(--mustard-ink);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></span>
           <div style="min-width:0;flex:1;">
             <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;">
@@ -418,30 +504,40 @@
           </div>
           <button type="button" class="btn primary" data-action="decide-approval -> decided" style="padding:5px 11px;font-size:11.5px;cursor:pointer;flex-shrink:0;">Approve</button>
         </div>
-        <p style="margin:10px 0 0;font-size:11px;color:var(--muted);line-height:1.5;">Status <b style="color:var(--ink);">pill</b> on the title line; the trailing slot holds the <b style="color:var(--ink);">inline decide</b> because the viewer is <b style="color:var(--ink);">eligible</b>. Never a read-dot.</p>
+        <p style="margin:10px 0 0;font-size:11px;color:var(--muted);line-height:1.5;">Status <b style="color:var(--ink);">pill</b> on the title line; the trailing slot holds the <b style="color:var(--ink);">inline decide</b> because the viewer is <b style="color:var(--ink);">eligible</b>. Never a read toggle.</p>
       </div>
     </div>
   </div>
 
-  <!-- ── III. Filters, not clusters, not tabs ────────────────── -->
+  <!-- ── III. Filters, one toolbar ───────────────────────────── -->
   <div class="sect">
     <h2>III. Filters — All · Needs action · Unread · In progress</h2>
     <div class="rule"></div>
-    <div class="source">Chips FILTER the one list · never tabs</div>
+    <div class="source">Toolbar · toggle group leads · Mark all read anchors the right</div>
   </div>
-  <p class="lede-p"><b>Four chips, one list.</b> A chip rail sits above the list with exactly these chips, in this order: <b>All</b> (the default, selected on load), <b>Needs action</b>, <b>Unread</b>, <b>In progress</b>. These are <b>filters, not tabs or views</b> — selecting a chip narrows the single chronological list in place; it never switches to a separate list, lane, or route, and never changes the interleaving or the time order of what remains.</p>
-  <p class="lede-p"><b>What each chip shows.</b> <b>All</b> is every row (default). <b>Needs action</b> is the eligibility set from §II — only rows the viewer can actually decide (never mere pendingness). <b>Unread</b> is unread notifications only — approval rows, which carry no read-state, are never in it. <b>In progress</b> is the in-flight items (runs and jobs still working), collapsed by job. Selecting a chip applies its filter over the one list; clearing back to <b>All</b> restores the full list.</p>
+  <p class="lede-p"><b>One toolbar, a toggle group leading it.</b> A <b>toolbar</b> (the shared Toolbar component, Application Design — Components) sits above the list. It leads with a single-select <b>toggle group</b> (the shared Toggle / Toggle-group component) whose segments are exactly these switch options, in this order: <b>All</b> (the default, selected on load), <b>Needs action</b>, <b>Unread</b>, <b>In progress</b>; every segment but <b>All</b> carries its live count. Selecting a segment <b>narrows the single chronological list in place</b> — it never switches to a separate list, lane, or route, and never changes the interleaving or the time order of what remains. This is the same one-list-narrowed-in-place behavior the surface has always had; only the control has changed, from chips, to tabs, to this toggle group.</p>
+  <p class="lede-p"><b>What each segment shows.</b> <b>All</b> is every row (default). <b>Needs action</b> is the eligibility set from §II — only rows the viewer can actually decide (never mere pendingness). <b>Unread</b> is unread notifications only — approval rows, which carry no read-state, are never in it. <b>In progress</b> is the in-flight items (runs and jobs still working), collapsed by job. Selecting a segment applies its filter over the one list; returning to <b>All</b> restores the full list.</p>
+  <p class="lede-p"><b>Mark all read anchors the far right, as an icon button.</b> A borderless icon button — the double-check glyph, matching its action — sits at the toolbar's far right, separated from the toggle group by the toolbar's own hairline rule, exactly like the connection-filter toolbar's <em>Sort &amp; display</em> button in Application Design — Connectors. The toolbar itself replaces the page header's closing rule (the Toolbar component's own stated rule); there is no separate tablist rule or content-header row to reason about.</p>
 
   <div class="ex" data-conformance-id="notifications-filter-rail" data-state="loading">
-    <div class="cap">Example — filter chips (All selected on load)</div>
+    <div class="cap">Example — toolbar (toggle group leading, Mark all read trailing)</div>
     <div class="body">
-      <div class="chips" role="group" aria-label="Filter notifications">
-        <button type="button" class="chip-f" aria-pressed="true">All</button>
-        <button type="button" class="chip-f" aria-pressed="false">Needs action <span class="count">2</span></button>
-        <button type="button" class="chip-f" aria-pressed="false">Unread <span class="count">3</span></button>
-        <button type="button" class="chip-f" aria-pressed="false">In progress <span class="count">1</span></button>
+      <div class="n-toolbar" style="margin:0;">
+        <div class="n-toolbar-group">
+          <div class="n-toggle-group" role="group" aria-label="Filter notifications">
+            <button type="button" class="n-toggle-seg" aria-pressed="true">All</button>
+            <button type="button" class="n-toggle-seg" aria-pressed="false">Needs action <span class="count">2</span></button>
+            <button type="button" class="n-toggle-seg" aria-pressed="false">Unread <span class="count">3</span></button>
+            <button type="button" class="n-toggle-seg" aria-pressed="false">In progress <span class="count">1</span></button>
+          </div>
+        </div>
+        <div class="n-toolbar-spacer"></div>
+        <div class="n-toolbar-sep"></div>
+        <div class="n-toolbar-group">
+          <button type="button" class="n-toolbar-icon-btn" aria-label="Mark all read"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/></svg>Mark all read</button>
+        </div>
       </div>
-      <p style="margin:12px 0 0;font-size:11.5px;color:var(--muted);line-height:1.5;">Selecting a chip filters the list below in place. There is no second list and no route change — the chronological order of the surviving rows is unchanged.</p>
+      <p style="margin:12px 0 0;font-size:11.5px;color:var(--muted);line-height:1.5;">Selecting a segment narrows the list below in place. There is no second list and no route change — the chronological order of the surviving rows is unchanged. <b style="color:var(--ink);">Mark all read</b> is the borderless icon button at the far right of the same toolbar.</p>
     </div>
   </div>
 
@@ -451,8 +547,8 @@
     <div class="rule"></div>
     <div class="source">Badge count · navigates to /notifications</div>
   </div>
-  <p class="lede-p"><b>The bell is a badge and a link — nothing more.</b> The top-bar bell shows a <b>count badge</b> and links to <code>/notifications</code>. Clicking it <b>navigates</b> to the page; it does <b>not</b> open an in-place flyout, dropdown, or panel. There is no hover preview and no inline list under the bell — the flyout is retired (§VII). The whole entry into notifications is the page itself.</p>
-  <p class="lede-p"><b>The badge counts what needs the viewer.</b> The badge is driven by the same viewer-eligibility signal as the <em>Needs action</em> chip (§III) — it counts what the viewer can actually act on, not raw pendingness. It is not a raw pending-approval count.</p>
+  <p class="lede-p"><b>The bell is a badge and a link — nothing more.</b> The top-bar bell shows a <b>count badge</b> and links to <code>/notifications</code>. Clicking it <b>navigates</b> to the page; it does <b>not</b> open an in-place flyout, dropdown, or panel. There is no hover preview and no inline list under the bell — the flyout is retired (§VIII). The whole entry into notifications is the page itself.</p>
+  <p class="lede-p"><b>The badge counts what needs the viewer.</b> The badge is driven by the same viewer-eligibility signal as the <em>Needs action</em> segment (§III) — it counts what the viewer can actually act on, not raw pendingness. It is not a raw pending-approval count.</p>
 
   <div class="ex" data-conformance-id="notifications-bell" data-state="loading">
     <div class="cap">Example — bell (badge + link; click navigates, no panel)</div>
@@ -501,6 +597,7 @@
     <div class="source">One line · never per-source sections</div>
   </div>
   <p class="lede-p"><b>A failed source degrades to one line.</b> Approvals are federated across several sources; when one or more of them fail or time out, the page shows a <b>single inline line</b> reading exactly <b>“some approvals are currently unavailable”</b>, above the list. It <b>never</b> renders a per-source error section, a per-source card, or a stack of per-source failure notices. This explicitly <b>supersedes and retires</b> the app spec's approvals-inbox per-source-card / per-source-error layout (app.html §IX) for this surface — a global chronological sort forbids streamed per-source sections anyway.</p>
+  <p class="lede-p"><b>Degraded page 1 shows the affordance, never a pager alongside it.</b> When the degraded line above is showing on page 1, the bottom pager (§VII) does not render — the retry affordance takes its place. A degraded page cannot honestly promise a working <em>next</em>, so the two are never shown together.</p>
 
   <div class="ex" data-conformance-id="notifications-degraded" data-state="error">
     <div class="cap">Example — degraded source (single inline line)</div>
@@ -509,13 +606,39 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex:none;"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
         <span style="font-family:var(--font-body);font-size:12.5px;color:var(--ink);">some approvals are currently unavailable</span>
       </div>
-      <p style="margin:12px 0 0;font-size:11.5px;color:var(--muted);line-height:1.5;">One line for any number of failed sources. The rest of the list renders normally beneath it; no source gets its own error block.</p>
+      <p style="margin:12px 0 0;font-size:11.5px;color:var(--muted);line-height:1.5;">One line for any number of failed sources. The rest of the list renders normally beneath it; no source gets its own error block. On page 1 this line stands in place of the pager.</p>
     </div>
   </div>
 
-  <!-- ── VII. Entry points & retirement ──────────────────────── -->
+  <!-- ── VII. Pagination — 25 per page, known total ──────────── -->
   <div class="sect">
-    <h2>VII. Entry points &amp; retirement</h2>
+    <h2>VII. Pagination — 25 per page</h2>
+    <div class="rule"></div>
+    <div class="source">Numbered pages · “X of N” caption · Load more retired</div>
+  </div>
+  <p class="lede-p"><b>25 rows per page, counted after collapse.</b> The list paginates at the bottom, <b>25 rows per page</b>, counted over the <b>rendered</b> rows — after job notifications have already been collapsed and the active filter applied, never over raw fetched rows. <b>“Load more” is retired</b>: the surface no longer grows an ever-longer list on scroll.</p>
+  <p class="lede-p"><b>Known total, like every other list.</b> <code>/notifications</code> uses the shared Pagination component exactly as specified (Application Design — Components) — no exception: numbered pages, the active page <b>ink-filled</b>, surrounding pages line-bordered on white, paired with an <b>“X of N”</b> caption in mono slate. The total is counted over the same rendered row set the pager pages through (post-collapse, active-filter-applied).</p>
+  <p class="lede-p"><b>When it shows, and what resets it.</b> The pager renders <b>only when there is more than one page</b> — a single page of results shows no pager at all. <b>Switching filters (§III) returns to page 1</b>: a filter narrows the list to a different row count, so any remembered page position from a different filter would be meaningless. A <b>degraded page 1</b> shows the degraded affordance (§VI) in the pager's place, never both together.</p>
+
+  <div class="ex">
+    <div class="cap">Example — pager (page 2 of 4, 87 rows total)</div>
+    <div class="body" style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+      <div style="display:flex;gap:4px;align-items:center;font-size:13px;font-family:var(--font-mono);">
+        <button type="button" aria-label="Previous page" style="padding:5px 8px;border:1px solid var(--line);border-radius:5px;background:var(--surface-strong);cursor:pointer;">‹</button>
+        <button type="button" aria-label="Page 1" style="padding:5px 10px;border:1px solid var(--line);border-radius:5px;background:var(--surface-strong);cursor:pointer;">1</button>
+        <span aria-current="page" style="padding:5px 10px;border:1px solid var(--ink);border-radius:5px;background:var(--ink);color:var(--paper);">2</span>
+        <button type="button" aria-label="Page 3" style="padding:5px 10px;border:1px solid var(--line);border-radius:5px;background:var(--surface-strong);cursor:pointer;">3</button>
+        <span style="padding:0 4px;color:var(--muted);">…</span>
+        <button type="button" aria-label="Next page" style="padding:5px 8px;border:1px solid var(--line);border-radius:5px;background:var(--surface-strong);cursor:pointer;">›</button>
+      </div>
+      <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);">Page 2 of 4 · 87 total</span>
+    </div>
+    <p style="margin:12px 14px 14px;font-size:11.5px;color:var(--muted);line-height:1.5;">The standard numbered pager, with its “X of N” caption, over the 25-per-page rendered rows. The normative <code>page-prev -&gt; paged</code> / <code>page-next -&gt; paged</code> conformance actions are annotated on the list surface (§I).</p>
+  </div>
+
+  <!-- ── VIII. Entry points & retirement ─────────────────────── -->
+  <div class="sect">
+    <h2>VIII. Entry points &amp; retirement</h2>
     <div class="rule"></div>
     <div class="source">Sidebar Approvals gone · flyout + /configuration/approvals removed</div>
   </div>
@@ -527,7 +650,7 @@
   </div>
 
   <footer>
-    <span>Cinatra · Application Design — Notifications v0.1.1</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Notifications v0.1.3</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
