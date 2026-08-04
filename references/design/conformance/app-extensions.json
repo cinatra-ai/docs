@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-extensions.html",
-  "contentHash": "sha256:3f421ec0982c2e7e0f2c11a3e188f9506cf037dc4d5f19203fcc1c43dc3fb24e",
+  "contentHash": "sha256:279ed0cb8d0161ea51bc9372f60b4705f5a39b16d60dbc49cf0a6b966431f240",
   "surfaces": [
     {
       "id": "extension-listing-grid",
@@ -24,7 +24,7 @@
       "actions": [
         {
           "action": "install",
-          "outcome": "installed"
+          "outcome": "panel-open"
         }
       ],
       "states": [
@@ -109,7 +109,7 @@
       ]
     },
     {
-      "id": "extension-detail-modal",
+      "id": "extension-install-panel",
       "fields": [
         {
           "field": "name",
@@ -118,10 +118,33 @@
       ],
       "actions": [
         {
-          "action": "install",
+          "action": "close-panel",
+          "outcome": "card-restored"
+        },
+        {
+          "action": "open-picker",
+          "outcome": "options-listed"
+        },
+        {
+          "action": "cancel-install",
+          "outcome": "card-restored"
+        },
+        {
+          "action": "submit-install",
           "outcome": "installed"
         }
       ],
+      "states": []
+    },
+    {
+      "id": "extension-detail-modal",
+      "fields": [
+        {
+          "field": "name",
+          "source": "manifest.displayName"
+        }
+      ],
+      "actions": [],
       "states": [
         "kind:agent"
       ]

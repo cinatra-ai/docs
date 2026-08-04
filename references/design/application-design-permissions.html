@@ -337,7 +337,7 @@
       <p class="lede">The one access picker that decides <b>who can see and use</b> a thing in the Cinatra app — the consolidated <code>AccessCombobox</code> in its <b>single</b> and <b>multiple</b> selection modes, the closed <b>scope vocabulary</b>, every state, and the <b>containment</b> algebra that narrows the offered scopes to within a parent. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.1.1</div>
+      <div>Version 0.3.0</div>
     </div>
   </div>
 
@@ -361,7 +361,7 @@
     <li id="c-1-1"><span class="cnum">1.1</span> There is <b>exactly one</b> access-picker implementation, <code>AccessCombobox</code>, whose contract carries <code>selectionMode: "single" | "multiple"</code>; <code>selectionMode</code> defaults to <code>"single"</code> so install / permissions callers stay unchanged.</li>
     <li id="c-1-2"><span class="cnum">1.2</span> The two modes render distinct treatments — a single-select combobox with a trailing check, and a checkbox multi-select list — but share one component contract, one import, and one pure module (<code>access-scope.ts</code>): that module owns the multi-mode labels + selection summary and the shared <b>“Unknown …”</b> entity fallback that <b>both</b> modes delegate to (the single mode’s own label helper defers to it), so the unknown-entity contract has no drifting second copy.</li>
     <li id="c-1-3"><span class="cnum">1.3</span> Data shapes are per-mode (single: flat active-org; multiple: nested <code>AvailableScopes</code>); adapters may remain. A caller migrates by choosing a mode and passing that mode's shape — never by mounting a second component.</li>
-    <li id="c-1-4"><span class="cnum">1.4</span> <b>Single</b> drives the extension / agent <b>install-scope</b> dialogs, the agent-decision actions, and the read-only project <b>Permissions</b> tab. <b>Multiple</b> drives the permissions <b>grant</b> form, the extension access-control panel, and the <code>/connectors</code> + <code>/skills</code> scope <b>filters</b>.</li>
+    <li id="c-1-4"><span class="cnum">1.4</span> <b>Single</b> drives the extension <b>install picker</b> — mounted, on the extensions surface, only in the marketplace ListingCard's <b>in-card install panel</b>, which replaces the card's body in place with no popup and no layered dialog (Application Design — Extensions §I.1) — the <b>retained</b> agent-registry <b>install-scope dialog</b> (a separate, documented surface that keeps its own dialog chrome), the agent-decision actions, and the read-only project <b>Permissions</b> tab; both the in-card extension panel and the agent-registry dialog are <code>installMode</code> consumers of this single-mode picker. The extension <b>detail modal is details-only</b> — no footer, no install / update / restore action, and so no picker mounted there. <b>Multiple</b> drives the permissions <b>grant</b> form, the extension access-control panel, and the <code>/connectors</code> + <code>/skills</code> scope <b>filters</b>.</li>
   </ol>
   <div class="callout note">
     <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>Where the extension surface reuses this</span>
@@ -384,7 +384,7 @@
       <tbody>
         <tr><td class="lbl2">Personal</td><td class="tok">owner</td><td class="small">Personal: Only me</td><td class="small">Personal: Only me</td><td class="note">The narrowing floor. Always offered (§VI). Never “implied”.</td></tr>
         <tr><td class="lbl2">Project</td><td class="tok">project:&lt;id&gt;</td><td class="small">Project: &lt;name&gt;</td><td class="small">Project: &lt;name&gt;</td><td class="note">Never implied by an org or team selection.</td></tr>
-        <tr><td class="lbl2">Team</td><td class="tok">team:&lt;id&gt;</td><td class="small">Team: &lt;org&gt; - &lt;name&gt;</td><td class="small">Team: &lt;name&gt;</td><td class="note">Implied (display-only) by its owning org / by Workspace: All.</td></tr>
+        <tr><td class="lbl2">Team</td><td class="tok">team:&lt;id&gt;</td><td class="small">Team: &lt;name&gt;</td><td class="small">Team: &lt;name&gt;</td><td class="note">Implied (display-only) by its owning org / by Workspace: All.</td></tr>
         <tr><td class="lbl2">Organization</td><td class="tok">org:&lt;id&gt;</td><td class="small">Organization: &lt;name&gt;</td><td class="small">Organization: &lt;name&gt;</td><td class="note">Legacy bare <code>org</code> is read-accepted; it denotes the active org.</td></tr>
         <tr><td class="lbl2">Workspace (all)</td><td class="tok">workspace</td><td class="small">Workspace: All</td><td class="small">Workspace: All</td><td class="note">Broadest scope. Exclusive with Personal (multi mode).</td></tr>
         <tr><td class="lbl2">Workspace (admins)</td><td class="tok">admin</td><td class="small">Workspace: Admins only</td><td class="small">Workspace: Admins only</td><td class="note">Offered only when <code>showAdmin</code> (multi) / on the permissions tab (single).</td></tr>
@@ -395,7 +395,7 @@
   <ol class="clauses">
     <li id="c-2-1"><span class="cnum">2.1</span> The offered scopes are exactly the six kinds above; no other token renders as a selectable option.</li>
     <li id="c-2-2"><span class="cnum">2.2</span> Scopes order <b>narrow → broad</b>: Personal → Project → Team → Organization → Workspace (all) → Workspace (admins). Both modes and the trigger summary honour this order.</li>
-    <li id="c-2-3"><span class="cnum">2.3</span> The list carries <b>no scope group headings</b>. Every row is <b>prefixed</b> with its scope kind — <code>Personal:</code> / <code>Project:</code> / <code>Team:</code> / <code>Organization:</code> / <code>Workspace:</code> — carrying the <code>&lt;Scope&gt;: &lt;name&gt;</code> row-label decomposition of §II (independent of the single-mode trigger, which is bare for some kinds per §3.1), and consecutive scope groups are divided by a <b>hairline separator</b> (never a line between rows within a group). The two Workspace rows (<em>All</em>, <em>Admins only</em>) share the one Workspace group.</li>
+    <li id="c-2-3"><span class="cnum">2.3</span> The list carries <b>no scope group headings</b>. Every row is <b>prefixed</b> with its scope kind — <code>Personal:</code> / <code>Project:</code> / <code>Team:</code> / <code>Organization:</code> / <code>Workspace:</code> — carrying the <code>&lt;Scope&gt;: &lt;name&gt;</code> row-label decomposition of §II, and consecutive scope groups are divided by a <b>hairline separator</b> (never a line between rows within a group). The two Workspace rows (<em>All</em>, <em>Admins only</em>) share the one Workspace group.</li>
     <li id="c-2-4"><span class="cnum">2.4</span> A team / project id that resolves to no name renders the explicit fallback <b>“Unknown team” / “Unknown project”</b> — <b>never</b> a truncated id. (An unresolved <b>org</b> takes the neutral organization label of §2.5, not a truncated id.) The raw id may appear only in a tooltip or secondary line, never in the label.</li>
     <li id="c-2-5"><span class="cnum">2.5</span> An <code>org:&lt;id&gt;</code> token resolves to the active org’s <b>name</b> only when its id equals the supplied active <code>orgId</code>; otherwise it resolves to the neutral <b>“Anyone in the organization”</b> — never the wrong org’s name and never the raw token (the cross-org read-only Permissions-tab case).</li>
   </ol>
@@ -414,7 +414,7 @@
       <div class="body">
         <div class="pk" data-field="label=scope.displayName" data-action="select-scope -> value-set">
           <div class="pk-trigger">
-            <span class="lbl"><span class="val">Anyone in Acme Corp</span></span>
+            <span class="lbl"><span class="val">Organization: Acme Corp</span></span>
             <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
           </div>
           <div class="pk-menu" data-action="open-picker -> options-listed">
@@ -435,11 +435,11 @@
     </div>
 
     <div class="ex" data-conformance-id="access-picker-single-installmode">
-      <div class="cap">Example — install-scope dialog (installMode)</div>
+      <div class="cap">Example — installMode target picker (shared by the extension install panel and the agent-registry install dialog)</div>
       <div class="body">
         <div class="pk">
           <div class="pk-trigger">
-            <span class="lbl"><span class="val">Anyone in Acme Corp</span></span>
+            <span class="lbl"><span class="val">Organization: Acme Corp</span></span>
             <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
           </div>
           <div class="pk-menu">
@@ -465,19 +465,19 @@
             <div class="pk-row"><span class="pk-lbl"><span class="rt">Team:</span>Revenue</span></div>
             <div class="pk-row dis" title="You are not a member of this team."><span class="pk-lbl"><span class="rt">Team:</span>Engineering</span><span class="note">Not a member</span></div>
             <div class="pk-sep"></div>
-            <div class="pk-row dis" title="Only platform admins can scope this to the whole workspace."><span class="pk-lbl"><span class="rt">Workspace:</span>All</span><svg class="lock" style="margin-left:auto;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+            <div class="pk-row dis" title="Only platform admins can select Workspace: All."><span class="pk-lbl"><span class="rt">Workspace:</span>All</span><svg class="lock" style="margin-left:auto;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
             <div class="pk-row"><span class="pk-lbl"><span class="rt">Workspace:</span>Admins only</span></div>
           </div>
         </div>
         <div style="align-self:center;">
-          <p style="margin:0;font-size:12.5px;color:var(--muted);line-height:1.55;max-width:40ch;"><b style="color:var(--ink);">Disabled ≠ removed.</b> A value in <code>disabledScopes</code> still renders — non-selectable, muted, with its <code>disabledReasons</code> text on a wrapper-span tooltip outside the disabled item (a disabled item suppresses pointer events on its own content). For a non-admin, <em>Workspace: All</em> is locked with the reason <em>“Only platform admins can scope this to the whole workspace.”</em>; <em>Workspace: Admins only</em> stays selectable.</p>
+          <p style="margin:0;font-size:12.5px;color:var(--muted);line-height:1.55;max-width:40ch;"><b style="color:var(--ink);">Disabled ≠ removed.</b> A value in <code>disabledScopes</code> still renders — non-selectable, muted, with its <code>disabledReasons</code> text on a wrapper-span tooltip outside the disabled item (a disabled item suppresses pointer events on its own content). For a non-admin, <em>Workspace: All</em> is locked with the reason <em>“Only platform admins can select Workspace: All.”</em>; <em>Workspace: Admins only</em> stays selectable.</p>
         </div>
       </div>
     </div>
   </div>
 
   <ol class="clauses" data-conformance-id="access-combobox-single">
-    <li id="c-3-1"><span class="cnum">3.1</span> The trigger is an outline <b>combobox</b> (<code>role="combobox"</code>) rendering the current value plus a trailing chevron, at the shared form-control height (aligned to the text input). In single mode only <b>Team</b> and <b>Project</b> selections carry the uppercase <code>&lt;Type&gt;:</code> prefix; Personal, Organization, Workspace and Admin resolve to a bare name with no prefix.</li>
+    <li id="c-3-1"><span class="cnum">3.1</span> The trigger is an outline <b>combobox</b> (<code>role="combobox"</code>) rendering the current value plus a trailing chevron, at the shared form-control height (aligned to the text input). <b>Trigger ≡ row, verbatim:</b> the closed trigger's label is <b>exactly</b> the selected row's label — casing included — for <b>every</b> scope kind and <b>every</b> single-mode consumer; there is no separate bare-name or re-phrased trigger form for any kind, and no consumer-specific exception.</li>
     <li id="c-3-2"><span class="cnum">3.2</span> The open list renders the scopes as prefixed rows in five groups, narrow → broad, a hairline between groups and <b>no heading</b>: <b>(1) Personal:</b> · <b>(2) Project:</b> · <b>(3) Team:</b> · <b>(4) Organization: &lt;name&gt;</b> (always rendered) · <b>(5) Workspace:</b> (the <em>All</em> then <em>Admins only</em> rows share the one Workspace group). Project and Team rows render when they have rows or an unhydrated selection to synthesize.</li>
     <li id="c-3-3"><span class="cnum">3.3</span> Selection is single: a <b>trailing check</b> marks the selected row, and choosing any row <b>closes</b> the popover. Single mode does not filter rows by typed text.</li>
     <li id="c-3-4"><span class="cnum">3.4</span> A <code>team:</code> / <code>project:</code> selection that does not hydrate to any available row synthesizes an explicit, <b>checked</b> “Unknown team” / “Unknown project” row, so a selection is always visible with its check.</li>
@@ -485,8 +485,9 @@
     <li id="c-3-6"><span class="cnum">3.6</span> A value in <code>disabledScopes</code> renders the row <b>non-selectable</b> with its <code>disabledReasons</code> text (else “Not available”) on a wrapper-span tooltip outside the disabled item. Outside <code>installWorkspaceScopes</code>, only the org / team: / project: rows consult this list — the owner / admin / workspace rows have separate semantics (workspace gates on the admin check); under <code>installWorkspaceScopes</code> (§3.8) the workspace and admin rows also become server-driven and consult it.</li>
     <li id="c-3-7"><span class="cnum">3.7</span> <b><code>installMode</code></b> hides the <em>Personal: Only me</em>, <em>Workspace: All</em> and <em>Workspace: Admins only</em> rows entirely (they are permissions values, not install targets), leaving org / team: / project: rows.</li>
     <li id="c-3-8"><span class="cnum">3.8</span> <b><code>installWorkspaceScopes</code></b> (with <code>installMode</code>) additionally renders the <em>Workspace: All</em> and <em>Workspace: Admins only</em> rows as <b>server-driven</b> target rows whose enabled / disabled + reason state comes from <code>disabledScopes</code> / <code>disabledReasons</code>, not the client admin gate.</li>
-    <li id="c-3-9"><span class="cnum">3.9</span> On the permissions tab (not <code>installMode</code>), a <b>non-admin</b> sees <em>Workspace: All</em> disabled with a lock and the reason <em>“Only platform admins can scope this to the whole workspace.”</em>; <em>Workspace: Admins only</em> is always selectable.</li>
+    <li id="c-3-9"><span class="cnum">3.9</span> On the permissions tab (not <code>installMode</code>), a <b>non-admin</b> sees <em>Workspace: All</em> disabled with a lock and the reason <em>“Only platform admins can select Workspace: All.”</em>; <em>Workspace: Admins only</em> is always selectable.</li>
     <li id="c-3-10"><span class="cnum">3.10</span> The org row value is the id-carrying <code>org:&lt;id&gt;</code> token (matching the server-built install-target row exactly); it falls back to the legacy bare <code>org</code> only when no <code>orgId</code> is supplied. The empty state reads <b>“No matches.”</b></li>
+    <li id="c-3-11"><span class="cnum">3.11</span> <b>Degenerate / unknown selections are display-only.</b> A selection that does not resolve to a live, server-offered, non-synthetic target — a stale or legacy token, a value outside the current containment set, or any other non-canonical value — still renders <b>selected</b>, via its synthesized label where one applies (§3.4), so the picker never hides what is actually stored. That row is <b>never submittable as-is</b>: submit is enabled only for an enabled, server-offered, non-synthetic target, so a degenerate selection must be changed to a real row before the form can be submitted.</li>
   </ol>
 
   <!-- ── IV. Multi-select mode ────────────────────────────────── -->
@@ -651,7 +652,7 @@
   </div>
 
   <footer>
-    <span>Cinatra · Application Design — Permissions v0.1.1</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Permissions v0.3.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
