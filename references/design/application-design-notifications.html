@@ -276,17 +276,6 @@
   /* The unread marker on the toggle button below is an envelope icon pair —
      closed = unread, opened = read — not a passive dot; there is no separate
      passive read-dot glyph elsewhere in this spec. */
-  /* Toolbar (design#104, round 3) — supersedes the tablist entirely. Composed strictly from two
-     existing shared components (Application Design — Components): Toolbar (the chrome, the
-     borderless-controls rule, and "the toolbar replaces the section rule for that view") and
-     Toggle / Toggle group (the single-select segmented control — "the canonical way to choose one
-     of two or more options"). Precedent: the app-connectors.html connection-filter toolbar, whose
-     segmented filter leads the bar and whose Sort & display icon button anchors the far right,
-     borderless, in the same toolbar chrome (specs/app-connectors.html :291-308) — this is that same
-     composition, not a new one. The filter segments carry no per-segment status colour (none of the
-     four names a fixed status the way Connected/Disconnected do), so they use a NEUTRAL version of
-     the toggle group's fill-not-border grammar rather than the connectors filter's colour-coded
-     deviation. */
   .n-toolbar { display: flex; align-items: center; background: var(--toolbar); border-radius: 8px; height: 48px; overflow: hidden; margin: 16px 0 14px; }
   .n-toolbar-group { display: flex; align-items: center; padding: 7px; flex-shrink: 0; }
   .n-toolbar-sep { width: 1px; height: 24px; background: rgba(21,33,58,.22); flex-shrink: 0; align-self: center; }
@@ -338,7 +327,7 @@
       <p class="lede">The unified <code>/notifications</code> surface — <b>one chronological list</b> that holds notifications and pending approvals together, filtered (not clustered), reached from a badge-only bell. It replaces the approvals inbox and the bell flyout. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.1.3</div>
+      <div>Version 0.1.4</div>
     </div>
   </div>
 
@@ -650,7 +639,7 @@
   </div>
 
   <footer>
-    <span>Cinatra · Application Design — Notifications v0.1.3</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Notifications v0.1.4</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
