@@ -133,11 +133,13 @@ Set to `"true"` to multiplex AG-UI events inline into the A2A server-sent events
 
 ## LLM providers
 
-### `OPENAI_API_KEY` (required for the objects layer)
+### `OPENAI_API_KEY` (optional fallback)
 
-OpenAI API key. Required because the Graphiti (a knowledge-graph indexer) needs it as a static env var at container startup — it cannot be managed through the in-app large language model (LLM) Providers UI like other provider keys. Without this, `objects_save` and `objects_list` MCP primitives fail at runtime.
+OpenAI API key. You normally do **not** set this: configure OpenAI in the app (`/configuration/llm`), and the bring-up passes that stored key to the Graphiti container (a knowledge-graph indexer) for you. Graphiti needs a key as a static environment variable at container startup, so the bring-up writes the resolved key to a narrow, permission-restricted env file the container reads.
 
-Cinatra agents can also use OpenAI for LLM calls; that path can be configured through `/configuration/llm` instead of an env var, but having `OPENAI_API_KEY` set covers both cases.
+Set `OPENAI_API_KEY` here only if you want the indexer to run on a different key than the app's, or before the app has one at all. Whichever source is used, re-run the bring-up after changing the key so the container picks it up.
+
+**Without a key anywhere, `objects_save` and `objects_list` still work.** Objects are saved to and read from Postgres, and the app does not require this variable to boot. What you lose is knowledge-graph indexing: Graphiti runs entity extraction *before* it writes to the graph, so with no key each episode is accepted and then dropped, and the graph stays empty. Both the bring-up and the app startup log say so, in the form `knowledge-graph indexing OFF — no provider key`.
 
 ### Other providers (Anthropic, Gemini, etc.)
 
@@ -247,7 +249,7 @@ These are optional. Authentication falls back to username/password and passkey i
 
 Cinatra distinguishes between **environment variables** (set at process start; affect how the platform itself runs) and **per-instance settings** (managed in the in-app UI; affect which providers and integrations are available).
 
-Provider API keys go in per-instance settings (under `/configuration/llm`) unless the platform absolutely needs them at container boot (the `OPENAI_API_KEY` for Graphiti is the main exception). Connector credentials — Gmail, Google Calendar, Apollo, LinkedIn, WordPress, Drupal, Apify, YouTube, GitHub — always go through the **Connectors** area (`/connectors`); there is no env var path for them.
+Provider API keys go in per-instance settings (under `/configuration/llm`). That includes the OpenAI key the Graphiti container needs at boot: the bring-up reads it from the per-instance settings and hands it to the container, so `OPENAI_API_KEY` is a fallback rather than the normal path. Connector credentials — Gmail, Google Calendar, Apollo, LinkedIn, WordPress, Drupal, Apify, YouTube, GitHub — always go through the **Connectors** area (`/connectors`); there is no env var path for them.
 
 The encryption key is the bridge: it must be a real environment variable because nothing else can decrypt the per-instance settings.
 
