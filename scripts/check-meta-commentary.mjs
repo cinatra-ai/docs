@@ -150,9 +150,9 @@
 //     connecting Claude Code, Codex and ChatGPT to Cinatra, the glossary names
 //     the assistant identities, the comparisons chapter is largely about named
 //     assistants, and the design-skill page opens by naming two of them. Only a
-//     NUMBERED review round bound to the name is class 3.
-//   - An UNNUMBERED review round ("patterns from cases that masked a blocker
-//     across multiple review rounds") and a NUMBERED round carrying no
+//     NUMBERED review round bound to the name is class 3.  // source-leak-allow: detector vocabulary
+//   - An UNNUMBERED review round ("patterns from cases that masked a blocker  // source-leak-allow: detector vocabulary
+//     across multiple review rounds") and a NUMBERED round carrying no  // source-leak-allow: detector vocabulary
 //     derivation claim ("round 2 of the rollout adds the CRM connector").
 //     Unnumbered, it is an ordinary process noun; unclaimed, a numbered round is
 //     an ordinary programme noun. It is the derivation claim that makes either
@@ -503,7 +503,7 @@ const PATTERNS = [
   //     A closed list is the deliberate trade: the alternative (any capitalised
   //     token before a round citation) fires on ordinary product prose.
   //   - A PRODUCT-OWNED numbered round bound to a derivation noun would misfire:
-  //     "the evaluation dashboard displays review round 2 findings" is about a
+  //     "the evaluation dashboard displays review round 2 findings" is about a  // source-leak-allow: detector vocabulary
   //     product surface, not about how this page was written, and it is
   //     structurally identical to "round-12 lesson". No local lexical rule
   //     separates them. Nothing on the inventoried surfaces is phrased this way
@@ -521,7 +521,7 @@ const PATTERNS = [
     // The named-agent shapes: the name, then EITHER nothing but the round
     // citation ("<agent> round-12") or an EXPLICIT CREDIT — a crediting verb,
     // optionally an object, optionally a preposition ("<agent> found in round
-    // 7", "<agent> flagged this in review round 2").
+    // 7", "<agent> flagged this in review round 2").  // source-leak-allow: detector vocabulary
     //
     // The preposition lives INSIDE the verb branch on purpose. Allowing a bare
     // preposition made "use Claude in round 2 and Gemini in round 3" fail, and
@@ -558,8 +558,8 @@ const PATTERNS = [
     // round 3".
     //
     // Only `from` / `during` / `after` — never `in`, `of` or `at`. Those are
-    // CONTAINMENT prepositions: "compare findings in review round 2 with
-    // findings in review round 3" locates product findings, it does not claim
+    // CONTAINMENT prepositions: "compare findings in review round 2 with  // source-leak-allow: detector vocabulary
+    // findings in review round 3" locates product findings, it does not claim  // source-leak-allow: detector vocabulary
     // published guidance was derived from them. Requiring a derivational
     // preposition is what keeps "Lessons from earlier releases are captured as
     // reusable skills" and "the findings list" green too — the noun has to point
