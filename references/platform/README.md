@@ -85,5 +85,4 @@ Architecture, subsystem contracts, invariants, and protocol references for the C
 - [Testing doctrine](testing-doctrine.md)
 - [RBAC browser e2e in CI](rbac-browser-e2e-ci.md)
 - [Headless e2e hydration requirements](e2e-headless-hydration.md)
-- [Wave execution policy](wave-execution-policy.md)
 - [Dev content fixtures (Drupal / WordPress / Twenty)](dev-cms-fixtures.md)

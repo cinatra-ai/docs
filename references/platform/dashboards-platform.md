@@ -109,7 +109,7 @@ The dashboard id is `system-agents:<orgId>:<userId>` (per-user-per-org). On firs
 - Dimensions: `agent_id` (UUID, back-compat), `agent_name` (LEFT JOIN to `agent_templates`, `coalesce(nullif(name, ''), template_id)`), `status`, `created_at` (time).
 - Measures: `count` (count of id), `last_run_at` (MAX of `EXTRACT(EPOCH FROM created_at)` — numeric so MAX works; humanised by the route's `humanizeAgentRunsRows()` post-processor since DC's table renderer has no per-column date formatter).
 - Access predicate: `WHERE org_id = ctx.organizationId OR run_by = ctx.userId` (owns OR can-access). Multi-org access widens `SecurityContext` with `accessibleOrgIds[]` so users in multiple orgs see all org-accessible runs.
-- The factory takes `{ tableRef, columns, templatesTableRef, templateColumns }`. drizzle-cube needs the FULL Drizzle Table in `from` (Codex round-12 lesson — passing a destructured column-bag produces `FROM $1` and a pg JSON-serialisation crash).
+- The factory takes `{ tableRef, columns, templatesTableRef, templateColumns }`. drizzle-cube needs the FULL Drizzle Table in `from` — passing a destructured column-bag produces `FROM $1` and a pg JSON-serialisation crash.
 
 ## Theming
 

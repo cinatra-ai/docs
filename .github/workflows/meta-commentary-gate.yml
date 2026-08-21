@@ -5,7 +5,8 @@ name: meta-commentary-gate
 # themselves are produced, compiled, mirrored, or maintained ("this page is
 # compiled from…", "(hub forthcoming)", editorial TODOs, and the like), narrate
 # work in flight, or name the internal work item / acceptance criterion /
-# decision a capability came from. See scripts/check-meta-commentary.mjs for the
+# decision a capability came from, or the numbered review round a constraint came
+# out of. See scripts/check-meta-commentary.mjs for the
 # pattern list, the contributor-docs skip-paths, and the reviewed allowlist for
 # verified product-content false positives
 # (.github/meta-commentary-gate-allowlist.json).

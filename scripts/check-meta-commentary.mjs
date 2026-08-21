@@ -79,6 +79,12 @@
 //      claim-only mode", "the decisions below are ratified", "per the ruling")
 //      instead of by what it does. A reader of a published guide is not a
 //      participant in the planning process and cannot resolve those references.
+//      Since cinatra-ai/docs#171 the same class also covers DERIVATION
+//      provenance — the numbered review or convergence round a constraint came
+//      out of, with or without the tool or agent that ran it ("<agent> round-12
+//      lesson", "lesson from round 3", "<agent> found in round 7"). It is the
+//      same defect one step earlier in the process: the sentence says where the
+//      constraint came from instead of stating the constraint.
 //
 // These are lexical heuristics, not semantic judgements. The check cannot know
 // that "#1620" names a work item, that "landed" describes it, or that a
@@ -139,6 +145,18 @@
 //     available", "not yet shipped". These describe what the product does
 //     TODAY, which is exactly what a published page is for; only the in-flight
 //     narration ("… because the work is still landing") is the violation.
+//   - A TOOL OR AGENT NAME on its own (docs#171). Named assistants are one of
+//     the commonest proper-noun families on this corpus: whole pages document
+//     connecting Claude Code, Codex and ChatGPT to Cinatra, the glossary names
+//     the assistant identities, the comparisons chapter is largely about named
+//     assistants, and the design-skill page opens by naming two of them. Only a
+//     NUMBERED review round bound to the name is class 3.
+//   - An UNNUMBERED review round ("patterns from cases that masked a blocker
+//     across multiple review rounds") and a NUMBERED round carrying no
+//     derivation claim ("round 2 of the rollout adds the CRM connector").
+//     Unnumbered, it is an ordinary process noun; unclaimed, a numbered round is
+//     an ordinary programme noun. It is the derivation claim that makes either
+//     one provenance.
 //
 // Deliberately "cheap", not exhaustive (same spirit as check-cited-paths.mjs):
 //   - Pattern-based phrase matching, not real NLP; a rephrased violation can
@@ -441,6 +459,116 @@ const PATTERNS = [
     'numbered ruling citation, e.g. "ruling 4" / "rulings 1–2"',
   ],
 
+  // --- Class: TOOL / REVIEW-ROUND PROVENANCE (docs#171) --------------------
+  // How the guidance ON THE PAGE was derived: the numbered review or
+  // convergence round it came out of, optionally credited to the tool or agent
+  // that ran that round — "(<agent> round-12 lesson — …)", "lesson from round
+  // 3", "<agent> found in round 7". Same family as the planning-provenance
+  // class above and the same defect: the sentence describes where a constraint
+  // came from rather than stating the constraint, and a reader of a published
+  // reference page has no round 12 to consult.
+  //
+  // THE BINDING IS THE ROUND CITATION, NOT THE NAME. A tool or agent name on its
+  // own is ordinary published content here and can never match: this corpus has
+  // a whole chapter of client pages for connecting named assistants to Cinatra,
+  // a glossary entry naming the assistant identities, a comparisons chapter
+  // built around named assistant products, and a design-skill page that opens by
+  // naming two agents. Every one of those stays green because a NUMBERED review
+  // round has to be bound to the name — the same BOUND-ADJACENCY proxy classes 2
+  // and 3 use, never bare same-line proximity.
+  //
+  // AND "ROUND" ALONE IS NEVER ENOUGH. "round trip", "round-robin", "rounded",
+  // "approval rounds repeat until…" are ordinary technical prose, so every
+  // pattern here requires DIGITS directly against the round noun, and then
+  // EITHER a named tool/agent bound to it by adjacency or an explicit credit, OR
+  // a derivation noun ("lesson", "learning", "takeaway", "finding", "verdict")
+  // bound to it by adjacency or a derivational preposition. A numbered round
+  // with neither stays green.
+  //
+  // SINGLE LINE ONLY, deliberately. The `generated_from` and `ratified` patterns
+  // tolerate one hard wrap with a lookahead that rejects a continuation line
+  // starting with a list, quote or table marker. That guard cannot be reused
+  // honestly here: it only inspects the START of the SECOND line, so it cannot
+  // see that the FIRST line was a heading or a table row, and a wrap-tolerant
+  // `review_round_lesson` really does join "# Round 2" to a following paragraph
+  // beginning "Findings are displayed…". Rather than ship a guard whose comment
+  // would have to overclaim, this class does not cross a newline at all. Every
+  // gap is a bounded run of spaces/tabs, so the patterns stay linear.
+  //
+  // RESIDUAL RISKS, recorded rather than hidden:
+  //   - The name list is a CLOSED enumeration of publicly named coding agents
+  //     and assistants. An unlisted or newly named one in the bare
+  //     "<agent> round-N" shape is missed — unless a derivation noun is present,
+  //     in which case `review_round_lesson` catches it whatever the name was.
+  //     A closed list is the deliberate trade: the alternative (any capitalised
+  //     token before a round citation) fires on ordinary product prose.
+  //   - A PRODUCT-OWNED numbered round bound to a derivation noun would misfire:
+  //     "the evaluation dashboard displays review round 2 findings" is about a
+  //     product surface, not about how this page was written, and it is
+  //     structurally identical to "round-12 lesson". No local lexical rule
+  //     separates them. Nothing on the inventoried surfaces is phrased this way
+  //     today; one that appears later is a line-pinned allowlist entry, which is
+  //     exactly what that mechanism is for. The same goes for an EXTERNAL
+  //     numbered round ("the standards body's round 2 findings").
+  //   - A violation SPLIT ACROSS A HARD WRAP ("The learnings\nfrom round 11 …")
+  //     is missed, per the single-line decision above.
+  //   - Rephrasings outside the three shapes are missed — "round 12 produced a
+  //     lesson", "what round 7 taught us". Widening to those means matching a
+  //     numbered round against an open verb phrase, which is where the
+  //     product-owned-round misfire above stops being hypothetical. Caught in
+  //     review, not here, exactly as this list trades everywhere else.
+  [
+    // The named-agent shapes: the name, then EITHER nothing but the round
+    // citation ("<agent> round-12") or an EXPLICIT CREDIT — a crediting verb,
+    // optionally an object, optionally a preposition ("<agent> found in round
+    // 7", "<agent> flagged this in review round 2").
+    //
+    // The preposition lives INSIDE the verb branch on purpose. Allowing a bare
+    // preposition made "use Claude in round 2 and Gemini in round 3" fail, and
+    // that sentence credits nobody with anything — it assigns a model to a
+    // numbered round, which is ordinary product prose for an AI workspace. With
+    // the verb required, adjacency ("<agent> round-12") or a credit is the only
+    // way in, and the bare-adjacency form is the one the live miss used.
+    //
+    // Case-SENSITIVE, because these are proper nouns in the crediting shape. The
+    // lower-case handles the glossary lists (`@claude`, `@chatgpt`, `@gemini`)
+    // are display identifiers for a product surface, not a credit, and they do
+    // not carry a round citation either way.
+    //
+    // Every gap is a BOUNDED run of spaces/tabs — never `\s*`, which would cross
+    // a blank line and join a sentence ending on an agent name to a following
+    // paragraph starting "Round 3 of the rollout…".
+    "tool_review_round_citation",
+    /\b(?:Codex|Claude(?:[ \t]Code)?|ChatGPT|Gemini|Copilot|Cursor|Devin|Aider)\b[ \t]{0,3}[,;:—–-]?[ \t]{0,3}(?:(?:found|flagged|caught|raised|noted|spotted|surfaced|rejected|challenged|suggested|recommended|reviewed|converged|discovered|identified|observed)[ \t]{1,3}(?:(?:this|it|that|them)[ \t]{1,3})?(?:(?:in|at|during|on)[ \t]{1,3})?)?(?:the[ \t]{1,3})?(?:(?:review|convergence|feedback|audit|grading)[ \t-]{1,2})?rounds?[ \t-]{1,2}#?\d{1,3}\b/,
+    'tool/agent credited with a numbered review round, e.g. "<agent> round-12" / "<agent> found in round 7"',
+  ],
+  [
+    // The round citation carrying its derivation noun, directly or across one
+    // separator glyph: "round-12 lesson", "Round-4 finding:", "convergence
+    // round 9 takeaway", "Round 12's lesson". No name is required — the
+    // derivation claim is the violation, and the commonest spelling of it
+    // credits no tool at all.
+    "review_round_lesson",
+    /\b(?:(?:review|convergence|feedback|audit|grading)[ \t-]{1,2})?rounds?[ \t-]{1,2}#?\d{1,3}(?:['’]s)?\b[ \t]{0,3}[,;:—–-]?[ \t]{1,3}(?:lessons?|learnings?|takeaways?|findings?|verdicts?)\b/i,
+    'numbered review round cited as the source of the guidance, e.g. "round-12 lesson"',
+  ],
+  [
+    // The reverse order, bound by a DERIVATIONAL preposition: "lesson from
+    // round 3", "the takeaway from convergence round 9", "the lesson came from
+    // round 3".
+    //
+    // Only `from` / `during` / `after` — never `in`, `of` or `at`. Those are
+    // CONTAINMENT prepositions: "compare findings in review round 2 with
+    // findings in review round 3" locates product findings, it does not claim
+    // published guidance was derived from them. Requiring a derivational
+    // preposition is what keeps "Lessons from earlier releases are captured as
+    // reusable skills" and "the findings list" green too — the noun has to point
+    // AT a numbered round, not merely precede one.
+    "lesson_from_review_round",
+    /\b(?:lessons?|learnings?|takeaways?|findings?|verdicts?)\b(?:[ \t]{1,3}(?:learned|captured|recorded|carried|came|come|comes|emerged|resulted))?[ \t]{1,3}(?:from|during|after)[ \t]{1,3}(?:the[ \t]{1,3})?(?:(?:review|convergence|feedback|audit|grading)[ \t-]{1,2})?rounds?[ \t-]{1,2}#?\d{1,3}\b/i,
+    'guidance pinned to a numbered review round, e.g. "lesson from round 3"',
+  ],
+
   // --- Class: IN-PAGE AUTHORING / PUBLISH-STATUS ANNOTATION (docs#160) ------
   // Editorial scaffolding that survived into the published bytes: a note about
   // what the page decides to publish, what state the spec is in, what is
@@ -692,7 +820,9 @@ function main() {
     `\nPublished pages describe Cinatra the product: not how this documentation site itself ` +
       `is authored, generated, or maintained; not what is still in flight ("still landing", ` +
       `"forthcoming"); and not the internal work item or decision a capability came from ` +
-      `("epic #123, landed", "the ratified <X> mode"). Remove the meta/transition/provenance ` +
+      `("epic #123, landed", "the ratified <X> mode"); and not the review round a ` +
+      `constraint came out of ("<agent> round-12 lesson", "lesson from round 3"). ` +
+      `Remove the meta/transition/provenance ` +
       `content and state the capability as it stands, or relocate it ` +
       `to guides/developer/contributing.md ("Contributing to this documentation site") if it is ` +
       `genuinely contributor-relevant.` +
