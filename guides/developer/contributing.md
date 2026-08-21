@@ -134,6 +134,36 @@ The installer also writes a managed org block to `~/.claude/CLAUDE.md` covering 
 
 For extension authoring, see [extension-authoring.md](extension-authoring.md) and [developing-agents.md](developing-agents.md).
 
+### Running more than one agent in the same checkout
+
+Two coding agents editing the same git worktree at once can lose each other's
+work even when they touch different files. The conflict is at the index and
+working-tree boundary, not at file level: if one agent's commit routine runs
+`git stash` or `git reset --hard HEAD` while the other still has unstaged edits,
+those edits are gone. A file-list overlap check cannot see this, so "the two
+tasks share no files" is not sufficient on its own.
+
+Choose one of these before starting a parallel run:
+
+- **Commit as you go.** Have each agent commit after every one or two files
+  rather than once at the end of its task, and run `pnpm typecheck` after each
+  batch. This bounds any loss to the last batch and needs no extra setup. Best
+  for mechanical work — wrapper swaps, `className` migrations, codemod-style
+  refactors — where the agent naturally edits one file at a time. The extra
+  commits are harmless; squash-merge collapses them.
+- **Run the agents one at a time.** Wait for each to finish before starting the
+  next. Best when the parallel saving would be small, when the tasks produce
+  overlapping edit ranges anyway, or when there are only two of them.
+- **Give each agent its own worktree.** Each gets its own copy of the working
+  tree and you merge results as each finishes. The most robust option and the
+  one with the highest setup cost; best when the tasks each touch many files.
+
+Signs a run has already hit this: `git reflog` shows `reset: moving to HEAD`
+entries nobody asked for, files the agent never touched appear in its
+`git status`, or an edit the agent just made has reverted to its pre-edit
+state. Do not simply re-run the agent — change the choice above first, or the
+same race repeats.
+
 ---
 
 ## Working on the codebase

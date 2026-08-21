@@ -102,7 +102,6 @@ Advanced, internal engineering references — contributor material, not part of 
 - [Headless e2e hydration requirements](../../references/platform/e2e-headless-hydration.md)
 - [role-based access control (RBAC) browser e2e in CI](../../references/platform/rbac-browser-e2e-ci.md)
 - [Testing doctrine](../../references/platform/testing-doctrine.md)
-- [Wave execution policy](../../references/platform/wave-execution-policy.md)
 - [Dev-mode build-performance harness](devperf-harness.md) — `pnpm route-graph` / `pnpm bench:cold-start` / `pnpm dev:stop` + the build-performance acceptance contract
 
 ## Contribute
