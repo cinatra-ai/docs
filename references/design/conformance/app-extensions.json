@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-extensions.html",
-  "contentHash": "sha256:279ed0cb8d0161ea51bc9372f60b4705f5a39b16d60dbc49cf0a6b966431f240",
+  "contentHash": "sha256:60465f0e227f0308c18a215c9a2d14c95efda2f064800a2c4c59c729491b019b",
   "surfaces": [
     {
       "id": "extension-listing-grid",
@@ -28,7 +28,7 @@
         }
       ],
       "states": [
-        "kind:agent"
+        "kind:connector"
       ]
     },
     {
