@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-notifications.html",
-  "contentHash": "sha256:1ce74d705a99bc51bcc8f3729c2ab27d469a894d437839c2ce988957c18ba8ec",
+  "contentHash": "sha256:e27b22817cac8b427e150739674caa0fa4d96bb9fa46a7b846ff46261cb95790",
   "surfaces": [
     {
       "id": "notifications-list",
