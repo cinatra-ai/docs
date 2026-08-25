@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-components.html",
-  "contentHash": "sha256:96e6f38526b16d2463fd832b8e2f2a81555f576cccbb7a8e059576cee206f249",
+  "contentHash": "sha256:617b86b316e3835c385ebb86e10ba250c6db03c486d3d0b9eccfcdcb780a476c",
   "surfaces": [
     {
       "id": "breadcrumb-entity-resolution",
@@ -40,20 +40,21 @@
       ]
     },
     {
-      "id": "scheduling-trigger-tab",
+      "id": "scheduling-step-configured",
       "fields": [],
       "actions": [
         {
-          "action": "cancel",
-          "outcome": "cancelled"
+          "action": "save-schedule",
+          "outcome": "rearmed"
         },
         {
-          "action": "release",
-          "outcome": "released"
+          "action": "cancel-schedule",
+          "outcome": "stopped"
         }
       ],
       "states": [
-        "error"
+        "error",
+        "loading"
       ]
     }
   ]
