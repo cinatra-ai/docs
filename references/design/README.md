@@ -36,7 +36,7 @@ This is the Cinatra design-system reference for contributors, alongside the [Use
 | [`application-design-notifications.html`](./application-design-notifications.html) | The unified notifications surface. |
 | [`application-design-permissions.html`](./application-design-permissions.html) | Permissions and the access picker. |
 
-Each page also has a machine-readable conformance manifest under [`conformance/`](./conformance/), naming the page's conformance surfaces, their field bindings and their action outcomes, plus the content hash of the page it describes. The functional-acceptance suites read these manifests, so a page and its manifest always move together.
+Each page also has a machine-readable conformance manifest under `conformance/` (for example [`app.json`](./conformance/app.json)), naming the page's conformance surfaces, their field bindings and their action outcomes, plus the content hash of the page it describes. The functional-acceptance suites read these manifests, so a page and its manifest always move together.
 
 ## What's NOT in here
 
