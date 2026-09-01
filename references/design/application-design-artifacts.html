@@ -286,7 +286,7 @@
       <p class="lede"><code>/artifacts</code> is the <b>library</b> — everything the acting user's agents and uploads have produced, each row opened by its <b>type's renderer</b>. The library also <b>ingests</b>: an <b>upload</b> affordance types a file by its MIME base, a <b>type picker</b> lets the user assert its meaning among installed types, and an <b>inline marketplace</b> adds a type when none fits (admins install; others request). <b>Dashboards are artifacts</b> too — they list as rows and open the dashboard itself at its canonical surface (never rendered inline); a <b>team, project or organization</b> lists the dashboards in its scope on its <b>Dashboards tab</b>, where a scope manager can <b>add an existing dashboard as a secondary listing</b> (§IX). <code>/configuration/artifacts</code> is the <b>Artifacts</b> console — a <b>tablist</b> page whose <b>Type definitions</b> tab lists every type every artifact extension defines, whose <b>Stored objects</b> tab inventories every stored object across every artifact extension, and whose <b>Restore objects</b> tab browses and undoes object change sets. <b>Artifact change review</b> lives on the shared artifact-review surface. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.8.0</div>
+      <div>Version 0.9.0</div>
     </div>
   </div>
 
@@ -921,24 +921,28 @@
   <div class="sect">
     <h2>IX. The Dashboards tab — every entity page's first tablist entry</h2>
     <div class="rule"></div>
-    <div class="source">Entity-page tablist (Dashboards · Settings) · secondary listings · add / remove</div>
+    <div class="source">Entity-page tablist (Dashboards · Assistants · Agents · Artifacts · Skills, Settings last) · secondary listings · add / remove</div>
   </div>
-  <p class="lede-p"><b>Every entity page opens on a Dashboards tab.</b> A <b>personal</b>, <b>project</b>, <b>team</b> or <b>organization</b> page carries a <b>canonical underline tablist</b> (Application Design — Components · Tabs) whose <b>first entry is Dashboards</b>. On a <b>project</b>, <b>team</b> or <b>organization</b> the <b>second entry is Settings</b> — that entity's management pane, where rename, visibility and the members / access section live folded together. A <b>personal</b> scope has <b>no Settings pane</b>, so its tablist is <b>Dashboards</b> alone. Dashboards is a plain tablist entry like any other — no pill, no bespoke chrome — and the etched paired-line rule begins to the right of the last tab and runs to the page edge. This section fixes the <b>Dashboards</b> tab; the Settings pane is its own surface.</p>
+  <p class="lede-p"><b>Every entity page opens on a Dashboards tab.</b> A <b>personal</b>, <b>project</b>, <b>team</b>, <b>organization</b> or <b>workspace</b> page carries a <b>canonical underline tablist</b> (Application Design — Components · Tabs) whose entries are, in this order, <b>Dashboards</b>, <b>Assistants</b>, <b>Agents</b>, <b>Artifacts</b> and <b>Skills</b>. On a <b>project</b>, <b>team</b> or <b>organization</b> a <b>Settings</b> entry is appended <b>last</b> — that entity's management pane, where rename, visibility and the members / access section live folded together. A <b>personal</b> scope and the <b>workspace</b> scope have <b>no Settings pane</b>, so their tablist is those five entries alone. Dashboards is a plain tablist entry like any other — no pill, no bespoke chrome — and the etched paired-line rule begins to the right of the last tab and runs to the page edge. This section fixes the <b>Dashboards</b> tab and the tablist it sits in; the other four tabs and the Settings pane are their own surfaces.</p>
   <p class="lede-p"><b>What the Dashboards tab lists.</b> On a <b>team</b>, <b>project</b> or <b>organization</b> the tab lists the dashboards <b>in that scope</b> — a dashboard whose <b>canonical home</b> is this scope (the singular entity identity of §VIII), and any <b>secondary reference listing</b> added here (a separate listing relation, never a second home; §VIII). Both open the dashboard at its <b>canonical surface</b>, never rendered inline (§VIII), and a scope <b>manager</b> can <b>add an existing dashboard as a listing</b> (§IX.1). On a <b>personal</b> scope the tab shows <b>the acting user's own dashboards</b>; a personal user scope and the whole-<b>workspace</b> scope are <b>not add-to-scope targets</b> — they carry no <em>Add</em>, so add-to-scope is the three shared scopes only.</p>
   <p class="lede-p"><b>Row anatomy — no relation badge, no per-row type label.</b> Each row carries a leading dashboard glyph, the dashboard <b>name</b>, the <b>updated time</b>, and an <b>Open</b> affordance. Every row on this tab is a dashboard, so <b>no row repeats a <em>Dashboards</em> type label</b>, and a row does <b>not</b> advertise where the dashboard lives — whether it is homed here or merely listed here is <b>not surfaced</b>. A dashboard's <b>canonical home never moves</b>: this tab neither re-homes nor deletes. The single place the home / listing difference shows is the <b>Remove</b> control, which appears <b>only on a removable row</b> — a <b>secondary listing</b>, which can be unlisted — and <b>never</b> on a dashboard homed in this scope. Removability is read from the presence of <em>Remove</em> alone; there is <b>no <em>Home</em> or <em>Listed</em> badge</b>. <b>Open</b> navigates to the dashboard's canonical surface exactly as in §VIII — the tab <b>points</b>, it never renders a dashboard inline.</p>
 
   <div class="ex" data-conformance-id="scope-dashboards-tab" data-field="name=identity.displayName" data-state="empty error loading kind:artifact">
-    <div class="cap">Example — a team page, Dashboards tab selected (one homed row, no Remove; two listings, with Remove); Settings is the second tab</div>
+    <div class="cap">Example — a team page, Dashboards tab selected (one homed row, no Remove; two listings, with Remove); the strip reads Dashboards · Assistants · Agents · Artifacts · Skills with Settings appended last</div>
     <div class="body">
-      <!-- The entity is the page; Dashboards is a tablist entry, Settings the second (Components · Tabs). -->
+      <!-- The entity is the page; Dashboards is the first tablist entry, Settings the last one where the scope has a management pane (Components · Tabs). -->
       <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;">
         <h1 style="font-family:var(--font-sans);font-style:italic;font-weight:800;font-size:var(--page-title-lg);letter-spacing:var(--title-tracking-tight);line-height:var(--page-title-line-height);margin:0;color:var(--ink);">Growth</h1>
         <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);">Team</span>
       </div>
-      <!-- Canonical underline tablist: Dashboards first, Settings second; the etched paired-line rule runs from the last tab to the page edge. No pill tabs. -->
+      <!-- Canonical underline tablist: Dashboards, Assistants, Agents, Artifacts, Skills, and — this scope having a management pane — Settings appended last; the etched paired-line rule runs from the last tab to the page edge. No pill tabs. -->
       <div style="display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:flex-end;margin:12px 0 18px;">
-        <div role="tablist" style="display:flex;gap:0;padding:0;">
+        <div role="tablist" style="display:flex;flex-wrap:wrap;gap:0;padding:0;">
           <button role="tab" aria-selected="true" style="font-size:13px;padding:9px 14px 11px;color:var(--blue);font-weight:600;background:transparent;border:0;border-bottom:2px solid var(--blue);margin-bottom:-1px;cursor:pointer;font-family:var(--font-sans);">Dashboards</button>
+          <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Assistants</button>
+          <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Agents</button>
+          <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Artifacts</button>
+          <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Skills</button>
           <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Settings</button>
         </div>
         <div style="height:5px;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);align-self:flex-end;margin-bottom:11px;"></div>
@@ -980,16 +984,20 @@
   </div>
 
   <div class="ex">
-    <div class="cap">Example — a personal scope: the Dashboards tab is the only tab (no Settings pane), listing the user's own dashboards, and there is no add-to-scope</div>
+    <div class="cap">Example — a personal scope: the five entries with no Settings tab (no Settings pane — the reading the workspace scope carries too), listing the user's own dashboards, and there is no add-to-scope</div>
     <div class="body">
       <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;">
         <h1 style="font-family:var(--font-sans);font-style:italic;font-weight:800;font-size:var(--page-title-lg);letter-spacing:var(--title-tracking-tight);line-height:var(--page-title-line-height);margin:0;color:var(--ink);">Personal</h1>
         <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);">Your scope</span>
       </div>
-      <!-- Personal has no Settings pane, so its tablist is Dashboards alone. -->
+      <!-- Personal has no Settings pane, so its tablist is the five entries alone — the same reading the workspace scope carries. -->
       <div style="display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:flex-end;margin:12px 0 18px;">
-        <div role="tablist" style="display:flex;gap:0;padding:0;">
+        <div role="tablist" style="display:flex;flex-wrap:wrap;gap:0;padding:0;">
           <button role="tab" aria-selected="true" style="font-size:13px;padding:9px 14px 11px;color:var(--blue);font-weight:600;background:transparent;border:0;border-bottom:2px solid var(--blue);margin-bottom:-1px;cursor:pointer;font-family:var(--font-sans);">Dashboards</button>
+          <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Assistants</button>
+          <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Agents</button>
+          <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Artifacts</button>
+          <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Skills</button>
         </div>
         <div style="height:5px;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);align-self:flex-end;margin-bottom:11px;"></div>
       </div>
@@ -1118,7 +1126,7 @@
     <div class="source">Breakpoints · single cream theme · the data-state set</div>
   </div>
   <p class="lede-p"><b>Every new surface honors the three axes the Application Design family carries.</b> The affordances above (§VI–§IX) are specified once and hold across breakpoint, theme and state — a conformance run checks each axis, so the spec names them.</p>
-  <p class="lede-p"><b>Responsive.</b> The library sits at the wide data width (<code>max-w-7xl</code>). On a narrow viewport the toolbar <b>wraps</b> — the search field takes the full row, the <em>Type</em> / <em>Scope</em> / <em>Upload</em> controls wrap beneath it, and <em>Upload</em> stays reachable (never behind an overflow). The type picker and the inline marketplace tab are <b>bounded panels</b> that shrink to the viewport (<code>max-width:100%</code>); the marketplace pack list is single-column already. The dashboard <b>pointer detail</b> card wraps to the narrow width — its scope chips flow to a new line and the <em>Open dashboard</em> affordance drops beneath the metadata — and any wide table scrolls inside its own container rather than widening the page. The <b>Dashboards tab</b> (§IX) wraps too — the entity-page tablist (<em>Dashboards</em>, and <em>Settings</em> on the shared scopes) keeps its single underline row, its <em>Add dashboard</em> affordance drops beneath the tab strip, each row's controls flow to a new line rather than overflowing, and the <b>add-to-scope picker</b> is a <b>bounded panel</b> that shrinks to the viewport (<code>max-width:100%</code>).</p>
+  <p class="lede-p"><b>Responsive.</b> The library sits at the wide data width (<code>max-w-7xl</code>). On a narrow viewport the toolbar <b>wraps</b> — the search field takes the full row, the <em>Type</em> / <em>Scope</em> / <em>Upload</em> controls wrap beneath it, and <em>Upload</em> stays reachable (never behind an overflow). The type picker and the inline marketplace tab are <b>bounded panels</b> that shrink to the viewport (<code>max-width:100%</code>); the marketplace pack list is single-column already. The dashboard <b>pointer detail</b> card wraps to the narrow width — its scope chips flow to a new line and the <em>Open dashboard</em> affordance drops beneath the metadata — and any wide table scrolls inside its own container rather than widening the page. The <b>Dashboards tab</b> (§IX) wraps too — the entity-page tablist (<em>Dashboards</em>, <em>Assistants</em>, <em>Agents</em>, <em>Artifacts</em>, <em>Skills</em>, and <em>Settings</em> last on the shared scopes) wraps onto a further underline row rather than scrolling or hiding an entry behind an overflow, its <em>Add dashboard</em> affordance drops beneath the tab strip, each row's controls flow to a new line rather than overflowing, and the <b>add-to-scope picker</b> is a <b>bounded panel</b> that shrinks to the viewport (<code>max-width:100%</code>).</p>
   <p class="lede-p"><b>Theme.</b> There is <b>one theme</b> — the shared cream palette. Every new surface draws only from the shared tokens (the <code>:root</code> block); no affordance introduces a colour, and the base style block is identical to every sibling spec (Conventions · self-contained specs). <em>Set on cream.</em></p>
   <p class="lede-p"><b>State.</b> The machine-checkable state axis is the closed <code>data-state</code> set — <code>loading</code>, <code>error</code>, <code>empty</code>, plus <code>kind:artifact</code> — carried on the conformance surfaces above. The richer interaction states each affordance moves through are shown as example frames and bound to their outcomes via <code>data-action</code>. The table names them so a build covers each:</p>
 
@@ -1148,7 +1156,7 @@
   </div>
 
   <footer>
-    <span>Cinatra · Application Design — Artifacts v0.8.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Artifacts v0.9.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>

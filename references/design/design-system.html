@@ -292,7 +292,7 @@
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.10.0</div>
+      <div>Version 0.11.0</div>
     </div>
   </div>
 
@@ -1074,8 +1074,97 @@
 
   </div>
 
+
+  <!-- ── The Workspace sidebar entry and page ─────────────────── -->
+  <div class="sect">
+    <h2>X. The Workspace sidebar entry and page</h2>
+    <div class="rule"></div>
+    <div class="source">one entry · directly after Organizations · the entity-page tablist</div>
+  </div>
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 14px; line-height: 1.6; color: var(--ink); margin: 0 0 10px; text-wrap: pretty;">A single sidebar entry titled <strong style="color:var(--ink);">Workspace</strong> sits in the <strong style="color:var(--ink);">Management</strong> group <strong style="color:var(--ink);">directly after Organizations</strong>, so that group reads <strong style="color:var(--ink);">Personal, Projects, Teams, Organizations, Workspace</strong>. It is one nav entry — <strong style="color:var(--ink);">not a group</strong>, and it introduces no section heading. It carries the standard sidebar-row treatment (13px sans with a leading icon; the active row on the indigo 6% tint — see <a href="application-design-components.html">Sidebar</a> in Components), exactly like the four entries above it. <strong style="color:var(--ink);">The mark itself is not fixed here</strong> — this section decides the entry's placement and its row treatment, and the glyph drawn below stands for the row, not for a ratified mark. <strong style="color:var(--ink);">The four entries above are unchanged</strong> — no label or heading is introduced around them.</p>
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 14px; line-height: 1.6; color: var(--ink); margin: 0 0 10px; text-wrap: pretty;">Selecting <strong style="color:var(--ink);">Workspace</strong> opens the workspace page — the scope above every organization — the same way Personal opens the personal scope and Organizations opens an organization.</p>
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 14px; line-height: 1.6; color: var(--ink); margin: 0 0 10px; text-wrap: pretty;">The page's heading reads <strong style="color:var(--ink);">Workspace</strong>, and the page <strong style="color:var(--ink);">is an entity page</strong>: it carries the entity-page tablist specified once in <a href="application-design-artifacts.html">The Dashboards tab</a> of Application Design — Artifacts, and nothing about that tablist is restated here. The workspace has <strong style="color:var(--ink);">no Settings pane</strong>, so its reading is the five entries — <strong style="color:var(--ink);">Dashboards, Assistants, Agents, Artifacts, Skills</strong> — with no Settings entry, and the page <strong style="color:var(--ink);">opens on Dashboards</strong>.</p>
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 14px; line-height: 1.6; color: var(--ink); margin: 0 0 18px; text-wrap: pretty;">The body below the strip is the ordinary entity-page body of that same section. While one of the four scoped tabs — Assistants, Agents, Artifacts, Skills — holds nothing to list, it reads as the <a href="application-design-components.html">Empty state</a> of Components and nothing else — that pattern at its own values, restated nowhere here, carrying its own rule: <strong style="color:var(--ink);">a single primary action button — never just empty text</strong>. The panel sits inside the tab body: no bespoke panel, and <strong style="color:var(--ink);">no page-wide dashed frame</strong>. <strong style="color:var(--ink);">The wording drawn below is illustrative</strong> — this section fixes the pattern, not the headline, the helper line or the button's label.</p>
+
+  <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:14px; align-items:start; margin-top:4px;">
+
+    <!-- Surface: the entry in place — the Management group, Workspace last -->
+    <div data-conformance-id="sidebar-workspace-entry" data-field="title=nav.title" style="border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--surface-strong);">
+      <div style="padding:8px 14px; background:var(--surface); border-bottom:1px solid var(--line); font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.18em; color:var(--muted); text-transform:uppercase; font-weight:700;">Workspace after Organizations</div>
+      <div style="padding:16px; background:var(--paper);">
+        <div style="max-width:236px; background:var(--sidebar); border:1px solid var(--line); border-radius:9px; padding:8px;">
+          <div style="padding: 4px 9px 4px; font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);">Management</div>
+          <div style="display:flex; align-items:center; gap:9px; padding:6px 9px; border-radius:6px; font-family:var(--font-sans); font-size:13px; color:var(--ink); margin-top:2px;">
+            <span style="width:16px;height:16px;color:var(--muted);display:grid;place-items:center;flex:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+            <span style="flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Personal</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:9px; padding:6px 9px; border-radius:6px; font-family:var(--font-sans); font-size:13px; color:var(--ink); margin-top:2px;">
+            <span style="width:16px;height:16px;color:var(--muted);display:grid;place-items:center;flex:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg></span>
+            <span style="flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Projects</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:9px; padding:6px 9px; border-radius:6px; font-family:var(--font-sans); font-size:13px; color:var(--ink); margin-top:2px;">
+            <span style="width:16px;height:16px;color:var(--muted);display:grid;place-items:center;flex:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <span style="flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Teams</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:9px; padding:6px 9px; border-radius:6px; font-family:var(--font-sans); font-size:13px; color:var(--ink); margin-top:2px;">
+            <span style="width:16px;height:16px;color:var(--muted);display:grid;place-items:center;flex:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg></span>
+            <span style="flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Organizations</span>
+          </div>
+          <div data-action="open-workspace -> workspace" style="display:flex; align-items:center; gap:9px; padding:6px 9px; border-radius:6px; font-family:var(--font-sans); font-size:13px; color:var(--blue); font-weight:600; background:rgba(54,78,129,0.06); margin-top:2px;">
+            <span style="width:16px;height:16px;color:var(--blue);display:grid;place-items:center;flex:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+            <span style="flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Workspace</span>
+          </div>
+        </div>
+      </div>
+      <div style="padding:10px 14px 13px; font-size:12.5px; color:var(--muted); line-height:1.45; text-wrap:pretty;">One entry, active here, sitting after Organizations inside the existing Management group. No group container and no section heading; the four entries above keep their existing form.</div>
+    </div>
+
+    <!-- Surface: the page — heading, the five-entry strip, no Settings -->
+    <div data-conformance-id="workspace-scope-page" data-field="name=identity.displayName" data-state="empty error loading" style="border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--surface-strong);">
+      <div style="padding:8px 14px; background:var(--surface); border-bottom:1px solid var(--line); font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.18em; color:var(--muted); text-transform:uppercase; font-weight:700;">The Workspace page, opening on Dashboards</div>
+      <div style="padding:16px; background:var(--paper);">
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;">
+          <h1 style="font-family:var(--font-sans);font-style:italic;font-weight:800;font-size:var(--page-title-lg);letter-spacing:var(--title-tracking-tight);line-height:var(--page-title-line-height);margin:0;color:var(--ink);">Workspace</h1>
+        </div>
+        <!-- The entity-page tablist of Application Design — Artifacts; the workspace has no Settings pane, so no Settings entry is drawn. -->
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:flex-end;margin:10px 0 16px;">
+          <div role="tablist" style="display:flex;flex-wrap:wrap;gap:0;padding:0;">
+            <button role="tab" aria-selected="true" style="font-size:13px;padding:9px 14px 11px;color:var(--blue);font-weight:600;background:transparent;border:0;border-bottom:2px solid var(--blue);margin-bottom:-1px;cursor:pointer;font-family:var(--font-sans);">Dashboards</button>
+            <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Assistants</button>
+            <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Agents</button>
+            <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Artifacts</button>
+            <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Skills</button>
+          </div>
+          <div style="height:5px;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);align-self:flex-end;margin-bottom:11px;"></div>
+        </div>
+        <p style="margin:0;font-size:13px;line-height:1.5;color:var(--muted);">The entity-page body of that section — this page adds no body shape of its own.</p>
+      </div>
+      <div style="padding:10px 14px 13px; font-size:12.5px; color:var(--muted); line-height:1.45; text-wrap:pretty;">Five entries, Dashboards selected, no Settings entry anywhere in the strip — the reading a personal scope carries too.</div>
+    </div>
+
+    <!-- Surface: a scoped tab with nothing to list — the shared Empty state, unchanged -->
+    <div data-conformance-id="workspace-scope-empty-tab" data-state="empty" style="border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--surface-strong);">
+      <div style="padding:8px 14px; background:var(--surface); border-bottom:1px solid var(--line); font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.18em; color:var(--muted); text-transform:uppercase; font-weight:700;">A scoped tab holding nothing</div>
+      <div style="padding:16px; background:var(--paper);">
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:flex-end;margin:10px 0 16px;">
+          <div role="tablist" style="display:flex;flex-wrap:wrap;gap:0;padding:0;">
+            <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Dashboards</button>
+            <button role="tab" aria-selected="true" style="font-size:13px;padding:9px 14px 11px;color:var(--blue);font-weight:600;background:transparent;border:0;border-bottom:2px solid var(--blue);margin-bottom:-1px;cursor:pointer;font-family:var(--font-sans);">Assistants</button>
+            <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Agents</button>
+            <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Artifacts</button>
+            <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Skills</button>
+          </div>
+          <div style="height:5px;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);align-self:flex-end;margin-bottom:11px;"></div>
+        </div>
+        <div style="text-align:center;padding:24px 16px;color:var(--muted);"><div style="width:40px;height:40px;border:2px dashed var(--line-strong);border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;color:var(--muted);"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div style="font-size:14px;color:var(--ink);font-weight:600;margin-bottom:4px;">No assistants here yet.</div><div style="font-size:12px;margin-bottom:12px;">Assistants reachable in this workspace will be listed here.</div><button type="button" class="btn primary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Browse assistants</button></div>
+      </div>
+      <div style="padding:10px 14px 13px; font-size:12.5px; color:var(--muted); line-height:1.45; text-wrap:pretty;">The Empty state of Components at its own values, with one primary action; the panel sits inside the tab body and the page grows no dashed frame of its own. The headline, helper and button label shown are illustrative, not fixed here.</div>
+    </div>
+
+  </div>
+
 <footer>
-    <span>Cinatra · Application Design v0.10.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design v0.11.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
