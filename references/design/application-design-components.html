@@ -291,7 +291,7 @@
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.4.0</div>
+      <div>Version 0.5.0</div>
     </div>
   </div>
 
@@ -319,6 +319,34 @@
   </div>
   </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The page-header h1 owns the page-title typography end-to-end — Archivo italic 800, -0.018em tracking, 1.05 line-height, balanced wrap — so pages never roll their own. The title scale is <strong style="color:var(--ink);">lg 28px</strong> (the default — every top-level page), <strong style="color:var(--ink);">md 24px</strong> (action-heavy admin / settings / detail subpages with long titles), <strong style="color:var(--ink);">sm 20px</strong> (nested sub-screens); the scale is monotonic — a smaller step never renders larger than the one above it. Title tone is ink by default; brand-mustard is a per-route opt-in for brand-y top-level pages, never on settings or admin chrome. An optional mono uppercase kicker label sits above the h1, an optional one-line description below it. The etched paired-line rule closes the header on every page — unless a toolbar sits directly beneath, which replaces the rule (see Toolbar).</p>
 
+  <div class="sect">
+    <h2>Section header / Kicker</h2>
+    <div class="rule"></div>
+  </div>
+  <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;SectionHeader /&gt;, &lt;Kicker /&gt; · @cinatra-ai/sdk-ui</p>
+  <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
+    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">title: headline (VIII.4)</div><div style="padding: 1px 0;">sm 20 · md 24 · lg 30px</div><div style="padding: 1px 0;">kicker xs 10px · sm 12px</div><div style="padding: 1px 0;">tracking 0.18 / 0.2 / 0.3em</div><div style="padding: 1px 0;">mono uppercase · slate</div><div style="padding: 1px 0;">actions right-aligned</div></div>
+    <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 10px; max-width: 520px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — kicker + title + description, then the three tracking lanes</div>
+    <div style="padding: 18px 20px;">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;">
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);">Section kicker</div>
+          <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 24px; letter-spacing: -0.018em; line-height: 1.15; color: var(--ink); margin-top: 4px; text-wrap: balance;">Section header title</div>
+          <div style="font-size: 12.5px; line-height: 1.55; color: var(--muted); margin-top: 4px; max-width: 46ch;">Optional description in muted body text under the title.</div>
+        </div>
+        <span class="pill running"><svg viewBox="0 0 24 24" fill="currentColor" style="width:9px;height:9px;"><polygon points="6 3 20 12 6 21 6 3"/></svg>Running</span>
+      </div>
+      <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line);">
+        <div style="font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); padding: 1px 0;">kicker · xs · 0.18em</div>
+        <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); padding: 1px 0;">kicker · sm · 0.2em</div>
+        <div style="font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); padding: 1px 0;">kicker · xs · 0.3em</div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The section header is the in-page counterpart of the page header: an optional mono uppercase kicker, a title, an optional one-line description, and an optional right-aligned actions slot that holds status pills, buttons or a close control. Its title takes the headline treatment every section title already inherits — Archivo italic 800 on the tight title tracking, balanced wrap, in ink (<a href="design-system.html" style="color: var(--blue); text-decoration: none;">Application Design</a>, VIII.4 and VIII.7) — in three sizes: sm 20px, md 24px (the default) and lg 30px. It is the page title that opens the page; a section header only subdivides what the page already opened, so a page carries exactly one page header and as many section headers as it has sections.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The kicker is the canonical uppercase mono label above a section title, a table head or a card topline. (The sidebar group label is its own primitive, drawn below with its own brief, and is not a kicker.) It carries two sizes, xs 10px (the default) and sm 12px, and three tracking lanes, each a named type token rather than a per-call-site value: 0.18em for the standard section and sidebar label, 0.2em for roomier labels (settings groups, empty-state tags), and 0.3em for the page-context label above a page title.</p>
   <div class="sect">
     <h2>Button</h2>
     <div class="rule"></div>
@@ -405,17 +433,24 @@
   </div>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Badge /&gt;, &lt;LifecycleBadge /&gt; · @/components/ui/badge</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
-    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">surface-muted bg</div><div style="padding: 1px 0;">line border</div><div style="padding: 1px 0;">9999px radius</div><div style="padding: 1px 0;">icon-led</div></div>
+    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">9999px radius</div><div style="padding: 1px 0;">pill: tinted bg · icon-led</div><div style="padding: 1px 0;">badge: filled · outline</div><div style="padding: 1px 0;">· secondary · destructive</div></div>
     <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 10px; max-width: 520px;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
     <div style="padding: 18px 20px;">
       <span class="pill running"><svg viewBox="0 0 24 24" fill="currentColor" style="width:9px;height:9px;"><polygon points="6 3 20 12 6 21 6 3"/></svg>Running</span>
         <span class="pill approved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M20 6 9 17l-5-5"/></svg>Approved</span>
         <span class="pill hold"><svg viewBox="0 0 24 24" fill="currentColor" style="width:9px;height:9px;"><rect x="6" y="4" width="4" height="16" rx="0.5"/><rect x="14" y="4" width="4" height="16" rx="0.5"/></svg>On hold</span>
+      <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+          <span style="display:inline-flex;align-items:center;height:20px;padding:0 8px;border-radius:9999px;border:1px solid transparent;background:var(--blue);color:#fff;font-size:11px;font-weight:500;">New</span>
+          <span style="display:inline-flex;align-items:center;height:20px;padding:0 8px;border-radius:9999px;border:1px solid var(--line-strong);background:transparent;color:var(--ink);font-size:11px;font-weight:500;">Outline</span>
+          <span style="display:inline-flex;align-items:center;height:20px;padding:0 8px;border-radius:9999px;border:1px solid transparent;background:var(--surface-muted);color:var(--ink);font-size:11px;font-weight:500;">Secondary</span>
+          <span style="display:inline-flex;align-items:center;height:20px;padding:0 8px;border-radius:9999px;border:1px solid rgba(166,56,79,0.30);background:rgba(166,56,79,0.10);color:var(--red);font-size:11px;font-weight:500;">Destructive</span>
+        </div>
     </div>
   </div>
   </div>
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Status pills (see V) use bg tinted from the status colour, text in the same colour, border at higher alpha. Use icon-led pills; never just dots.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Badge and the status pill are two different jobs on one geometry, and the split is normative. <strong style="color:var(--ink);">Badge is the plain label chip</strong> — a raw label carrying no status meaning (a count, a version, a category, a "New"), drawn in the label variants above: the filled default, the hairline outline, the muted secondary, and the red-on-tint destructive. <strong style="color:var(--ink);">The status roster never rides on a Badge.</strong> Anything that stands for a run, approval or lifecycle state takes the status pill and its fixed roster (V), so one state is never drawn two ways on two screens. Where a surface is specified to carry a connection or lifecycle chip of its own, it is drawn in the spec that owns that surface — see for example <a href="application-design-connectors.html" style="color: var(--blue); text-decoration: none;">Application Design — Connectors</a>.</p>
   <div class="sect">
     <h2>Tabs</h2>
     <div class="rule"></div>
@@ -552,7 +587,7 @@
   </div>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Sidebar /&gt;, &lt;AppSidebar /&gt; · @/components/ui/sidebar</p>
   <div style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
-    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">surface --sidebar</div><div style="padding: 1px 0;">~240px wide</div><div style="padding: 1px 0;">brand head: fedora + wordmark</div><div style="padding: 1px 0;">active = indigo 6%</div><div style="padding: 1px 0;">labels: mono 10px</div><div style="padding: 1px 0;">collapses to 56px rail</div></div>
+    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">surface --sidebar</div><div style="padding: 1px 0;">~240px wide</div><div style="padding: 1px 0;">brand head: fedora + wordmark</div><div style="padding: 1px 0;">active = indigo 6%</div><div style="padding: 1px 0;">labels: mono 10px</div><div style="padding: 1px 0;">collapses to 56px rail</div><div style="padding: 1px 0;">mobile: 18rem sheet</div></div>
     <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 10px; max-width: 520px;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
     <div style="padding: 18px 20px;">
@@ -562,7 +597,29 @@
         </div>
         <div style="font-size: 12px; padding: 5px 8px; background: rgba(54,78,129,0.08); border-radius: 5px; color: var(--blue); font-weight: 600;">Agents</div>
         <div style="font-size: 12px; padding: 5px 8px; color: var(--ink); margin-top: 2px;">Chat</div>
+      <div style="display: flex; gap: 18px; align-items: flex-start; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line);">
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">Collapsed — icon rail</div>
+          <div style="width: 56px; background: var(--sidebar, #eceeea); border-radius: 7px; padding: 8px 8px;">
+            <div style="display: flex; justify-content: center; color: var(--logo); margin-bottom: 10px;"><svg width="19" height="10" viewBox="72 64 368 192" fill="currentColor"><path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/><path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/></svg></div>
+            <div style="height: 24px; border-radius: 5px; background: rgba(54,78,129,0.08);"></div>
+            <div style="height: 24px; border-radius: 5px; margin-top: 4px;"></div>
+            <div style="height: 24px; border-radius: 5px; margin-top: 4px;"></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">Mobile — sheet over a dimmed page</div>
+          <div style="width: 200px; height: 96px; border: 1px solid var(--line); border-radius: 7px; background: rgba(21,33,58,0.55); padding: 0; overflow: hidden; display: flex;">
+            <div style="width: 132px; background: var(--sidebar, #eceeea); padding: 8px 10px;">
+              <div style="display: flex; align-items: center; gap: 5px; color: var(--logo); margin-bottom: 8px;"><svg width="19" height="10" viewBox="72 64 368 192" fill="currentColor"><path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/><path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/></svg><span style="font-family: var(--font-sans); font-weight: 600; font-size: 11px; letter-spacing: -0.02em;">Cinatra</span></div>
+              <div style="font-size: 11px; padding: 4px 6px; background: rgba(54,78,129,0.08); border-radius: 5px; color: var(--blue); font-weight: 600;">Agents</div>
+              <div style="font-size: 11px; padding: 4px 6px; color: var(--ink);">Chat</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div></div></div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Cinatra's sidebar from <code>app-sidebar.tsx</code>. Mustard fedora + Archivo wordmark in the brand head. Active item is indigo bg at 6% alpha; section labels are 10px mono uppercase.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The rail carries <strong style="color:var(--ink);">three states, and only three</strong>. <em>Expanded</em> is the resting state — the full-width rail with the brand head, the group labels and every item label. <em>Collapsed</em> is the icon-only rail: the labels drop, the brand head falls back to the fedora alone, and the group labels go with them; the icons keep their order and their active tint so the collapse is reversible by eye. <em>Mobile sheet</em> is the narrow-viewport form — the same rail, at sheet width, slid in over a dimmed page instead of holding a column; it is the expanded rail's content, never a third layout.</p>
   <div class="sect">
     <h2>Sidebar group label</h2>
     <div class="rule"></div>
@@ -646,10 +703,11 @@
     <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 10px; max-width: 520px;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
     <div style="padding: 18px 20px;">
-      <div style="border:1px solid rgba(166,56,79,0.30);background:rgba(166,56,79,0.08);border-radius:8px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;max-width:380px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;color:var(--red);flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><div><div style="font-size:13px;font-weight:600;color:var(--ink);">Approval expired.</div><div style="font-size:12px;color:var(--muted);margin-top:2px;">The hold window closed at 15:30.</div></div></div></div>
+      <div style="border:1px solid rgba(166,56,79,0.30);background:rgba(166,56,79,0.08);border-radius:8px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;max-width:380px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;color:var(--red);flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><div><div style="font-size:13px;font-weight:600;color:var(--ink);">Approval expired.</div><div style="font-size:12px;color:var(--muted);margin-top:2px;">The hold window closed at 15:30.</div></div></div></div><div style="margin-top:6px;"><div style="border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 11px;font-size:12px;color:var(--ink);max-width:380px;">Default — no status colour</div></div><div style="margin-top:6px;"><div style="border:1px solid rgba(54,78,129,0.30);background:rgba(54,78,129,0.08);border-radius:8px;padding:8px 11px;font-size:12px;color:var(--blue);max-width:380px;">Info — indigo</div></div><div style="margin-top:6px;"><div style="border:1px solid rgba(63,110,107,0.30);background:rgba(63,110,107,0.08);border-radius:8px;padding:8px 11px;font-size:12px;color:var(--green);max-width:380px;">Success — sea-green</div></div><div style="margin-top:6px;"><div style="border:1px solid rgba(199,149,69,0.42);background:rgba(199,149,69,0.14);border-radius:8px;padding:8px 11px;font-size:12px;color:var(--mustard-ink);max-width:380px;">Warning — mustard</div></div>
   </div>
   </div>
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Inline alerts for warnings and errors; AlertDialog for destructive confirmations. Use the destructive variant (red) for terminal failures, warning (mustard) for cautions, info (indigo) for neutral notices.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Five variants, no more: <strong style="color:var(--ink);">default</strong> on the card surface for a notice that carries no status at all, then the four status variants — <strong style="color:var(--ink);">info</strong> (indigo), <strong style="color:var(--ink);">success</strong> (sea-green), <strong style="color:var(--ink);">warning</strong> (mustard) and <strong style="color:var(--ink);">destructive</strong> (brand red). The default sits on the card surface with a plain hairline. Each status variant is one recipe at its own colour — background tinted from that colour, border at higher alpha, and the icon in the colour itself — never a solid status fill behind body text. The three colour rows above show that ground and border treatment at info, success and warning; the worked destructive example above them shows the anatomy every variant shares, where the title stays ink and the description stays muted so the alert body reads as ordinary text on a tinted ground.</p>
   <div class="sect">
     <h2>Toast / Sonner</h2>
     <div class="rule"></div>
@@ -1424,7 +1482,7 @@
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Retiring the in-stepper trigger HITL</h3>
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The previous approach delivered scheduling as a per-agent renderer chain: a hand-inlined <em>configure</em> subflow, a separate read-only <em>confirm</em> gate, and an exact-version trigger dependency pinned into every embedding agent. That chain is retired. The <strong style="color:var(--ink);">confirm gate is removed</strong> — the in-flow step arms the trigger directly on <em>Continue</em> — and no agent declares a trigger renderer or pins a trigger dependency. What stays is exactly the platform machinery it always ran on: the per-run schedule storage, the schedule firing, and the run's <strong style="color:var(--ink);">Schedule</strong> step with its Save changes control and, for a recurring schedule, Cancel schedule. The change is only that the in-flow renderer is now <strong style="color:var(--ink);">host-standard</strong>, available to every agent for free rather than copied into each one.</p>
 <footer>
-    <span>Cinatra · Application Design — Components v0.4.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Components v0.5.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>

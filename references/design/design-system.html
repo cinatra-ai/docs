@@ -277,6 +277,13 @@
 
   /* ── Footer ───────────────────────────────────────────────── */
   footer { margin-top: 64px; padding-top: 18px; border-top: 1px solid var(--line-strong); font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; display: flex; justify-content: space-between; }
+
+  /* ── Spec-local (this spec only; below the shared base) ───── */
+  /* Liner-notes prose: two columns with a navy rule, collapsing to one below
+     480px — the rule goes with the second column, the drop-cap stays. */
+  .liner-notes-demo { columns: 2; column-rule: 1px solid var(--line-strong); }
+  .liner-notes-demo > p:first-of-type::first-line { font-family: var(--font-mono); font-variant: small-caps; letter-spacing: 0.04em; font-size: 0.9em; }
+  @media (max-width: 480px) { .liner-notes-demo { columns: 1; column-rule: none; } }
 </style>
 </head>
 <body>
@@ -292,7 +299,7 @@
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.11.0</div>
+      <div>Version 0.12.0</div>
     </div>
   </div>
 
@@ -384,8 +391,8 @@
       <div class="chip"><span class="hex" style="--label-color: #f1f1ed">#364E81</span></div>
       <div class="info">
         <div class="role">Indigo</div>
-        <div class="token">--blue · --primary · --accent</div>
-        <div class="use">Primary action. Filled buttons, focus rings, links, and the "running" status pill. Same hue family as navy (≈1° apart) so it sits naturally beside the text without fighting it.</div>
+        <div class="token">--blue · --primary · --accent · --info</div>
+        <div class="use">Primary action. Filled buttons, focus rings, links, and the "running" status pill. Same hue family as navy (≈1° apart) so it sits naturally beside the text without fighting it. It is also the <strong>info</strong> status colour: a neutral notice is drawn in indigo, never in its own fifth hue.</div>
       </div>
     </div>
     <div class="swatch" style="--swatch: var(--muted);">
@@ -426,7 +433,7 @@
       <div class="chip"><span class="hex" style="--label-color: var(--ink)">#C79545</span></div>
       <div class="info">
         <div class="role">Mustard</div>
-        <div class="token">--logo · brand mark · "needs you"</div>
+        <div class="token">--logo · --warning · brand mark · "needs you"</div>
         <div class="use">Logo + wordmark. "On hold" / "needs your attention" cue throughout the app. Marquee bulbs. Use sparingly — it's the page's pinpoint of warmth.</div>
       </div>
     </div>
@@ -442,7 +449,7 @@
       <div class="chip"><span class="hex" style="--label-color: #f1f1ed">#A6384F</span></div>
       <div class="info">
         <div class="role">Brand red</div>
-        <div class="token">--red · destructive</div>
+        <div class="token">--red · --destructive</div>
         <div class="use">Destructive buttons (Decline / Tear stub) and terminal failures. Critical notifications. The single saturated red in the system — never "running", which is indigo.</div>
       </div>
     </div>
@@ -450,7 +457,7 @@
       <div class="chip"><span class="hex" style="--label-color: #f1f1ed">#3F6E6B</span></div>
       <div class="info">
         <div class="role">Sea-green</div>
-        <div class="token">--green · approved · trend up</div>
+        <div class="token">--green · --success · approved · trend up</div>
         <div class="use">"Approved" status. Positive metric deltas. Slightly desaturated — reads as tweed, not Slack-green.</div>
       </div>
     </div>
@@ -963,12 +970,12 @@
   </div></div></div>
 
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 10px; color: var(--ink);">5. Liner-notes prose</h3>
-  <div style="display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 28px; align-items: start; margin: 0 0 8px;"><div><div style="font-family: var(--font-mono); font-size: 12px; line-height: 1.65;"><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">font-family</span><span style="color: var(--ink);">Inter</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">font-weight</span><span style="color: var(--ink);">400</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">font-size</span><span style="color: var(--ink);">12.5px</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">line-height</span><span style="color: var(--ink);">1.55</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">color</span><span style="color: var(--ink);">ink</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">columns</span><span style="color: var(--ink);">2 (≥80ch)</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">column-rule</span><span style="color: var(--ink);">1px solid navy</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">drop-cap</span><span style="color: var(--ink);">italic 800 burgundy 34px</span></div></div></div><div><div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0;">
+  <div style="display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 28px; align-items: start; margin: 0 0 8px;"><div><div style="font-family: var(--font-mono); font-size: 12px; line-height: 1.65;"><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">font-family</span><span style="color: var(--ink);">Inter</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">font-weight</span><span style="color: var(--ink);">400</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">font-size</span><span style="color: var(--ink);">12.5px</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">line-height</span><span style="color: var(--ink);">1.55</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">color</span><span style="color: var(--ink);">ink</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">columns</span><span style="color: var(--ink);">2 (≥80ch)</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">column-rule</span><span style="color: var(--ink);">1px solid navy</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">narrow</span><span style="color: var(--ink);">1 column below 480px</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">drop-cap</span><span style="color: var(--ink);">italic 800 burgundy 34px</span></div><div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; padding: 1px 0;"><span style="color: var(--red);">first line</span><span style="color: var(--ink);">mono small-caps 0.9em · 0.04em</span></div></div></div><div><div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
     <div style="padding: 18px 20px;">
-      <div style="columns: 2; column-gap: 22px; column-rule: 1px solid var(--line-strong); font-family: var(--font-body); font-size: 12.5px; line-height: 1.55; color: var(--ink); margin: 0; max-width: 86ch; text-wrap: pretty;">
+      <div class="liner-notes-demo" style="column-gap: 22px; font-family: var(--font-body); font-size: 12.5px; line-height: 1.55; color: var(--ink); margin: 0; max-width: 86ch; text-wrap: pretty;">
         <p style="margin: 0 0 6px;"><span style="float: left; font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 34px; line-height: 0.85; padding: 2px 6px 0 0; color: var(--burgundy);">W</span>hen a single editorial paragraph would stretch past 80ch, set it in two equal columns. A navy rule between them. Drop-cap on the first paragraph, burgundy, italic 800.</p>
-        <p style="margin: 0;">The body stays Inter 400 at 12.5px on 1.55 line-height; the only ornamentation is the rule and the cap. Use sparingly — once per run summary, not as a general body style.</p>
+        <p style="margin: 0;">The opening line of that first paragraph is set in mono small-caps at 0.9em on 0.04em tracking, so the passage opens on a masthead line and settles into body text. Past it the body stays Inter 400 at 12.5px on 1.55 line-height; the rule, the cap and that first line are the only ornamentation. Use sparingly — once per run summary, not as a general body style. Below 480px the columns collapse to one — the rule goes with them, the cap stays.</p>
       </div>
     </div>
   </div></div></div>
@@ -1164,7 +1171,7 @@
   </div>
 
 <footer>
-    <span>Cinatra · Application Design v0.11.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design v0.12.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
