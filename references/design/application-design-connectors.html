@@ -272,7 +272,7 @@
       <p class="lede">How connectors surface in the Cinatra app — the connector toolbar, the responsive card grid, and the connected / disconnected state language. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.7.0</div>
+      <div>Version 0.8.0</div>
     </div>
   </div>
 
@@ -374,7 +374,7 @@
     <div class="rule"></div>
     <div class="source">Wide · single &amp; multi-connection</div>
   </div>
-  <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 66ch; line-height: 1.55;"><b style="color:var(--ink);font-weight:600;">One generated form per connector.</b> A connector's setup page is rendered from its config schema — a single generic form, never per-connector layout. It sits in the <b style="color:var(--ink);font-weight:600;">Wide content width</b> (the <code>max-w-3xl</code> · 768px column defined in the Application Design system, §VII Content widths) and splits into two columns: a <b style="color:var(--ink);font-weight:600;">wider left column</b> holding the configuration fields, and a <b style="color:var(--ink);font-weight:600;">narrower right column</b> holding the <b style="color:var(--ink);font-weight:600;">Connection status</b> card. The page header carries the connector name and the <em>Connector setup</em> subtitle; the status badge that once sat top-right now lives in that card. Fields are stacked and single-column; each is optional unless the schema marks it required. Most connectors hold a <b style="color:var(--ink);font-weight:600;">single connection</b> (below); a connector that holds <b style="color:var(--ink);font-weight:600;">many</b> — like the A2A Server — adds a <b style="color:var(--ink);font-weight:600;">Setup · Connections</b> tablist over the same column (see <em>Multiple connections</em>).</p>
+  <p style="font-size: 13.5px; color: var(--muted); margin: -8px 0 20px; max-width: 66ch; line-height: 1.55;"><b style="color:var(--ink);font-weight:600;">One generated form per connector.</b> A connector's setup page is rendered from its config schema — a single generic form, never per-connector layout. It sits in the <b style="color:var(--ink);font-weight:600;">Wide content width</b> (the <code>max-w-3xl</code> · 768px column defined in the Application Design system, §VII Content widths) and splits into two columns: a <b style="color:var(--ink);font-weight:600;">wider left column</b> holding the configuration fields, and a <b style="color:var(--ink);font-weight:600;">narrower right column</b> holding the <b style="color:var(--ink);font-weight:600;">Connection status</b> card. The page header carries the connector name and the <em>Connector setup</em> subtitle; the status badge that once sat top-right now lives in that card. Fields are stacked and single-column; each is optional unless the schema marks it required. Every setup page carries a <b style="color:var(--ink);font-weight:600;">tab strip</b> beneath its header, and its first two tabs are the same on every connector: <b style="color:var(--ink);font-weight:600;">Setup</b>, then <b style="color:var(--ink);font-weight:600;">Sharing</b> — who else may use each saved connection (see <em>Sharing tab</em>). Most connectors hold a <b style="color:var(--ink);font-weight:600;">single connection</b> (below) and read <b style="color:var(--ink);font-weight:600;">Setup · Sharing</b>; a connector that holds <b style="color:var(--ink);font-weight:600;">many</b> — like the A2A Server — adds <b style="color:var(--ink);font-weight:600;">Connections</b> after Sharing (see <em>Multiple connections</em>); a connector's own tabs follow.</p>
 
   <style>@keyframes cin-spin { to { transform: rotate(360deg); } }</style>
 
@@ -389,7 +389,14 @@
         <!-- page header (no top-right badge — it moved into the card) -->
         <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 28px; letter-spacing: -0.018em; line-height: 1.05; color: var(--ink);">OpenAI</div>
         <div style="font-size: 13.5px; color: var(--muted); margin-top: 6px;">Connector setup</div>
-        <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin: 16px 0 24px;"></div>
+        <!-- tablist beneath the header; Sharing sits right after Setup, on every connector -->
+        <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin: 16px 0 24px;">
+          <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+            <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Setup</button>
+            <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Sharing</button>
+          </div>
+          <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+        </div>
 
         <!-- two columns: fields (wider) + connection card (narrower) -->
         <div data-conformance-id="connector-setup" data-state="loading error" style="display: grid; grid-template-columns: minmax(0, 1fr) 236px; gap: 30px; align-items: start;">
@@ -483,7 +490,7 @@
   <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">The page holds to the <b style="color:var(--ink);font-weight:600;">Wide</b> column and never spans full width. Inputs are pure-white with the navy hairline border (design-system Rules of the road #8); selects mirror that chrome with a trailing chevron. The two actions sit <b style="color:var(--ink);font-weight:600;">side by side, never stacked</b> — an icon-led <b style="color:var(--blue);font-weight:600;">Connect</b> (indigo primary, the joined plug from the Connected badge) and <b style="color:var(--red);font-weight:600;">Disconnect</b> (<code>destructive</code>, red-on-tint, the unplug from the Disconnected badge); the actions speak the same connect / disconnect language as the status badge. <b style="color:var(--ink);font-weight:600;">Disconnect is disabled until the connector is connected</b> — there is nothing to disconnect otherwise. Disconnecting is destructive, so it opens an <b style="color:var(--ink);font-weight:600;">AlertDialog</b> on the <code>--paper</code> ground with a strong hairline header rule — a <em>Cancel</em> outline beside the red <em>Disconnect</em> confirm (same unplug icon) — never a bare browser prompt; its copy stays connector-neutral. The right <b style="color:var(--ink);font-weight:600;">Connection status</b> card reuses the extension detail info-card chrome (<code>--surface</code>, hairline, its heading over a divider) and carries the status <b style="color:var(--ink);font-weight:600;">badge with both icon and label</b> plus the <em>Check</em> action beneath it. Each field keeps its own helper text from the connector's schema; the form drops the connector blurb, the per-action section labels, and the connection-check helper line.</p>
 
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 34px 0 10px; color: var(--ink);">Multiple connections</h3>
-  <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 18px; max-width: 66ch; line-height: 1.55;">A few connectors hold <b style="color:var(--ink);font-weight:600;">many connections</b> in one extension — the <b style="color:var(--ink);font-weight:600;">A2A Server</b> connector, for instance, holds one server per connection. These add a <b style="color:var(--ink);font-weight:600;">Setup · Connections</b> tablist beneath the page header — underline tabs per the design system (VII of the Application Design system, Components · Tabs) — over the same Wide column. <b style="color:var(--ink);font-weight:600;">Setup</b> adds a connection and rolls up their status; <b style="color:var(--ink);font-weight:600;">Connections</b> lists them.</p>
+  <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 18px; max-width: 66ch; line-height: 1.55;">A few connectors hold <b style="color:var(--ink);font-weight:600;">many connections</b> in one extension — the <b style="color:var(--ink);font-weight:600;">A2A Server</b> connector, for instance, holds one server per connection. These add a third tab, <b style="color:var(--ink);font-weight:600;">Connections</b>, after the two fixed ones, so the strip reads <b style="color:var(--ink);font-weight:600;">Setup · Sharing · Connections</b> beneath the page header — underline tabs per the design system (VII of the Application Design system, Components · Tabs) — over the same Wide column. <b style="color:var(--ink);font-weight:600;">Setup</b> adds a connection and rolls up their status; <b style="color:var(--ink);font-weight:600;">Connections</b> lists them.</p>
 
   <!-- Example — multi-connection · Setup tab -->
   <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
@@ -499,6 +506,7 @@
         <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin-top: 18px;">
           <div role="tablist" style="display: flex; gap: 0; padding: 0;">
             <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Setup</button>
+            <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Sharing</button>
             <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Connections</button>
           </div>
           <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
@@ -552,6 +560,7 @@
         <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin-top: 18px;">
           <div role="tablist" style="display: flex; gap: 0; padding: 0;">
             <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Setup</button>
+            <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Sharing</button>
             <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Connections</button>
           </div>
           <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
@@ -606,10 +615,125 @@
 
   <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">On a multi-connection connector the <b style="color:var(--ink);font-weight:600;">Setup</b> tab keeps the same two-column form, with four differences: the right card is <b style="color:var(--ink);font-weight:600;">Connections status</b> (plural) carrying <b style="color:var(--ink);font-weight:600;">one count badge per status</b> — a green <em>2 Connected</em>, a red <em>1 Disconnected</em>, only the statuses in play; there is <b style="color:var(--ink);font-weight:600;">no Check</b> and, in its place, a link-style <b style="color:var(--blue);font-weight:600;">All connections</b> that opens the Connections tab; the left form has <b style="color:var(--ink);font-weight:600;">no Disconnect</b> (Connect adds one, and the form is never wrapped in its own card); and the form <b style="color:var(--ink);font-weight:600;">adds</b> a connection rather than editing the one. The <b style="color:var(--ink);font-weight:600;">Connections</b> tab stacks every connection as <b style="color:var(--ink);font-weight:600;">its own card</b> — name, URL, the same solid status badge, and a per-row action that follows the status: <b style="color:var(--red);font-weight:600;">Disconnect</b> (destructive) on a connected row, <b style="color:var(--blue);font-weight:600;">Connect</b> (primary) on a disconnected one — never a bare Remove. Disconnecting a single connection opens the same AlertDialog with <b style="color:var(--ink);font-weight:600;">connection-level</b> copy (<em>Disconnect connection?</em>), generic to any connector.</p>
 
-  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 34px 0 10px; color: var(--ink);">Additional configuration tabs</h3>
-  <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 18px; max-width: 66ch; line-height: 1.55;">Either shape may also carry <b style="color:var(--ink);font-weight:600;">extra configuration tabs</b> — a connector's own settings beyond connecting. The OpenAI connector, for instance, adds a <b style="color:var(--ink);font-weight:600;">Local shell</b> tab for its sandboxed-shell policy. Each custom tab takes the connector's own <b style="color:var(--ink);font-weight:600;">label</b> and sits <b style="color:var(--ink);font-weight:600;">after Setup</b> (and Connections), in the order the connector declares them. A connector with no extra tabs and one connection shows no tablist at all; the first custom tab is what introduces one. The <b style="color:var(--ink);font-weight:600;">page header and tablist stay at the Wide column</b>, but a custom tab's <b style="color:var(--ink);font-weight:600;">content narrows to the Narrow width</b> (<code>max-w-xl</code> · 576px, §VII) — a long single-column settings form reads better tighter — left-aligned beneath the tabs.</p>
+  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 34px 0 10px; color: var(--ink);">Sharing tab</h3>
+  <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 18px; max-width: 66ch; line-height: 1.55;">The second tab is <b style="color:var(--ink);font-weight:600;">Sharing</b>, and every connector carries it. It answers one question — <b style="color:var(--ink);font-weight:600;">who else may use each of your saved connections</b> — and it is the only place that question is answered: <b style="color:var(--ink);font-weight:600;">sharing is decided on its own tab, never inside Setup</b>. Setup connects; Sharing hands the connection on. The tab lists <b style="color:var(--ink);font-weight:600;">your own</b> saved connections for this connector and, under each one, mounts the app's <b style="color:var(--ink);font-weight:600;">access picker</b> and its <b style="color:var(--ink);font-weight:600;">ownership</b> panel — the same two controls the permissions surface draws, never a connector-specific copy of them (see <a href="application-design-permissions.html" style="color: var(--blue);">Application Design — Permissions</a>). It keeps the <b style="color:var(--ink);font-weight:600;">Wide</b> column: it holds a list of cards, not a long settings form. A person who has saved no connection here sees nothing on it yet.</p>
 
-  <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 18px; max-width: 66ch; line-height: 1.55;">One tab label is <b style="color:var(--ink);font-weight:600;">reserved</b>. A connector may add a <b style="color:var(--ink);font-weight:600;">Help</b> tab carrying its own <b style="color:var(--ink);font-weight:600;">setup how-to</b> — the prose, prerequisites and links a user needs to connect it, <b style="color:var(--ink);font-weight:600;">read-only</b> (no form, no <em>Save</em>). It obeys every custom-tab frame rule — its own tab in the Wide strip, content at the Narrow width — but its position is fixed: <b style="color:var(--ink);font-weight:600;">Help always sits last</b>, after Setup, after Connections, and after every other custom tab. A connector that only needs to explain itself may carry Help and no other tab; then Help is what introduces the tablist. Reserving the final slot keeps <em>“how do I set this up?”</em> in the same place on every connector.</p>
+  <!-- Example — Sharing tab · one connection -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — Sharing tab · one connection</div>
+    <div style="padding: 26px 24px;">
+      <div style="max-width: 768px; margin: 0 auto;">
+
+        <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 28px; letter-spacing: -0.018em; line-height: 1.05; color: var(--ink);">OpenAI</div>
+        <div style="font-size: 13.5px; color: var(--muted); margin-top: 6px;">Connector setup</div>
+
+        <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin-top: 18px;">
+          <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+            <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Setup</button>
+            <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Sharing</button>
+          </div>
+          <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+        </div>
+
+        <!-- the tab keeps the Wide column: one panel per saved connection -->
+        <div data-conformance-id="connector-sharing" data-state="loading" style="margin-top: 22px; display: flex; flex-direction: column; gap: 16px;">
+          <div><div style="font-family: var(--font-sans); font-size: 16px; font-weight: 600; color: var(--ink);">Connection sharing</div>
+          <p style="margin: 6px 0 0; max-width: 66ch; font-size: 12.5px; color: var(--muted); line-height: 1.5;">Choose who can use each of your saved connections. Shared use always acts through your connected account and is audited.</p></div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- the connection's identity row: its name and the mono line beneath it — no status badge, no action -->
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 15px 18px; box-shadow: 0 1px 3px rgba(21,33,58,0.06);">
+              <div style="min-width: 0;"><div data-field="name=connection.connectionId" style="font-family: var(--font-sans); font-weight: 700; font-size: 15px; color: var(--ink);">openai-acme-prod</div><div data-field="url=connection.connectorKey" style="font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-top: 3px;">openai</div></div>
+            </div>
+
+            <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; display: flex; flex-direction: column; gap: 24px;">
+              <div>
+                <div style="font-family: var(--font-sans); font-size: 16px; font-weight: 600; color: var(--ink);">Access</div>
+                <div data-field="access=policy.runListVisibility" data-action="select-scope -> scopes-selected" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05); margin-top: 12px;">
+                  <span style="font-size: 14px; color: var(--ink); font-family: var(--font-body);">Organization: Acme Corp</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; opacity: .5; color: var(--ink); flex: none;"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+                <div style="font-size: 11.5px; color: var(--muted); margin-top: 6px; line-height: 1.45;">Choose who can use this connection.</div>
+              </div>
+
+              <div>
+                <div style="font-family: var(--font-sans); font-size: 16px; font-weight: 600; color: var(--ink);">Ownership</div>
+                <div data-action="search-people -> people-listed" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05); justify-content: flex-start; margin-top: 12px;">
+                  <span style="font-size: 14px; color: var(--muted); font-family: var(--font-body);">Search by name or email…</span>
+                </div>
+                <div style="font-size: 11.5px; color: var(--muted); margin-top: 6px; line-height: 1.45;">Owners can change this connection's sharing and disconnect it.</div>
+                <ul data-field="co-owners=connection.coOwners" style="list-style: none; margin: 10px 0 0; padding: 0;">
+              <li style="display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line);">
+                <span style="width: 32px; height: 32px; flex: none; border-radius: 9999px; background: var(--surface-muted); color: var(--muted); display: grid; place-items: center; font-family: var(--font-sans); font-size: 12px; font-weight: 700;">AR</span>
+                <span style="display: flex; flex-direction: column; min-width: 0; flex: 1; line-height: 1.25;"><span style="font-size: 14px; font-weight: 500; color: var(--ink);">Alex Rivera</span><span style="font-size: 12px; color: var(--muted);">alex@acme.example</span></span>
+                <span aria-hidden="true" style="width: 32px; height: 32px; flex: none; display: grid; place-items: center; color: var(--muted);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+              </li>
+              <li style="display: flex; align-items: center; gap: 12px; padding: 8px 0;">
+                <span style="width: 32px; height: 32px; flex: none; border-radius: 9999px; background: var(--surface-muted); color: var(--muted); display: grid; place-items: center; font-family: var(--font-sans); font-size: 12px; font-weight: 700;">JB</span>
+                <span style="display: flex; flex-direction: column; min-width: 0; flex: 1; line-height: 1.25;"><span style="font-size: 14px; font-weight: 500; color: var(--ink);">Jordan Blake</span><span style="font-size: 12px; color: var(--muted);">jordan@acme.example</span></span>
+                <button type="button" aria-label="Remove Jordan Blake" data-action="remove-co-owner -> co-owner-removed" style="width: 32px; height: 32px; flex: none; border: 0; border-radius: 7px; background: transparent; display: grid; place-items: center; color: var(--muted); cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+              </li>
+                </ul>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end;">
+                <button type="button" class="btn primary" data-action="save-access -> access-saved" style="cursor: pointer;">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example — Sharing tab · more than one connection -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — Sharing tab · more than one connection</div>
+    <div style="padding: 26px 24px;">
+      <div style="max-width: 768px; margin: 0 auto;">
+        <div data-conformance-id="connector-sharing-rollup" style="display: flex; flex-direction: column; gap: 16px;">
+
+          <!-- the roll-up card heads the list, and only when there is more than one connection to roll up -->
+          <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 15px 16px 17px;">
+            <div style="font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: var(--ink); padding-bottom: 11px; border-bottom: 1px solid var(--line);">Connections status</div>
+            <div style="margin-top: 14px;"><span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 9999px; background: var(--green); color: var(--surface-strong); font-family: var(--font-sans); font-size: 12.5px; font-weight: 600;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 13px; height: 13px;"><path d="m16 8 6-6"/><path d="m2 22 6-6"/><path d="M9.3 17.3a2.4 2.4 0 0 0 3.4 0L15 15l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="m9 9 6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z"/></svg> 2 Connected</span></div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 15px 18px; box-shadow: 0 1px 3px rgba(21,33,58,0.06);">
+            <div style="min-width: 0;"><div style="font-family: var(--font-sans); font-weight: 700; font-size: 15px; color: var(--ink);">a2a-dev-localhost-10010</div><div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-top: 3px;">a2a-server</div></div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); padding: 0 2px 4px;">Access and Ownership panel, exactly as drawn above</div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 15px 18px; box-shadow: 0 1px 3px rgba(21,33,58,0.06);">
+            <div style="min-width: 0;"><div style="font-family: var(--font-sans); font-weight: 700; font-size: 15px; color: var(--ink);">a2a-dev-localhost-10002</div><div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-top: 3px;">a2a-server</div></div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); padding: 0 2px 4px;">Access and Ownership panel, exactly as drawn above</div>
+        </div>
+        <p style="max-width: 66ch; font-size: 12.5px; color: var(--muted); margin: 14px 0 0; line-height: 1.5;">Each row carries the same <b style="color:var(--ink);font-weight:600;">Access</b> and <b style="color:var(--ink);font-weight:600;">Ownership</b> card drawn above — one panel per connection, each decided on its own. The roll-up card is the <b style="color:var(--ink);font-weight:600;">Connections status</b> card of the Setup tab, with <b style="color:var(--ink);font-weight:600;">no Check and no All connections link</b>: the list it counts is directly beneath it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example — Sharing tab · access locked by the connector -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — access locked by the connector</div>
+    <div style="padding: 18px 20px;">
+      <div data-conformance-id="connector-sharing-locked" style="max-width: 420px;">
+        <div style="font-family: var(--font-sans); font-size: 16px; font-weight: 600; color: var(--ink);">Access</div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05); margin-top: 12px;">
+          <span style="font-size: 14px; color: var(--ink); font-family: var(--font-body);">Organization: Acme Corp</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; opacity: .5; color: var(--ink); flex: none;"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted); margin-top: 6px; line-height: 1.45;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none;"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Locked by this connector: access is limited to your organization (only:"organization").</span></div>
+        <div style="font-size: 11.5px; color: var(--muted); margin-top: 6px; line-height: 1.45;">Choose who can use this connection.</div>
+      </div>
+      <p style="max-width: 66ch; font-size: 12.5px; color: var(--muted); margin: 14px 0 0; line-height: 1.5;">A connector may declare a <b style="color:var(--ink);font-weight:600;">ceiling</b> on how far its connections travel. The picker then renders every option above that ceiling <b style="color:var(--ink);font-weight:600;">locked</b>, each carrying this one sentence as its reason, and the same sentence sits under the picker with a lock. Where the connector only <b style="color:var(--ink);font-weight:600;">recommends</b> a scope, the line reads instead <b style="color:var(--ink);font-weight:600;">This connector recommends sharing with your organization — nothing is shared until you save. Currently: only you.</b> Nothing is shared by either line on its own; the grant is written when you press <b style="color:var(--ink);font-weight:600;">Save changes</b>.</p>
+    </div>
+  </div>
+
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">The tab is a <b style="color:var(--ink);font-weight:600;">list of panels</b>, one per connection you own here, each one a <b style="color:var(--ink);font-weight:600;">connection row</b> — the same card the Connections tab stacks, but carrying its name and mono line <b style="color:var(--ink);font-weight:600;">and nothing else</b>: no status badge and no per-row action, because a saved identity is not a claim that the connection still answers, and connecting and disconnecting stay on Setup and on the Connections tab. Beneath each row sits the shared permissions card on the <b style="color:var(--ink);font-weight:600;">--surface</b> ground: <b style="color:var(--ink);font-weight:600;">Access</b> — the multi-select scope picker, ordered narrow to broad, helper line <em>Choose who can use this connection.</em> — then <b style="color:var(--ink);font-weight:600;">Ownership</b> — a <em>Search by name or email…</em> field that adds a co-owner, helper line <em>Owners can change this connection's sharing and disconnect it.</em>, and the owners themselves as hairline-divided rows with an avatar, a name, an address and a remove button — except the row of the person who connected it, which carries a <b style="color:var(--ink);font-weight:600;">lock</b> in the button's place, because this surface hands out no way to remove that owner; <b style="color:var(--ink);font-weight:600;">the last owner cannot be removed</b>. An ownership edit <b style="color:var(--ink);font-weight:600;">applies as it is made</b>: a person picked from the search field is an owner at once. The card ends in one right-aligned <b style="color:var(--ink);font-weight:600;">Save changes</b>, and that button writes the <b style="color:var(--ink);font-weight:600;">Access</b> choice — nothing is shared until it is pressed.</p>
+
+  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 34px 0 10px; color: var(--ink);">Additional configuration tabs</h3>
+  <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 18px; max-width: 66ch; line-height: 1.55;">Either shape may also carry <b style="color:var(--ink);font-weight:600;">extra configuration tabs</b> — a connector's own settings beyond connecting. The OpenAI connector, for instance, adds a <b style="color:var(--ink);font-weight:600;">Local shell</b> tab for its sandboxed-shell policy. Each custom tab takes the connector's own <b style="color:var(--ink);font-weight:600;">label</b> and sits <b style="color:var(--ink);font-weight:600;">after the fixed tabs</b> — after Setup, after Sharing, and after Connections where the connector has it — in the order the connector declares them. Two tabs are fixed and <b style="color:var(--ink);font-weight:600;">every connector carries both</b>: Setup first and <b style="color:var(--ink);font-weight:600;">Sharing second</b>. The strip is therefore never absent; a custom tab extends it rather than introducing it. The <b style="color:var(--ink);font-weight:600;">page header and tablist stay at the Wide column</b>, but a custom tab's <b style="color:var(--ink);font-weight:600;">content narrows to the Narrow width</b> (<code>max-w-xl</code> · 576px, §VII) — a long single-column settings form reads better tighter — left-aligned beneath the tabs.</p>
+
+  <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 18px; max-width: 66ch; line-height: 1.55;">One tab label is <b style="color:var(--ink);font-weight:600;">reserved</b>. A connector may add a <b style="color:var(--ink);font-weight:600;">Help</b> tab carrying its own <b style="color:var(--ink);font-weight:600;">setup how-to</b> — the prose, prerequisites and links a user needs to connect it, <b style="color:var(--ink);font-weight:600;">read-only</b> (no form, no <em>Save</em>). It obeys every custom-tab frame rule — its own tab in the Wide strip, content at the Narrow width — but its position is fixed: <b style="color:var(--ink);font-weight:600;">Help always sits last</b>, after Setup, after Sharing, after Connections, and after every other custom tab. A connector that only needs to explain itself may carry Help and no custom tab of its own; its strip then reads <b style="color:var(--ink);font-weight:600;">Setup · Sharing · Help</b>. Reserving the final slot keeps <em>“how do I set this up?”</em> in the same place on every connector.</p>
 
   <!-- Example — additional config tab -->
   <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
@@ -624,6 +748,7 @@
         <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin-top: 18px;">
           <div role="tablist" style="display: flex; gap: 0; padding: 0;">
             <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Setup</button>
+            <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Sharing</button>
             <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Local shell</button>
             <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Help</button>
           </div>
@@ -689,7 +814,7 @@
   <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">A non-Help custom tab is the one place the setup page leaves the <b style="color:var(--ink);font-weight:600;">Wide</b> column: the header and tab strip stay Wide so the tabs sit in the same place across tabs, while the settings themselves drop to <b style="color:var(--ink);font-weight:600;">Narrow</b> (576px), flush-left under the tablist. The tab carries the connector's own fields in a single column — <b style="color:var(--ink);font-weight:600;">switches</b> for immediate-effect toggles (indigo when on), inputs, and <b style="color:var(--ink);font-weight:600;">add / remove list editors</b> for path, host and prefix lists — ending in its own <em>Save</em>.</p>
 
 <footer>
-    <span>Cinatra · Application Design — Connectors v0.7.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Connectors v0.8.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>

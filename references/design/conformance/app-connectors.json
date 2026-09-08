@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-connectors.html",
-  "contentHash": "sha256:a7b53676fceb18aed9d3b3991f45824627e1d5ea373b7f48b03926ebe822cd47",
+  "contentHash": "sha256:4efb755296759033deb8a56e691c85761cb31c45e38a969b8a6cbf691ef174a0",
   "surfaces": [
     {
       "id": "connector-connection-filter",
@@ -140,6 +140,60 @@
         "empty",
         "loading"
       ]
+    },
+    {
+      "id": "connector-sharing",
+      "fields": [
+        {
+          "field": "name",
+          "source": "connection.connectionId"
+        },
+        {
+          "field": "url",
+          "source": "connection.connectorKey"
+        },
+        {
+          "field": "access",
+          "source": "policy.runListVisibility"
+        },
+        {
+          "field": "co-owners",
+          "source": "connection.coOwners"
+        }
+      ],
+      "actions": [
+        {
+          "action": "select-scope",
+          "outcome": "scopes-selected"
+        },
+        {
+          "action": "search-people",
+          "outcome": "people-listed"
+        },
+        {
+          "action": "remove-co-owner",
+          "outcome": "co-owner-removed"
+        },
+        {
+          "action": "save-access",
+          "outcome": "access-saved"
+        }
+      ],
+      "states": [
+        "loading"
+      ]
+    },
+    {
+      "id": "connector-sharing-rollup",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "connector-sharing-locked",
+      "fields": [],
+      "actions": [],
+      "states": []
     },
     {
       "id": "connector-config-tab",
