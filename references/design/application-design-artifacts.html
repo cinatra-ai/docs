@@ -298,7 +298,7 @@
     <div class="rule"></div>
     <div class="source">/artifacts library · /configuration/artifacts console</div>
   </div>
-  <p class="lede-p"><b><code>/artifacts</code> is the library, and nothing else.</b> It lists exactly the acting user's artifacts, for <b>every</b> user — there is <b>no mode toggle</b>, because the library is the lone view. The page opens with the standard <b>page header</b> (title <em>Artifacts</em>, a one-line description, a closing etched rule), then a <b>toolbar</b> over the list. The sidebar entry points here.</p>
+  <p class="lede-p"><b><code>/artifacts</code> is the library, and nothing else.</b> It lists exactly the acting user's artifacts, for <b>every</b> user — there is <b>no mode toggle</b>, because the library is the lone view. The page opens with the standard <b>page header</b> (title <em>Artifacts</em>, a one-line description), then the library <b>toolbar</b> directly beneath it, which <b>replaces the closing rule</b> — never stack a toolbar and the etched paired rule (Application Design — Components · Page header, Toolbar). The toolbar sits over the list. The sidebar entry points here.</p>
   <p class="lede-p"><b><code>/configuration/artifacts</code> is the Artifacts console.</b> It opens with the standard page header (title <em>Artifacts</em>) closed by a canonical underline <b>tablist</b> — <b>Type definitions</b> first, <b>Stored objects</b> second, <b>Restore objects</b> third (Application Design — Components · Tabs). The <b>Type definitions</b> tab lists every type every artifact extension defines; the <b>Stored objects</b> tab is a workspace-wide inventory of every stored object across every artifact extension; the <b>Restore objects</b> tab browses past <b>object change sets</b> (time-keyed, across every extension) and undoes them (§IV). <b>Artifact change review</b> lives on the shared <b>artifact-review surface</b> (§V).</p>
   <p class="lede-p"><b>A targeted restore has its own route.</b> Reversing a single change set the acting user is authorized for is authorized <b>per object</b>, so it also has a dedicated route, <code>/configuration/artifacts/restore/[changeSetId]</code>, nested under the Artifacts console and reachable by any authorized user (§IV).</p>
 
@@ -307,9 +307,8 @@
     <div class="body">
       <h1 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: var(--page-title-lg); letter-spacing: var(--title-tracking-tight); line-height: var(--page-title-line-height); margin: 0; color: var(--ink);">Artifacts</h1>
       <p style="margin: 4px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted);">Everything your agents and uploads have produced.</p>
-      <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin: 14px 0 16px;"></div>
-      <!-- Toolbar: search · facet · scope — no mode control, the library is the lone view -->
-      <div style="display:flex;align-items:center;background:var(--toolbar);border-radius:8px;height:48px;overflow:hidden;">
+      <!-- Toolbar: search · facet · scope — no mode control, the library is the lone view. It sits directly beneath the page header, at the offset the header's closing etched rule held, and replaces that rule — the two never stack (Application Design — Components · Page header, Toolbar). -->
+      <div style="display:flex;align-items:center;background:var(--toolbar);border-radius:8px;height:48px;overflow:hidden;margin-top:14px;">
         <div style="display:flex;align-items:center;padding:7px;flex-shrink:0;">
           <label style="display:flex;align-items:center;gap:8px;background:var(--surface-strong);border-radius:7px;padding:0 12px;height:34px;width:280px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;color:var(--muted);flex-shrink:0;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span style="flex:1;min-width:0;font:12.5px var(--font-sans);color:var(--muted);">Search artifacts</span></label>
         </div>
