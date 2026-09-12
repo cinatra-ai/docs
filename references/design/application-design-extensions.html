@@ -1051,7 +1051,6 @@
             <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Team · Growth</div>
             <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 23px; color: var(--ink); line-height: 1.05; margin-top: 6px;">Research Assistant</div>
             <div style="display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--muted); margin-top: 8px; white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex-shrink:0;color:var(--rust);"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M9 13v2"/><path d="M15 13v2"/></svg><span><span style="color: var(--ink);">Agent</span> by <span style="color: var(--ink);">Cinatra</span></span></div>
-            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 6px; overflow-wrap: anywhere;">/teams/growth/agents/cinatra/research-assistant/settings?tab=skills</div>
           </div>
         </div>
 
@@ -1063,7 +1062,6 @@
           </div>
           <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
         </div>
-        <p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 16px 0 0;">5 per scope here, at most 5 effective per run.</p>
 
         <!-- Skills — agent kind only -->
         <div style="padding: 22px 0; border-bottom: 1px solid var(--line);">
@@ -1094,7 +1092,6 @@
             <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Team · Growth</div>
             <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 23px; color: var(--ink); line-height: 1.05; margin-top: 6px;">Research Assistant</div>
             <div style="display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--muted); margin-top: 8px; white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex-shrink:0;color:var(--rust);"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M9 13v2"/><path d="M15 13v2"/></svg><span><span style="color: var(--ink);">Agent</span> by <span style="color: var(--ink);">Cinatra</span></span></div>
-            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 6px; overflow-wrap: anywhere;">/teams/growth/agents/cinatra/research-assistant/settings?tab=artifacts</div>
           </div>
         </div>
 
@@ -1106,18 +1103,64 @@
           </div>
           <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
         </div>
-        <p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 16px 0 0;">5 per scope here, at most 5 effective per run.</p>
 
-        <!-- Artifacts — context artifacts; the rows themselves are drawn with the artifacts slice -->
+        <!-- Artifacts — context artifacts: one group per declared manifest slot -->
         <div style="padding: 22px 0 4px;">
           <div style="font-family: var(--font-sans); font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 14px;">Context artifacts</div>
           <p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0 0 10px;">The stored artifacts that supply background context to this agent’s runs through named slots in its manifest.</p>
-          <div style="border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 26px 18px; display: grid; place-items: center; text-align: center;">
-            <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Artifacts pane</div>
-            <div style="font-family: var(--font-body); font-size: 12px; color: var(--muted); line-height: 1.55; margin-top: 7px; max-width: 46ch;">Its rows are drawn with the artifacts slice — this page adds no controls of its own.</div>
+
+          <!-- slot group — Brand voice: the chooser open, one artifact chosen -->
+          <div style="padding: 14px 0; border-top: 1px solid var(--line);">
+            <div style="font-family: var(--font-sans); font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.3;">Brand voice</div>
+            <p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 3px 0 9px;">Takes a brand kit &middot; 1 required, at most 2</p>
+            <label style="display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 400; color: var(--ink); margin-bottom: 6px;">Which artifact should fill this slot?</label>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 36px; background: var(--surface-strong); border: 1px solid var(--blue); border-radius: 7px 7px 0 0; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"><span style="font-size: 14px; color: var(--ink);">bra</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;opacity:.55;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
+            <div style="border: 1px solid var(--line-strong); border-top: 0; border-radius: 0 0 7px 7px; background: var(--surface-strong); overflow: hidden; box-shadow: 0 8px 22px rgba(21,33,58,0.12);">
+              <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--surface-muted);"><div style="flex: 1; min-width: 0;"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.3;">Brand Kit 2026</div><div style="font-size: 12px; color: var(--muted); line-height: 1.45;">Brand kit &middot; by Acme Corp</div></div></div>
+              <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--surface-strong);"><div style="flex: 1; min-width: 0;"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.3;">Brand Voice Guide</div><div style="font-size: 12px; color: var(--muted); line-height: 1.45;">Brand kit &middot; by Growth</div></div></div>
+            </div>
+            <ul style="list-style: none; margin: 8px 0 0; padding: 0;">
+              <li style="display: flex; align-items: center; gap: 12px; padding: 9px 0;"><div style="flex: 1; min-width: 0;"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.3;">Tone of Voice 2025</div><div style="font-size: 12px; color: var(--muted); line-height: 1.45;">Brand kit &middot; by Acme Corp</div></div><span style="flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 7px; color: var(--muted);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></span></li>
+            </ul>
+          </div>
+
+          <!-- slot group — Reference posts: nothing chosen -->
+          <div style="padding: 14px 0 4px; border-top: 1px solid var(--line);">
+            <div style="font-family: var(--font-sans); font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.3;">Reference posts</div>
+            <p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 3px 0 9px;">Takes blog posts &middot; optional, at most 3</p>
+            <label style="display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 400; color: var(--ink); margin-bottom: 6px;">Which artifact should fill this slot?</label>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 36px; background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 7px; padding: 0 12px; box-shadow: 0 1px 2px rgba(21,33,58,0.05);"><span style="font-size: 14px; color: var(--muted);">Search blog posts&hellip;</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;opacity:.55;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
+            <p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 7px 0 0;">No artifact chosen &mdash; the run uses what it finds in its own context.</p>
           </div>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- Artifacts — a slot at its bound, and a chosen artifact that is no longer available -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example &mdash; Artifacts &middot; a slot at its bound, an artifact no longer available</div>
+    <div style="padding: 18px 20px; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+      <div>
+        <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 7px;">At the slot’s bound</div>
+        <div style="font-family: var(--font-sans); font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.3;">Brand voice</div>
+        <p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 3px 0 9px;">Takes a brand kit &middot; 1 required, at most 2</p>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 36px; background: var(--surface-muted); border: 1px solid var(--line); border-radius: 7px; padding: 0 12px; opacity: 0.55;"><span style="font-size: 14px; color: var(--muted);">Search brand kits&hellip;</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;opacity:.55;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
+        <p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 7px 0 0;">2 of 2 artifacts chosen &mdash; remove one to choose another.</p>
+        <ul style="list-style: none; margin: 8px 0 0; padding: 0;">
+          <li style="display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line);"><div style="flex: 1; min-width: 0;"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.3;">Tone of Voice 2025</div><div style="font-size: 12px; color: var(--muted); line-height: 1.45;">Brand kit &middot; by Acme Corp</div></div><span style="flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 7px; color: var(--muted);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></span></li>
+          <li style="display: flex; align-items: center; gap: 12px; padding: 9px 0;"><div style="flex: 1; min-width: 0;"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.3;">Brand Kit 2026</div><div style="font-size: 12px; color: var(--muted); line-height: 1.45;">Brand kit &middot; by Acme Corp</div></div><span style="flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 7px; color: var(--muted);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></span></li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 7px;">No longer available</div>
+        <div style="font-family: var(--font-sans); font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.3;">Reference posts</div>
+        <p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 3px 0 9px;">Takes blog posts &middot; optional, at most 3</p>
+        <ul style="list-style: none; margin: 8px 0 0; padding: 0;">
+          <li style="display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line);"><div style="flex: 1; min-width: 0;"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--muted); line-height: 1.3;">Launch Announcement</div><div style="font-size: 12px; color: var(--muted); line-height: 1.45;">Blog post &middot; by Growth</div></div><span class="pill hold" style="flex: none; font-size: 11px; padding: 2px 9px;"><span class="dot"></span>Deleted</span><span style="flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 7px; color: var(--muted);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></span></li>
+          <li style="display: flex; align-items: center; gap: 12px; padding: 9px 0;"><div style="flex: 1; min-width: 0;"><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--muted); line-height: 1.3;">Pricing Update</div><div style="font-size: 12px; color: var(--muted); line-height: 1.45;">Blog post &middot; by Northstar</div></div><span class="pill hold" style="flex: none; font-size: 11px; padding: 2px 9px;"><span class="dot"></span>Not visible here</span><span style="flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 7px; color: var(--muted);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></span></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -1135,12 +1178,10 @@
             <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Personal</div>
             <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 23px; color: var(--ink); line-height: 1.05; margin-top: 6px;">Support Assistant</div>
             <div style="display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--muted); margin-top: 8px; white-space: nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex-shrink:0;color:var(--rust);"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M9 13v2"/><path d="M15 13v2"/></svg><span><span style="color: var(--ink);">Assistant</span> by <span style="color: var(--ink);">Cinatra</span></span></div>
-            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 6px; overflow-wrap: anywhere;">/personal/assistants/cinatra/support-assistant/settings?tab=skills</div>
           </div>
         </div>
 
         <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin: 20px 0 4px;"></div>
-        <p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin: 16px 0 0;">5 per scope here, at most 5 effective per run.</p>
 
         <div style="padding: 22px 0 4px;">
           <div style="font-family: var(--font-sans); font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 14px;">Skills</div>
@@ -1236,7 +1277,8 @@
   </div>
   <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">A skill can stop being usable <em>after</em> it was chosen &mdash; its extension gets archived, or the extension re-declares it as something the platform consumes internally rather than something an agent can be given. Such a row <b style="color:var(--ink);font-weight:600;">stays in the list</b>. It is never silently dropped and never quietly re-added to the chooser: it renders with its name muted, a <b style="color:var(--ink);font-weight:600;">warning-toned badge naming the state</b> &mdash; <em>Archived</em>, <em>Role changed</em>, <em>Not installed</em> &mdash; and, critically, a <b style="color:var(--ink);font-weight:600;">fully live remove control</b>, because clearing it is exactly what the admin came to do. A degraded row still counts toward the five. The one row that does <em>not</em> appear is one whose extension was uninstalled outright: that choice is gone, not degraded, and the list simply no longer has it.</p>
 
-  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">The page holds to the <b style="color:var(--ink);font-weight:600;">Narrow</b> column and opens on the §II detail header, which names the <b style="color:var(--ink);font-weight:600;">scope being configured</b> above the package — vendor and slug, the way every package address names it. Beneath it the two-pane <b style="color:var(--ink);font-weight:600;">Skills | Artifacts</b> strip, drawn as the §II tab strip; an assistant’s page renders the Skills pane alone and carries no strip at all. The settings UI states both limits on every assignment page: <b style="color:var(--ink);font-weight:600;">5 per scope here, at most 5 effective per run.</b> The Skills pane is the drawing above — the chosen rows, the chooser and each of its states, unchanged from the section this page took them from. The <b style="color:var(--ink);font-weight:600;">Artifacts</b> pane is the pane for <b style="color:var(--ink);font-weight:600;">context artifacts</b>; its rows are drawn with the artifacts slice, and nothing on this page invents a control the slice does not already carry.</p>
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">The page holds to the <b style="color:var(--ink);font-weight:600;">Narrow</b> column and opens on the §II detail header, which names the <b style="color:var(--ink);font-weight:600;">scope being configured</b> above the package — vendor and slug, the way every package address names it. Beneath it the two-pane <b style="color:var(--ink);font-weight:600;">Skills | Artifacts</b> strip, drawn as the §II tab strip; an assistant’s page renders the Skills pane alone and carries no strip at all. The settings UI states both limits on every assignment page: <b style="color:var(--ink);font-weight:600;">5 per scope here, at most 5 effective per run.</b> The Skills pane is the drawing above — the chosen rows, the chooser and each of its states, unchanged from the section this page took them from. The <b style="color:var(--ink);font-weight:600;">Artifacts</b> pane is the pane for <b style="color:var(--ink);font-weight:600;">context artifacts</b>, drawn one group per declared manifest slot.</p>
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">The Artifacts pane is assigned differently from Skills, and the difference is the <b style="color:var(--ink);font-weight:600;">manifest</b>. Context artifacts are not one flat list per scope: each is assigned to a <b style="color:var(--ink);font-weight:600;">named slot the agent’s manifest declares</b>, so the pane draws <b style="color:var(--ink);font-weight:600;">one group per slot</b> &mdash; the slot’s name, the artifact kind it takes and its bounds, and beneath them the same labelled typeahead the Skills pane uses, narrowed to the stored artifacts of <em>this</em> scope that match that kind, with the same <em>searching</em> / <em>no matches</em> / <em>search failed</em> states and the same chosen-row chrome. Every choice is made <b style="color:var(--ink);font-weight:600;">by hand</b>: an artifact is never auto-suggested and never filled in on the admin’s behalf. The pane carries <b style="color:var(--ink);font-weight:600;">no cap line of its own</b> &mdash; storage is uncapped per scope; the numbers that bind are the slot’s own <em>minItems</em> and <em>maxItems</em>, enforced when the agent runs. That is why a slot at its upper bound greys its field with the hint that says what to do about it, and why a slot with nothing chosen is a normal state rather than a warning: the run then uses what it finds in its own context.</p>
 
 <footer>
     <span>Cinatra · Application Design — Extensions v0.14.0</span><!-- source-leak-allow -->
