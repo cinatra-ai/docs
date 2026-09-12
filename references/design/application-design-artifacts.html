@@ -286,7 +286,7 @@
       <p class="lede"><code>/artifacts</code> is the <b>library</b> — everything the acting user's agents and uploads have produced, each row opened by its <b>type's renderer</b>. The library also <b>ingests</b>: an <b>upload</b> affordance types a file by its MIME base, a <b>type picker</b> lets the user assert its meaning among installed types, and an <b>inline marketplace</b> adds a type when none fits (admins install; others request). <b>Dashboards are artifacts</b> too — they list as rows and open the dashboard itself at its canonical surface (never rendered inline); a <b>team, project or organization</b> lists the dashboards in its scope on its <b>Dashboards tab</b>, where a scope manager can <b>add an existing dashboard as a secondary listing</b> (§IX). <code>/configuration/artifacts</code> is the <b>Artifacts</b> console — a <b>tablist</b> page whose <b>Type definitions</b> tab lists every type every artifact extension defines, whose <b>Stored objects</b> tab inventories every stored object across every artifact extension, and whose <b>Restore objects</b> tab browses and undoes object change sets. <b>Artifact change review</b> lives on the shared artifact-review surface. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.9.0</div>
+      <div>Version 0.10.0</div>
     </div>
   </div>
 
@@ -913,7 +913,7 @@
   <p class="lede-p"><b>Scope chips &amp; routing.</b> A dashboard has <b>exactly one canonical home</b> — its single <code>entityRef</code>, one canonical entity identity that never changes. Beyond that home, a dashboard can be <b>listed in other scopes</b> as <b>secondary reference listings</b> (a separate listing relation, not a second home), and the pointer detail page renders one <b>scope chip</b> per listing. A chip opens the dashboard <b>in that scope's context</b>; the library row and the <b>Open dashboard</b> affordance both open the dashboard at its <b>canonical surface</b>; none of these <b>re-anchor</b> the dashboard — the singular <code>entityRef</code> is never moved.</p>
   <div class="callout success">
     <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Dashboards are always visible in their scope</span>
-    <p>A dashboard is <b>always visible to everyone in its scope</b> — project, team or organization — with <b>no admin-specific access anywhere</b>. The scope chips name exactly the scopes in which every member can already see it; there is no admin-gated dashboard state and no admin-only access. This differs from the workspace-wide object console (§IV), which is record inspection, not a per-scope visibility grant.</p>
+    <p>A dashboard is <b>always visible to everyone in its scope</b> — project, team or organization — with <b>no admin-specific access anywhere</b>. The scope chips name exactly the scopes in which every member can already see it; there is no admin-gated dashboard state and no admin-only access. A reference in the <b>whole-workspace</b> collection is the one separate case: it is a <b>link</b> whose listing is <b>viewer-filtered</b>, so it names no scope every member can already see, and a platform administrator may mark it <em>visible to everyone</em> (§IX.4) — a read-only grant on that link, never on a scope's access. This differs from the workspace-wide object console (§IV), which is record inspection, not a per-scope visibility grant.</p>
   </div>
 
   <!-- ── IX. The Dashboards tab — every entity page's first tablist entry ── -->
@@ -923,7 +923,7 @@
     <div class="source">Entity-page tablist (Dashboards · Assistants · Agents · Artifacts · Skills, Settings last) · secondary listings · add / remove</div>
   </div>
   <p class="lede-p"><b>Every entity page opens on a Dashboards tab.</b> A <b>personal</b>, <b>project</b>, <b>team</b>, <b>organization</b> or <b>workspace</b> page carries a <b>canonical underline tablist</b> (Application Design — Components · Tabs) whose entries are, in this order, <b>Dashboards</b>, <b>Assistants</b>, <b>Agents</b>, <b>Artifacts</b> and <b>Skills</b>. On a <b>project</b>, <b>team</b> or <b>organization</b> a <b>Settings</b> entry is appended <b>last</b> — that entity's management pane, where rename, visibility and the members / access section live folded together. A <b>personal</b> scope and the <b>workspace</b> scope have <b>no Settings pane</b>, so their tablist is those five entries alone. Dashboards is a plain tablist entry like any other — no pill, no bespoke chrome — and the etched paired-line rule begins to the right of the last tab and runs to the page edge. This section fixes the <b>Dashboards</b> tab and the tablist it sits in; the other four tabs and the Settings pane are their own surfaces.</p>
-  <p class="lede-p"><b>What the Dashboards tab lists.</b> On a <b>team</b>, <b>project</b> or <b>organization</b> the tab lists the dashboards <b>in that scope</b> — a dashboard whose <b>canonical home</b> is this scope (the singular entity identity of §VIII), and any <b>secondary reference listing</b> added here (a separate listing relation, never a second home; §VIII). Both open the dashboard at its <b>canonical surface</b>, never rendered inline (§VIII), and a scope <b>manager</b> can <b>add an existing dashboard as a listing</b> (§IX.1). On a <b>personal</b> scope the tab shows <b>the acting user's own dashboards</b>; a personal user scope and the whole-<b>workspace</b> scope are <b>not add-to-scope targets</b> — they carry no <em>Add</em>, so add-to-scope is the three shared scopes only.</p>
+  <p class="lede-p"><b>What the Dashboards tab lists.</b> On a <b>team</b>, <b>project</b> or <b>organization</b> the tab lists the dashboards <b>in that scope</b> — a dashboard whose <b>canonical home</b> is this scope (the singular entity identity of §VIII), and any <b>secondary reference listing</b> added here (a separate listing relation, never a second home; §VIII). Both open the dashboard at its <b>canonical surface</b>, never rendered inline (§VIII), and a scope <b>manager</b> can <b>add an existing dashboard as a listing</b> (§IX.1). On a <b>personal</b> scope the tab shows <b>the acting user's own dashboards</b>. The whole-<b>workspace</b> scope is a <b>reference target</b>: its Dashboards tab <b>behaves exactly like</b> the other scopes' Dashboards tab (§IX.3) — the same <b>per-user dashboard shell</b> with its <b>non-removable Overview default</b>, and the same single <em>Add dashboard</em> popup, whose <em>Reference a dashboard from the scopes below</em> section is how a lower-scope dashboard is <b>brought up to the workspace</b>. A <b>personal</b> scope keeps its landed shape — <em>Create new</em> and the installed catalog only, with <b>no reference section</b> — so the <b>reference</b> half of <em>Add dashboard</em> is the three shared scopes and the workspace.</p>
   <p class="lede-p"><b>Row anatomy — no relation badge, no per-row type label.</b> Each row carries a leading dashboard glyph, the dashboard <b>name</b>, the <b>updated time</b>, and an <b>Open</b> affordance. Every row on this tab is a dashboard, so <b>no row repeats a <em>Dashboards</em> type label</b>, and a row does <b>not</b> advertise where the dashboard lives — whether it is homed here or merely listed here is <b>not surfaced</b>. A dashboard's <b>canonical home never moves</b>: this tab neither re-homes nor deletes. The single place the home / listing difference shows is the <b>Remove</b> control, which appears <b>only on a removable row</b> — a <b>secondary listing</b>, which can be unlisted — and <b>never</b> on a dashboard homed in this scope. Removability is read from the presence of <em>Remove</em> alone; there is <b>no <em>Home</em> or <em>Listed</em> badge</b>. <b>Open</b> navigates to the dashboard's canonical surface exactly as in §VIII — the tab <b>points</b>, it never renders a dashboard inline.</p>
 
   <div class="ex" data-conformance-id="scope-dashboards-tab" data-field="name=identity.displayName" data-state="empty error loading kind:artifact">
@@ -1023,8 +1023,11 @@
   </div>
 
   <h3 style="font-family:var(--font-sans);font-style:italic;font-weight:700;font-size:16px;color:var(--ink);margin:22px 0 8px;">IX.1 · Add to scope — the picker over dashboards the scope may list</h3>
-  <p class="lede-p"><b>The picker's pool is the acting user's own dashboards; only scope-visible ones are directly addable.</b> <em>Add dashboard</em> opens a picker over the dashboards the <b>acting user can see</b>, excluding any already homed or listed here. This is the <b>collection-add contract</b> made visible: a candidate is <b>addable</b> iff the <b>actor may see it</b> AND <b>a generic member of the scope could already see it</b> (the scope-vantage guard) — the two reads the contract composes with the scope-write gate (§IX.2). A candidate the actor can see but the <b>scope cannot yet</b> is <b>not directly addable</b> and is <b>never widened silently</b>: it still appears in the picker, but only with its <b>recourse</b> (below) — never an in-place add.</p>
+  <p class="lede-p"><b>One <em>Add dashboard</em> popup, three sections.</b> <em>Add dashboard</em> opens a <b>single popup</b> carrying <b>three sections</b>, in this order — <b>Create new</b>, then <b>Reference a dashboard from the scopes below</b>, then <b>Add from the installed catalog</b>. <em>Create new</em> and the <b>installed catalog</b> each produce a dashboard <b>homed in this scope</b>; the middle section is the add-to-scope picker this subsection fixes — the <b>reference</b> relation of §VIII, never a second home. The picker drawn below is that middle section on a <b>team</b> tab; the whole popup is drawn once, on the workspace landing (§IX.3), and reads the same on a team, project or organization tab. A <b>personal</b> scope keeps its landed shape — <em>Create new</em> and the installed catalog only, with <b>no reference section</b>.</p>
+  <p class="lede-p"><b>The picker's pool is the acting user's own dashboards; only scope-visible ones are directly addable.</b> <em>Add dashboard</em> opens a picker over the dashboards the <b>acting user can see</b>, excluding any already homed or listed here — the same exclusion holds for the workspace tab's reference section (§IX.3). This is the <b>collection-add contract</b> made visible: a candidate is <b>addable</b> iff the <b>actor may see it</b> AND <b>a generic member of the scope could already see it</b> (the scope-vantage guard) — the two reads the contract composes with the scope-write gate (§IX.2). A candidate the actor can see but the <b>scope cannot yet</b> is <b>not directly addable</b> and is <b>never widened silently</b>: it still appears in the picker, but only with its <b>recourse</b> (below) — never an in-place add.</p>
   <p class="lede-p"><b>Recourse when the scope can't see it — the promotion request.</b> When a candidate is invisible to the scope, its row names the <b>visibility it must reach</b> for the scope to see it and offers the <b>promotion request</b> in that vocabulary — <em>team</em> on a team tab, <em>organization</em> on an organization tab, and a <b>team</b> target is offered only to a <b>member</b> of that team (a non-member sees no offer). The request is the recourse, not an immediate add: the dashboard lists only once its visibility has actually widened and been granted. A <b>project</b> tab has <b>no promotion recourse</b> — a project is a resource refinement, not a visibility tier — so a candidate the project cannot see is simply <b>not addable</b> there, stated plainly with no offer (fail-closed, exactly as the contract yields a <b>null</b> recourse for that scope kind).</p>
+
+  <p class="lede-p"><b>The workspace is a reference target, and its collection is filtered at read time.</b> The <b>workspace</b> tab admits a reference to a dashboard homed in any scope below it — the <b>bring a lower-scope dashboard up to the workspace</b> move — and <b>a reference never widens access by itself</b>. In place of the scope-vantage guard, <b>the listing is viewer-filtered</b>: an entry appears only when the viewer <b>holds the everyone-grant on it</b> (§IX.4) or <b>passes the target's home access</b>. So a workspace tab carries <b>no promotion recourse</b> — nothing is widened to make a reference addable — and the <b>only</b> widening in this collection is the explicit, audited grant of §IX.4.</p>
 
   <div class="ex" data-conformance-id="scope-dashboards-add-picker" data-field="candidate=collectionAdd.listable" data-action="add-listing -> listing-added" data-state="empty error loading">
     <div class="cap">Example — the add-to-scope picker (addable rows + a scope-invisible candidate offering the promotion request)</div>
@@ -1057,8 +1060,8 @@
   </div>
 
   <h3 style="font-family:var(--font-sans);font-style:italic;font-weight:700;font-size:16px;color:var(--ink);margin:22px 0 8px;">IX.2 · Who sees Add and Remove — the scope-write gate</h3>
-  <p class="lede-p"><b>The management controls are gated to the scope's managers.</b> <em>Add dashboard</em> and every row's <em>Remove</em> appear only to a principal who may <b>write</b> (manage) this scope's Dashboards collection. Grounded in the shipped scope-authority vocabulary, that is a <b>team admin</b> on a team tab, an <b>organization admin or owner</b> on an organization tab, and a <b>project admin or owner</b> on a project tab. This is the design-side shape of the collection-add contract's injected <code>actor-may-write-scope</code> decision (gate 2): the precise predicate is the platform's to implement, and the population it names is pinned here.</p>
-  <p class="lede-p"><b>Everyone else sees a read-only tab.</b> A member without write authority still <b>sees the Dashboards tab and every row</b> — homed and listed alike — and opens any of them; they simply get <b>no Add affordance and no Remove control</b>. Suppression, not a disabled control: a management action the member cannot take is not rendered. The full add is authorized only when <b>all three</b> hold — the actor may see the dashboard, the actor may write the scope, and the whole scope may see the dashboard; when the first two hold but <b>only</b> the scope-see gate fails, the §IX.1 promotion recourse is offered (a failure of either earlier gate is a plain denial, no recourse).</p>
+  <p class="lede-p"><b>The management controls are gated to the scope's managers.</b> <em>Add dashboard</em> and every row's <em>Remove</em> appear only to a principal who may <b>write</b> (manage) this scope's Dashboards collection. Grounded in the shipped scope-authority vocabulary, that is a <b>team admin</b> on a team tab, an <b>organization admin or owner</b> on an organization tab, and a <b>project admin or owner</b> on a project tab. This is the design-side shape of the collection-add contract's injected <code>actor-may-write-scope</code> decision (gate 2): the precise predicate is the platform's to implement, and the population it names is pinned here. On the <b>workspace</b> tab the curators are named differently, the collection there being <b>references</b> rather than a scope's own dashboards: <b>organization admins add and remove only links whose target's home organization is theirs</b>, and <b>platform administrators curate all</b> of them (§IX.3).</p>
+  <p class="lede-p"><b>Everyone else sees a read-only tab.</b> On the <b>three shared scopes</b> — team, project and organization — a member without write authority still <b>sees the Dashboards tab and every row</b> — homed and listed alike — and opens any of them; they simply get <b>no Add affordance and no Remove control</b>. Suppression, not a disabled control: a management action the member cannot take is not rendered. The full add is authorized only when <b>all three</b> hold — the actor may see the dashboard, the actor may write the scope, and the whole scope may see the dashboard; when the first two hold but <b>only</b> the scope-see gate fails, the §IX.1 promotion recourse is offered (a failure of either earlier gate is a plain denial, no recourse). The <b>whole-workspace</b> tab reads differently, because its collection is <b>references</b>: the listing a member sees is <b>viewer-filtered</b> (§IX.3), that filter stands in for the scope-vantage gate, so <b>no promotion recourse</b> is offered there and the only widening is the audited grant of §IX.4.</p>
 
   <div class="ex" data-conformance-id="scope-dashboards-write-access" data-field="manage-controls=collectionAdd.actorMayWriteScope">
     <div class="cap">Example — the same tab for a scope manager vs. a member without write access (the permission axis)</div>
@@ -1085,7 +1088,7 @@
   </div>
   <div class="callout success">
     <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Read stays universal; only management is gated</span>
-    <p>A dashboard is <b>always visible to everyone in its scope</b> — this tab keeps that: every member sees every homed and listed dashboard and can open it, with <b>no admin-gated visibility anywhere</b>. The scope-write gate covers <b>curation of the collection</b> — adding and removing listings — a <b>different axis</b> from access to the dashboard. Gating who may <em>add or remove a listing</em> is not admin-gated <em>access</em>; the dashboard itself stays open to all in scope.</p>
+    <p>A dashboard is <b>always visible to everyone in its scope</b> — this tab keeps that on the <b>three shared scopes</b>: every member sees every homed and listed dashboard and can open it, with <b>no admin-gated visibility</b> on any of them. The scope-write gate covers <b>curation of the collection</b> — adding and removing listings — a <b>different axis</b> from access to the dashboard. Gating who may <em>add or remove a listing</em> is not admin-gated <em>access</em>; the dashboard itself stays open to all in scope. The single place an administrator touches <em>visibility</em> is the workspace reference collection's <em>visible to everyone</em> grant (§IX.4) — a read-only grant on a <b>link</b>, never on the dashboard's home access.</p>
   </div>
 
   <div class="ex">
@@ -1116,6 +1119,179 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <h3 style="font-family:var(--font-sans);font-style:italic;font-weight:700;font-size:16px;color:var(--ink);margin:22px 0 8px;">IX.3 · The workspace Dashboards landing — the Overview default and the reference collection</h3>
+  <p class="lede-p"><b>What changed, and why.</b> The <b>workspace</b> was excluded from add-to-scope: a dashboard could be listed in a team, a project or an organization, and the scope that holds them all could list nothing. It is now admitted as a <b>reference target</b>, so a dashboard homed anywhere below can be <b>brought up to the workspace</b> and read there beside the workspace's own — one page a member opens to see the whole workspace's dashboards instead of walking every scope. Admitting it <b>widens no access</b>: a reference is a <b>link</b>, the target keeps its single canonical home and its own home access (§VIII), the listing is <b>viewer-filtered</b> so a member reads only entries they could already reach, and the one deliberate widening — the read-only <em>visible to everyone</em> grant of §IX.4 — is a <b>platform administrator</b>'s explicit, audited act on a single link. Sharing a reference with <b>named people or invitations</b> — <b>invitation-granular sharing</b> — is a named <b>follow-up outside this drawing</b>.</p>
+  <p class="lede-p"><b>The landing.</b> The workspace page opens on <b>Dashboards</b>, carrying the five-entry strip with <b>no Settings</b> entry (§IX). The tab is a <b>per-user dashboard shell</b> — each member reads their own list — whose first row is <b>Overview</b>, the <b>default</b> the shell always carries: it is <b>non-removable</b>, so it shows <b>no <em>Remove</em></b>, exactly as a dashboard homed in a scope shows none (§IX). The two other rows <b>in this example</b> are <b>references</b>, and therefore removable; a dashboard this tab's popup <b>creates</b>, or adds from the <b>installed catalog</b>, <b>homes in the workspace</b> and shows <b>no <em>Remove</em></b>, exactly as <b>Overview</b> does (§IX). Row anatomy is unchanged: no row advertises <b>where</b> its dashboard lives, and the <em>visible to everyone</em> mark (§IX.4) is an <b>access mark on the link</b>, never a relation badge.</p>
+
+  <div class="ex" data-conformance-id="workspace-dashboards-landing" data-field="name=identity.displayName" data-state="kind:artifact">
+    <div class="cap">Example — the workspace page, Dashboards tab selected (the non-removable Overview default, then two referenced rows, one marked visible to everyone)</div>
+    <div class="body">
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;">
+        <h1 style="font-family:var(--font-sans);font-style:italic;font-weight:800;font-size:var(--page-title-lg);letter-spacing:var(--title-tracking-tight);line-height:var(--page-title-line-height);margin:0;color:var(--ink);">Workspace</h1>
+        <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);">All scopes</span>
+      </div>
+      <!-- The workspace has no Settings pane, so its tablist is the five entries alone — the reading a personal scope carries too (§IX). -->
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:flex-end;margin:12px 0 18px;">
+        <div role="tablist" style="display:flex;flex-wrap:wrap;gap:0;padding:0;">
+          <button role="tab" aria-selected="true" style="font-size:13px;padding:9px 14px 11px;color:var(--blue);font-weight:600;background:transparent;border:0;border-bottom:2px solid var(--blue);margin-bottom:-1px;cursor:pointer;font-family:var(--font-sans);">Dashboards</button>
+          <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Assistants</button>
+          <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Agents</button>
+          <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Artifacts</button>
+          <button role="tab" style="font-size:13px;padding:9px 14px 11px;color:var(--muted);background:transparent;border:0;cursor:pointer;font-family:var(--font-sans);">Skills</button>
+        </div>
+        <div style="height:5px;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);align-self:flex-end;margin-bottom:11px;"></div>
+      </div>
+      <!-- Dashboards tab content: the per-user shell — one Add dashboard affordance, then the list, Overview first. -->
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 12px;">
+        <p style="min-width:0;flex:1;margin:0;font-size:13px;line-height:1.5;color:var(--muted);">Your dashboards in the <b style="color:var(--ink);font-weight:600;">whole workspace</b> — and the ones referenced up from the scopes below.</p>
+        <button type="button" class="btn primary" data-action="open-add-picker -> add-picker-open" style="padding:6px 14px;font-size:12.5px;cursor:pointer;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M5 12h14"/><path d="M12 5v14"/></svg>Add dashboard</button>
+      </div>
+      <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+        <li style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(87,74,104,0.14);color:var(--plum);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Overview</span>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">updated 5 minutes ago · the default — always here, and never removable</p>
+          </div>
+          <a class="btn outline" data-action="open-dashboard -> dashboard-canonical" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
+        </li>
+        <li style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(87,74,104,0.14);color:var(--plum);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Pipeline health — Q3</span>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">updated 20 minutes ago</p>
+          </div>
+          <button type="button" class="btn outline" data-action="remove-listing -> listing-removed" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Remove</button>
+          <a class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
+        </li>
+        <li style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 14px;">
+          <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(87,74,104,0.14);color:var(--plum);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
+          <div style="min-width:0;flex:1;">
+            <span style="font-family:var(--font-sans);font-weight:600;font-size:13.5px;color:var(--ink);">Revenue attribution</span>
+            <p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">updated 2 hours ago</p>
+          </div>
+          <span class="tag" data-field="everyone-grant=referenceLink.visibleToEveryone" style="flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0"/><circle cx="12" cy="12" r="3"/></svg>Visible to everyone</span>
+          <button type="button" class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Remove</button>
+          <a class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ex" data-conformance-id="workspace-dashboards-add-popup">
+    <div class="cap">Example — the single Add dashboard popup and its three sections: Create new, Reference a dashboard from the scopes below, Add from the installed catalog</div>
+    <div class="body">
+      <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;max-width:480px;">
+        <div style="padding:11px 14px;border-bottom:1px solid var(--line);"><span style="font-family:var(--font-sans);font-weight:700;font-size:14px;color:var(--ink);">Add dashboard</span><p style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">One popup, three sections. A reference lists an existing dashboard here as a <b style="color:var(--ink);font-weight:600;">link</b> — its canonical home does not move, and <b style="color:var(--ink);font-weight:600;">nobody gains access by the listing alone</b>.</p></div>
+        <div style="padding:12px 14px;border-bottom:1px solid var(--line);">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;">Create new</div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
+            <span style="flex:1;min-width:140px;display:flex;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:0 11px;height:32px;font:12.5px var(--font-sans);color:var(--muted);">Dashboard name</span>
+            <button type="button" class="btn primary" data-action="create-dashboard -> dashboard-created" style="padding:4px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Create</button>
+          </div>
+          <p style="margin:7px 0 0;font-size:11px;color:var(--muted);">Homes in the workspace.</p>
+        </div>
+        <div style="padding:12px 14px;border-bottom:1px solid var(--line);">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;">Reference a dashboard from the scopes below</div>
+          <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;">
+            <li style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);">
+              <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Support load — weekly<span style="display:block;font-family:var(--font-mono);font-size:9.5px;color:var(--muted);margin-top:2px;">homed in Team: Support</span></span>
+              <button type="button" class="btn outline" data-action="add-listing -> listing-added" style="padding:4px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Reference</button>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;padding:10px 12px;">
+              <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Spend by project<span style="display:block;font-family:var(--font-mono);font-size:9.5px;color:var(--muted);margin-top:2px;">homed in Organization: Acme</span></span>
+              <button type="button" class="btn outline" style="padding:4px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Reference</button>
+            </li>
+          </ul>
+          <p style="margin:7px 0 0;font-size:11px;color:var(--muted);">The link never widens access. A member reads the entry only when they already pass the target's home access, or a platform administrator marks it visible to everyone (§IX.4).</p>
+        </div>
+        <div style="padding:12px 14px;">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;">Add from the installed catalog</div>
+          <ul style="list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;">
+            <li style="display:flex;align-items:center;gap:10px;padding:10px 12px;">
+              <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Adoption overview<span style="display:block;font-family:var(--font-mono);font-size:9.5px;color:var(--muted);margin-top:2px;">@cinatra-ai/dashboard-artifact:dashboard</span></span>
+              <button type="button" class="btn outline" data-action="add-catalog-dashboard -> catalog-dashboard-added" style="padding:4px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Add</button>
+            </li>
+          </ul>
+          <p style="margin:7px 0 0;font-size:11px;color:var(--muted);">A catalog dashboard homes in the workspace, exactly as a created one does.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="callout note" style="margin-top:14px;">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Access rules of the reference collection</span>
+    <p>Four rules hold over every reference in this collection. <b>A reference never widens access by itself</b> — it is a link beside the dashboard's one canonical home (§VIII). <b>The listing is viewer-filtered</b>: an entry appears only when the viewer <b>holds the everyone-grant on it</b> (§IX.4) or <b>passes the target's home access</b>. <b>Organization admins add and remove only links whose target's home organization is theirs</b>. And <b>platform administrators curate all</b> of them.</p>
+  </div>
+
+  <h3 style="font-family:var(--font-sans);font-style:italic;font-weight:700;font-size:16px;color:var(--ink);margin:22px 0 8px;">IX.4 · <em>Visible to everyone</em> — the read-only grant on a reference</h3>
+  <p class="lede-p"><b>One concrete grant, on the link row.</b> A <b>platform administrator</b> may mark a reference <b>visible to everyone</b>. The mark is a <b>concrete grant on the link row</b> — not a property of the dashboard, and not a change to its home access — and it carries <b>read only</b>: every member may then <b>see and open</b> the referenced dashboard, and <b>write access never widens</b>. It is <b>revoked</b> by <b>unsetting</b> it or by <b>removing the link</b>, and <b>both the grant and its revocation are audited</b>.</p>
+  <p class="lede-p"><b>Who may set it, and what everyone else sees.</b> The control is a <b>platform administrator</b>'s alone. For every other principal it is drawn <b>muted and disabled with the reason named</b> — the drawing's disabled-control reading, not a suppression, because the mark itself is <b>information a member may read</b>: they see that the entry is visible to everyone, and why they cannot change it. Suppression stays the rule for the collection's own management controls (§IX.2); this one control is a stated exception, because its state is part of what the row says.</p>
+
+  <div class="ex" data-conformance-id="workspace-dashboards-everyone-grant" data-field="everyone-grant=referenceLink.visibleToEveryone">
+    <div class="cap">Example — the mark on a referenced entry, and the control that sets and unsets it: a platform administrator vs. everyone else</div>
+    <div class="body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:16px;">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:14px;">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:11px;">Platform administrator — the grant is settable</div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:10px 12px;">
+            <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Revenue attribution</span>
+            <span class="tag" style="flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0"/><circle cx="12" cy="12" r="3"/></svg>Visible to everyone</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:11px;">
+            <span style="font-family:var(--font-sans);font-size:12.5px;font-weight:600;color:var(--ink);">Visible to everyone</span>
+            <span role="switch" aria-checked="true" data-action="unset-everyone-grant -> everyone-grant-revoked" style="display:inline-flex;width:34px;height:20px;border-radius:9999px;background:var(--blue);padding:2px;box-sizing:border-box;flex:none;cursor:pointer;"><span style="width:16px;height:16px;border-radius:50%;background:var(--surface-strong);margin-left:auto;box-shadow:0 1px 2px rgba(21,33,58,0.3);"></span></span>
+          </div>
+          <p style="margin:6px 0 0;font-size:11px;color:var(--muted);line-height:1.45;">On: every member may open it, read-only. Unset it, or remove the link, to revoke — both are audited.</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:11px;padding-top:11px;border-top:1px solid var(--line);">
+            <span style="font-family:var(--font-sans);font-size:12.5px;font-weight:600;color:var(--ink);">Visible to everyone</span>
+            <span role="switch" aria-checked="false" data-action="set-everyone-grant -> everyone-grant-set" style="display:inline-flex;width:34px;height:20px;border-radius:9999px;background:var(--surface-muted);border:1px solid var(--line-strong);padding:2px;box-sizing:border-box;flex:none;cursor:pointer;"><span style="width:16px;height:16px;border-radius:50%;background:var(--surface-strong);box-shadow:0 1px 2px rgba(21,33,58,0.3);"></span></span>
+          </div>
+          <p style="margin:6px 0 0;font-size:11px;color:var(--muted);line-height:1.45;">Off: the same link, read by the target's home access alone.</p>
+        </div>
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:14px;">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:11px;">Everyone else — the control is muted, with the reason</div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:10px 12px;">
+            <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Revenue attribution</span>
+            <span class="tag" style="flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0"/><circle cx="12" cy="12" r="3"/></svg>Visible to everyone</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:11px;opacity:0.45;">
+            <span style="font-family:var(--font-sans);font-size:12.5px;font-weight:600;color:var(--ink);">Visible to everyone</span>
+            <span role="switch" aria-checked="true" aria-disabled="true" style="display:inline-flex;width:34px;height:20px;border-radius:9999px;background:var(--blue);padding:2px;box-sizing:border-box;flex:none;cursor:not-allowed;"><span style="width:16px;height:16px;border-radius:50%;background:var(--surface-strong);margin-left:auto;box-shadow:0 1px 2px rgba(21,33,58,0.3);"></span></span>
+          </div>
+          <p style="margin:6px 0 0;font-size:11px;color:var(--muted);line-height:1.45;">Only a platform administrator can set or unset who a reference is visible to.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-conformance-id="workspace-dashboards-viewer-reading" data-field="entries=referenceListing.viewerFiltered" data-state="empty">
+    <div class="cap">Example — the same referenced entry as a non-admin viewer who passes no home access on it: with the grant, and without it</div>
+    <div class="body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:16px;">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:14px;">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:11px;">With the grant — listed, and read-only</div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:10px 12px;">
+            <span style="flex:1;min-width:0;font-family:var(--font-sans);font-size:12.5px;color:var(--ink);">Revenue attribution</span>
+            <span class="tag" style="flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0"/><circle cx="12" cy="12" r="3"/></svg>Visible to everyone</span>
+            <span class="btn outline" style="padding:4px 10px;font-size:11.5px;flex-shrink:0;">Open</span>
+          </div>
+          <p style="margin:7px 0 0;font-size:11px;color:var(--muted);line-height:1.45;">No <em>Remove</em> and no write affordance: the grant carries read alone, and curation belongs to the collection's admins (§IX.2).</p>
+        </div>
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:14px;">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:11px;">Without the grant — not listed for this viewer</div>
+          <div style="border:1px dashed var(--line);border-radius:8px;padding:18px 12px;text-align:center;">
+            <p style="margin:0;font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">The entry is not in this viewer's list</p>
+            <p style="margin:5px 0 0;font-size:11px;color:var(--muted);line-height:1.5;">The listing is <b style="color:var(--ink);font-weight:600;">viewer-filtered</b>: with no everyone-grant and no home access on the target, there is <b style="color:var(--ink);font-weight:600;">no row</b> — not a locked one.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="callout success">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Read-only, revocable, audited</span>
+    <p>The grant carries <b>read</b> alone — a member who reaches a dashboard through it may <b>open</b> it and may change <b>nothing</b>; write access stays the target's own and the grant <b>never widens</b> it. <b>Unsetting</b> the mark, or <b>removing the link</b>, revokes it, and <b>both the setting and the revocation are audited</b>, so a reference that was visible to everyone and is no longer leaves a record of who changed it and when.</p>
   </div>
 
   <!-- ── X. Axes the spec carries — responsive · theme · state ─ -->
@@ -1155,7 +1331,7 @@
   </div>
 
   <footer>
-    <span>Cinatra · Application Design — Artifacts v0.9.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Artifacts v0.10.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
