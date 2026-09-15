@@ -1,0 +1,69 @@
+{
+  "$comment": "Named, versioned machine-verification suite for cinatra-ai/docs — the gate-arm half of the truthful verification-record model (the Truthful Attribution protocol §4). The truthful-attribution-gate reads THIS file at the merged SHA (authoritative, no TOCTOU) when a merge record carries a Gate-suite arm: the cited suiteId@version must equal this file's, the Accountable trailer must equal accountable{github,name,email}, and every requiredContexts entry must have concluded success on the reviewed head. requiredContexts names exactly the contexts this repository's main ruleset requires, each with the cinatra-ai/ci reusable workflow its caller under .github/workflows/ calls and the sha that caller pins, plus the truthful-attribution-gate context by name: that gate's engine pin lives in its own caller's uses: line (itself a high-risk path), so the entry carries callerPath and allowedEvents and no workflow/pinned pair. highRiskPaths carries every glob of the central cinatra-ai/ci defaults (config/high-risk-defaults.json at the engine sha this repository's attribution caller pins) — the gate verifies the effective set is a superset and fails closed otherwise; this repository ships documentation only and has no release or publish script of its own, and the .github surface and the suite file itself are already central defaults, so it adds nothing beyond them. High-risk changes (this file is itself one — see **/gate-suite.json) require the HUMAN arm at tier=maintainer; the gate arm alone is rejected, so this file's birth carries a maintainer Reviewed-by, not a self-blessing gate arm. lastAuditedAt + auditEvidence are the §4 monthly-audit record; the Accountable engineer re-audits monthly and bumps BOTH coupled in one commit (the gate warns >35d, fails the gate arm >65d; the human arm is always still available).",
+  "suiteId": "docs-core",
+  "version": "2026.09.1",
+  "accountable": {
+    "name": "Sandro Groganz",
+    "email": "sandro@cinatra.ai",
+    "github": "groganz"
+  },
+  "requiredContexts": [
+    {
+      "context": "actions-pinned-gate / actions-pinned-gate",
+      "workflow": "cinatra-ai/ci/.github/workflows/actions-pinned-gate.yml",
+      "pinned": "4c903fe9ca71ad47752a2bc92b72893e5f7c9814"
+    },
+    {
+      "context": "gitignore-gate / gitignore-gate",
+      "workflow": "cinatra-ai/ci/.github/workflows/gitignore-gate.yml",
+      "pinned": "4c903fe9ca71ad47752a2bc92b72893e5f7c9814"
+    },
+    {
+      "context": "source-leak-gate / source-leak-gate",
+      "workflow": "cinatra-ai/ci/.github/workflows/source-leak-gate.yml",
+      "pinned": "00ac7b92c2ca1ca291a1824d743cbd00c4a3e48e"
+    },
+    {
+      "context": "secret-scan-gate / secret-scan-gate",
+      "workflow": "cinatra-ai/ci/.github/workflows/secret-scan-gate.yml",
+      "pinned": "a8677e50ba02fcb11929e94c70fb5ba96a8ea3ae"
+    },
+    {
+      "context": "truthful-attribution-gate / truthful-attribution-gate",
+      "callerPath": ".github/workflows/truthful-attribution-gate.yml",
+      "allowedEvents": ["pull_request", "push", "merge_group"]
+    }
+  ],
+  "highRiskPaths": [
+    "**/auth/**",
+    "**/permissions/**",
+    "**/session*",
+    "**/session/**",
+    "src/lib/auth*",
+    "src/lib/auth/**",
+    "**/webhooks/**/verify*",
+    "**/*signature*verif*",
+    "**/secrets/**",
+    "**/migrations/**",
+    "**/schema.prisma",
+    "**/schema.sql",
+    "**/*.migration.*",
+    ".github/**",
+    "**/CODEOWNERS",
+    "**/release*.sh",
+    "**/publish*.sh",
+    "scripts/release/**",
+    "scripts/publish/**",
+    "**/gate-suite.json",
+    "config/high-risk-defaults.json",
+    ".github/workflows/truthful-attribution-gate.yml",
+    "packages/sdk-extensions/**",
+    "**/extension-loader/**",
+    "**/trust-gate/**",
+    "**/signature-gate/**",
+    "**/capability-registry/**",
+    "**/transport-registry/**"
+  ],
+  "lastAuditedAt": "2026-09-15",
+  "auditEvidence": "2026-09-15, the suite's birth on this pull request: every listed context was read green on this head — the four contexts this repository's main ruleset requires (actions-pinned-gate, gitignore-gate, source-leak-gate, secret-scan-gate), each pinned here to the sha its own caller under .github/workflows/ pins at this head, and the truthful-attribution-gate context, named without an engine pin because its caller's uses: line carries it."
+}
