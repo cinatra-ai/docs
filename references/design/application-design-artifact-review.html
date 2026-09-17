@@ -315,7 +315,7 @@
       <p class="lede">The <b>agent run surface</b> under <code>/agents</code> — the run's <b>steps</b> down a left rail, its <b>detail</b> on the right, and the <b>lifecycle-interception gates</b> that pause it, resolved <b>in place inside the run</b> rather than on any standalone page. Its central gate is the <b>generic artifact-review gate</b>: the type-agnostic surface on which a human <b>continues</b> with, <b>regenerates</b>, <b>comments</b> on, or — through the run's conversational prompt window — <b>requests changes to</b> an artifact the run produced. It is referenced by <b>Application Design — Artifacts</b> (§ Change review). This page specifies the <b>design</b> only — how the run engine implements the gate is specified with the engine, not here. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.13.1</div>
+      <div>Version 0.14.0</div>
     </div>
   </div>
 
@@ -788,6 +788,116 @@
   <div class="callout note">
     <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Every reading says what it is &mdash; never a silent pick</span>
     <p>The four readings above are the same step, and the differences between them are the whole point: the page <b>opens with no row chosen</b> and its Continue unavailable, and only a reader's pick makes it available; where there is nothing at all, the page says that and the run <b>ends on this step</b>, which is where the rail carries the reason; and where the pick was taken first, the page <b>says so</b> and offers what is left. No reading ever chooses a row on the reader's behalf, and none leaves the page blank.</p>
+  </div>
+
+  <p class="lede-p"><b>A list step may take several picks, and the floor is one.</b> One pick is this step's shape, not every list step's: <b>where the step declares it</b>, the same list takes <b>several picks</b> instead of one. Each row then carries the design system's <b>multi-select checkbox</b> (<a href="application-design-components.html" style="color:var(--blue);">Components</a> &middot; Checkbox / Radio / Switch) in place of the single-select mark, and nothing else about the list changes. <b>Nothing is ticked for the reader</b>, for the reason nothing is chosen for them above, and <b>at least one row is required</b>: the Continue stays unavailable until a row is ticked, and stays available from that first tick however many more are ticked &mdash; the floor is one and there is no ceiling. The run receives <b>every ticked row</b>, not the last one ticked. And where such a list is empty <b>because the connected system it reads holds nothing to offer</b> &mdash; not because the organisation's own store is used up &mdash; the reading <b>names that system</b> and asks the reader to <b>create one there</b>; the run <b>waits at this step</b> until there is something to pick, rather than ending on it.</p>
+
+  <div class="ex" data-conformance-id="run-list-step-multi-pick" data-state="loading error kind:connector" data-field="title=view.display-name" data-action="pick-list-entries -> entries-selected">
+    <div class="cap">Example &mdash; a list step that takes several picks: the account scope of an outreach run (as it opens &middot; two rows ticked)</div>
+    <div class="body">
+      <div class="runframe">
+        <div class="rail">
+          <div class="step"><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M20 6 9 17l-5-5"/></svg></span><span>Skills</span></div>
+          <div class="sep"></div>
+          <div class="step active"><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg></span><span>Choose the views</span></div>
+          <div class="sep"></div>
+          <div class="step upcoming"><span class="glyph">3</span><span>Write the messages</span></div>
+          <div class="sep"></div>
+          <div class="step upcoming"><span class="glyph">4</span><span>Review</span></div>
+        </div>
+        <div class="rundetail">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:10px;">
+            <span style="font-family:var(--font-sans);font-weight:700;font-size:14px;color:var(--ink);">Which views and lists should this run work from?</span>
+            <span class="pill hold"><span class="dot"></span>Awaiting your picks</span>
+          </div>
+          <div style="display:grid;gap:8px;margin-bottom:12px;">
+            <div style="display:flex;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:10px 12px;">
+              <input type="checkbox" style="flex:none;margin-top:3px;accent-color:var(--blue);width:14px;height:14px;" />
+              <span style="flex:1;min-width:0;">
+                <span style="display:block;font-family:var(--font-sans);font-weight:700;font-size:13px;color:var(--ink);">Warm leads</span>
+                <span style="display:block;margin-top:5px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);">Twenty CRM &middot; People &middot; 128 records</span>
+              </span>
+            </div>
+            <div style="display:flex;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:10px 12px;">
+              <input type="checkbox" style="flex:none;margin-top:3px;accent-color:var(--blue);width:14px;height:14px;" />
+              <span style="flex:1;min-width:0;">
+                <span style="display:block;font-family:var(--font-sans);font-weight:700;font-size:13px;color:var(--ink);">Enterprise accounts</span>
+                <span style="display:block;margin-top:5px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);">Twenty CRM &middot; Companies &middot; 34 records</span>
+              </span>
+            </div>
+            <div style="display:flex;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:10px 12px;">
+              <input type="checkbox" style="flex:none;margin-top:3px;accent-color:var(--blue);width:14px;height:14px;" />
+              <span style="flex:1;min-width:0;">
+                <span style="display:block;font-family:var(--font-sans);font-weight:700;font-size:13px;color:var(--ink);">Closing this quarter</span>
+                <span style="display:block;margin-top:5px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);">Twenty CRM &middot; Opportunities &middot; 12 records</span>
+              </span>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--line);">
+            <button type="button" class="btn primary" disabled style="padding:6px 14px;font-size:12.5px;opacity:0.5;cursor:default;border-color:var(--line-strong);">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px;">
+        <div style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;">And once two rows are ticked &mdash; the same list, the picks made, Continue available</div>
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--paper);padding:12px 14px;">
+          <div style="display:grid;gap:8px;margin-bottom:12px;">
+            <div style="display:flex;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:10px 12px;">
+              <input type="checkbox" checked style="flex:none;margin-top:3px;accent-color:var(--blue);width:14px;height:14px;" />
+              <span style="flex:1;min-width:0;">
+                <span style="display:block;font-family:var(--font-sans);font-weight:700;font-size:13px;color:var(--ink);">Warm leads</span>
+                <span style="display:block;margin-top:5px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);">Twenty CRM &middot; People &middot; 128 records</span>
+              </span>
+            </div>
+            <div style="display:flex;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:10px 12px;">
+              <input type="checkbox" checked style="flex:none;margin-top:3px;accent-color:var(--blue);width:14px;height:14px;" />
+              <span style="flex:1;min-width:0;">
+                <span style="display:block;font-family:var(--font-sans);font-weight:700;font-size:13px;color:var(--ink);">Enterprise accounts</span>
+                <span style="display:block;margin-top:5px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);">Twenty CRM &middot; Companies &middot; 34 records</span>
+              </span>
+            </div>
+            <div style="display:flex;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:10px 12px;">
+              <input type="checkbox" style="flex:none;margin-top:3px;accent-color:var(--blue);width:14px;height:14px;" />
+              <span style="flex:1;min-width:0;">
+                <span style="display:block;font-family:var(--font-sans);font-weight:700;font-size:13px;color:var(--ink);">Closing this quarter</span>
+                <span style="display:block;margin-top:5px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);">Twenty CRM &middot; Opportunities &middot; 12 records</span>
+              </span>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--line);">
+            <button type="button" class="btn primary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-conformance-id="run-list-step-empty-source" data-state="empty kind:connector">
+    <div class="cap">Example &mdash; the same step where the connected system holds nothing to offer (the run waits; it does not end)</div>
+    <div class="body">
+      <div class="runframe">
+        <div class="rail">
+          <div class="step"><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M20 6 9 17l-5-5"/></svg></span><span>Skills</span></div>
+          <div class="sep"></div>
+          <div class="step active"><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg></span><span>Choose the views</span></div>
+          <div class="sep"></div>
+          <div class="step upcoming"><span class="glyph">3</span><span>Write the messages</span></div>
+          <div class="sep"></div>
+          <div class="step upcoming"><span class="glyph">4</span><span>Review</span></div>
+        </div>
+        <div class="rundetail">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:10px;">
+            <span style="font-family:var(--font-sans);font-weight:700;font-size:14px;color:var(--ink);">Which views and lists should this run work from?</span>
+            <span class="pill hold"><span class="dot"></span>Awaiting your picks</span>
+          </div>
+          <p role="status" style="margin:0;font-size:12.5px;line-height:1.55;color:var(--ink);">There is no view or list in the connected Twenty CRM for this run to work from. Create one in Twenty CRM, then open this step again &mdash; the run waits here until there is something to pick.</p>
+          <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;">
+            <button type="button" class="btn primary" disabled style="padding:6px 14px;font-size:12.5px;opacity:0.5;cursor:default;border-color:var(--line-strong);">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <h3 style="font-family:var(--font-sans);font-style:italic;font-weight:700;font-size:16px;color:var(--ink);margin:22px 0 8px;">I.2 &middot; The run's last step &mdash; what the run made</h3>
@@ -1492,7 +1602,7 @@ with its <span style="color:var(--ink);font-weight:700;">**upgrade path**</span>
   <div class="callout note"><span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Meaning moves the type; the file kind is still fixed at upload</span><p>The ingest rule (<a href="application-design-artifacts.html" style="color:var(--blue);">Artifacts</a> &sect;VI.1) fixes the <b>file kind</b> at upload and never lets a picker move it. Promotion does not move it either: it adds a revision of the <b>claiming extension&rsquo;s type</b> over the <b>same content</b>, so the artifact now <em>means</em> a pricing sheet while it is still the same pdf. That is the whole change, and it is the change that lets the extension&rsquo;s own display draw the file at all.</p></div>
 
   <footer>
-    <span>Cinatra · Application Design — Agent run &amp; review v0.13.1</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Agent run &amp; review v0.14.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
