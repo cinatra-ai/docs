@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:dd4be47aea52cbbbd040c198ec51364824d32964e80b8a18ff5831b55a9fec4f",
+  "contentHash": "sha256:b0e16375b766d09625ad9255cc690e19d5e8cd856cf2aa4f8ec46360027f0fa3",
   "surfaces": [
     {
       "id": "run-surface",
@@ -149,6 +149,35 @@
         "error",
         "kind:artifact",
         "loading"
+      ]
+    },
+    {
+      "id": "run-list-step-multi-pick",
+      "fields": [
+        {
+          "field": "title",
+          "source": "view.display-name"
+        }
+      ],
+      "actions": [
+        {
+          "action": "pick-list-entries",
+          "outcome": "entries-selected"
+        }
+      ],
+      "states": [
+        "error",
+        "kind:connector",
+        "loading"
+      ]
+    },
+    {
+      "id": "run-list-step-empty-source",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "empty",
+        "kind:connector"
       ]
     },
     {
