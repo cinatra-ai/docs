@@ -282,7 +282,7 @@
       <p class="lede">How extensions surface in the Cinatra app — the ListingCard and its install-state machine, the extension detail modal, the installed-extensions manager, the All-Agents agent card, the extension settings page, the post-install configuration-needs Callout, the per-agent assignment page where skills and context artifacts are assigned per scope, and the Upload Extension screen where a package is installed from a repository link. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.15.0</div>
+      <div>Version 0.15.1</div>
     </div>
   </div>
 
@@ -1312,9 +1312,12 @@
           </div>
           <button type="button" class="btn outline" data-action="back-to-marketplace -> marketplace-page" style="flex: none;">Back to Marketplace</button>
         </div>
-        <div role="tablist" style="display: flex; gap: 0; padding: 0; margin: 18px 0 0; border-bottom: 1px solid var(--line);">
-          <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">File</button>
-          <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">GitHub</button>
+        <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin: 18px 0 0;">
+          <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+            <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">File</button>
+            <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">GitHub</button>
+          </div>
+          <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
         </div>
         <div data-conformance-id="upload-github-form" data-state="loading" style="padding-top: 16px; display: flex; flex-direction: column; gap: 14px;">
           <div>
@@ -1332,7 +1335,7 @@
           </div>
         </div>
         <div data-conformance-id="upload-resolved-install-panel" data-field="name=manifest.displayName" data-state="loading" style="margin-top: 18px; border-top: 1px solid var(--line); padding-top: 14px; display: flex; flex-direction: column; gap: 10px;">
-          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"><span style="display: inline-flex; align-items: center; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: var(--muted); border: 1px solid var(--line-strong); border-radius: 999px; padding: 2px 9px;">Agent</span><span style="font-family: var(--font-sans); font-size: 14px; font-weight: 600; color: var(--ink);">Research Assistant</span><span data-field="version=manifest.version" style="font-family: var(--font-mono); font-size: 11px; color: var(--muted);">0.4.2</span></div>
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"><span style="display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 9999px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); font-size: 11px; font-weight: 500;">Agent</span><span style="font-family: var(--font-sans); font-size: 14px; font-weight: 600; color: var(--ink);">Research Assistant</span><span data-field="version=manifest.version" style="font-family: var(--font-mono); font-size: 11px; color: var(--muted);">0.4.2</span></div>
           <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); line-height: 1.5;">acme-labs/research-assistant pinned at 7c1f9ab3d0e54b2f8a6d41c9e2b70f5a3d8c6e12</div>
           <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); line-height: 1.5; overflow-wrap: anywhere; word-break: break-all;">acme-labs/research-assistant &middot; main &middot; github.com/acme-labs/research-assistant/archive/refs/heads/main.zip</div>
           <div style="font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-top: 4px;">Install for</div>
@@ -1346,7 +1349,7 @@
 
 
 <footer>
-    <span>Cinatra · Application Design — Extensions v0.15.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Extensions v0.15.1</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
