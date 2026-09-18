@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:e6c576a64695780bdac0d75e31b4f8a1556f4ab5d7a52bc24087a3b60f7bbc9e",
+  "contentHash": "sha256:4644b737abf90596f5e1a9ec30caf8776be2c41af2bd2fcfc34669dcb4a3d728",
   "surfaces": [
     {
       "id": "run-surface",
@@ -138,10 +138,6 @@
         {
           "action": "pick-idea",
           "outcome": "idea-reserved"
-        },
-        {
-          "action": "generate-ideas",
-          "outcome": "ideas-stored"
         }
       ],
       "states": [
