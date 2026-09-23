@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:4644b737abf90596f5e1a9ec30caf8776be2c41af2bd2fcfc34669dcb4a3d728",
+  "contentHash": "sha256:a27b730c49391336abd9ea049d567981d2247d89389629793083d6fb1a4e25c2",
   "surfaces": [
     {
       "id": "run-surface",
@@ -597,6 +597,53 @@
       ],
       "actions": [],
       "states": [
+        "error",
+        "kind:artifact",
+        "loading"
+      ]
+    },
+    {
+      "id": "blog-idea-display",
+      "fields": [
+        {
+          "field": "text",
+          "source": "representation.text-projection"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "empty",
+        "error",
+        "kind:artifact",
+        "loading"
+      ]
+    },
+    {
+      "id": "blog-image-display",
+      "fields": [
+        {
+          "field": "alt",
+          "source": "artifact.displayTitle"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "error",
+        "kind:artifact",
+        "loading"
+      ]
+    },
+    {
+      "id": "linkedin-post-draft-display",
+      "fields": [
+        {
+          "field": "text",
+          "source": "representation.text-projection"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "empty",
         "error",
         "kind:artifact",
         "loading"
