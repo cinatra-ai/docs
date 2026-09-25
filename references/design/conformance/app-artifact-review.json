@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:22395597d611162eecfcf846bea90b687587bb73639205157b5275ca909259a1",
+  "contentHash": "sha256:efc8186987e976b2e059b5fb8f7e10ed53d55a04ee9514835e97371cc977b821",
   "surfaces": [
     {
       "id": "run-surface",
