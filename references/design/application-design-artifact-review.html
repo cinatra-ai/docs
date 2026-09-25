@@ -315,7 +315,7 @@
       <p class="lede">The <b>agent run surface</b> under <code>/agents</code> — the run's <b>steps</b> down a left rail, its <b>detail</b> on the right, and the <b>lifecycle-interception gates</b> that pause it, resolved <b>in place inside the run</b> rather than on any standalone page. Its central gate is the <b>generic artifact-review gate</b>: the type-agnostic surface on which a human <b>continues</b> with, <b>regenerates</b>, <b>comments</b> on, or — through the run's conversational prompt window — <b>requests changes to</b> an artifact the run produced. It is referenced by <b>Application Design — Artifacts</b> (§ Change review). This page specifies the <b>design</b> only — how the run engine implements the gate is specified with the engine, not here. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.18.0</div>
+      <div>Version 0.18.1</div>
     </div>
   </div>
 
@@ -328,7 +328,7 @@
     <div class="source">/agents · left step rail · right run detail</div>
   </div>
   <p class="lede-p"><b>A run is one page, read down a rail.</b> An agent run opens at its own canonical route under <code>/agents</code>. The surface is a <b>two-column</b> frame: a <b>step rail</b> down the left names the run's ordered steps, and the <b>run detail</b> on the right shows the selected step. Nothing about the run lives on a separate page — every step, and every <b>gate</b> that pauses the run, is reached by selecting its entry on the rail and reads in the <b>same run</b>.</p>
-  <p class="lede-p"><b>The step rail — merged steps and gate entries.</b> The rail lists the run's steps in order, <b>merged</b> so that a gate is not a <b>page outside the run</b> but a <b>step in the run</b>: the ordinary work steps, and — inline at the point the run reached it — a <b>gate entry</b> (a <b>Skills</b> step to answer, a list to pick one thing from, a review to decide). The step the run is <b>paused on</b> is <b>highlighted</b>; steps already passed sit above it, steps still to come below. A <b>resolved gate</b> stays on the rail as <b>read-only history</b> — its entry keeps its place and records how it was settled (continued, superseded by a regeneration, changes requested), so the rail is the run's whole lifecycle at a glance, not just its live tip.</p>
+  <p class="lede-p"><b>The step rail — merged steps and gate entries.</b> The rail lists the run's steps in order, <b>merged</b> so that a gate is not a <b>page outside the run</b> but a <b>step in the run</b>: the ordinary work steps, and — inline at the point the run reached it — a <b>gate entry</b> (a <b>Skills</b> step to answer, a list to pick one thing from, a review to decide). The step the run is <b>paused on</b> is <b>highlighted</b>; steps already passed sit above it, steps still to come below — save <b>Skills</b> (§II) and <b>Schedule</b>, which keep their places ahead of the work steps at every reading, even while one of them is still to come. A <b>resolved gate</b> stays on the rail as <b>read-only history</b> — its entry keeps its place and records how it was settled (continued, superseded by a regeneration, changes requested), so the rail is the run's whole lifecycle at a glance, not just its live tip.</p>
   <p class="lede-p"><b>The run detail.</b> Selecting a step opens it on the right. A work step shows what it did; a <b>gate</b> step opens the gate's own surface <b>in place</b> — a pending review renders the review gate (§III–§VII) right here in the run detail, under the same rail, never as a standalone document. A resolved gate opens read-only: what was decided, and the <b>one</b> target it froze, kept for the run's audit trail.</p>
 
   <div class="ex" data-conformance-id="run-surface" data-state="loading error kind:agent">
@@ -1646,7 +1646,7 @@ with its <span style="color:var(--ink);font-weight:700;">**upgrade path**</span>
   <p class="lede-p"><b>A LinkedIn post draft has no display of its own.</b> It is stored as markdown and is drawn by the display of that content type &mdash; the <b>markdown display</b> (&sect;V.1), with its <b>Code</b> and <b>Preview</b> tabs &mdash; on the artifact&rsquo;s own page and wherever it is read, exactly as any other markdown. On a review target it is that display, <b>pinned and read only</b>, and the floor beneath it is the surface&rsquo;s (&sect;VI); sending the post is the publish step&rsquo;s (&sect;I.4), never the display&rsquo;s.</p>
 
   <footer>
-    <span>Cinatra · Application Design — Agent run &amp; review v0.18.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Agent run &amp; review v0.18.1</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
