@@ -72,6 +72,14 @@
       "note": "The drawn helper text under the Upload Extension ref field itself, the product's own wording about the commit a repository archive was generated from; product content, not docs-site commentary.",
       "owner": "groganz",
       "reviewBy": "2027-01-09"
+    },
+    {
+      "file": "references/design/application-design-extensions.html",
+      "pattern": "generated_from",
+      "snippet": "<p style=\"max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;\"><b style=\"color:var(--ink);font-weight:600;\">A refusal is a toast, never inline.</b> On this screen a refusal reports on the app's toast surface only &mdash; never inline in the panel, never as a field error &mdash; and the panel and its selection are left exactly as they were, which is &sect;I.1&rsquo;s own rule carried onto this mounting. Three refusals are fixed. A link that is not a github.com repository link is refused with no request made off this instance, reading: <em>That is not a github.com repository link. Paste the repository page, a branch, a release page or the archive ZIP link &mdash; for example https://github.com/owner/repo.</em> A repository link whose archive the anonymous download cannot read &mdash; a private repository, or a repository, branch, tag or release that does not exist &mdash; is refused once the download has been tried, reading, for a link that names no ref: <em>GitHub served no archive for owner/repo at its default branch (HTTP 404). This instance downloads the archive anonymously, so a private repository - or a branch, tag or release that does not exist - cannot be read. Check the link, or upload the package as a file.</em> And when a link names no ref and no default-branch name can be established, the install falls through, reading: <em>this install could not resolve the branch, tag or release name to record - the link named none and the archive that was downloaded does not name the branch it was generated from. Type the branch, tag or release to install from and try again. Nothing was written.</em></p>",
+      "note": "The Extensions drawing quotes the product's own fall-through refusal of the upload page ('… the archive that was downloaded does not name the branch it was generated from …'): product content, not documentation generation.",
+      "owner": "groganz",
+      "reviewBy": "2027-01-09"
     }
   ]
 }
