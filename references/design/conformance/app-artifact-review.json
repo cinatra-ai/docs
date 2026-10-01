@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:572ce330758969a75f71241f967d680c18c204258091818f2bed6684c13c7da7",
+  "contentHash": "sha256:d9f1c170ddc318300c0057325abbb4c6d9c06fcfb6e2d4a2965ce36cf312a410",
   "surfaces": [
     {
       "id": "run-surface",
@@ -631,21 +631,6 @@
         {
           "field": "type",
           "source": "representation.claiming-type"
-        }
-      ],
-      "actions": [],
-      "states": [
-        "error",
-        "kind:artifact",
-        "loading"
-      ]
-    },
-    {
-      "id": "blog-image-display",
-      "fields": [
-        {
-          "field": "alt",
-          "source": "artifact.displayTitle"
         }
       ],
       "actions": [],
