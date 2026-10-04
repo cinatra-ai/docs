@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-components.html",
-  "contentHash": "sha256:6639be83b09fc2ec3cb063382c6f9ad9f38f93587f7d800eba1c0f340db1517b",
+  "contentHash": "sha256:2be889540aced3df6ca9f1c6998b54c3d3e53a97b5f84c40ad460ac15680072c",
   "surfaces": [
     {
       "id": "toast",
