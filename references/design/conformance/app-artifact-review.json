@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:d9f1c170ddc318300c0057325abbb4c6d9c06fcfb6e2d4a2965ce36cf312a410",
+  "contentHash": "sha256:222969c5cab020e511b804f0449f94ecc5bc6118443da9706d396fc0b59c782b",
   "surfaces": [
     {
       "id": "run-surface",
@@ -23,6 +23,41 @@
         }
       ],
       "states": []
+    },
+    {
+      "id": "run-started-runs",
+      "fields": [
+        {
+          "field": "agent-name",
+          "source": "run.agent.displayName"
+        },
+        {
+          "field": "state",
+          "source": "run.status"
+        },
+        {
+          "field": "agent-name",
+          "source": "run.agent.displayName"
+        },
+        {
+          "field": "state",
+          "source": "run.status"
+        }
+      ],
+      "actions": [
+        {
+          "action": "open-started-run",
+          "outcome": "started-run-page"
+        },
+        {
+          "action": "open-started-run",
+          "outcome": "started-run-page"
+        }
+      ],
+      "states": [
+        "empty",
+        "kind:agent"
+      ]
     },
     {
       "id": "run-gate-notification",

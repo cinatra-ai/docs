@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-lifecycle-cards.html",
-  "contentHash": "sha256:a50bd9010899c24d29be9a772c3d358f768c487142b4cd289b9264473ede2f24",
+  "contentHash": "sha256:ffecf8fa9c9726ab8473bf8bd48520d89b143b05527bc684e6919b38b0d1f031",
   "surfaces": [
     {
       "id": "chat-thread",
@@ -349,6 +349,23 @@
       "states": []
     },
     {
+      "id": "agent-hitl-screen-card",
+      "fields": [],
+      "actions": [
+        {
+          "action": "submit-hitl-screen",
+          "outcome": "continued"
+        }
+      ],
+      "states": []
+    },
+    {
+      "id": "hitl-screen-fields",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
       "id": "schedule-card-first-shown",
       "fields": [],
       "actions": [],
@@ -429,6 +446,21 @@
         {
           "action": "save-schedule",
           "outcome": "rearmed"
+        },
+        {
+          "action": "cancel-schedule",
+          "outcome": "stopped"
+        }
+      ],
+      "states": []
+    },
+    {
+      "id": "schedule-cancel-confirm",
+      "fields": [],
+      "actions": [
+        {
+          "action": "keep-schedule",
+          "outcome": "dialog-dismissed"
         },
         {
           "action": "cancel-schedule",
