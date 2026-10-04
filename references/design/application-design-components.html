@@ -291,7 +291,7 @@
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.5.1</div>
+      <div>Version 0.5.2</div>
     </div>
   </div>
 
@@ -317,7 +317,7 @@
       <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin-top: 14px;"></div>
     </div>
   </div>
-  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The page-header h1 owns the page-title typography end-to-end — Archivo italic 800, -0.018em tracking, 1.05 line-height, balanced wrap — so pages never roll their own. The title scale is <strong style="color:var(--ink);">lg 28px</strong> (the default — every top-level page), <strong style="color:var(--ink);">md 24px</strong> (action-heavy admin / settings / detail subpages with long titles), <strong style="color:var(--ink);">sm 20px</strong> (nested sub-screens); the scale is monotonic — a smaller step never renders larger than the one above it. Title tone is ink by default; brand-mustard is a per-route opt-in for brand-y top-level pages, never on settings or admin chrome. An optional mono uppercase kicker label sits above the h1, an optional one-line description below it. The etched paired-line rule closes the header on every page — unless a toolbar sits directly beneath, which replaces the rule (see Toolbar).</p>
+  </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The page-header h1 owns the page-title typography end-to-end — Archivo italic 800, -0.018em tracking, 1.05 line-height, balanced wrap — so pages never roll their own. The title scale is <strong style="color:var(--ink);">lg 28px</strong> (the default — every top-level page), <strong style="color:var(--ink);">md 24px</strong> (action-heavy admin / settings / detail subpages with long titles), <strong style="color:var(--ink);">sm 20px</strong> (nested sub-screens); the scale is monotonic — a smaller step never renders larger than the one above it. Title tone is ink by default; brand-mustard is a per-route opt-in for brand-y top-level pages, never on settings or admin chrome. An optional mono uppercase kicker label sits above the h1, an optional one-line description below it. The etched paired-line rule closes the header unless a toolbar sits directly beneath (see Toolbar), or a tablist follows the header. A toolbar replaces the header rule; the tab strip's own rule divides the header from the content, with no rule above the tabs.</p>
 
   <div class="sect">
     <h2>Section header / Kicker</h2>
@@ -1482,7 +1482,7 @@
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Retiring the in-stepper trigger HITL</h3>
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The previous approach delivered scheduling as a per-agent renderer chain: a hand-inlined <em>configure</em> subflow, a separate read-only <em>confirm</em> gate, and an exact-version trigger dependency pinned into every embedding agent. That chain is retired. The <strong style="color:var(--ink);">confirm gate is removed</strong> — the in-flow step arms the trigger directly on <em>Continue</em> — and no agent declares a trigger renderer or pins a trigger dependency. What stays is exactly the platform machinery it always ran on: the per-run schedule storage, the schedule firing, and the run's <strong style="color:var(--ink);">Schedule</strong> step with its Save changes control and, for a recurring schedule, Cancel schedule. The change is only that the in-flow renderer is now <strong style="color:var(--ink);">host-standard</strong>, available to every agent for free rather than copied into each one.</p>
 <footer>
-    <span>Cinatra · Application Design — Components v0.5.1</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Components v0.5.2</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
