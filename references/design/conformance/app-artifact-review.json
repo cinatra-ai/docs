@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:222969c5cab020e511b804f0449f94ecc5bc6118443da9706d396fc0b59c782b",
+  "contentHash": "sha256:88e1cddf5dde126ba49ae2128427667bc0ddcd01eeb17cd48d2b383332707737",
   "surfaces": [
     {
       "id": "run-surface",
@@ -562,6 +562,10 @@
         {
           "field": "layout",
           "source": "representation.pinned-configuration"
+        },
+        {
+          "field": "open-live",
+          "source": "artifact.sourceUrl"
         }
       ],
       "actions": [
@@ -577,11 +581,40 @@
       ]
     },
     {
+      "id": "dashboard-continued-reading",
+      "fields": [
+        {
+          "field": "reading",
+          "source": "review.reading"
+        },
+        {
+          "field": "decision",
+          "source": "review.decidedAt"
+        },
+        {
+          "field": "effect-recorded-at",
+          "source": "review.effect.recordedAt"
+        },
+        {
+          "field": "effect-record",
+          "source": "review.effect.record"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "empty"
+      ]
+    },
+    {
       "id": "portlet-display",
       "fields": [
         {
           "field": "entry",
           "source": "representation.portlet-instance-id"
+        },
+        {
+          "field": "open-live",
+          "source": "artifact.sourceUrl"
         }
       ],
       "actions": [
@@ -594,6 +627,31 @@
         "error",
         "kind:artifact",
         "loading"
+      ]
+    },
+    {
+      "id": "portlet-continued-reading",
+      "fields": [
+        {
+          "field": "reading",
+          "source": "review.reading"
+        },
+        {
+          "field": "decision",
+          "source": "review.decidedAt"
+        },
+        {
+          "field": "effect-recorded-at",
+          "source": "review.effect.recordedAt"
+        },
+        {
+          "field": "effect-record",
+          "source": "review.effect.record"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "empty"
       ]
     },
     {
@@ -617,6 +675,31 @@
       ]
     },
     {
+      "id": "drupal-pointer-continued-reading",
+      "fields": [
+        {
+          "field": "reading",
+          "source": "review.reading"
+        },
+        {
+          "field": "decision",
+          "source": "review.decidedAt"
+        },
+        {
+          "field": "effect-recorded-at",
+          "source": "review.effect.recordedAt"
+        },
+        {
+          "field": "effect-record",
+          "source": "review.effect.record"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "empty"
+      ]
+    },
+    {
       "id": "cms-page-display",
       "fields": [
         {
@@ -634,6 +717,31 @@
         "error",
         "kind:artifact",
         "loading"
+      ]
+    },
+    {
+      "id": "cms-page-continued-reading",
+      "fields": [
+        {
+          "field": "reading",
+          "source": "review.reading"
+        },
+        {
+          "field": "decision",
+          "source": "review.decidedAt"
+        },
+        {
+          "field": "effect-recorded-at",
+          "source": "review.effect.recordedAt"
+        },
+        {
+          "field": "effect-record",
+          "source": "review.effect.record"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "empty"
       ]
     },
     {

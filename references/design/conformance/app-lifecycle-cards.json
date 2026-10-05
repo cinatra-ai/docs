@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-lifecycle-cards.html",
-  "contentHash": "sha256:ffecf8fa9c9726ab8473bf8bd48520d89b143b05527bc684e6919b38b0d1f031",
+  "contentHash": "sha256:4b9da1bafe51946d0e6a01e59c8b83eadbb97984dd8992433c6dc8eebc29ba5b",
   "surfaces": [
     {
       "id": "chat-thread",
@@ -162,6 +162,40 @@
         "error",
         "kind:artifact",
         "loading"
+      ]
+    },
+    {
+      "id": "post-continued-reading",
+      "fields": [
+        {
+          "field": "reading",
+          "source": "review.reading"
+        },
+        {
+          "field": "decision",
+          "source": "review.decidedAt"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "empty"
+      ]
+    },
+    {
+      "id": "regenerated-post-continued-reading",
+      "fields": [
+        {
+          "field": "reading",
+          "source": "review.reading"
+        },
+        {
+          "field": "decision",
+          "source": "review.decidedAt"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "empty"
       ]
     },
     {
@@ -636,6 +670,23 @@
       ]
     },
     {
+      "id": "email-continued-reading-in-thread",
+      "fields": [
+        {
+          "field": "reading",
+          "source": "review.reading"
+        },
+        {
+          "field": "decision",
+          "source": "review.decidedAt"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "empty"
+      ]
+    },
+    {
       "id": "review-states-outside-chat",
       "fields": [],
       "actions": [
@@ -648,6 +699,23 @@
         "error",
         "kind:artifact",
         "loading"
+      ]
+    },
+    {
+      "id": "email-continued-reading-outside-thread",
+      "fields": [
+        {
+          "field": "reading",
+          "source": "review.reading"
+        },
+        {
+          "field": "decision",
+          "source": "review.decidedAt"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "empty"
       ]
     },
     {
