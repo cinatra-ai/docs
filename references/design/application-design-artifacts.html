@@ -286,7 +286,7 @@
       <p class="lede"><code>/artifacts</code> is the <b>library</b> — everything the acting user's agents and uploads have produced, each row opened by its <b>type's renderer</b>. The library also <b>ingests</b>: an <b>upload</b> affordance types a file by its MIME base, a <b>type picker</b> lets the user assert its meaning among installed types, and an <b>inline marketplace</b> adds a type when none fits (admins install; others request). <b>Dashboards are artifacts</b> too — they list as rows and open the dashboard itself at its canonical surface (never rendered inline); a <b>team, project or organization</b> lists the dashboards in its scope on its <b>Dashboards tab</b>, where a scope manager can <b>add an existing dashboard as a secondary listing</b> (§IX). <code>/configuration/artifacts</code> is the <b>Artifacts</b> console — a <b>tablist</b> page whose <b>Type definitions</b> tab lists every type every artifact extension defines, whose <b>Stored objects</b> tab inventories every stored object across every artifact extension, and whose <b>Restore objects</b> tab browses and undoes object change sets. <b>Artifact change review</b> lives on the shared artifact-review surface. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.10.2</div>
+      <div>Version 0.11.0</div>
     </div>
   </div>
 
@@ -389,6 +389,312 @@
           <a class="btn outline" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Open</a>
         </li>
       </ul>
+    </div>
+  </div>
+
+  <p class="lede-p"><b>Row icons.</b> The renderer glyph is the <b>type&rsquo;s own icon</b>. The 34-pixel row cell and its tint are the app&rsquo;s frame; the 17-pixel icon inside the cell is drawn by the <b>extension that defines the row&rsquo;s type</b>, through that extension&rsquo;s row display. The app&rsquo;s <b>generic icon</b> is only the <b>floor</b>: it stands in the cell when a display does not load, so the cell is never empty. Each type draws one icon of the shared icon set, Lucide, named under the type in the example below. The four email types keep the icons their extension already ships and are drawn beside the others, so the whole set reads as one family. The set is drawn in the light and in the dark palette.</p>
+
+  <div class="ex" data-conformance-id="artifacts-row-icons">
+    <div class="cap">Example — Row icons, one per artifact type, light and dark palette</div>
+    <div class="body" style="display:grid;gap:14px;">
+      <div data-palette="light" style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:14px 16px 16px;">
+        <div style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:12px;">Light palette</div>
+        <ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px 18px;">
+          <li data-type="@cinatra-ai/audio-artifact:recording" data-glyph="audio-lines" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M2 10v3"/><path d="M6 6v11"/><path d="M10 3v18"/><path d="M14 8v7"/><path d="M18 5v13"/><path d="M22 10v3"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Audio recording</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/audio-artifact:recording</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">audio-lines</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/binary-artifact:artifact" data-glyph="binary" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect x="14" y="14" width="4" height="6" rx="2"/><rect x="6" y="4" width="4" height="6" rx="2"/><path d="M6 20h4"/><path d="M14 10h4"/><path d="M6 14h2v6"/><path d="M14 4h2v6"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Binary file</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/binary-artifact:artifact</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">binary</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/cms-snapshot-artifact:cms-page" data-glyph="app-window" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Website page snapshot</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/cms-snapshot-artifact:cms-page</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">app-window</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/document-artifact:artifact" data-glyph="file-type" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M11 18h2"/><path d="M12 12v6"/><path d="M9 13v-.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v.5"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Office document</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/document-artifact:artifact</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">file-type</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/image-artifact:image" data-glyph="image" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Image</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/image-artifact:image</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">image</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/json-artifact:artifact" data-glyph="file-braces" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1"/><path d="M14 18a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">JSON file</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/json-artifact:artifact</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">file-braces</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/markdown-artifact:artifact" data-glyph="hash" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Markdown file</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/markdown-artifact:artifact</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">hash</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/pdf-artifact:document" data-glyph="book-open-text" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M12 7v14"/><path d="M16 12h2"/><path d="M16 8h2"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="M6 12h2"/><path d="M6 8h2"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">PDF</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/pdf-artifact:document</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">book-open-text</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/podcast-artifacts:artifact" data-glyph="podcast" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M13 17a1 1 0 1 0-2 0l.5 4.5a0.5 0.5 0 0 0 1 0z" fill="currentColor"/><path d="M16.85 18.58a9 9 0 1 0-9.7 0"/><path d="M8 14a5 5 0 1 1 8 0"/><circle cx="12" cy="11" r="1" fill="currentColor"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Podcast</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/podcast-artifacts:artifact</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">podcast</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/screenshot-artifact:screenshot" data-glyph="scan" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Screenshot</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/screenshot-artifact:screenshot</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">scan</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/slide-deck-artifact:deck" data-glyph="presentation" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M2 3h20"/><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/><path d="m7 21 5-5 5 5"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Slide deck</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/slide-deck-artifact:deck</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">presentation</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/text-artifact:artifact" data-glyph="text-align-start" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M21 5H3"/><path d="M15 12H3"/><path d="M17 19H3"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Text file</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/text-artifact:artifact</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">text-align-start</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/video-artifact:video" data-glyph="video" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Video</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/video-artifact:video</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">video</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/zip-artifact:artifact" data-glyph="file-archive" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M13.659 22H18a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v11.5"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M8 12v-1"/><path d="M8 18v-2"/><path d="M8 7V6"/><circle cx="8" cy="20" r="2"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">ZIP archive</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/zip-artifact:artifact</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">file-archive</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/email:body" data-glyph="mail" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Email body</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/email:body</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">mail</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/email:sent-email" data-glyph="mail-check" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h8"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/><path d="m16 19 2 2 4-4"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Sent email</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/email:sent-email</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">mail-check</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/email:received-reply" data-glyph="mail-open" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M21.2 8.4c.5.38.8.97.8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 .8-1.6l8-6a2 2 0 0 1 2.4 0l8 6Z"/><path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Received reply</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/email:received-reply</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">mail-open</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/email:recipient" data-glyph="users" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:rgba(54,78,129,0.10);color:var(--blue);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Recipient</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);overflow-wrap:anywhere;">@cinatra-ai/email:recipient</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);">users</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div data-palette="dark" style="border:1px solid oklch(1 0 0 / 10%);border-radius:8px;background:oklch(0.21 0.04 259);padding:14px 16px 16px;">
+        <div style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.18em;text-transform:uppercase;color:oklch(0.704 0.04 256.788);font-weight:700;margin-bottom:12px;">Dark palette</div>
+        <ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px 18px;">
+          <li data-type="@cinatra-ai/audio-artifact:recording" data-glyph="audio-lines" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M2 10v3"/><path d="M6 6v11"/><path d="M10 3v18"/><path d="M14 8v7"/><path d="M18 5v13"/><path d="M22 10v3"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">Audio recording</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/audio-artifact:recording</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">audio-lines</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/binary-artifact:artifact" data-glyph="binary" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect x="14" y="14" width="4" height="6" rx="2"/><rect x="6" y="4" width="4" height="6" rx="2"/><path d="M6 20h4"/><path d="M14 10h4"/><path d="M6 14h2v6"/><path d="M14 4h2v6"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">Binary file</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/binary-artifact:artifact</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">binary</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/cms-snapshot-artifact:cms-page" data-glyph="app-window" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">Website page snapshot</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/cms-snapshot-artifact:cms-page</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">app-window</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/document-artifact:artifact" data-glyph="file-type" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M11 18h2"/><path d="M12 12v6"/><path d="M9 13v-.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v.5"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">Office document</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/document-artifact:artifact</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">file-type</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/image-artifact:image" data-glyph="image" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">Image</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/image-artifact:image</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">image</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/json-artifact:artifact" data-glyph="file-braces" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1"/><path d="M14 18a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">JSON file</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/json-artifact:artifact</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">file-braces</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/markdown-artifact:artifact" data-glyph="hash" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">Markdown file</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/markdown-artifact:artifact</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">hash</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/pdf-artifact:document" data-glyph="book-open-text" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M12 7v14"/><path d="M16 12h2"/><path d="M16 8h2"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="M6 12h2"/><path d="M6 8h2"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">PDF</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/pdf-artifact:document</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">book-open-text</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/podcast-artifacts:artifact" data-glyph="podcast" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M13 17a1 1 0 1 0-2 0l.5 4.5a0.5 0.5 0 0 0 1 0z" fill="currentColor"/><path d="M16.85 18.58a9 9 0 1 0-9.7 0"/><path d="M8 14a5 5 0 1 1 8 0"/><circle cx="12" cy="11" r="1" fill="currentColor"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">Podcast</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/podcast-artifacts:artifact</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">podcast</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/screenshot-artifact:screenshot" data-glyph="scan" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">Screenshot</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/screenshot-artifact:screenshot</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">scan</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/slide-deck-artifact:deck" data-glyph="presentation" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M2 3h20"/><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/><path d="m7 21 5-5 5 5"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">Slide deck</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/slide-deck-artifact:deck</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">presentation</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/text-artifact:artifact" data-glyph="text-align-start" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M21 5H3"/><path d="M15 12H3"/><path d="M17 19H3"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">Text file</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/text-artifact:artifact</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">text-align-start</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/video-artifact:video" data-glyph="video" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">Video</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/video-artifact:video</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">video</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/zip-artifact:artifact" data-glyph="file-archive" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M13.659 22H18a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v11.5"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M8 12v-1"/><path d="M8 18v-2"/><path d="M8 7V6"/><circle cx="8" cy="20" r="2"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">ZIP archive</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/zip-artifact:artifact</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">file-archive</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/email:body" data-glyph="mail" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">Email body</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/email:body</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">mail</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/email:sent-email" data-glyph="mail-check" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h8"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/><path d="m16 19 2 2 4-4"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">Sent email</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/email:sent-email</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">mail-check</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/email:received-reply" data-glyph="mail-open" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M21.2 8.4c.5.38.8.97.8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 .8-1.6l8-6a2 2 0 0 1 2.4 0l8 6Z"/><path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">Received reply</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/email:received-reply</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">mail-open</div>
+            </div>
+          </li>
+          <li data-type="@cinatra-ai/email:recipient" data-glyph="users" style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <span style="flex:none;width:34px;height:34px;border-radius:8px;background:oklch(0.929 0.013 255.508 / 0.1);color:oklch(0.929 0.013 255.508);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg></span>
+            <div style="min-width:0;">
+              <div style="font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:oklch(0.984 0.003 247.858);">Recipient</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);overflow-wrap:anywhere;">@cinatra-ai/email:recipient</div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:oklch(0.704 0.04 256.788);">users</div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -1303,7 +1609,7 @@
   </div>
   <p class="lede-p"><b>Every new surface honors the three axes the Application Design family carries.</b> The affordances above (§VI–§IX) are specified once and hold across breakpoint, theme and state — a conformance run checks each axis, so the spec names them.</p>
   <p class="lede-p"><b>Responsive.</b> The library sits at the wide data width (<code>max-w-7xl</code>). On a narrow viewport the toolbar <b>wraps</b> — the search field takes the full row, the <em>Type</em> / <em>Scope</em> / <em>Upload</em> controls wrap beneath it, and <em>Upload</em> stays reachable (never behind an overflow). The type picker and the inline marketplace tab are <b>bounded panels</b> that shrink to the viewport (<code>max-width:100%</code>); the marketplace pack list is single-column already. The dashboard <b>pointer detail</b> card wraps to the narrow width — its scope chips flow to a new line and the <em>Open dashboard</em> affordance drops beneath the metadata — and any wide table scrolls inside its own container rather than widening the page. The <b>Dashboards tab</b> (§IX) wraps too — the entity-page tablist (<em>Dashboards</em>, <em>Assistants</em>, <em>Agents</em>, <em>Artifacts</em>, <em>Skills</em>, and <em>Settings</em> last on the shared scopes) wraps onto a further underline row rather than scrolling or hiding an entry behind an overflow, its <em>Add dashboard</em> affordance drops beneath the tab strip, each row's controls flow to a new line rather than overflowing, and the <b>add-to-scope picker</b> is a <b>bounded panel</b> that shrinks to the viewport (<code>max-width:100%</code>).</p>
-  <p class="lede-p"><b>Theme.</b> There is <b>one theme</b> — the shared cream palette. Every new surface draws only from the shared tokens (the <code>:root</code> block); no affordance introduces a colour, and the base style block is identical to every sibling spec (Conventions · self-contained specs). <em>Set on cream.</em></p>
+  <p class="lede-p"><b>Theme.</b> There is <b>one theme</b> — the shared cream palette. Every new surface draws only from the shared tokens (the <code>:root</code> block); no affordance introduces a colour, and the base style block is identical to every sibling spec (Conventions · self-contained specs). The one exception is the row-icon example of §II: it draws the same cells a second time on the <b>application&rsquo;s dark palette</b>, with that palette&rsquo;s values written on the example alone, so each extension can check its icon in both palettes; the base style block is unchanged. <em>Set on cream.</em></p>
   <p class="lede-p"><b>State.</b> The machine-checkable state axis is the closed <code>data-state</code> set — <code>loading</code>, <code>error</code>, <code>empty</code>, plus <code>kind:artifact</code> — carried on the conformance surfaces above. The richer interaction states each affordance moves through are shown as example frames and bound to their outcomes via <code>data-action</code>. The table names them so a build covers each:</p>
 
   <div class="ex" data-conformance-id="artifacts-axes-state">
@@ -1332,7 +1638,7 @@
   </div>
 
   <footer>
-    <span>Cinatra · Application Design — Artifacts v0.10.2</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Artifacts v0.11.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
