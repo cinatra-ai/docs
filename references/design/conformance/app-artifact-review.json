@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:88e1cddf5dde126ba49ae2128427667bc0ddcd01eeb17cd48d2b383332707737",
+  "contentHash": "sha256:f7495d6a3bde5b12653f41748ab33ab2d69b22639fae92b4d386fea125b723e4",
   "surfaces": [
     {
       "id": "run-surface",
@@ -141,6 +141,23 @@
         }
       ],
       "states": []
+    },
+    {
+      "id": "run-failed-recovery",
+      "fields": [],
+      "actions": [
+        {
+          "action": "retry-run",
+          "outcome": "run-reset"
+        },
+        {
+          "action": "start-new-run",
+          "outcome": "new-run"
+        }
+      ],
+      "states": [
+        "error"
+      ]
     },
     {
       "id": "run-schedule-step-fired-recurring",
