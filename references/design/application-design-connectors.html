@@ -272,7 +272,7 @@
       <p class="lede">How connectors surface in the Cinatra app — the connector toolbar, the responsive card grid, and the connected / disconnected state language. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.8.0</div>
+      <div>Version 0.9.0</div>
     </div>
   </div>
 
@@ -813,8 +813,124 @@
 
   <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">A non-Help custom tab is the one place the setup page leaves the <b style="color:var(--ink);font-weight:600;">Wide</b> column: the header and tab strip stay Wide so the tabs sit in the same place across tabs, while the settings themselves drop to <b style="color:var(--ink);font-weight:600;">Narrow</b> (576px), flush-left under the tablist. The tab carries the connector's own fields in a single column — <b style="color:var(--ink);font-weight:600;">switches</b> for immediate-effect toggles (indigo when on), inputs, and <b style="color:var(--ink);font-weight:600;">add / remove list editors</b> for path, host and prefix lists — ending in its own <em>Save</em>.</p>
 
+  <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 34px 0 10px; color: var(--ink);">When the setup cannot be shown</h3>
+  <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 18px; max-width: 66ch; line-height: 1.55;">Four states of a connector's page draw no setup form: the connector is <b style="color:var(--ink);font-weight:600;">not installed</b> or not active for your workspace; its <b style="color:var(--ink);font-weight:600;">setup schema is invalid</b>; it was installed at runtime and its setup page <b style="color:var(--ink);font-weight:600;">requires a rebuild</b>; or it is a bundled connector whose setup page is missing from this build, which <b style="color:var(--ink);font-weight:600;">requires a rebuild</b> too. Each keeps the page header and the <b style="color:var(--ink);font-weight:600;">tab strip</b> beneath it, and the strip reads <b style="color:var(--ink);font-weight:600;">Setup · Sharing</b>, the two fixed tabs. A connector's own tabs, Connections among them, belong to its setup surface and return with it. The header draws <b style="color:var(--ink);font-weight:600;">no rule of its own</b> above the strip: the strip's etched rule runs to the right of the last tab, as on every setup page.</p>
+  <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 18px; max-width: 66ch; line-height: 1.55;">The <b style="color:var(--ink);font-weight:600;">Setup</b> tab holds that state's own content, its words unchanged: the <b style="color:var(--ink);font-weight:600;">Install or activate</b> empty state, or the setup surface's <b style="color:var(--ink);font-weight:600;">error line</b>. The <b style="color:var(--ink);font-weight:600;">Sharing</b> tab is the Sharing tab drawn above and nothing else: the app's access picker and ownership panel for each connection you own here. A person who has saved no connection here sees nothing on it yet. Sharing never sits beneath the Setup content on these pages; it is decided on its own tab.</p>
+
+  <!-- Example — not installed · Setup tab -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — not installed · Setup tab</div>
+    <div style="padding: 26px 24px;">
+      <div style="max-width: 768px; margin: 0 auto;">
+
+        <!-- page header: no rule of its own; the strip carries the etched rule -->
+        <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 28px; letter-spacing: -0.018em; line-height: 1.05; color: var(--ink);">OpenAI</div>
+        <div style="font-size: 13.5px; color: var(--muted); margin-top: 6px;">Connector setup</div>
+
+        <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin-top: 18px;">
+          <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+            <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Setup</button>
+            <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Sharing</button>
+          </div>
+          <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+        </div>
+
+        <!-- Setup tab: the state's own empty state, its words unchanged; no form, no status card -->
+        <div style="margin-top: 22px; background: var(--surface-muted); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center;">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; max-width: 384px;">
+            <div style="width: 40px; height: 40px; border: 2px dashed var(--line-strong); border-radius: 50%; margin-bottom: 8px; display: grid; place-items: center; color: var(--ink);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><path d="M16 16h6"/><path d="M19 13v6"/><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"/><path d="m7.5 4.27 9 5.15"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" x2="12" y1="22" y2="12"/></svg></div>
+            <div style="font-family: var(--font-sans); font-size: 14px; font-weight: 600; color: var(--ink);">OpenAI isn't installed yet</div>
+            <div style="font-size: 12px; color: var(--muted); line-height: 1.5;">This connector isn't installed for your workspace, so there is nothing to configure here yet. Install or activate it to set up its connection.</div>
+          </div>
+          <button type="button" class="btn primary" style="cursor: pointer;">Install or activate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example — not installed · Sharing tab -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — not installed · Sharing tab</div>
+    <div style="padding: 26px 24px;">
+      <div style="max-width: 768px; margin: 0 auto;">
+
+        <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 28px; letter-spacing: -0.018em; line-height: 1.05; color: var(--ink);">OpenAI</div>
+        <div style="font-size: 13.5px; color: var(--muted); margin-top: 6px;">Connector setup</div>
+
+        <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin-top: 18px;">
+          <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+            <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Setup</button>
+            <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Sharing</button>
+          </div>
+          <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+        </div>
+
+        <!-- Sharing tab: the drawn Sharing tab, one panel per connection you own here -->
+        <div style="margin-top: 22px; display: flex; flex-direction: column; gap: 16px;">
+          <div><div style="font-family: var(--font-sans); font-size: 16px; font-weight: 600; color: var(--ink);">Connection sharing</div>
+          <p style="margin: 6px 0 0; max-width: 66ch; font-size: 12.5px; color: var(--muted); line-height: 1.5;">Choose who can use each of your saved connections. Shared use always acts through your connected account and is audited.</p></div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 15px 18px; box-shadow: 0 1px 3px rgba(21,33,58,0.06);">
+              <div style="min-width: 0;"><div style="font-family: var(--font-sans); font-weight: 700; font-size: 15px; color: var(--ink);">openai-acme-prod</div><div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-top: 3px;">openai</div></div>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); padding: 0 2px 4px;">Access and Ownership panel, exactly as drawn above</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example — setup schema invalid · Setup tab -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — setup schema invalid · Setup tab</div>
+    <div style="padding: 26px 24px;">
+      <div style="max-width: 768px; margin: 0 auto;">
+
+        <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 28px; letter-spacing: -0.018em; line-height: 1.05; color: var(--ink);">Acme Support</div>
+        <div style="font-size: 13.5px; color: var(--muted); margin-top: 6px;">Connector setup</div>
+
+        <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin-top: 18px;">
+          <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+            <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Setup</button>
+            <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Sharing</button>
+          </div>
+          <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+        </div>
+
+        <!-- Setup tab: the setup surface's error line, its words unchanged -->
+        <p role="alert" style="margin: 22px 0 0; font-size: 14px; line-height: 1.5; color: var(--red);">This connector's setup schema is invalid. Acme Support declares a schema-driven setup surface, but its configuration schema could not be validated. The connector must be fixed and republished before it can be configured.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example — requires a rebuild · Setup tab (a runtime install, or a bundled connector whose setup page is missing) -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — requires a rebuild · Setup tab</div>
+    <div style="padding: 26px 24px;">
+      <div style="max-width: 768px; margin: 0 auto;">
+
+        <div style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 28px; letter-spacing: -0.018em; line-height: 1.05; color: var(--ink);">Acme Support</div>
+        <div style="font-size: 13.5px; color: var(--muted); margin-top: 6px;">Connector setup</div>
+
+        <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: flex-end; margin-top: 18px;">
+          <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+            <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Setup</button>
+            <button role="tab" aria-selected="false" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); font-weight: 400; background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Sharing</button>
+          </div>
+          <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+        </div>
+
+        <!-- Setup tab: the setup surface's error line, its words unchanged -->
+        <p role="alert" style="margin: 22px 0 0; font-size: 14px; line-height: 1.5; color: var(--red);">This connector requires a rebuild. "@acme/support-connector" ships a bundled React setup page, which cannot be hot-installed at runtime. It is available after a base-image rebuild that includes this connector.</p>
+      </div>
+    </div>
+  </div>
+
+  <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">The empty state is the <b style="color:var(--ink);font-weight:600;">Empty state</b> of Components, centred in the Setup tab with its one primary action. A person who may not install connectors reads the same empty state <b style="color:var(--ink);font-weight:600;">without the button</b>, its helper line ending <em>Ask an administrator to install or activate it.</em> A connection saved before the connector was deactivated is still its owner's to hand on, so the Sharing tab of a page that is not installed lists it as drawn above. The error line is the setup surface's own error state and the whole of the Setup tab: no form, no <b style="color:var(--ink);font-weight:600;">Connection status</b> card and no action. The two rebuild states read the same line; only the package it names changes.</p>
+
 <footer>
-    <span>Cinatra · Application Design — Connectors v0.8.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Connectors v0.9.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
