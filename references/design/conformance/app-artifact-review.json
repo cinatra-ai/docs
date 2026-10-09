@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:f7495d6a3bde5b12653f41748ab33ab2d69b22639fae92b4d386fea125b723e4",
+  "contentHash": "sha256:718fc27120451f5a912b1913a179bf45d21789f2a0f89290a620288020a3c3c5",
   "surfaces": [
     {
       "id": "run-surface",
@@ -331,6 +331,24 @@
       "states": [
         "kind:artifact",
         "loading"
+      ]
+    },
+    {
+      "id": "run-wordpress-publish-step-no-site",
+      "fields": [
+        {
+          "field": "title",
+          "source": "representation.first-heading"
+        }
+      ],
+      "actions": [
+        {
+          "action": "continue",
+          "outcome": "answer-sent"
+        }
+      ],
+      "states": [
+        "kind:artifact"
       ]
     },
     {
