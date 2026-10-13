@@ -291,7 +291,7 @@
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.5.3</div>
+      <div>Version 0.6.0</div>
     </div>
   </div>
 
@@ -643,16 +643,25 @@
   </div>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Tooltip /&gt;, &lt;Popover /&gt; · @/components/ui/tooltip</p>
   <div data-conformance-id="tooltip" style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
-    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">ink ground · cream text</div><div style="padding: 1px 0;">200ms delay</div><div style="padding: 1px 0;">12px tooltip · 13–14px popover</div></div>
+    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">ink ground · cream text</div><div style="padding: 1px 0;">200ms delay</div><div style="padding: 1px 0;">12px tooltip · 13–14px popover</div><div style="padding: 1px 0;">a shadow per palette</div></div>
     <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 10px; max-width: 520px;">
-    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example &mdash; light palette, then dark palette</div>
     <div style="padding: 18px 20px;">
       <div style="background: var(--ink); color: var(--paper); padding: 6px 10px; font-size: 12px; border-radius: 6px; box-shadow: 0 4px 8px -2px rgba(21,33,58,0.3); position: relative;">
           Approve &amp; send to all 12 prospects
           <span style="position: absolute; left: -5px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-right: 5px solid var(--ink);"></span>
         </div>
+      <p style="margin: 9px 0 0 2px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: var(--muted);">light palette &middot; shadow <span style="color: var(--ink);">0 4px 8px -2px rgba(21,33,58,0.3)</span> &middot; navy at 30%</p>
+    </div>
+    <div data-palette="dark" style="padding: 18px 20px; background: oklch(0.129 0.042 264.695); border-top: 1px solid var(--line);">
+      <div style="background: oklch(0.984 0.003 247.858); color: oklch(0.129 0.042 264.695); padding: 6px 10px; font-size: 12px; border-radius: 6px; box-shadow: 0 4px 8px rgba(0,0,0,0.5); position: relative;">
+          Approve &amp; send to all 12 prospects
+          <span style="position: absolute; left: -5px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-right: 5px solid oklch(0.984 0.003 247.858);"></span>
+        </div>
+      <p style="margin: 9px 0 0 2px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: oklch(0.704 0.04 256.788);">dark palette &middot; shadow <span style="color: oklch(0.984 0.003 247.858);">0 4px 8px rgba(0,0,0,0.5)</span> &middot; black at 50%</p>
     </div></div>
   </div><p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Tooltips are navy with cream type; popovers are surface-strong with navy text. Tooltips read at 12px; popovers at 13–14px.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;"><strong style="color:var(--ink);">The tooltip&rsquo;s shadow is set per palette.</strong> In the light palette it is a navy shadow, <code>0 4px 8px -2px rgba(21,33,58,0.3)</code> &mdash; a four-pixel drop, an eight-pixel blur pulled in by two pixels, navy at 30%. In the application&rsquo;s dark palette the tooltip keeps its two roles &mdash; the palette&rsquo;s text colour as its ground and the palette&rsquo;s page colour as its type, so it reads near-white on the dark page &mdash; and takes the dark palette&rsquo;s strong elevation shadow, <code>0 4px 8px rgba(0,0,0,0.5)</code>: the same four-pixel drop and eight-pixel blur, in black at 50%. The navy shadow is never carried into the dark palette: the navy is lighter than the dark page, so under a tooltip there it would draw a faint glow, not a shadow. The arrow takes the tooltip&rsquo;s ground in both palettes.</p>
   <div class="sect">
     <h2>Avatar</h2>
     <div class="rule"></div>
@@ -1482,7 +1491,7 @@
   <h3 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: -0.012em; line-height: 1.15; margin: 32px 0 4px; color: var(--ink);">Retiring the in-stepper trigger HITL</h3>
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The previous approach delivered scheduling as a per-agent renderer chain: a hand-inlined <em>configure</em> subflow, a separate read-only <em>confirm</em> gate, and an exact-version trigger dependency pinned into every embedding agent. That chain is retired. The <strong style="color:var(--ink);">confirm gate is removed</strong> — the in-flow step arms the trigger directly on <em>Continue</em> — and no agent declares a trigger renderer or pins a trigger dependency. What stays is exactly the platform machinery it always ran on: the per-run schedule storage, the schedule firing, and the run's <strong style="color:var(--ink);">Schedule</strong> step with its Save changes control and, for a recurring schedule, Cancel schedule. The change is only that the in-flow renderer is now <strong style="color:var(--ink);">host-standard</strong>, available to every agent for free rather than copied into each one.</p>
 <footer>
-    <span>Cinatra · Application Design — Components v0.5.3</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Components v0.6.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
