@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifacts.html",
-  "contentHash": "sha256:c980bfcea8d4f950fbc27cb0a37c3059139c4e8f9d0ab8628c57ebed33c0a589",
+  "contentHash": "sha256:f1d26ced35085568cc8286365a625939d77021d7836e03c46e0871468f415de9",
   "surfaces": [
     {
       "id": "artifacts-facet",
@@ -156,6 +156,31 @@
       "states": [
         "error",
         "loading"
+      ]
+    },
+    {
+      "id": "review-policy",
+      "fields": [],
+      "actions": [
+        {
+          "action": "retract-bound",
+          "outcome": "bound-removed"
+        },
+        {
+          "action": "save-bound",
+          "outcome": "bound-saved"
+        }
+      ],
+      "states": [
+        "empty"
+      ]
+    },
+    {
+      "id": "gate-volume",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "empty"
       ]
     },
     {
