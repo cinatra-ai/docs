@@ -27,7 +27,7 @@ permissions:
 
 jobs:
   truthful-attribution-gate:                 # caller job id MUST stay this exact string
-    uses: cinatra-ai/ci/.github/workflows/truthful-attribution-gate.yml@8eede1022e835997d94974e4bd6205daf72131a2 # v0.1.0
+    uses: cinatra-ai/ci/.github/workflows/truthful-attribution-gate.yml@5758c5973a3c2dc369d3cb7ebeb1e7eccf1b0c9c # v0.1.4-19-g5758c59
     with:
       mode: warn
-      ref: 8eede1022e835997d94974e4bd6205daf72131a2
+      ref: 5758c5973a3c2dc369d3cb7ebeb1e7eccf1b0c9c
