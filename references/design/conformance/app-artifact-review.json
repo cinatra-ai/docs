@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:51c20e6c956af03697a47bd43b668606995a8b2fc9cda505a45a0f0a51cea78c",
+  "contentHash": "sha256:df9e8f7b3fff4046842118f8af028bf3926ef61eaa62b79f77da5ce6e9bed6dd",
   "surfaces": [
     {
       "id": "run-surface",
@@ -350,6 +350,24 @@
       "states": [
         "kind:artifact"
       ]
+    },
+    {
+      "id": "run-window",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "schedule-prompt-window",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "schedule-window-over",
+      "fields": [],
+      "actions": [],
+      "states": []
     },
     {
       "id": "run-chip-row",
