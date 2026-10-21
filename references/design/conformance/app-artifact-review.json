@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:75db3d0a441ba6ce2242deb0fad0d59cf4755dbe545069814ecd7e315c6d8903",
+  "contentHash": "sha256:cc1ba264246997f63ed7711c8bee635d9911ce1b18ab794994efda9cf41d5c0d",
   "surfaces": [
     {
       "id": "run-surface",
@@ -664,14 +664,6 @@
         {
           "action": "remove-recipient",
           "outcome": "recipient-removed"
-        },
-        {
-          "action": "undo-removal",
-          "outcome": "recipient-restored"
-        },
-        {
-          "action": "redo-removal",
-          "outcome": "recipient-removed-again"
         }
       ],
       "states": [
@@ -682,26 +674,6 @@
     {
       "id": "email-gate-test-delivery-field",
       "fields": [
-        {
-          "field": "recipient-email",
-          "source": "value.defaultRecipientEmail"
-        },
-        {
-          "field": "recipient-email",
-          "source": "value.defaultRecipientEmail"
-        },
-        {
-          "field": "recipient-email",
-          "source": "value.defaultRecipientEmail"
-        },
-        {
-          "field": "recipient-email",
-          "source": "value.defaultRecipientEmail"
-        },
-        {
-          "field": "recipient-email",
-          "source": "value.defaultRecipientEmail"
-        },
         {
           "field": "recipient-email",
           "source": "value.defaultRecipientEmail"
@@ -723,29 +695,10 @@
         {
           "action": "continue",
           "outcome": "gate-resolved-continue"
-        },
-        {
-          "action": "choose-scope",
-          "outcome": "selection-mode-set"
-        },
-        {
-          "action": "choose-scope",
-          "outcome": "selection-mode-set"
-        },
-        {
-          "action": "choose-scope",
-          "outcome": "selection-mode-set"
-        },
-        {
-          "action": "choose-scope",
-          "outcome": "selection-mode-set"
-        },
-        {
-          "action": "choose-scope",
-          "outcome": "selection-mode-set"
         }
       ],
       "states": [
+        "empty",
         "error",
         "kind:artifact",
         "loading"
