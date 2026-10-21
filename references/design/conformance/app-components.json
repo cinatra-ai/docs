@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-components.html",
-  "contentHash": "sha256:a81db015284232d27ab309ff06708cb32030aecc0cea468d9cd56d45ccd07ae4",
+  "contentHash": "sha256:5399a9b5d91fe2d10248d955913700b21c3e9cc34d947fa95d0c8e5fd2a08523",
   "surfaces": [
     {
       "id": "button",
@@ -255,6 +255,10 @@
       "id": "scheduling-step-quarterly",
       "fields": [
         {
+          "field": "recurring-interval",
+          "source": "selection.interval"
+        },
+        {
           "field": "recurring-quarter-anchor",
           "source": "selection.quarterAnchor"
         },
@@ -273,6 +277,10 @@
     {
       "id": "scheduling-step-yearly",
       "fields": [
+        {
+          "field": "recurring-interval",
+          "source": "selection.interval"
+        },
         {
           "field": "recurring-yearly-month",
           "source": "selection.yearlyMonth"
