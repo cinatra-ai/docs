@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:324829b8bac0fef4896d46bfd96c28086b4852ea7d82ef3c8d2f9c369f2abf3c",
+  "contentHash": "sha256:10083f1027ed2dbe9ebc02469428976ded21bde9feef4d2c2b66417c5836ca05",
   "surfaces": [
     {
       "id": "run-surface",
@@ -561,6 +561,188 @@
         {
           "action": "edit-email-body",
           "outcome": "revision-saved"
+        }
+      ],
+      "states": [
+        "error",
+        "kind:artifact",
+        "loading"
+      ]
+    },
+    {
+      "id": "email-gate-sender-field",
+      "fields": [
+        {
+          "field": "sender",
+          "source": "context.gmailAliases"
+        }
+      ],
+      "actions": [
+        {
+          "action": "pick-sender",
+          "outcome": "field-value-set"
+        }
+      ],
+      "states": [
+        "empty",
+        "error",
+        "kind:artifact"
+      ]
+    },
+    {
+      "id": "email-gate-follow-up-cadence-field",
+      "fields": [
+        {
+          "field": "cadence",
+          "source": "field.value"
+        }
+      ],
+      "actions": [
+        {
+          "action": "edit-day",
+          "outcome": "cadence-updated"
+        },
+        {
+          "action": "continue",
+          "outcome": "cadence-submitted"
+        }
+      ],
+      "states": [
+        "error",
+        "kind:artifact",
+        "loading"
+      ]
+    },
+    {
+      "id": "email-gate-drafts-review-field",
+      "fields": [
+        {
+          "field": "drafts",
+          "source": "gate.draftBundle.draftedEmails"
+        },
+        {
+          "field": "subject",
+          "source": "draft.subject"
+        },
+        {
+          "field": "body",
+          "source": "draft.body"
+        }
+      ],
+      "actions": [
+        {
+          "action": "edit-draft",
+          "outcome": "resume-payload-updated"
+        },
+        {
+          "action": "reset-draft",
+          "outcome": "draft-restored"
+        }
+      ],
+      "states": [
+        "empty",
+        "kind:artifact"
+      ]
+    },
+    {
+      "id": "email-gate-recipients-review-field",
+      "fields": [
+        {
+          "field": "recipients",
+          "source": "gate.confirmedRecipients"
+        }
+      ],
+      "actions": [
+        {
+          "action": "undo-removal",
+          "outcome": "recipient-restored"
+        },
+        {
+          "action": "redo-removal",
+          "outcome": "recipient-removed-again"
+        },
+        {
+          "action": "remove-recipient",
+          "outcome": "recipient-removed"
+        },
+        {
+          "action": "undo-removal",
+          "outcome": "recipient-restored"
+        },
+        {
+          "action": "redo-removal",
+          "outcome": "recipient-removed-again"
+        }
+      ],
+      "states": [
+        "empty",
+        "kind:artifact"
+      ]
+    },
+    {
+      "id": "email-gate-test-delivery-field",
+      "fields": [
+        {
+          "field": "recipient-email",
+          "source": "value.defaultRecipientEmail"
+        },
+        {
+          "field": "recipient-email",
+          "source": "value.defaultRecipientEmail"
+        },
+        {
+          "field": "recipient-email",
+          "source": "value.defaultRecipientEmail"
+        },
+        {
+          "field": "recipient-email",
+          "source": "value.defaultRecipientEmail"
+        },
+        {
+          "field": "recipient-email",
+          "source": "value.defaultRecipientEmail"
+        },
+        {
+          "field": "recipient-email",
+          "source": "value.defaultRecipientEmail"
+        }
+      ],
+      "actions": [
+        {
+          "action": "choose-scope",
+          "outcome": "selection-mode-set"
+        },
+        {
+          "action": "toggle-all-follow-ups",
+          "outcome": "follow-up-selection-set"
+        },
+        {
+          "action": "send-test",
+          "outcome": "gate-resolved-send"
+        },
+        {
+          "action": "continue",
+          "outcome": "gate-resolved-continue"
+        },
+        {
+          "action": "choose-scope",
+          "outcome": "selection-mode-set"
+        },
+        {
+          "action": "choose-scope",
+          "outcome": "selection-mode-set"
+        },
+        {
+          "action": "choose-scope",
+          "outcome": "selection-mode-set"
+        },
+        {
+          "action": "choose-scope",
+          "outcome": "selection-mode-set"
+        },
+        {
+          "action": "choose-scope",
+          "outcome": "selection-mode-set"
         }
       ],
       "states": [
