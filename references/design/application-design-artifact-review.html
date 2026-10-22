@@ -315,7 +315,7 @@
       <p class="lede">The <b>agent run surface</b> under <code>/agents</code> — the run's <b>steps</b> down a left rail, its <b>detail</b> on the right, and the <b>lifecycle-interception gates</b> that pause it, resolved <b>in place inside the run</b> rather than on any standalone page. Its central gate is the <b>generic artifact-review gate</b>: the type-agnostic surface on which a human <b>continues</b> with, <b>regenerates</b>, <b>comments</b> on, or — through the run's conversational prompt window — <b>requests changes to</b> an artifact the run produced. It is referenced by <b>Application Design — Artifacts</b> (§ Change review). This page specifies the <b>design</b> only — how the run engine implements the gate is specified with the engine, not here. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.25.0</div>
+      <div>Version 0.26.1</div>
     </div>
   </div>
 
@@ -1214,6 +1214,228 @@ https://blog.acme.example/why-migrations-are-the-hardest-part</div>
   </div>
   <p style="margin:9px 0 20px;font-size:11.5px;color:var(--muted);line-height:1.5;max-width:66ch;">The window keeps its place under the form. Nothing typed into it would change the schedule, so its field takes nothing and its one line says why.</p>
 
+  <h3 style="font-family:var(--font-sans);font-style:italic;font-weight:700;font-size:16px;color:var(--ink);margin:22px 0 8px;">I.7 &middot; The scrape-schema review &mdash; the seed pages and the schema the curation proposes</h3>
+  <div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;">Run rail &middot; a gate the agent declares &middot; list curation &middot; three decisions and a note</div>
+  <p class="lede-p"><b>The same declared gate, on what a curation proposes to scrape.</b> Where the list-curator agent has proposed what to scrape, the run pauses on a gate the agent declares (&sect;I.4). The card draws what the gate declares: its own sentence, the agent&rsquo;s <b>plan</b> in its own words, the <b>output schema</b> as JSON text and the <b>seed URLs</b> one per row, each address a link. All of it is <b>read only</b>: the one field the person fills is the <b>note</b>.</p>
+  <p class="lede-p"><b>The agent&rsquo;s three decisions and its note, and the host&rsquo;s one control.</b> The gate declares three decisions, drawn as <b>Reject</b>, <b>Revise</b> and <b>Approve</b> with the outline decline first (&sect;I.4), and an optional <b>Note</b>. <b>Approve</b> stages <code>{"decision": "approve"}</code>, <b>Revise</b> stages <code>{"decision": "revise"}</code> and <b>Reject</b> stages <code>{"decision": "reject"}</code>; a note the person types is sent with the decision as <code>note</code>. Beneath the card the host draws its one control, <b>Continue</b>, which sends the answer the screen holds: a decline is sent as a decline.</p>
+
+  <div class="ex" data-conformance-id="run-scrape-schema-review-step" data-state="empty loading kind:agent" data-field="seed-urls=gate.seedUrls" data-action="continue -> answer-sent">
+    <div class="cap">Example &mdash; the scrape-schema review on the run page (the agent&rsquo;s card, and the host&rsquo;s one Continue beneath it)</div>
+    <div class="body">
+      <div style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;padding-left:9px;border-left:2px solid var(--line-strong);">In the run detail, the gate&rsquo;s entry selected on the rail &mdash; the screen the agent declares, and the host&rsquo;s one Continue beneath it</div>
+      <div class="rundetail">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;margin-bottom:12px;">
+          <div style="padding:11px 14px;border-bottom:1px solid var(--line);"><span style="font-family:var(--font-sans);font-weight:700;font-size:13.5px;color:var(--ink);">Review scrape schema</span></div>
+          <div style="padding:12px 14px;">
+            <p style="margin:0 0 10px;font-size:12.5px;line-height:1.55;color:var(--ink);">Review the seeds and the scrape schema this curation will use, then approve, send them back for revision, or reject the run.</p>
+            <p style="margin:0 0 12px;font-size:12px;line-height:1.5;color:var(--muted);white-space:pre-line;">Read both directories, one row per agency, with its name and its website. Then match each agency to an account.</p>
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Output schema (JSON Schema)</div>
+            <div style="border:1px solid var(--line);border-radius:7px;background:var(--surface);padding:9px 11px;margin-bottom:12px;font-family:var(--font-mono);font-size:11.5px;line-height:1.55;color:var(--ink);white-space:pre;overflow-x:auto;">{
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "website": { "type": "string" }
+  },
+  "required": ["name", "website"]
+}</div>
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Seed URLs</div>
+            <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;">
+              <li style="display:flex;align-items:center;gap:8px;min-width:0;font-size:12px;"><span class="tag">#1</span><a href="https://directory.example/agencies/berlin" style="color:var(--blue);text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">https://directory.example/agencies/berlin</a></li>
+              <li style="display:flex;align-items:center;gap:8px;min-width:0;font-size:12px;"><span class="tag">#2</span><a href="https://guild.example/members?city=berlin" style="color:var(--blue);text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">https://guild.example/members?city=berlin</a></li>
+            </ol>
+            <label style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;">Note <span style="text-transform:none;letter-spacing:0;">(optional &middot; sent with the decision)</span></label>
+            <div style="border:1px solid var(--line);border-radius:7px;background:var(--surface);padding:9px 11px;font-size:12.5px;color:var(--muted);min-height:44px;">Add a note to send with your decision…</div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:0 14px 13px;">
+            <button type="button" class="btn outline" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Reject</button>
+            <button type="button" class="btn outline" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Revise</button>
+            <button type="button" class="btn primary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Approve</button>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--line);">
+          <button type="button" class="btn primary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="lede-p"><b>No seed URL, and the screen loading.</b> Where the agent proposes no seed URL, the list draws the agent&rsquo;s empty line, <i>No seed URLs.</i>, and <b>Approve</b> stays unavailable; <b>Reject</b>, <b>Revise</b> and the note stay as drawn above. While the screen loads, the card is the page&rsquo;s loading skeleton (&sect;VII).</p>
+
+  <div class="ex" data-conformance-id="run-scrape-schema-review-step-empty" data-state="empty kind:agent">
+    <div class="cap">Example &mdash; the scrape-schema review with no seed URL (the agent&rsquo;s empty line, and Approve unavailable)</div>
+    <div class="body">
+      <div style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;padding-left:9px;border-left:2px solid var(--line-strong);">In the run detail, the gate&rsquo;s entry selected on the rail &mdash; the screen the agent declares, and the host&rsquo;s one Continue beneath it</div>
+      <div class="rundetail">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;margin-bottom:12px;">
+          <div style="padding:11px 14px;border-bottom:1px solid var(--line);"><span style="font-family:var(--font-sans);font-weight:700;font-size:13.5px;color:var(--ink);">Review scrape schema</span></div>
+          <div style="padding:12px 14px;">
+            <p style="margin:0 0 10px;font-size:12.5px;line-height:1.55;color:var(--ink);">Review the seeds and the scrape schema this curation will use, then approve, send them back for revision, or reject the run.</p>
+            <p style="margin:0 0 12px;font-size:12px;line-height:1.5;color:var(--muted);white-space:pre-line;">Read both directories, one row per agency, with its name and its website. Then match each agency to an account.</p>
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Output schema (JSON Schema)</div>
+            <div style="border:1px solid var(--line);border-radius:7px;background:var(--surface);padding:9px 11px;margin-bottom:12px;font-family:var(--font-mono);font-size:11.5px;line-height:1.55;color:var(--ink);white-space:pre;overflow-x:auto;">{
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "website": { "type": "string" }
+  },
+  "required": ["name", "website"]
+}</div>
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Seed URLs</div>
+            <p style="margin:0;font-size:12px;line-height:1.5;color:var(--muted);">No seed URLs.</p>
+            <label style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;">Note <span style="text-transform:none;letter-spacing:0;">(optional &middot; sent with the decision)</span></label>
+            <div style="border:1px solid var(--line);border-radius:7px;background:var(--surface);padding:9px 11px;font-size:12.5px;color:var(--muted);min-height:44px;">Add a note to send with your decision…</div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:0 14px 13px;">
+            <button type="button" class="btn outline" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Reject</button>
+            <button type="button" class="btn outline" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Revise</button>
+            <button type="button" class="btn primary" disabled style="padding:6px 14px;font-size:12.5px;opacity:0.5;cursor:default;border-color:var(--line-strong);">Approve</button>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--line);">
+          <button type="button" class="btn primary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-conformance-id="run-scrape-schema-review-step-loading" data-state="loading">
+    <div class="cap">Example &mdash; the scrape-schema review while its screen loads</div>
+    <div class="body">
+      <div class="rundetail">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+          <div style="padding:11px 14px;border-bottom:1px solid var(--line);"><div style="height:8px;width:52%;background:var(--surface-muted);border-radius:3px;"></div></div>
+          <div style="padding:14px;display:grid;gap:7px;"><div style="height:6px;width:90%;background:var(--surface-muted);border-radius:3px;"></div><div style="height:6px;width:80%;background:var(--surface-muted);border-radius:3px;"></div><div style="height:6px;width:68%;background:var(--surface-muted);border-radius:3px;"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-sans);font-style:italic;font-weight:700;font-size:16px;color:var(--ink);margin:22px 0 8px;">I.8 &middot; The final list review &mdash; the list and the members the curation collected</h3>
+  <div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;">Run rail &middot; a gate the agent declares &middot; list curation &middot; three decisions and a note</div>
+  <p class="lede-p"><b>The same declared gate, on the list a curation has collected.</b> When the curation has collected its members, the run pauses on the same declared gate (&sect;I.7). The card draws the gate&rsquo;s own sentence and names the <b>list</b>, then shows the <b>members</b> as a table, the heading carrying their count. Where some rows could not be collected, a second table lists the <b>failures</b>, one row each, in the danger colour. All of it is <b>read only</b>: the one field the person fills is the <b>note</b>.</p>
+  <p class="lede-p"><b>The decisions and the note, as on the scrape-schema review.</b> The gate declares the same three decisions and the same note, drawn as <b>Cancel</b>, <b>Revise</b> and <b>Approve list</b> with the outline decline first. <b>Approve list</b> stages <code>{"decision": "approve"}</code>, <b>Revise</b> stages <code>{"decision": "revise"}</code> and <b>Cancel</b> stages <code>{"decision": "reject"}</code>; a note the person types is sent with the decision as <code>note</code>. Beneath the card the host draws its one <b>Continue</b>: a decline is sent as a decline. The runs the curation started are not repeated in the card: the run page lists them under <b>Runs this run started</b> (&sect;I).</p>
+
+  <div class="ex" data-conformance-id="run-final-list-review-step" data-state="empty loading kind:agent" data-field="members=gate.candidateMembers" data-action="continue -> answer-sent">
+    <div class="cap">Example &mdash; the final list review on the run page (the agent&rsquo;s card, and the host&rsquo;s one Continue beneath it)</div>
+    <div class="body">
+      <div style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;padding-left:9px;border-left:2px solid var(--line-strong);">In the run detail, the gate&rsquo;s entry selected on the rail &mdash; the screen the agent declares, and the host&rsquo;s one Continue beneath it</div>
+      <div class="rundetail">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;margin-bottom:12px;">
+          <div style="padding:11px 14px;border-bottom:1px solid var(--line);"><span style="font-family:var(--font-sans);font-weight:700;font-size:13.5px;color:var(--ink);">Review final list</span></div>
+          <div style="padding:12px 14px;">
+            <p style="margin:0 0 10px;font-size:12.5px;line-height:1.55;color:var(--ink);">Review the list name and the members this curation proposes, then approve, send them back for revision, or reject the run.</p>
+            <p style="margin:0 0 12px;font-size:12px;line-height:1.5;color:var(--muted);"><span style="color:var(--ink);">List name:</span> Berlin design agencies</p>
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Members (3)</div>
+            <div style="overflow-x:auto;margin-bottom:12px;"><table style="width:100%;border-collapse:collapse;text-align:left;font-size:12px;"><thead><tr><th style="padding:4px 12px 4px 0;font-weight:500;color:var(--muted);">Type</th><th style="padding:4px 12px 4px 0;font-weight:500;color:var(--muted);">Name</th><th style="padding:4px 0;font-weight:500;color:var(--muted);">Id</th></tr></thead><tbody>
+              <tr style="border-top:1px solid var(--line);"><td style="padding:7px 12px 7px 0;color:var(--muted);">account</td><td style="padding:7px 12px 7px 0;font-weight:500;color:var(--ink);">Studio Nord</td><td style="padding:7px 0;font-family:var(--font-mono);font-size:11px;color:var(--muted);">acc_7f21</td></tr>
+              <tr style="border-top:1px solid var(--line);"><td style="padding:7px 12px 7px 0;color:var(--muted);">account</td><td style="padding:7px 12px 7px 0;font-weight:500;color:var(--ink);">Formwerk Berlin</td><td style="padding:7px 0;font-family:var(--font-mono);font-size:11px;color:var(--muted);">acc_7f22</td></tr>
+              <tr style="border-top:1px solid var(--line);"><td style="padding:7px 12px 7px 0;color:var(--muted);">account</td><td style="padding:7px 12px 7px 0;font-weight:500;color:var(--ink);">Kanal Eins Design</td><td style="padding:7px 0;font-family:var(--font-mono);font-size:11px;color:var(--muted);">acc_7f23</td></tr>
+            </tbody></table></div>
+            <div style="border:1px solid rgba(166,56,79,0.34);border-radius:7px;padding:9px 11px;">
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);margin-bottom:6px;">Failures (1)</div>
+              <div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;text-align:left;font-size:12px;"><thead><tr><th style="padding:4px 12px 4px 0;font-weight:500;color:var(--muted);">Row</th><th style="padding:4px 12px 4px 0;font-weight:500;color:var(--muted);">Step</th><th style="padding:4px 12px 4px 0;font-weight:500;color:var(--muted);">Error</th><th style="padding:4px 0;font-weight:500;color:var(--muted);">Account</th></tr></thead><tbody>
+                <tr style="border-top:1px solid var(--line);"><td style="padding:7px 12px 7px 0;color:var(--red);">4</td><td style="padding:7px 12px 7px 0;color:var(--red);">match</td><td style="padding:7px 12px 7px 0;color:var(--red);">No account found for this website.</td><td style="padding:7px 0;color:var(--muted);">&mdash;</td></tr>
+              </tbody></table></div>
+            </div>
+            <label style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;">Note <span style="text-transform:none;letter-spacing:0;">(optional &middot; sent with the decision)</span></label>
+            <div style="border:1px solid var(--line);border-radius:7px;background:var(--surface);padding:9px 11px;font-size:12.5px;color:var(--muted);min-height:44px;">Add a note to send with your decision…</div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:0 14px 13px;">
+            <button type="button" class="btn outline" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Cancel</button>
+            <button type="button" class="btn outline" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Revise</button>
+            <button type="button" class="btn primary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Approve list</button>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--line);">
+          <button type="button" class="btn primary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="lede-p"><b>No name, no member, nothing failed, and the screen loading.</b> Where nothing failed, no failures table is drawn. Where the list has no name, its line draws a dash and <b>Approve list</b> stays unavailable. Where no member was collected, the members section draws the agent&rsquo;s empty line, <i>No members.</i> While the screen loads, the card is the page&rsquo;s loading skeleton (&sect;VII).</p>
+
+  <div class="ex" data-conformance-id="run-final-list-review-step-no-name" data-state="kind:agent">
+    <div class="cap">Example &mdash; the final list review with no list name and nothing failed (Approve list unavailable, and no failures table)</div>
+    <div class="body">
+      <div style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;padding-left:9px;border-left:2px solid var(--line-strong);">In the run detail, the gate&rsquo;s entry selected on the rail &mdash; the screen the agent declares, and the host&rsquo;s one Continue beneath it</div>
+      <div class="rundetail">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;margin-bottom:12px;">
+          <div style="padding:11px 14px;border-bottom:1px solid var(--line);"><span style="font-family:var(--font-sans);font-weight:700;font-size:13.5px;color:var(--ink);">Review final list</span></div>
+          <div style="padding:12px 14px;">
+            <p style="margin:0 0 10px;font-size:12.5px;line-height:1.55;color:var(--ink);">Review the list name and the members this curation proposes, then approve, send them back for revision, or reject the run.</p>
+            <p style="margin:0 0 12px;font-size:12px;line-height:1.5;color:var(--muted);"><span style="color:var(--ink);">List name:</span> &mdash;</p>
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Members (3)</div>
+            <div style="overflow-x:auto;margin-bottom:12px;"><table style="width:100%;border-collapse:collapse;text-align:left;font-size:12px;"><thead><tr><th style="padding:4px 12px 4px 0;font-weight:500;color:var(--muted);">Type</th><th style="padding:4px 12px 4px 0;font-weight:500;color:var(--muted);">Name</th><th style="padding:4px 0;font-weight:500;color:var(--muted);">Id</th></tr></thead><tbody>
+              <tr style="border-top:1px solid var(--line);"><td style="padding:7px 12px 7px 0;color:var(--muted);">account</td><td style="padding:7px 12px 7px 0;font-weight:500;color:var(--ink);">Studio Nord</td><td style="padding:7px 0;font-family:var(--font-mono);font-size:11px;color:var(--muted);">acc_7f21</td></tr>
+              <tr style="border-top:1px solid var(--line);"><td style="padding:7px 12px 7px 0;color:var(--muted);">account</td><td style="padding:7px 12px 7px 0;font-weight:500;color:var(--ink);">Formwerk Berlin</td><td style="padding:7px 0;font-family:var(--font-mono);font-size:11px;color:var(--muted);">acc_7f22</td></tr>
+              <tr style="border-top:1px solid var(--line);"><td style="padding:7px 12px 7px 0;color:var(--muted);">account</td><td style="padding:7px 12px 7px 0;font-weight:500;color:var(--ink);">Kanal Eins Design</td><td style="padding:7px 0;font-family:var(--font-mono);font-size:11px;color:var(--muted);">acc_7f23</td></tr>
+            </tbody></table></div>
+            <label style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;">Note <span style="text-transform:none;letter-spacing:0;">(optional &middot; sent with the decision)</span></label>
+            <div style="border:1px solid var(--line);border-radius:7px;background:var(--surface);padding:9px 11px;font-size:12.5px;color:var(--muted);min-height:44px;">Add a note to send with your decision…</div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:0 14px 13px;">
+            <button type="button" class="btn outline" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Cancel</button>
+            <button type="button" class="btn outline" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Revise</button>
+            <button type="button" class="btn primary" disabled style="padding:6px 14px;font-size:12.5px;opacity:0.5;cursor:default;border-color:var(--line-strong);">Approve list</button>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--line);">
+          <button type="button" class="btn primary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-conformance-id="run-final-list-review-step-empty" data-state="empty kind:agent">
+    <div class="cap">Example &mdash; the final list review with no member and nothing failed (the agent&rsquo;s empty line)</div>
+    <div class="body">
+      <div style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;padding-left:9px;border-left:2px solid var(--line-strong);">In the run detail, the gate&rsquo;s entry selected on the rail &mdash; the screen the agent declares, and the host&rsquo;s one Continue beneath it</div>
+      <div class="rundetail">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;margin-bottom:12px;">
+          <div style="padding:11px 14px;border-bottom:1px solid var(--line);"><span style="font-family:var(--font-sans);font-weight:700;font-size:13.5px;color:var(--ink);">Review final list</span></div>
+          <div style="padding:12px 14px;">
+            <p style="margin:0 0 10px;font-size:12.5px;line-height:1.55;color:var(--ink);">Review the list name and the members this curation proposes, then approve, send them back for revision, or reject the run.</p>
+            <p style="margin:0 0 12px;font-size:12px;line-height:1.5;color:var(--muted);"><span style="color:var(--ink);">List name:</span> Berlin design agencies</p>
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Members (0)</div>
+            <p style="margin:0;font-size:12px;line-height:1.5;color:var(--muted);">No members.</p>
+            <label style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;">Note <span style="text-transform:none;letter-spacing:0;">(optional &middot; sent with the decision)</span></label>
+            <div style="border:1px solid var(--line);border-radius:7px;background:var(--surface);padding:9px 11px;font-size:12.5px;color:var(--muted);min-height:44px;">Add a note to send with your decision…</div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:0 14px 13px;">
+            <button type="button" class="btn outline" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Cancel</button>
+            <button type="button" class="btn outline" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Revise</button>
+            <button type="button" class="btn primary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Approve list</button>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--line);">
+          <button type="button" class="btn primary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-conformance-id="run-final-list-review-step-loading" data-state="loading">
+    <div class="cap">Example &mdash; the final list review while its screen loads</div>
+    <div class="body">
+      <div class="rundetail">
+        <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+          <div style="padding:11px 14px;border-bottom:1px solid var(--line);"><div style="height:8px;width:52%;background:var(--surface-muted);border-radius:3px;"></div></div>
+          <div style="padding:14px;display:grid;gap:7px;"><div style="height:6px;width:90%;background:var(--surface-muted);border-radius:3px;"></div><div style="height:6px;width:80%;background:var(--surface-muted);border-radius:3px;"></div><div style="height:6px;width:68%;background:var(--surface-muted);border-radius:3px;"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>Three new section types, proposed &mdash; each needs a host follow-up</span>
+    <p>The declared screen draws <code>note</code>, <code>fact</code>, <code>words</code>, <code>quote</code> and <code>field</code> sections today, and refuses any other type by name. &sect;I.7 and &sect;I.8 draw three more, and the host accepts none of them yet:</p>
+    <p><b><code>list</code></b> &mdash; keys <code>type</code>, <code>label</code>, <code>key</code>, and an optional <code>emptyText</code>. It draws the label, then one row per string in the value at <code>key</code>, numbered from <b>#1</b>; an absolute http(s) address is drawn as a link, any other string as text. A declaration with an unknown key, a blank label or empty line, or a key that is not a value key is refused. A value that is not a list, or a list with no non-blank string, draws the empty line, or nothing where none is declared; an item that is not a string is not drawn.</p>
+    <p><b><code>json</code></b> &mdash; keys <code>type</code>, <code>label</code>, <code>key</code>, and an optional <code>hint</code>. It draws the label and the value at <code>key</code> as JSON text indented by two spaces, in the mono font, read only. It is refused as <code>quote</code> is; a value that is not an object or a list draws an empty block.</p>
+    <p><b><code>table</code></b> &mdash; keys <code>type</code>, <code>label</code>, <code>key</code>, <code>columns</code> (one to four, each <code>{label, key}</code>), and an optional <code>emptyText</code> and <code>tone</code>. It draws the label with the row count, a header of the column labels and one row per object in the value at <code>key</code>; a cell draws the row&rsquo;s string or finite number at its column key, else a dash. No column, more than four, two columns on one key, an unknown key in a column, or a <code>tone</code> other than <code>"danger"</code> is refused. A value that is not a list, or an empty list, draws the empty line, or no section where none is declared; a row that is not an object is not drawn.</p>
+    <p>One rule changes with them: a decision&rsquo;s <code>requires</code> may name a <code>list</code> key, which counts as present when its list holds one non-blank string. Until the host accepts these, the two screens stay on the agent&rsquo;s own components.</p>
+  </div>
+
   <!-- ── II. The Skills step ────────────────────────────────────── -->
   <div class="sect">
     <h2>II. The Skills step — the first entry on the rail</h2>
@@ -1835,7 +2057,7 @@ Are you open to a short call next week?</textarea></div></div><div><button class
   <p class="lede-p"><b>A LinkedIn post draft has no display of its own.</b> It is stored as markdown and is drawn by the display of that content type &mdash; the <b>markdown display</b> (&sect;V.1), with its <b>Code</b> and <b>Preview</b> tabs &mdash; on the artifact&rsquo;s own page and wherever it is read, exactly as any other markdown. On a review target it is that display, <b>pinned and read only</b>, and the floor beneath it is the surface&rsquo;s (&sect;VI); sending the post is the publish step&rsquo;s (&sect;I.4), never the display&rsquo;s.</p>
 
   <footer>
-    <span>Cinatra · Application Design — Agent run &amp; review v0.25.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Agent run &amp; review v0.26.1</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
