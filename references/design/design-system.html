@@ -299,7 +299,7 @@
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.12.0</div>
+      <div>Version 0.13.0</div>
     </div>
   </div>
 
@@ -603,7 +603,7 @@
   <div class="sect">
     <h2>V. Status &amp; controls</h2>
     <div class="rule"></div>
-    <div class="source">10 status pills · 7 button variants</div>
+    <div class="source">12 status pills · 7 button variants</div>
   </div>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
@@ -622,6 +622,8 @@
           <span class="pill hold" style="background:rgba(199,149,69,0.10);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>Needs review</span>
           <span class="pill idle" style="opacity:0.7;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/></svg>Archived</span>
           <span class="pill failed" style="background:rgba(166,56,79,0.85);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>Declined</span>
+          <span class="pill idle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>Withdrawn</span>
+          <span class="pill idle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>Reset</span>
         </div>
       </div>
     </div>
@@ -641,6 +643,51 @@
       </div>
     </div>
   </div>
+
+  <!-- V.1 Marketplace approval states -->
+  <div class="swatch" style="grid-template-rows: auto; margin-top: 14px;">
+    <div class="info" style="padding: 16px 18px;">
+      <div class="role" style="margin-bottom: 8px;">Marketplace approval states</div>
+      <div class="token" style="margin-bottom: 10px;">vendor applications, extension submissions · state → pill</div>
+      <div class="approval-state-row" style="display:grid;grid-template-columns:minmax(150px,200px) minmax(130px,160px) 1fr;gap:14px;align-items:center;padding:9px 0;border-top:1px solid var(--line);">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink);"><code>applied</code> · <code>pending</code></div>
+        <div><span class="pill hold"><span class="dot"></span>Awaiting you</span></div>
+        <div style="font-size:12.5px;color:var(--muted);line-height:1.45;">Waiting on a decision the viewer can make: a vendor application or an extension submission in the moderation queue. The pending pill of the approval card, as drawn on <a href="application-design-notifications.html" style="color: var(--blue); text-decoration: none;">Notifications</a>; one pending state is drawn one way on every screen.</div>
+      </div>
+      <div class="approval-state-row" style="display:grid;grid-template-columns:minmax(150px,200px) minmax(130px,160px) 1fr;gap:14px;align-items:center;padding:9px 0;border-top:1px solid var(--line);">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink);"><code>applied</code> · <code>pending</code></div>
+        <div><span class="pill idle"><span class="dot"></span>Awaiting others</span></div>
+        <div style="font-size:12.5px;color:var(--muted);line-height:1.45;">Waiting on someone else: the viewer's own application or submission, or a moderation row the viewer may not decide. The approval card's second pending pill; the row draws no decide action.</div>
+      </div>
+      <div class="approval-state-row" style="display:grid;grid-template-columns:minmax(150px,200px) minmax(130px,160px) 1fr;gap:14px;align-items:center;padding:9px 0;border-top:1px solid var(--line);">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink);"><code>approved</code> · <code>promoted</code></div>
+        <div><span class="pill approved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M20 6 9 17l-5-5"/></svg>Approved</span></div>
+        <div style="font-size:12.5px;color:var(--muted);line-height:1.45;">The marketplace accepted the request. A promoted submission is an approved one whose publish finished; the decision is the same, so the pill is the same, and the row's meta line names the promotion step.</div>
+      </div>
+      <div class="approval-state-row" style="display:grid;grid-template-columns:minmax(150px,200px) minmax(130px,160px) 1fr;gap:14px;align-items:center;padding:9px 0;border-top:1px solid var(--line);">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink);"><code>rejected</code></div>
+        <div><span class="pill failed" style="background:rgba(166,56,79,0.85);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>Declined</span></div>
+        <div style="font-size:12.5px;color:var(--muted);line-height:1.45;">A moderator refused the request with a reason. Same meaning as Declined, so the roster pill is reused and its label is the roster label, not the raw state word.</div>
+      </div>
+      <div class="approval-state-row" style="display:grid;grid-template-columns:minmax(150px,200px) minmax(130px,160px) 1fr;gap:14px;align-items:center;padding:9px 0;border-top:1px solid var(--line);">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink);"><code>withdrawn</code> · <code>cancelled</code></div>
+        <div><span class="pill idle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>Withdrawn</span></div>
+        <div style="font-size:12.5px;color:var(--muted);line-height:1.45;">The requester took the request back before a decision: a vendor withdraws a submission, an applicant cancels an application. No pill on the roster means this: Declined is someone else's refusal, Archived a kept record. A new idle pill with an undo arrow; no one has to act.</div>
+      </div>
+      <div class="approval-state-row" style="display:grid;grid-template-columns:minmax(150px,200px) minmax(130px,160px) 1fr;gap:14px;align-items:center;padding:9px 0;border-top:1px solid var(--line);">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink);"><code>reset</code></div>
+        <div><span class="pill idle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>Reset</span></div>
+        <div style="font-size:12.5px;color:var(--muted);line-height:1.45;">A marketplace administrator cleared an approved application, with a reason, and took back its publishing right; the applicant may apply again. Not a refusal of the request and not the applicant's own act, so neither Declined nor Withdrawn fits. A new idle pill with a back-to-start arrow; the meta line carries the reason.</div>
+      </div>
+      <div class="approval-state-row" style="display:grid;grid-template-columns:minmax(150px,200px) minmax(130px,160px) 1fr;gap:14px;align-items:center;padding:9px 0;border-top:1px solid var(--line);">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink);"><code>superseded</code></div>
+        <div><span class="pill idle" style="opacity:0.7;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/></svg>Archived</span></div>
+        <div style="font-size:12.5px;color:var(--muted);line-height:1.45;">A newer submission of the same extension replaced this one. It is retired and kept for the record, which is what Archived means, so the roster pill is reused.</div>
+      </div>
+      <div class="use" style="border-top:1px solid var(--line);padding-top:10px;">Every state of a marketplace approval row takes one of the pills above; none rides on a Badge, and the pill's own label is shown, never the raw state word. The extension lifecycle chips (<em>Active</em>, <em>Locked</em>, <em>Archived</em>) are not approval states: they stay drawn on <a href="application-design-extensions.html" style="color: var(--blue); text-decoration: none;">Extensions</a>, which owns that surface.</div>
+    </div>
+  </div>
+  <!-- /V.1 -->
 
   <!-- ── Usage rules ─────────────────────────────────────────── -->
   <div class="sect">
@@ -1171,7 +1218,7 @@
   </div>
 
 <footer>
-    <span>Cinatra · Application Design v0.12.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design v0.13.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
