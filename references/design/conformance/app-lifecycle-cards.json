@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-lifecycle-cards.html",
-  "contentHash": "sha256:dc3e930b6aeb8f45f92f9fe57b70959c74f3fcb92c6f803a9e4669fe2581f278",
+  "contentHash": "sha256:ef650680cbb60dee12cbc172594bcce0ae51a7b0a43b8906902a062cf6c6d81c",
   "surfaces": [
     {
       "id": "chat-thread",
@@ -501,6 +501,184 @@
           "outcome": "stopped"
         }
       ],
+      "states": []
+    },
+    {
+      "id": "schedule-card-recurrence-first-shown",
+      "fields": [
+        {
+          "field": "recurring-quarter-anchor",
+          "source": "selection.quarterAnchor"
+        },
+        {
+          "field": "recurring-monthly-mode",
+          "source": "selection.monthlyMode"
+        },
+        {
+          "field": "recurring-day-of-month",
+          "source": "selection.dayOfMonth"
+        },
+        {
+          "field": "recurring-yearly-month",
+          "source": "selection.yearlyMonth"
+        },
+        {
+          "field": "recurring-nth-week",
+          "source": "selection.nthWeek"
+        },
+        {
+          "field": "recurring-monthly-weekday",
+          "source": "selection.monthlyWeekday"
+        }
+      ],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "schedule-card-recurrence-configured",
+      "fields": [
+        {
+          "field": "recurring-quarter-anchor",
+          "source": "selection.quarterAnchor"
+        },
+        {
+          "field": "recurring-monthly-mode",
+          "source": "selection.monthlyMode"
+        },
+        {
+          "field": "recurring-nth-week",
+          "source": "selection.nthWeek"
+        },
+        {
+          "field": "recurring-monthly-weekday",
+          "source": "selection.monthlyWeekday"
+        },
+        {
+          "field": "recurring-day-of-month",
+          "source": "selection.dayOfMonth"
+        }
+      ],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "schedule-card-recurrence-expired",
+      "fields": [
+        {
+          "field": "recurring-monthly-mode",
+          "source": "selection.monthlyMode"
+        },
+        {
+          "field": "recurring-nth-week",
+          "source": "selection.nthWeek"
+        },
+        {
+          "field": "recurring-monthly-weekday",
+          "source": "selection.monthlyWeekday"
+        },
+        {
+          "field": "recurring-yearly-month",
+          "source": "selection.yearlyMonth"
+        },
+        {
+          "field": "recurring-day-of-month",
+          "source": "selection.dayOfMonth"
+        }
+      ],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "schedule-card-recurrence-fired-recurring",
+      "fields": [
+        {
+          "field": "recurring-quarter-anchor",
+          "source": "selection.quarterAnchor"
+        },
+        {
+          "field": "recurring-monthly-mode",
+          "source": "selection.monthlyMode"
+        },
+        {
+          "field": "recurring-day-of-month",
+          "source": "selection.dayOfMonth"
+        },
+        {
+          "field": "recurring-yearly-month",
+          "source": "selection.yearlyMonth"
+        },
+        {
+          "field": "recurring-nth-week",
+          "source": "selection.nthWeek"
+        },
+        {
+          "field": "recurring-monthly-weekday",
+          "source": "selection.monthlyWeekday"
+        }
+      ],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "schedule-card-recurrence-restricted",
+      "fields": [
+        {
+          "field": "recurring-quarter-anchor",
+          "source": "selection.quarterAnchor"
+        },
+        {
+          "field": "recurring-monthly-mode",
+          "source": "selection.monthlyMode"
+        },
+        {
+          "field": "recurring-day-of-month",
+          "source": "selection.dayOfMonth"
+        },
+        {
+          "field": "recurring-yearly-month",
+          "source": "selection.yearlyMonth"
+        },
+        {
+          "field": "recurring-nth-week",
+          "source": "selection.nthWeek"
+        },
+        {
+          "field": "recurring-monthly-weekday",
+          "source": "selection.monthlyWeekday"
+        }
+      ],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "schedule-card-recurrence-stopped",
+      "fields": [
+        {
+          "field": "recurring-quarter-anchor",
+          "source": "selection.quarterAnchor"
+        },
+        {
+          "field": "recurring-monthly-mode",
+          "source": "selection.monthlyMode"
+        },
+        {
+          "field": "recurring-day-of-month",
+          "source": "selection.dayOfMonth"
+        },
+        {
+          "field": "recurring-yearly-month",
+          "source": "selection.yearlyMonth"
+        },
+        {
+          "field": "recurring-nth-week",
+          "source": "selection.nthWeek"
+        },
+        {
+          "field": "recurring-monthly-weekday",
+          "source": "selection.monthlyWeekday"
+        }
+      ],
+      "actions": [],
       "states": []
     },
     {
