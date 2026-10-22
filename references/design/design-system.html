@@ -684,6 +684,11 @@
         <div><span class="pill idle" style="opacity:0.7;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/></svg>Archived</span></div>
         <div style="font-size:12.5px;color:var(--muted);line-height:1.45;">A newer submission of the same extension replaced this one. It is retired and kept for the record, which is what Archived means, so the roster pill is reused.</div>
       </div>
+      <div class="approval-state-row" style="display:grid;grid-template-columns:minmax(150px,200px) minmax(130px,160px) 1fr;gap:14px;align-items:center;padding:9px 0;border-top:1px solid var(--line);">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink);"><code>stuck</code> · repair stuck</div>
+        <div><span class="pill failed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" style="width:10px;height:10px;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>Failed</span></div>
+        <div style="font-size:12.5px;color:var(--muted);line-height:1.45;">A vendor application whose recovery has used up its attempts and will not retry; an administrator must step in. It is not a state of its own but a flag on an applied or approved row, so the pill is drawn beside the row's state pill. Repair stuck is drawn as the existing Failed pill, and the row's meta line carries the attempt count.</div>
+      </div>
       <div class="use" style="border-top:1px solid var(--line);padding-top:10px;">Every state of a marketplace approval row takes one of the pills above; none rides on a Badge, and the pill's own label is shown, never the raw state word. The extension lifecycle chips (<em>Active</em>, <em>Locked</em>, <em>Archived</em>) are not approval states: they stay drawn on <a href="application-design-extensions.html" style="color: var(--blue); text-decoration: none;">Extensions</a>, which owns that surface.</div>
     </div>
   </div>
