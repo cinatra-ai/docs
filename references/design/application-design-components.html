@@ -284,7 +284,7 @@
   <!-- Masthead -->
   <div class="mast">
     <div>
-      <div class="kicker" style="margin-bottom: 8px;"><a href="app.html" style="color: var(--blue); text-decoration: none;">&larr; Cinatra — Application Design</a></div>
+      <div class="kicker" style="margin-bottom: 8px;"><a href="design-system.html" style="color: var(--blue); text-decoration: none;">&larr; Cinatra — Application Design</a></div>
       <h1>Cinatra — Application Design — Components</h1>
       <p class="lede">
         The shared component vocabulary: the shadcn/ui roster Cinatra ships, the design rules each primitive inherits, and the host-provided composite steps. Part of Cinatra Application Design — the tokens, surfaces and accents these components map to live in that reference. Everything here is normative; match it exactly.
@@ -298,7 +298,7 @@
   <hr class="etched-rule" />
 
   <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 30px; max-width: 64ch; line-height: 1.55;">
-    Cinatra ships shadcn/ui primitives with the design tokens of the <a href="app.html" style="color: var(--blue); text-decoration: none;">Application Design</a> reference mapped to their semantic variables. Use the components from <code>@/components/ui</code> directly — do not re-skin them inline. Each component below is a brief on its role and the design rules it inherits; the roster closes with the host-provided <strong style="color:var(--ink);">Standard scheduling step</strong> composite.
+    Cinatra ships shadcn/ui primitives with the design tokens of the <a href="design-system.html" style="color: var(--blue); text-decoration: none;">Application Design</a> reference mapped to their semantic variables. Use the components from <code>@/components/ui</code> directly — do not re-skin them inline. Each component below is a brief on its role and the design rules it inherits; the roster closes with the host-provided <strong style="color:var(--ink);">Standard scheduling step</strong> composite.
   </p>
 
   <div class="sect">
@@ -345,7 +345,7 @@
     </div>
   </div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The section header is the in-page counterpart of the page header: an optional mono uppercase kicker, a title, an optional one-line description, and an optional right-aligned actions slot that holds status pills, buttons or a close control. Its title takes the headline treatment every section title already inherits — Archivo italic 800 on the tight title tracking, balanced wrap, in ink (<a href="app.html" style="color: var(--blue); text-decoration: none;">Application Design</a>, VIII.4 and VIII.7) — in three sizes: sm 20px, md 24px (the default) and lg 30px. It is the page title that opens the page; a section header only subdivides what the page already opened, so a page carries exactly one page header and as many section headers as it has sections.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The section header is the in-page counterpart of the page header: an optional mono uppercase kicker, a title, an optional one-line description, and an optional right-aligned actions slot that holds status pills, buttons or a close control. Its title takes the headline treatment every section title already inherits — Archivo italic 800 on the tight title tracking, balanced wrap, in ink (<a href="design-system.html" style="color: var(--blue); text-decoration: none;">Application Design</a>, VIII.4 and VIII.7) — in three sizes: sm 20px, md 24px (the default) and lg 30px. It is the page title that opens the page; a section header only subdivides what the page already opened, so a page carries exactly one page header and as many section headers as it has sections.</p>
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">The kicker is the canonical uppercase mono label above a section title, a table head or a card topline. (The sidebar group label is its own primitive, drawn below with its own brief, and is not a kicker.) It carries two sizes, xs 10px (the default) and sm 12px, and three tracking lanes, each a named type token rather than a per-call-site value: 0.18em for the standard section and sidebar label, 0.2em for roomier labels (settings groups, empty-state tags), and 0.3em for the page-context label above a page title.</p>
   <div class="sect">
     <h2>Button</h2>
@@ -450,7 +450,7 @@
   </div>
   </div>
   <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Status pills (see V) use bg tinted from the status colour, text in the same colour, border at higher alpha. Use icon-led pills; never just dots.</p>
-  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Badge and the status pill are two different jobs on one geometry, and the split is normative. <strong style="color:var(--ink);">Badge is the plain label chip</strong> — a raw label carrying no status meaning (a count, a version, a category, a "New"), drawn in the label variants above: the filled default, the hairline outline, the muted secondary, and the red-on-tint destructive. <strong style="color:var(--ink);">The status roster never rides on a Badge.</strong> Anything that stands for a run, approval or lifecycle state takes the status pill and its fixed roster (V), so one state is never drawn two ways on two screens. Where a surface is specified to carry a connection or lifecycle chip of its own, it is drawn in the spec that owns that surface — see for example <a href="app-connectors.html" style="color: var(--blue); text-decoration: none;">Application Design — Connectors</a>.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Badge and the status pill are two different jobs on one geometry, and the split is normative. <strong style="color:var(--ink);">Badge is the plain label chip</strong> — a raw label carrying no status meaning (a count, a version, a category, a "New"), drawn in the label variants above: the filled default, the hairline outline, the muted secondary, and the red-on-tint destructive. <strong style="color:var(--ink);">The status roster never rides on a Badge.</strong> Anything that stands for a run, approval or lifecycle state takes the status pill and its fixed roster (V), so one state is never drawn two ways on two screens. Where a surface is specified to carry a connection or lifecycle chip of its own, it is drawn in the spec that owns that surface — see for example <a href="application-design-connectors.html" style="color: var(--blue); text-decoration: none;">Application Design — Connectors</a>.</p>
   <div class="sect">
     <h2>Tabs</h2>
     <div class="rule"></div>
