@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:2b0953b480ec99cabcc3611b9bcc7df8c2d166aa3af82dfe038eec09bfcdb3f9",
+  "contentHash": "sha256:dbf03c26a0390e6502c17f2135b2e7cb14901d9fb585e35b4af97f75ad7b859c",
   "surfaces": [
     {
       "id": "run-surface",
@@ -368,88 +368,6 @@
       "fields": [],
       "actions": [],
       "states": []
-    },
-    {
-      "id": "run-scrape-schema-review-step",
-      "fields": [
-        {
-          "field": "seed-urls",
-          "source": "gate.seedUrls"
-        }
-      ],
-      "actions": [
-        {
-          "action": "continue",
-          "outcome": "answer-sent"
-        }
-      ],
-      "states": [
-        "empty",
-        "kind:agent",
-        "loading"
-      ]
-    },
-    {
-      "id": "run-scrape-schema-review-step-empty",
-      "fields": [],
-      "actions": [],
-      "states": [
-        "empty",
-        "kind:agent"
-      ]
-    },
-    {
-      "id": "run-scrape-schema-review-step-loading",
-      "fields": [],
-      "actions": [],
-      "states": [
-        "loading"
-      ]
-    },
-    {
-      "id": "run-final-list-review-step",
-      "fields": [
-        {
-          "field": "members",
-          "source": "gate.candidateMembers"
-        }
-      ],
-      "actions": [
-        {
-          "action": "continue",
-          "outcome": "answer-sent"
-        }
-      ],
-      "states": [
-        "empty",
-        "kind:agent",
-        "loading"
-      ]
-    },
-    {
-      "id": "run-final-list-review-step-no-name",
-      "fields": [],
-      "actions": [],
-      "states": [
-        "kind:agent"
-      ]
-    },
-    {
-      "id": "run-final-list-review-step-empty",
-      "fields": [],
-      "actions": [],
-      "states": [
-        "empty",
-        "kind:agent"
-      ]
-    },
-    {
-      "id": "run-final-list-review-step-loading",
-      "fields": [],
-      "actions": [],
-      "states": [
-        "loading"
-      ]
     },
     {
       "id": "run-chip-row",
