@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:2b0953b480ec99cabcc3611b9bcc7df8c2d166aa3af82dfe038eec09bfcdb3f9",
+  "contentHash": "sha256:ea5c879b3a5bdf7a4efe3de0d952a4d8821ab0289e44a2756bc4d87301e718d8",
   "surfaces": [
     {
       "id": "run-surface",
@@ -368,88 +368,6 @@
       "fields": [],
       "actions": [],
       "states": []
-    },
-    {
-      "id": "run-scrape-schema-review-step",
-      "fields": [
-        {
-          "field": "seed-urls",
-          "source": "gate.seedUrls"
-        }
-      ],
-      "actions": [
-        {
-          "action": "continue",
-          "outcome": "answer-sent"
-        }
-      ],
-      "states": [
-        "empty",
-        "kind:agent",
-        "loading"
-      ]
-    },
-    {
-      "id": "run-scrape-schema-review-step-empty",
-      "fields": [],
-      "actions": [],
-      "states": [
-        "empty",
-        "kind:agent"
-      ]
-    },
-    {
-      "id": "run-scrape-schema-review-step-loading",
-      "fields": [],
-      "actions": [],
-      "states": [
-        "loading"
-      ]
-    },
-    {
-      "id": "run-final-list-review-step",
-      "fields": [
-        {
-          "field": "members",
-          "source": "gate.candidateMembers"
-        }
-      ],
-      "actions": [
-        {
-          "action": "continue",
-          "outcome": "answer-sent"
-        }
-      ],
-      "states": [
-        "empty",
-        "kind:agent",
-        "loading"
-      ]
-    },
-    {
-      "id": "run-final-list-review-step-no-name",
-      "fields": [],
-      "actions": [],
-      "states": [
-        "kind:agent"
-      ]
-    },
-    {
-      "id": "run-final-list-review-step-empty",
-      "fields": [],
-      "actions": [],
-      "states": [
-        "empty",
-        "kind:agent"
-      ]
-    },
-    {
-      "id": "run-final-list-review-step-loading",
-      "fields": [],
-      "actions": [],
-      "states": [
-        "loading"
-      ]
     },
     {
       "id": "run-chip-row",
@@ -832,6 +750,10 @@
         {
           "field": "layout",
           "source": "representation.pinned-configuration"
+        },
+        {
+          "field": "open-live",
+          "source": "artifact.sourceUrl"
         },
         {
           "field": "open-live",
