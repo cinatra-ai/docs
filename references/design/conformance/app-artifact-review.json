@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:f7495d6a3bde5b12653f41748ab33ab2d69b22639fae92b4d386fea125b723e4",
+  "contentHash": "sha256:2b0953b480ec99cabcc3611b9bcc7df8c2d166aa3af82dfe038eec09bfcdb3f9",
   "surfaces": [
     {
       "id": "run-surface",
@@ -334,6 +334,124 @@
       ]
     },
     {
+      "id": "run-wordpress-publish-step-no-site",
+      "fields": [
+        {
+          "field": "title",
+          "source": "representation.first-heading"
+        }
+      ],
+      "actions": [
+        {
+          "action": "continue",
+          "outcome": "answer-sent"
+        }
+      ],
+      "states": [
+        "kind:artifact"
+      ]
+    },
+    {
+      "id": "run-window",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "schedule-prompt-window",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "schedule-window-over",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "run-scrape-schema-review-step",
+      "fields": [
+        {
+          "field": "seed-urls",
+          "source": "gate.seedUrls"
+        }
+      ],
+      "actions": [
+        {
+          "action": "continue",
+          "outcome": "answer-sent"
+        }
+      ],
+      "states": [
+        "empty",
+        "kind:agent",
+        "loading"
+      ]
+    },
+    {
+      "id": "run-scrape-schema-review-step-empty",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "empty",
+        "kind:agent"
+      ]
+    },
+    {
+      "id": "run-scrape-schema-review-step-loading",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "loading"
+      ]
+    },
+    {
+      "id": "run-final-list-review-step",
+      "fields": [
+        {
+          "field": "members",
+          "source": "gate.candidateMembers"
+        }
+      ],
+      "actions": [
+        {
+          "action": "continue",
+          "outcome": "answer-sent"
+        }
+      ],
+      "states": [
+        "empty",
+        "kind:agent",
+        "loading"
+      ]
+    },
+    {
+      "id": "run-final-list-review-step-no-name",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "kind:agent"
+      ]
+    },
+    {
+      "id": "run-final-list-review-step-empty",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "empty",
+        "kind:agent"
+      ]
+    },
+    {
+      "id": "run-final-list-review-step-loading",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "loading"
+      ]
+    },
+    {
       "id": "run-chip-row",
       "fields": [],
       "actions": [
@@ -528,6 +646,141 @@
         }
       ],
       "states": [
+        "error",
+        "kind:artifact",
+        "loading"
+      ]
+    },
+    {
+      "id": "email-gate-sender-field",
+      "fields": [
+        {
+          "field": "sender",
+          "source": "context.gmailAliases"
+        }
+      ],
+      "actions": [
+        {
+          "action": "pick-sender",
+          "outcome": "field-value-set"
+        }
+      ],
+      "states": [
+        "empty",
+        "error",
+        "kind:artifact"
+      ]
+    },
+    {
+      "id": "email-gate-follow-up-cadence-field",
+      "fields": [
+        {
+          "field": "cadence",
+          "source": "field.value"
+        }
+      ],
+      "actions": [
+        {
+          "action": "edit-day",
+          "outcome": "cadence-updated"
+        },
+        {
+          "action": "continue",
+          "outcome": "cadence-submitted"
+        }
+      ],
+      "states": [
+        "error",
+        "kind:artifact",
+        "loading"
+      ]
+    },
+    {
+      "id": "email-gate-drafts-review-field",
+      "fields": [
+        {
+          "field": "drafts",
+          "source": "gate.draftBundle.draftedEmails"
+        },
+        {
+          "field": "subject",
+          "source": "draft.subject"
+        },
+        {
+          "field": "body",
+          "source": "draft.body"
+        }
+      ],
+      "actions": [
+        {
+          "action": "edit-draft",
+          "outcome": "resume-payload-updated"
+        },
+        {
+          "action": "reset-draft",
+          "outcome": "draft-restored"
+        }
+      ],
+      "states": [
+        "empty",
+        "kind:artifact"
+      ]
+    },
+    {
+      "id": "email-gate-recipients-review-field",
+      "fields": [
+        {
+          "field": "recipients",
+          "source": "gate.confirmedRecipients"
+        }
+      ],
+      "actions": [
+        {
+          "action": "undo-removal",
+          "outcome": "recipient-restored"
+        },
+        {
+          "action": "redo-removal",
+          "outcome": "recipient-removed-again"
+        },
+        {
+          "action": "remove-recipient",
+          "outcome": "recipient-removed"
+        }
+      ],
+      "states": [
+        "empty",
+        "kind:artifact"
+      ]
+    },
+    {
+      "id": "email-gate-test-delivery-field",
+      "fields": [
+        {
+          "field": "recipient-email",
+          "source": "value.defaultRecipientEmail"
+        }
+      ],
+      "actions": [
+        {
+          "action": "choose-scope",
+          "outcome": "selection-mode-set"
+        },
+        {
+          "action": "toggle-all-follow-ups",
+          "outcome": "follow-up-selection-set"
+        },
+        {
+          "action": "send-test",
+          "outcome": "gate-resolved-send"
+        },
+        {
+          "action": "continue",
+          "outcome": "gate-resolved-continue"
+        }
+      ],
+      "states": [
+        "empty",
         "error",
         "kind:artifact",
         "loading"

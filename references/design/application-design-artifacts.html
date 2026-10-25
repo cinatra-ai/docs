@@ -283,10 +283,10 @@
     <div>
       <div class="kicker" style="margin-bottom: 8px;"><a href="design-system.html" style="color: var(--blue); text-decoration: none;">&larr; Cinatra — Application Design</a></div>
       <h1>Cinatra — Application Design — Artifacts</h1>
-      <p class="lede"><code>/artifacts</code> is the <b>library</b> — everything the acting user's agents and uploads have produced, each row opened by its <b>type's renderer</b>. The library also <b>ingests</b>: an <b>upload</b> affordance types a file by its MIME base, a <b>type picker</b> lets the user assert its meaning among installed types, and an <b>inline marketplace</b> adds a type when none fits (admins install; others request). <b>Dashboards are artifacts</b> too — they list as rows and open the dashboard itself at its canonical surface (never rendered inline); a <b>team, project or organization</b> lists the dashboards in its scope on its <b>Dashboards tab</b>, where a scope manager can <b>add an existing dashboard as a secondary listing</b> (§IX). <code>/configuration/artifacts</code> is the <b>Artifacts</b> console — a <b>tablist</b> page whose <b>Type definitions</b> tab lists every type every artifact extension defines, whose <b>Stored objects</b> tab inventories every stored object across every artifact extension, and whose <b>Restore objects</b> tab browses and undoes object change sets. <b>Artifact change review</b> lives on the shared artifact-review surface. Part of Cinatra Application Design; match it exactly.</p>
+      <p class="lede"><code>/artifacts</code> is the <b>library</b> — everything the acting user's agents and uploads have produced, each row opened by its <b>type's renderer</b>. The library also <b>ingests</b>: an <b>upload</b> affordance types a file by its MIME base, a <b>type picker</b> lets the user assert its meaning among installed types, and an <b>inline marketplace</b> adds a type when none fits (admins install; others request). <b>Dashboards are artifacts</b> too — they list as rows and open the dashboard itself at its canonical surface (never rendered inline); a <b>team, project or organization</b> lists the dashboards in its scope on its <b>Dashboards tab</b>, where a scope manager can <b>add an existing dashboard as a secondary listing</b> (§IX). <code>/configuration/artifacts</code> is the <b>Artifacts</b> console — a <b>tablist</b> page whose <b>Type definitions</b> tab lists every type every artifact extension defines, whose <b>Stored objects</b> tab inventories every stored object across every artifact extension, whose <b>Restore objects</b> tab browses and undoes object change sets, and whose <b>Review policy</b> tab sets the organization&rsquo;s review bounds beside the open review volume they produce. <b>Artifact change review</b> lives on the shared artifact-review surface. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.11.0</div>
+      <div>Version 0.12.0</div>
     </div>
   </div>
 
@@ -299,7 +299,7 @@
     <div class="source">/artifacts library · /configuration/artifacts console</div>
   </div>
   <p class="lede-p"><b><code>/artifacts</code> is the library, and nothing else.</b> It lists exactly the acting user's artifacts, for <b>every</b> user — there is <b>no mode toggle</b>, because the library is the lone view. The page opens with the standard <b>page header</b> (title <em>Artifacts</em>, a one-line description), then the library <b>toolbar</b> directly beneath it, which <b>replaces the closing rule</b> — never stack a toolbar and the etched paired rule (Application Design — Components · Page header, Toolbar). The toolbar sits over the list. The sidebar entry points here.</p>
-  <p class="lede-p"><b><code>/configuration/artifacts</code> is the Artifacts console.</b> It opens with the standard page header (title <em>Artifacts</em>) closed by a canonical underline <b>tablist</b> — <b>Type definitions</b> first, <b>Stored objects</b> second, <b>Restore objects</b> third (Application Design — Components · Tabs). The <b>Type definitions</b> tab lists every type every artifact extension defines; the <b>Stored objects</b> tab is a workspace-wide inventory of every stored object across every artifact extension; the <b>Restore objects</b> tab browses past <b>object change sets</b> (time-keyed, across every extension) and undoes them (§IV). <b>Artifact change review</b> lives on the shared <b>artifact-review surface</b> (§V).</p>
+  <p class="lede-p"><b><code>/configuration/artifacts</code> is the Artifacts console.</b> It opens with the standard page header (title <em>Artifacts</em>) closed by a canonical underline <b>tablist</b> — <b>Type definitions</b> first, <b>Stored objects</b> second, <b>Restore objects</b> third, <b>Review policy</b> fourth (Application Design — Components · Tabs). The <b>Type definitions</b> tab lists every type every artifact extension defines; the <b>Stored objects</b> tab is a workspace-wide inventory of every stored object across every artifact extension; the <b>Restore objects</b> tab browses past <b>object change sets</b> (time-keyed, across every extension) and undoes them; the <b>Review policy</b> tab sets the organization&rsquo;s review bounds and counts the open review gates they produce (§IV). <b>Artifact change review</b> lives on the shared <b>artifact-review surface</b> (§V).</p>
   <p class="lede-p"><b>A targeted restore has its own route.</b> Reversing a single change set the acting user is authorized for is authorized <b>per object</b>, so it also has a dedicated route, <code>/configuration/artifacts/restore/[changeSetId]</code>, nested under the Artifacts console and reachable by any authorized user (§IV).</p>
 
   <div class="ex">
@@ -322,7 +322,7 @@
   </div>
 
   <div class="ex" data-conformance-id="artifacts-console-header" data-state="loading error">
-    <div class="cap">Example — /configuration/artifacts, the Artifacts console (tablist: Type definitions · Stored objects · Restore objects)</div>
+    <div class="cap">Example — /configuration/artifacts, the Artifacts console (tablist: Type definitions · Stored objects · Restore objects · Review policy)</div>
     <div class="body">
       <h1 style="font-family: var(--font-sans); font-style: italic; font-weight: 800; font-size: var(--page-title-lg); letter-spacing: var(--title-tracking-tight); line-height: var(--page-title-line-height); margin: 0; color: var(--ink);">Artifacts</h1>
       <p style="margin: 4px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted);">Every type your artifact extensions define, every stored object across them, and the change sets you can undo.</p>
@@ -332,6 +332,7 @@
           <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Type definitions</button>
           <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Stored objects</button>
           <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Restore objects</button>
+          <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Review policy</button>
         </div>
         <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
       </div>
@@ -772,13 +773,13 @@
     </div>
   </div>
 
-  <!-- ── IV. The Artifacts console — type definitions, stored objects, restore ───────────── -->
+  <!-- ── IV. The Artifacts console — type definitions, stored objects, restore, review policy ── -->
   <div class="sect">
-    <h2>IV. The Artifacts console — type definitions, stored objects, restore</h2>
+    <h2>IV. The Artifacts console — type definitions, stored objects, restore, review policy</h2>
     <div class="rule"></div>
-    <div class="source">/configuration/artifacts · Type definitions · Stored objects · Restore objects · /configuration/artifacts/restore/[changeSetId]</div>
+    <div class="source">/configuration/artifacts · Type definitions · Stored objects · Restore objects · Review policy · /configuration/artifacts/restore/[changeSetId]</div>
   </div>
-  <p class="lede-p"><b>One page, three tabs.</b> <code>/configuration/artifacts</code> is the <b>Artifacts</b> console. Its page header carries a canonical underline <b>tablist</b> — <b>Type definitions</b> first, <b>Stored objects</b> second, <b>Restore objects</b> third (see Application Design — Components · Tabs; underline only, no pill tabs). The tablist selects between a <b>global type registry</b>, a <b>global stored-object inventory</b>, and the <b>change-set restore</b> console; the etched paired-line rule begins to the right of the last tab and runs to the page edge, and the tabs never stack a second rule.</p>
+  <p class="lede-p"><b>One page, four tabs.</b> <code>/configuration/artifacts</code> is the <b>Artifacts</b> console. Its page header carries a canonical underline <b>tablist</b> — <b>Type definitions</b> first, <b>Stored objects</b> second, <b>Restore objects</b> third, <b>Review policy</b> fourth (see Application Design — Components · Tabs; underline only, no pill tabs). The tablist selects between a <b>global type registry</b>, a <b>global stored-object inventory</b>, the <b>change-set restore</b> console, and the organization&rsquo;s <b>review policy</b>; the etched paired-line rule begins to the right of the last tab and runs to the page edge, and the tabs never stack a second rule.</p>
 
   <p class="lede-p"><b>Type definitions — the global type registry.</b> The <b>Type definitions</b> tab lists <b>every type every artifact extension defines</b>, <b>alphabetically</b> across all extensions — one workspace-wide registry, never scoped to a single extension. A type exists <b>only because an installed artifact extension defines it</b>, so exactly <b>one</b> extension <b>defines</b> each type; any extension that needs it <b>declares the defining extension as a dependency</b>, which guarantees the type is present wherever it is used. Each row therefore names the <b>type</b> (its display name over its type id), the one <b>Defined by</b> extension (its manifest display name), and the <b>Used by</b> extensions that declared that dependency. It is a <b>read-only inventory</b>: record inspection only, taking no actions and making no decisions. The empty state reads that no artifact extension defines a type yet.</p>
 
@@ -790,6 +791,7 @@
           <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Type definitions</button>
           <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Stored objects</button>
           <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Restore objects</button>
+          <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Review policy</button>
         </div>
         <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
       </div>
@@ -856,6 +858,7 @@
           <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Type definitions</button>
           <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Stored objects</button>
           <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Restore objects</button>
+          <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Review policy</button>
         </div>
         <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
       </div>
@@ -897,6 +900,7 @@
           <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Type definitions</button>
           <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Stored objects</button>
           <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Restore objects</button>
+          <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Review policy</button>
         </div>
         <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
       </div>
@@ -976,6 +980,135 @@
     </div>
   </div>
 
+  <p class="lede-p"><b>Review policy — the organization&rsquo;s review bounds.</b> The <b>Review policy</b> tab holds the organization&rsquo;s <b>bounds</b> over the review checkpoints and, beneath them on the same tab, the <b>open review volume</b> those bounds produce, so the volume sits next to the setting that would change it. A bound is keyed by a <b>checkpoint</b> (<em>recommendation</em>, <em>review</em> or <em>verification</em>), an <b>artifact type</b> (a type id, or <code>*</code> for every type), a <b>destination class</b> (<em>none</em>, <em>external_publish</em>, <em>visibility_promotion</em> or <em>pipeline_handoff</em>) and an <b>origin kind</b> (<em>agent_produced</em>, <em>user_provided</em> or <em>intermediate</em>), and it is <b>required</b> or <b>forbidden</b>. The <b>Organization bounds</b> part lists the bounds in a table — <em>Checkpoint</em>, <em>Artifact type</em>, <em>Destination</em>, <em>Origin</em>, <em>Bound</em> — each row ending in a <em>Retract</em> action, and beneath the table a form of the same five fields (<em>Checkpoint</em>, <em>Artifact type</em>, <em>Destination class</em>, <em>Origin kind</em>, <em>Bound</em>) with <em>Save bound</em>: an exact artifact type beats <code>*</code> for the same checkpoint, destination and origin, and removing a bound returns that key to the core defaults. A save or a retract reports on one line beneath the form. The <b>Open review volume</b> part counts the open review gates — <em>Open gates</em>, <em>Under 24h</em>, <em>1–7 days</em>, <em>Over 7 days</em> — and breaks them down <em>By artifact type</em>, <em>By destination class</em> and <em>By origin kind</em>, the axes a bound is written in.</p>
+  <p class="lede-p"><b>Authorized inside the tab.</b> Reading the bounds and the volume takes the permission to read settings, and changing a bound takes the permission to update settings. An actor who may read but not change sees the table with no <em>Retract</em> action and, in place of the form, the line <em>You can view this organization&rsquo;s bounds but not change them.</em> An actor who may not read sees one centred line in place of the tab&rsquo;s content — <em>You do not have permission to view this.</em> With no bounds, the table&rsquo;s one row reads <em>This organization expresses no bounds — every checkpoint runs on the core defaults.</em>; with no open review gate, the volume part reads <em>No review gates are open in this organization.</em></p>
+
+  <div class="ex" data-conformance-id="review-policy" data-state="empty">
+    <div class="cap">Example — Review policy tab, the organization bounds and the open review volume (an actor who may change them)</div>
+    <div class="body">
+      <div style="display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: flex-end; margin: 0 0 14px;">
+        <div role="tablist" style="display: flex; gap: 0; padding: 0;">
+          <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Type definitions</button>
+          <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Stored objects</button>
+          <button role="tab" style="font-size: 13px; padding: 9px 14px 11px; color: var(--muted); background: transparent; border: 0; cursor: pointer; font-family: var(--font-sans);">Restore objects</button>
+          <button role="tab" aria-selected="true" style="font-size: 13px; padding: 9px 14px 11px; color: var(--blue); font-weight: 600; background: transparent; border: 0; border-bottom: 2px solid var(--blue); margin-bottom: -1px; cursor: pointer; font-family: var(--font-sans);">Review policy</button>
+        </div>
+        <div style="height: 5px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); align-self: flex-end; margin-bottom: 11px;"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;margin:0 0 12px;">
+        <div style="font-family:var(--font-sans);font-weight:600;font-size:14px;color:var(--ink);">Organization bounds</div>
+        <p style="margin:0;font-size:12px;line-height:1.5;color:var(--muted);">A bound is absolute: required forces the checkpoint on for every producing agent, forbidden bars it. Where this organization is silent, the core defaults decide and an agent manifest may refine within them — never on an external-effect class.</p>
+      </div>
+      <div style="overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);">
+        <table style="width:100%;border-collapse:separate;border-spacing:0;font-size:12px;">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Checkpoint</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Artifact type</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Destination</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Origin</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Bound</th>
+              <th style="text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle;font-weight:600;color:var(--ink);">review</td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle;font-family:var(--font-mono);color:var(--ink);">@cinatra-ai/email:draft</td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle;color:var(--muted);">external_publish</td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle;color:var(--muted);">agent_produced</td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle;font-weight:600;color:var(--ink);">required</td>
+              <td style="padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle;"><button type="button" class="btn ghost" data-action="retract-bound -> bound-removed" style="padding:5px 12px;font-size:12px;cursor:pointer;">Retract</button></td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;vertical-align:middle;font-weight:600;color:var(--ink);">recommendation</td>
+              <td style="padding:12px 14px;vertical-align:middle;font-family:var(--font-mono);color:var(--ink);">*</td>
+              <td style="padding:12px 14px;vertical-align:middle;color:var(--muted);">none</td>
+              <td style="padding:12px 14px;vertical-align:middle;color:var(--muted);">intermediate</td>
+              <td style="padding:12px 14px;vertical-align:middle;font-weight:600;color:var(--ink);">forbidden</td>
+              <td style="padding:12px 14px;vertical-align:middle;"><button type="button" class="btn ghost" style="padding:5px 12px;font-size:12px;cursor:pointer;">Retract</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;margin:16px 0 0;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:16px;">
+        <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;">
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <span style="font-size:12px;font-weight:500;color:var(--ink);">Checkpoint</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;height:36px;padding:0 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);font-size:12px;color:var(--ink);"><span>review</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;opacity:.5;flex-shrink:0;"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <span style="font-size:12px;font-weight:500;color:var(--ink);">Artifact type</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;height:36px;padding:0 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);font-size:12px;color:var(--ink);"><span style="font-family:var(--font-mono);">*</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <span style="font-size:12px;font-weight:500;color:var(--ink);">Destination class</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;height:36px;padding:0 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);font-size:12px;color:var(--ink);"><span>none</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;opacity:.5;flex-shrink:0;"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <span style="font-size:12px;font-weight:500;color:var(--ink);">Origin kind</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;height:36px;padding:0 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);font-size:12px;color:var(--ink);"><span>agent_produced</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;opacity:.5;flex-shrink:0;"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <span style="font-size:12px;font-weight:500;color:var(--ink);">Bound</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;height:36px;padding:0 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);font-size:12px;color:var(--ink);"><span>required</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;opacity:.5;flex-shrink:0;"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button type="button" class="btn primary" data-action="save-bound -> bound-saved" style="padding:5px 12px;font-size:12px;cursor:pointer;flex-shrink:0;">Save bound</button>
+          <span style="font-size:12px;color:var(--muted);">An exact artifact type beats <span style="font-family:var(--font-mono);">*</span> for the same checkpoint, destination and origin. Removing a bound returns that key to the core defaults.</span>
+        </div>
+      </div>
+      <div style="height:24px;"></div>
+      <div style="display:flex;flex-direction:column;gap:4px;margin:0 0 12px;">
+        <div style="font-family:var(--font-sans);font-weight:600;font-size:14px;color:var(--ink);">Open review volume</div>
+        <p style="margin:0;font-size:12px;line-height:1.5;color:var(--muted);">What the current policy is actually producing, broken down by the same axes a bound is written in — so a default that generates an unsurvivable volume is visible before it becomes review fatigue.</p>
+      </div>
+      <div data-conformance-id="gate-volume" data-state="empty" style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;">
+          <div style="display:flex;flex-direction:column;gap:4px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:12px 16px;">
+            <span style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Open gates</span>
+            <span style="font-family:var(--font-sans);font-size:18px;font-weight:600;color:var(--ink);">7</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:12px 16px;">
+            <span style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Under 24h</span>
+            <span style="font-family:var(--font-sans);font-size:18px;font-weight:600;color:var(--ink);">4</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:12px 16px;">
+            <span style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">1–7 days</span>
+            <span style="font-family:var(--font-sans);font-size:18px;font-weight:600;color:var(--ink);">2</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:12px 16px;">
+            <span style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Over 7 days</span>
+            <span style="font-family:var(--font-sans);font-size:18px;font-weight:600;color:var(--ink);">1</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
+          <div style="display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:12px 16px;">
+            <span style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">By artifact type</span>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;">
+              <li style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-size:12px;"><span style="font-family:var(--font-mono);color:var(--ink);">@cinatra-ai/email:draft</span><span style="font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);">5</span></li>
+              <li style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-size:12px;"><span style="font-family:var(--font-mono);color:var(--ink);">@acme/support:case</span><span style="font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);">2</span></li>
+            </ul>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:12px 16px;">
+            <span style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">By destination class</span>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;">
+              <li style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-size:12px;"><span style="font-family:var(--font-mono);color:var(--ink);">external_publish</span><span style="font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);">5</span></li>
+              <li style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-size:12px;"><span style="font-family:var(--font-mono);color:var(--ink);">none</span><span style="font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);">2</span></li>
+            </ul>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:12px 16px;">
+            <span style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">By origin kind</span>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;">
+              <li style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-size:12px;"><span style="font-family:var(--font-mono);color:var(--ink);">agent_produced</span><span style="font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);">7</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ── V. Change review — on the artifact-review surface ──── -->
   <div class="sect">
     <h2>V. Change review — on the artifact-review surface</h2>
@@ -985,7 +1118,7 @@
   <p class="lede-p"><b>One shared review surface.</b> Agent-proposed changes to artifacts — enrichment field merges and the like — are <b>reviewed on the shared, generic artifact-review surface</b>. That surface — immutable review targets, gate-provenance authorization, and the host decision chrome — is <b>not defined here</b>; this spec only <b>references</b> it. A notification that a change awaits review deep-links to that surface — decide-once review lands in <code>/notifications</code> (see Application Design — Notifications), which federates pending approvals; a field-level artifact review opens on the artifact-review surface itself.</p>
   <div class="callout info">
     <span class="callout-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>One place for every decision</span>
-    <p>A change proposal is a <b>diff to review over an immutable target</b>, exactly the shape the generic artifact-review surface already handles — so every human decision over an artifact, whatever produced the proposal, is reviewed in <b>one</b> place. This spec owns the library, the renderer, and the Artifacts console (type definitions, stored objects, restore); the review surface itself is <b>outside this spec's scope</b>. An applied change is an ordinary reversible change set, undoable through the Artifacts console's <em>Restore objects</em> tab (§IV).</p>
+    <p>A change proposal is a <b>diff to review over an immutable target</b>, exactly the shape the generic artifact-review surface already handles — so every human decision over an artifact, whatever produced the proposal, is reviewed in <b>one</b> place. This spec owns the library, the renderer, and the Artifacts console (type definitions, stored objects, restore, review policy); the review surface itself is <b>outside this spec's scope</b>. An applied change is an ordinary reversible change set, undoable through the Artifacts console's <em>Restore objects</em> tab (§IV).</p>
   </div>
 
   <!-- ── VI. Upload & typing — the library ingest path ──────── -->
@@ -1638,7 +1771,7 @@
   </div>
 
   <footer>
-    <span>Cinatra · Application Design — Artifacts v0.11.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Artifacts v0.12.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
