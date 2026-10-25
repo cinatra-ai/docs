@@ -299,7 +299,7 @@
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.13.0</div>
+      <div>Version 0.14.0</div>
     </div>
   </div>
 
@@ -693,6 +693,20 @@
     </div>
   </div>
   <!-- /V.1 -->
+
+  <!-- V.2 Marketplace approval states in a table -->
+  <div class="swatch" style="grid-template-rows: auto; margin-top: 14px;">
+    <div class="info" style="padding: 16px 18px;">
+      <div class="role" style="margin-bottom: 8px;">Marketplace approval states in a table</div>
+      <div class="token" style="margin-bottom: 10px;">vendor applications, extension submissions · status cell</div>
+      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin:4px 0 6px;">Vendor applications</div>
+      <div class="approval-table" style="font-size:12.5px;font-family:var(--font-sans);max-width:560px;"><div style="display:grid;grid-template-columns:minmax(120px,1fr) minmax(200px,1.4fr);gap:14px;padding:6px 0;border-bottom:1px solid var(--ink);font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;"><span>Display name</span><span>Status</span></div><div class="approval-table-row" style="display:grid;grid-template-columns:minmax(120px,1fr) minmax(200px,1.4fr);gap:14px;padding:8px 0;border-bottom:1px solid var(--line);color:var(--ink);align-items:start;"><span>Acme Tools</span><div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;"><span class="pill approved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M20 6 9 17l-5-5"/></svg>Approved</span><span class="pill failed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" style="width:10px;height:10px;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>Failed</span><span class="approval-attempts" style="font-size:11.5px;color:var(--muted);">3 attempts</span></div></div><div class="approval-table-row" style="display:grid;grid-template-columns:minmax(120px,1fr) minmax(200px,1.4fr);gap:14px;padding:8px 0;border-bottom:1px solid var(--line);color:var(--ink);align-items:start;"><span>Northwind Labs</span><div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;"><span class="pill hold"><span class="dot"></span>Awaiting you</span></div></div></div>
+      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px;">Extension submissions · administrator</div>
+      <div class="approval-table" style="font-size:12.5px;font-family:var(--font-sans);max-width:560px;"><div style="display:grid;grid-template-columns:minmax(140px,1fr) minmax(150px,1fr) auto;gap:14px;padding:6px 0;border-bottom:1px solid var(--ink);font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;"><span>Target</span><span>Status</span><span style="text-align:right">Actions</span></div><div class="approval-table-row" style="display:grid;grid-template-columns:minmax(140px,1fr) minmax(150px,1fr) auto;gap:14px;padding:8px 0;border-bottom:1px solid var(--line);color:var(--ink);align-items:start;"><span style="font-family:var(--font-mono);font-size:12px;">@acme/support-desk</span><div><span class="pill approved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M20 6 9 17l-5-5"/></svg>Approved</span><p class="approval-step" style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">Promotion in flight</p></div><span style="text-align:right;"><span style="font-size:12px;color:var(--muted);">—</span></span></div><div class="approval-table-row" style="display:grid;grid-template-columns:minmax(140px,1fr) minmax(150px,1fr) auto;gap:14px;padding:8px 0;border-bottom:1px solid var(--line);color:var(--ink);align-items:start;"><span style="font-family:var(--font-mono);font-size:12px;">@acme/crm-sync</span><div><span class="pill approved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M20 6 9 17l-5-5"/></svg>Approved</span><p class="approval-step" style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">Promotion failed</p></div><span style="text-align:right;"><button type="button" class="btn outline" style="padding:5px 12px;font-size:12px;">Retry promotion</button></span></div><div class="approval-table-row" style="display:grid;grid-template-columns:minmax(140px,1fr) minmax(150px,1fr) auto;gap:14px;padding:8px 0;border-bottom:1px solid var(--line);color:var(--ink);align-items:start;"><span style="font-family:var(--font-mono);font-size:12px;">@acme/mail-digest</span><div><span class="pill approved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><path d="M20 6 9 17l-5-5"/></svg>Approved</span><p class="approval-step" style="margin:3px 0 0;font-size:11.5px;color:var(--muted);">Promoted</p></div><span style="text-align:right;"><span style="font-size:12px;color:var(--muted);">—</span></span></div></div>
+      <div class="use" style="border-top:1px solid var(--line);padding-top:10px;margin-top:14px;">A table row has no meta line of its own, so the status cell carries it, in the meta type of the approval card on <a href="application-design-notifications.html" style="color: var(--blue); text-decoration: none;">Notifications</a>. Repair stuck puts the Failed pill beside the row's state pill, and the attempt count stands beside the Failed pill. An approved or promoted submission takes the Approved pill, and the promotion step stands under it on a muted second line: <em>Promotion in flight</em>, <em>Promotion failed</em> or <em>Promoted</em>. Only the administrator's table offers <em>Retry promotion</em>, in the row's actions and only while the promotion has failed; the vendor's own submissions table draws the same status cell and no retry.</div>
+    </div>
+  </div>
+  <!-- /V.2 -->
 
   <!-- ── Usage rules ─────────────────────────────────────────── -->
   <div class="sect">
@@ -1223,7 +1237,7 @@
   </div>
 
 <footer>
-    <span>Cinatra · Application Design v0.13.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design v0.14.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
