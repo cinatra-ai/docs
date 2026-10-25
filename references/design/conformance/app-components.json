@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-components.html",
-  "contentHash": "sha256:2542cde81ec0cadea7c44be4925c9f5572b24f785426e6cece741ae682848032",
+  "contentHash": "sha256:a194bc10172b7cbea6df7f4d4800df6c73c38b524d8834d94d08cc26a92aaabc",
   "surfaces": [
     {
       "id": "button",
@@ -36,17 +36,6 @@
     {
       "id": "badge",
       "fields": [],
-      "actions": [],
-      "states": []
-    },
-    {
-      "id": "lifecycle-badge-entity-header",
-      "fields": [
-        {
-          "field": "status",
-          "source": "entity.lifecycle"
-        }
-      ],
       "actions": [],
       "states": []
     },
@@ -102,38 +91,6 @@
       "id": "checkbox",
       "fields": [],
       "actions": [],
-      "states": []
-    },
-    {
-      "id": "menu-switch-row",
-      "fields": [
-        {
-          "field": "enabled",
-          "source": "setting.enabled"
-        }
-      ],
-      "actions": [
-        {
-          "action": "toggle-setting",
-          "outcome": "setting-saved"
-        }
-      ],
-      "states": []
-    },
-    {
-      "id": "setup-boolean-question",
-      "fields": [
-        {
-          "field": "answer",
-          "source": "field.value"
-        }
-      ],
-      "actions": [
-        {
-          "action": "continue",
-          "outcome": "answer-sent"
-        }
-      ],
       "states": []
     },
     {
