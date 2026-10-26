@@ -411,7 +411,7 @@
       <p class="lede">Four lifecycle cards — <b>review</b>, <b>recommendation</b>, <b>schedule proposal</b> and <b>verification</b> — drawn where a reader actually meets them: <b>inside the chat conversation</b>, between one message and the next. Each card is the surface that already carries its work on its own page, <b>composed into the thread</b> rather than redrawn for it; every section names the page its surface comes from. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.21.0</div>
+      <div>Version 0.21.1</div>
     </div>
   </div>
 
@@ -1832,7 +1832,7 @@
 
   <!-- ── XIV. The sign-in card in the site widget ── -->
 <div class="sect"><h2>XIV. The sign-in card in the site widget</h2><div class="rule"></div><div class="source">the frame&rsquo;s own card &middot; one sentence per card &middot; no cause named</div></div>  <p class="lede-p"><b>Before its conversation, the site widget asks the person to sign in.</b> The widget frame on a site outside Cinatra mounts no conversation until the person has signed in to Cinatra. Until then the frame shows one card and nothing else: <b>one sentence</b> and <b>one Sign in</b> button, which opens the Cinatra sign-in window. A sign-in that fails or is cancelled shows the first sign-in card again.</p>
-  <p class="lede-p"><b>When a sign-in ends, the card says so.</b> A sign-in ends after the maximum session lifetime, when it is ended elsewhere, or when its renewal is refused. Then the conversation closes and the frame shows the <b>sign-in-again card</b>. The frame receives the same answer for each of these causes, so the card names none of them: it says that the sign-in has ended, and it shows no token, no limit and no code.</p>
+  <p class="lede-p"><b>When a sign-in ends, the card says so.</b> A sign-in ends after the maximum session lifetime, when it is ended elsewhere, or when its renewal is refused. Then the conversation closes and the frame shows the <b>sign-in-again card</b>. The frame cannot show which cause it was: each cause ends the frame&rsquo;s sign-in in the same state, and that state carries no reason. So the card names none of them: it says that the sign-in has ended, and it shows no token, no limit and no code.</p>
   <div class="ex"><div class="cap">Example &mdash; the widget frame: the first sign-in card, and the sign-in-again card</div><div class="body"><div style="display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start;">
     <div style="flex:1 1 280px;max-width:340px;">
       <div style="margin-bottom:7px;font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);">First sign-in</div>
@@ -1850,7 +1850,7 @@
   <p class="note-line">The two cards share their frame, their button and their action; only the sentence differs. The <b>first sign-in card</b> is the card before any sign-in. The <b>sign-in-again card</b> is drawn once for all three causes: the maximum session lifetime, a sign-in ended elsewhere, and a refused renewal. Its button starts a new sign-in exactly as the first card&rsquo;s does.</p></div></div>
 
   <footer>
-    <span>Cinatra · Application Design — Lifecycle cards in the conversation v0.21.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Lifecycle cards in the conversation v0.21.1</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
