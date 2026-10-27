@@ -791,7 +791,7 @@
   </div>
   <p style="margin: 0 0 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted);">&lt;Sonner /&gt;, toast() · @/components/ui/sonner</p>
   <div data-conformance-id="toast" style="display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 28px; align-items: start; margin: 0 0 10px;">
-    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">popover bg</div><div style="padding: 1px 0;">status-coloured text + border</div><div style="padding: 1px 0;">5 variants</div><div style="padding: 1px 0;">icon led</div><div style="padding: 1px 0;">close + copy by default</div></div>
+    <div style="font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--ink); padding-top: 4px;"><div style="padding: 1px 0;">popover bg</div><div style="padding: 1px 0;">status-coloured text + border</div><div style="padding: 1px 0;">5 variants</div><div style="padding: 1px 0;">icon led</div><div style="padding: 1px 0;">close + copy by default (copy when non-empty copy text is available)</div></div>
     <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 10px; max-width: 520px;">
     <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example</div>
     <div style="padding: 18px 20px;">
@@ -818,7 +818,7 @@
         </div>
       </div></div></div>
   </div>
-  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Transient confirmations and async progress. Five variants — default · success · warning · error · info — each on the popover surface with a status-coloured border and matching text; an icon on the left identifies the type. Every toast carries a Copy action by default and a Close (X) on the right, so the user can grab the message text or dismiss the toast. Never block on a toast; use Dialog when the user must acknowledge. Stack vertically, newest on top.</p>
+  <p style="max-width: 64ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 6px;">Transient confirmations and async progress. Five variants — default · success · warning · error · info — each on the popover surface with a status-coloured border and matching text; an icon on the left identifies the type. By default every toast carries a Close (X) on the right, and a Copy action when non-empty copy text is available, so the user can grab the message text or dismiss the toast. Never block on a toast; use Dialog when the user must acknowledge. Stack vertically, newest on top.</p>
   <div class="sect">
     <h2>Table</h2>
     <div class="rule"></div>
