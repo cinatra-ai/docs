@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-lifecycle-cards.html",
-  "contentHash": "sha256:ef650680cbb60dee12cbc172594bcce0ae51a7b0a43b8906902a062cf6c6d81c",
+  "contentHash": "sha256:48b868de1d67def632f060c694d49f36caa683e941c3d6794d88de24c4e4996e",
   "surfaces": [
     {
       "id": "chat-thread",
@@ -1030,6 +1030,28 @@
         "kind:artifact",
         "loading"
       ]
+    },
+    {
+      "id": "embed-signin-first",
+      "fields": [],
+      "actions": [
+        {
+          "action": "start-sign-in",
+          "outcome": "sign-in-window-opened"
+        }
+      ],
+      "states": []
+    },
+    {
+      "id": "embed-signin-again",
+      "fields": [],
+      "actions": [
+        {
+          "action": "start-sign-in",
+          "outcome": "sign-in-window-opened"
+        }
+      ],
+      "states": []
     }
   ]
 }
