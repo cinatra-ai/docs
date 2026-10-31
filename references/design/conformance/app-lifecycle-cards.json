@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-lifecycle-cards.html",
-  "contentHash": "sha256:48b868de1d67def632f060c694d49f36caa683e941c3d6794d88de24c4e4996e",
+  "contentHash": "sha256:5fdb01cdebfa5bd1327b045838804682bc28872051b10175c13902717fa656cd",
   "surfaces": [
     {
       "id": "chat-thread",
@@ -252,6 +252,36 @@
       "actions": [],
       "states": [
         "empty"
+      ]
+    },
+    {
+      "id": "publish-state-matrix",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "publish-state-loading",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "loading"
+      ]
+    },
+    {
+      "id": "publish-state-restricted",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "loading"
+      ]
+    },
+    {
+      "id": "publish-state-no-longer-open",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "error"
       ]
     },
     {
@@ -1051,6 +1081,53 @@
           "outcome": "sign-in-window-opened"
         }
       ],
+      "states": []
+    },
+    {
+      "id": "publish-card",
+      "fields": [
+        {
+          "field": "agent",
+          "source": "manifest.displayName"
+        }
+      ],
+      "actions": [
+        {
+          "action": "decline-publish",
+          "outcome": "declined"
+        },
+        {
+          "action": "approve-publish",
+          "outcome": "released"
+        }
+      ],
+      "states": [
+        "error",
+        "loading"
+      ]
+    },
+    {
+      "id": "publish-card-readings",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "publish-card-approved",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "publish-card-declined",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "publish-card-expired",
+      "fields": [],
+      "actions": [],
       "states": []
     }
   ]

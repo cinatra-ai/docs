@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:6d519e1e4611425263875da940529f526867b664931356be9774a85ee66d198d",
+  "contentHash": "sha256:994c16aa56cbd92fbcfe25c96ee76eac9cb12b388cc6c818d798c91062f87e2e",
   "surfaces": [
     {
       "id": "run-surface",
@@ -293,62 +293,6 @@
         "error",
         "kind:artifact",
         "loading"
-      ]
-    },
-    {
-      "id": "run-linkedin-publish-step",
-      "fields": [
-        {
-          "field": "copy",
-          "source": "representation.pinned-revision"
-        }
-      ],
-      "actions": [
-        {
-          "action": "continue",
-          "outcome": "answer-sent"
-        }
-      ],
-      "states": [
-        "kind:artifact",
-        "loading"
-      ]
-    },
-    {
-      "id": "run-wordpress-publish-step",
-      "fields": [
-        {
-          "field": "title",
-          "source": "representation.first-heading"
-        }
-      ],
-      "actions": [
-        {
-          "action": "continue",
-          "outcome": "answer-sent"
-        }
-      ],
-      "states": [
-        "kind:artifact",
-        "loading"
-      ]
-    },
-    {
-      "id": "run-wordpress-publish-step-no-site",
-      "fields": [
-        {
-          "field": "title",
-          "source": "representation.first-heading"
-        }
-      ],
-      "actions": [
-        {
-          "action": "continue",
-          "outcome": "answer-sent"
-        }
-      ],
-      "states": [
-        "kind:artifact"
       ]
     },
     {
