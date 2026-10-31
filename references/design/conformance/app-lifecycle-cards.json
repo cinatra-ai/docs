@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-lifecycle-cards.html",
-  "contentHash": "sha256:5fdb01cdebfa5bd1327b045838804682bc28872051b10175c13902717fa656cd",
+  "contentHash": "sha256:cf06df834473570a4230eb601492cbbf44ebd4bc61a72b3744b7e913ef380a24",
   "surfaces": [
     {
       "id": "chat-thread",
@@ -270,7 +270,24 @@
     },
     {
       "id": "publish-state-restricted",
-      "fields": [],
+      "fields": [
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        },
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        }
+      ],
       "actions": [],
       "states": [
         "loading"
@@ -1089,6 +1106,22 @@
         {
           "field": "agent",
           "source": "manifest.displayName"
+        },
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        },
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
         }
       ],
       "actions": [
@@ -1114,19 +1147,70 @@
     },
     {
       "id": "publish-card-approved",
-      "fields": [],
+      "fields": [
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        },
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        }
+      ],
       "actions": [],
       "states": []
     },
     {
       "id": "publish-card-declined",
-      "fields": [],
+      "fields": [
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        },
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        }
+      ],
       "actions": [],
       "states": []
     },
     {
       "id": "publish-card-expired",
-      "fields": [],
+      "fields": [
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        },
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        }
+      ],
       "actions": [],
       "states": []
     }
