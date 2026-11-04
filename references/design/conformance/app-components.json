@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-components.html",
-  "contentHash": "sha256:7aceaf73557962256eb36cc308e9f7a814bf4c5c2b7841c566ccc724b35dbc4a",
+  "contentHash": "sha256:df12e46ee42d6e6121eb9f8bb877201081b08792eb714612d0ca3da1d4939ebd",
   "surfaces": [
     {
       "id": "button",
@@ -91,6 +91,22 @@
       "id": "checkbox",
       "fields": [],
       "actions": [],
+      "states": []
+    },
+    {
+      "id": "setup-boolean-question",
+      "fields": [
+        {
+          "field": "answer",
+          "source": "field.value"
+        }
+      ],
+      "actions": [
+        {
+          "action": "continue",
+          "outcome": "answer-sent"
+        }
+      ],
       "states": []
     },
     {
