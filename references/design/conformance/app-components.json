@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-components.html",
-  "contentHash": "sha256:ab5149ca7e954ff5b22623d80d7ec2a2445f935ec7b4e06afc121aca323b2b1d",
+  "contentHash": "sha256:df12e46ee42d6e6121eb9f8bb877201081b08792eb714612d0ca3da1d4939ebd",
   "surfaces": [
     {
       "id": "button",
@@ -36,17 +36,6 @@
     {
       "id": "badge",
       "fields": [],
-      "actions": [],
-      "states": []
-    },
-    {
-      "id": "lifecycle-badge-entity-header",
-      "fields": [
-        {
-          "field": "status",
-          "source": "entity.lifecycle"
-        }
-      ],
       "actions": [],
       "states": []
     },
@@ -102,22 +91,6 @@
       "id": "checkbox",
       "fields": [],
       "actions": [],
-      "states": []
-    },
-    {
-      "id": "menu-switch-row",
-      "fields": [
-        {
-          "field": "enabled",
-          "source": "setting.enabled"
-        }
-      ],
-      "actions": [
-        {
-          "action": "toggle-setting",
-          "outcome": "setting-saved"
-        }
-      ],
       "states": []
     },
     {
