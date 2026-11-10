@@ -1,6 +1,6 @@
 # Cinatra integrations
 
-Cinatra is the open source AI workspace for teams, and it is designed to work *inside* the tools you already run — your CMS, your CRM, your project board — rather than asking you to move your work into Cinatra. An **integration** connects Cinatra to one of those external systems so that agents can read and write records there, embed an AI assistant in that system's own screens, or mirror Cinatra's work onto that system's board.
+Cinatra is The Open Source Agentic Teams Workspace, and it is designed to work *inside* the tools you already run — your CMS, your CRM, your project board — rather than asking you to move your work into Cinatra. An **integration** connects Cinatra to one of those external systems so that agents can read and write records there, embed an AI assistant in that system's own screens, or mirror Cinatra's work onto that system's board.
 
 This chapter is the hub for Cinatra's **first-party integrations** — the ones the Cinatra team builds, supports, and ships as marketplace extensions. Each first-party integration has its own curated hub here, with a complete setup path you can finish without leaving the page. For everything else — extensions built by partners and the community — the [Cinatra Marketplace](https://marketplace.cinatra.ai/) is the home, and the shared [Install & manage any marketplace extension](install-and-manage-marketplace-extensions.md) page covers the install, trust, update, and removal flow that applies to *every* listing.
 

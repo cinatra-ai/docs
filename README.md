@@ -1,6 +1,6 @@
 # Cinatra Documentation
 
-Cinatra is the open source AI workspace for teams, built on [open AI standards](references/platform/open-standards.md) — a workspace where people, AI assistants, and autonomous agents work together on durable workflows.
+Cinatra is The Open Source Agentic Teams Workspace, built on [open AI standards](references/platform/open-standards.md) — a workspace where people, AI assistants, and autonomous agents work together on durable workflows.
 
 > [!WARNING]
 > **Cinatra is not production ready. We strongly recommend you do not use it in production.**
