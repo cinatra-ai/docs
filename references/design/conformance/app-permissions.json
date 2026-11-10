@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-permissions.html",
-  "contentHash": "sha256:bc605b768d3a4a1e206c472ea8b178c99f2403019d8f6887912d6ff4545dce37",
+  "contentHash": "sha256:cdd1d3bcf3918b49a71c6912462bb560336a6cdfc7960fff0550c2799874957b",
   "surfaces": [
     {
       "id": "access-combobox",
