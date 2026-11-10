@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-lifecycle-cards.html",
-  "contentHash": "sha256:86aa666385434bddf0cdba41ee05475e58a902e94b18199aa4d2f6ec36f174bc",
+  "contentHash": "sha256:fb19470b23a6a25936583f5f8585a64453b42ffca6030f8a2759fba025eb0842",
   "surfaces": [
     {
       "id": "chat-thread",
@@ -399,6 +399,64 @@
       "id": "hitl-screen-fields",
       "fields": [],
       "actions": [],
+      "states": []
+    },
+    {
+      "id": "hitl-declared-facts",
+      "fields": [
+        {
+          "field": "fact-label",
+          "source": "schema.title"
+        },
+        {
+          "field": "fact-value",
+          "source": "values.fact"
+        }
+      ],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "hitl-declared-rows",
+      "fields": [
+        {
+          "field": "rows-label",
+          "source": "schema.title"
+        },
+        {
+          "field": "column-title",
+          "source": "schema.items.properties.title"
+        },
+        {
+          "field": "row-value",
+          "source": "values.rows"
+        }
+      ],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "hitl-declared-decision",
+      "fields": [
+        {
+          "field": "decision-label",
+          "source": "schema.title"
+        },
+        {
+          "field": "answer-value",
+          "source": "schema.enum"
+        },
+        {
+          "field": "answer-label",
+          "source": "schema.x-enum-titles"
+        }
+      ],
+      "actions": [
+        {
+          "action": "choose-answer",
+          "outcome": "answer-chosen"
+        }
+      ],
       "states": []
     },
     {

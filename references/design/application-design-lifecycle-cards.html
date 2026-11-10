@@ -411,7 +411,7 @@
       <p class="lede">Four lifecycle cards — <b>review</b>, <b>recommendation</b>, <b>schedule proposal</b> and <b>verification</b> — drawn where a reader actually meets them: <b>inside the chat conversation</b>, between one message and the next. Each card is the surface that already carries its work on its own page, <b>composed into the thread</b> rather than redrawn for it; every section names the page its surface comes from. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.23.0</div>
+      <div>Version 0.24.0</div>
     </div>
   </div>
 
@@ -789,6 +789,70 @@
     </div>
   </div>
   <p class="note-line">The held <b>Continue</b> is the same control, drawn unavailable: the same label and arrow, the same place on the floor, at half strength. Nothing else on the card changes while it is held, and nothing the host draws releases it &mdash; only the field&rsquo;s own value does.</p>
+
+  <p class="lede-p"><b>Three further kinds, drawn from the same declaration.</b> A step may also declare values the person reads and does not change, records to read as rows, and a decision with a fixed set of answers. The host draws each of them from the declaration alone, inside the same fields region and above the same <b>Continue</b>; it adds no kind of its own, and it writes no word of the step.</p>
+  <p class="lede-p"><b>Read-only facts.</b> A value the agent declares read-only is drawn as its <b>declared label</b> over the value as text, with no box around it: nothing on the card suggests it can be changed, and nothing the person does on the card changes it.</p>
+  <p class="lede-p"><b>Table rows.</b> A read-only list of records is drawn as a <b>table</b> under its declared label: one column per <b>declared column title</b>, in the declared order, and one row per record. A record&rsquo;s values are text, and the table carries no control of its own.</p>
+  <p class="lede-p"><b>An exact-answer decision.</b> A decision the agent requires, with a fixed set of answers and no default answer, is drawn as <b>one row per answer</b> under the decision&rsquo;s declared label, and the person chooses <b>exactly one</b>. <b>Nothing is chosen for them</b>, so the <b>Continue</b> stays unavailable until an answer is chosen, as on the one-pick rows of <a href="application-design-artifact-review.html" style="color:var(--blue);">Agent run &amp; review</a> &sect;I.1. <b>Continue</b> sends <b>exactly the declared value of the answer the person chose</b>, and the host adds no answer of its own.</p>
+  <p class="lede-p"><b>Answer labels.</b> Each answer row reads the <b>label the agent declared for that answer</b>, so an agent declares a label for every answer it offers. The value the answer sends belongs to the agent and the run, and it is never shown to the person.</p>
+  <div class="ex">
+    <div class="cap">Example &mdash; a declared step with facts, rows and a decision, as the host draws it for any agent that declares one (as it opens &middot; the answer chosen)</div>
+    <div class="body">
+      <div class="thread">
+        <div class="tbar">Chat<span class="sep">&rsaquo;</span><b>Q3 cohort sweep</b></div>
+        <div class="stream">
+          <div class="col">
+            <div style="display:flex;flex-direction:column;gap:12px;min-width:0;margin:12px 0;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:14px;">
+              <div style="display:flex;flex-direction:column;gap:16px;min-width:0;">
+                <div data-conformance-id="hitl-declared-facts" style="display:grid;gap:10px;">
+                  <div class="notefield"><span class="nf-label" data-field="fact-label=schema.title">A declared fact&rsquo;s label</span><span data-field="fact-value=values.fact" style="font-size:12px;line-height:1.5;color:var(--ink);">The value the agent supplied</span></div>
+                  <div class="notefield"><span class="nf-label">Another declared fact&rsquo;s label</span><span style="font-size:12px;line-height:1.5;color:var(--ink);">Its value</span></div>
+                </div>
+                <div class="notefield" data-conformance-id="hitl-declared-rows" style="gap:6px;">
+                  <span class="nf-label" data-field="rows-label=schema.title">The declared list&rsquo;s label</span>
+                  <div style="border:1px solid var(--line);border-radius:7px;overflow:hidden;">
+                    <table style="width:100%;border-collapse:separate;border-spacing:0;">
+                      <thead><tr><th data-field="column-title=schema.items.properties.title" style="text-align:left;padding:7px 12px;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">First declared column</th><th style="text-align:left;padding:7px 12px;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Second declared column</th></tr></thead>
+                      <tbody><tr><td data-field="row-value=values.rows" style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink);">A record&rsquo;s first value</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink);">Its second value</td></tr><tr><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink);">Another record&rsquo;s first value</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink);">Its second value</td></tr></tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="notefield" data-conformance-id="hitl-declared-decision" data-action="choose-answer -> answer-chosen" style="gap:6px;">
+                  <span class="nf-label" data-field="decision-label=schema.title">The declared decision&rsquo;s label</span>
+                  <div style="display:grid;gap:8px;">
+                    <div data-field="answer-value=schema.enum" style="display:flex;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:10px 12px;"><span aria-hidden="true" style="flex:none;width:15px;height:15px;margin-top:2px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);"></span><span style="flex:1;min-width:0;"><span data-field="answer-label=schema.x-enum-titles" style="display:block;font-family:var(--font-sans);font-weight:700;font-size:13px;color:var(--ink);">The first answer&rsquo;s declared label</span></span></div>
+                    <div style="display:flex;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:10px 12px;"><span aria-hidden="true" style="flex:none;width:15px;height:15px;margin-top:2px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);"></span><span style="flex:1;min-width:0;"><span style="display:block;font-family:var(--font-sans);font-weight:700;font-size:13px;color:var(--ink);">The second answer&rsquo;s declared label</span></span></div>
+                    <div style="display:flex;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:10px 12px;"><span aria-hidden="true" style="flex:none;width:15px;height:15px;margin-top:2px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);"></span><span style="flex:1;min-width:0;"><span style="display:block;font-family:var(--font-sans);font-weight:700;font-size:13px;color:var(--ink);">The third answer&rsquo;s declared label</span></span></div>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px;padding-top:8px;border-top:1px solid var(--line);">
+                <button type="button" class="btn primary" disabled style="padding:6px 14px;font-size:12.5px;opacity:0.5;cursor:default;border-color:var(--line-strong);">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+              </div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin:18px 0 7px;">And once an answer is chosen &mdash; the decision of the same card, Continue available</div>
+            <div style="display:flex;flex-direction:column;gap:12px;min-width:0;margin:12px 0;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:14px;">
+              <div style="display:flex;flex-direction:column;gap:16px;min-width:0;">
+                <div class="notefield" style="gap:6px;">
+                  <span class="nf-label">The declared decision&rsquo;s label</span>
+                  <div style="display:grid;gap:8px;">
+                    <div style="display:flex;gap:10px;border:1px solid var(--blue);border-radius:8px;background:rgba(54,78,129,0.06);padding:10px 12px;"><span aria-hidden="true" style="flex:none;width:15px;height:15px;margin-top:2px;border-radius:50%;border:1px solid var(--blue);background:var(--blue);display:grid;place-items:center;"><span style="width:5px;height:5px;border-radius:50%;background:var(--surface-strong);"></span></span><span style="flex:1;min-width:0;"><span style="display:block;font-family:var(--font-sans);font-weight:700;font-size:13px;color:var(--ink);">The first answer&rsquo;s declared label</span></span></div>
+                    <div style="display:flex;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:10px 12px;"><span aria-hidden="true" style="flex:none;width:15px;height:15px;margin-top:2px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);"></span><span style="flex:1;min-width:0;"><span style="display:block;font-family:var(--font-sans);font-weight:700;font-size:13px;color:var(--ink);">The second answer&rsquo;s declared label</span></span></div>
+                    <div style="display:flex;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:10px 12px;"><span aria-hidden="true" style="flex:none;width:15px;height:15px;margin-top:2px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);"></span><span style="flex:1;min-width:0;"><span style="display:block;font-family:var(--font-sans);font-weight:700;font-size:13px;color:var(--ink);">The third answer&rsquo;s declared label</span></span></div>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px;padding-top:8px;border-top:1px solid var(--line);">
+                <button type="button" class="btn primary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+              </div>
+            </div>
+          </div>
+          <div class="col"><div class="composer primary"><span class="plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="ph">Type a message…</span><span class="send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="note-line">The answers are rows in the fields region, never buttons, and an answer is sent only by <b>Continue</b>: a declared kind adds no send control of its own. No value is put in front of the person as code &mdash; a fact is text, a record is a row, and an answer is its label.</p>
 
 <div class="sect"><h2>VI. The schedule card</h2><div class="rule"></div><div class="source">trigger_schedule_proposal · the option rows, in every state · one control at a time</div></div>  <p class="lede-p"><b>The card is the scheduling step, in the turn — and it is the only thing drawn.</b> Asked to run something later, the assistant reads the schedule out of the reader's own words and shows it back as the <b>standard scheduling step</b>: the question <em>When should this run?</em> over the three option rows, the chosen row taking the indigo edge and tint and owning its fields, and the estimated duration beneath. It is reproduced from <a href="application-design-components.html" style="color:var(--blue);">Components</a> § Standard scheduling step. There is <b>no raw cron field</b>: the schedule the reader stated is what the reader sees and confirms.</p>
   <p class="lede-p"><b>One card, five readings, and never a second card.</b> The card is drawn <b>once</b> and stays where it is; what changes across its life is the <b>floor</b> beneath the rows and whether the rows still take a change. <b>No summary box is ever drawn</b>, no status label, and nothing stands between the reader and the form — the rows are the reading.</p>
@@ -1879,7 +1943,7 @@
   <p class="note-line">The two cards share their frame, their button and their action; only the sentence differs. The <b>first sign-in card</b> is the card before any sign-in. The <b>sign-in-again card</b> is drawn once for all three causes: the maximum session lifetime, a sign-in ended elsewhere, and a refused renewal. Its button starts a new sign-in exactly as the first card&rsquo;s does.</p></div></div>
 
   <footer>
-    <span>Cinatra · Application Design — Lifecycle cards in the conversation v0.23.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Lifecycle cards in the conversation v0.24.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
