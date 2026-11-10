@@ -6,7 +6,7 @@ ServiceNow and Cinatra are both platforms where AI agents run inside governed wo
 
 | Dimension | ServiceNow | Cinatra |
 |---|---|---|
-| **Category** | Enterprise workflow and application cloud platform — IT Service Management (ITSM), IT operations, HR, customer service, security operations, low-code apps — with an agentic-AI layer (AI Agents, Autonomous Workforce) | Self-hosted full-stack agent platform |
+| **Category** | Enterprise workflow and application cloud platform — IT Service Management (ITSM), IT operations, HR, customer service, security operations, low-code apps — with an agentic-AI layer (AI Agents, Autonomous Workforce) | The Open Source Agentic Teams Workspace (self-hosted, multi-agent) |
 | **Primary user** | Large enterprises standardizing service management and business workflows on a single vendor's cloud | Teams building, running, and operating their own AI agent workflows on their own infrastructure |
 | **Agent runtime** | ServiceNow's cloud — AI Agents run inside the ServiceNow AI Platform, coordinated by the AI Agent Orchestrator, on top of the platform's deterministic workflow engine | WayFlow (Cinatra's Open Agent Specification (OAS) Flow agent runtime), a Python sidecar running on infrastructure you control |
 | **Large language model (LLM) access** | "Any AI model" — the platform grounds "any LLM — from OpenAI and Anthropic to your own models" in enterprise context (vendor claim) | Multi-provider through `@cinatra-ai/llm` (OpenAI, Anthropic, Gemini) |

@@ -6,7 +6,7 @@ Runwork and Cinatra answer the same complaint — every person on the team uses 
 
 | Dimension | Runwork | Cinatra |
 |---|---|---|
-| **Category** | Cloud SaaS "AI-native team workspace" — a coordination layer across multiple AI agents | Self-hosted full-stack agent platform |
+| **Category** | Cloud SaaS "AI-native team workspace" — a coordination layer across multiple AI agents | The Open Source Agentic Teams Workspace (self-hosted, multi-agent) |
 | **Primary user** | Teams already using several AI tools without shared context; department leads who want adoption visibility; non-technical operators building team apps | Teams building, running, and operating their own AI agent workflows on their own infrastructure |
 | **Agent runtime** | The team's existing agents (Claude/Claude Desktop and Cursor are concretely documented; any MCP-compatible tool can connect) plus Runwork's own cloud automations | WayFlow (Cinatra's Open Agent Specification (OAS) Flow agent runtime), a Python sidecar running on infrastructure you control |
 | **Large language model (LLM) access** | Indirect — through whichever AI tools the team connects; platform credits cover AI usage in Runwork's own features | Multi-provider through `@cinatra-ai/llm` (OpenAI, Anthropic, Gemini) |

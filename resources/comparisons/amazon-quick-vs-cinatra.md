@@ -6,7 +6,7 @@ Amazon Quick is AWS's managed, AWS-hosted AI assistant and agentic workspace for
 
 | Dimension | Amazon Quick | Cinatra |
 |---|---|---|
-| **Category** | Managed agentic AI assistant / workspace (AWS-hosted SaaS) | Self-hosted full-stack agent platform |
+| **Category** | Managed agentic AI assistant / workspace (AWS-hosted SaaS) | The Open Source Agentic Teams Workspace (self-hosted, multi-agent) |
 | **Primary user** | Business teams — sales, marketing, IT, operations, finance, legal — from a free individual tier up to enterprise | Teams building, running, and operating their own AI agent workflows on their own infrastructure |
 | **Agent runtime** | AWS-managed cloud, plus a native desktop app (macOS, Windows) that runs scheduled background agents | WayFlow (Cinatra's Open Agent Specification (OAS) Flow agent runtime), a Python sidecar running on infrastructure you control |
 | **Large language model (LLM) access** | Underlying models are not disclosed on AWS's product pages | Multi-provider through `@cinatra-ai/llm` (OpenAI, Anthropic, Gemini) |

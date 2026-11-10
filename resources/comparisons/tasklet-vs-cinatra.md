@@ -6,7 +6,7 @@ Tasklet and Cinatra both turn "an AI agent should just do this for me" into some
 
 | Dimension | Tasklet | Cinatra |
 |---|---|---|
-| **Category** | Cloud AI-agent platform — plain-English task authoring into always-on automations | Self-hosted full-stack agent platform |
+| **Category** | Cloud AI-agent platform — plain-English task authoring into always-on automations | The Open Source Agentic Teams Workspace (self-hosted, multi-agent) |
 | **Primary user** | Teams that want to describe work in sentences and have it run in the cloud without operating infrastructure | Teams building, running, and operating their own AI agent workflows on their own infrastructure |
 | **Agent runtime** | The vendor's cloud; each agent gets its own sandboxed cloud machine (isolated compute, code execution, browser automation) | WayFlow (Cinatra's Open Agent Specification (OAS) Flow agent runtime), a Python sidecar running on infrastructure you control |
 | **Large language model (LLM) access** | Multi-model — frontier models from Anthropic (Claude), OpenAI (GPT), and Google (Gemini) | Multi-provider through `@cinatra-ai/llm` (OpenAI, Anthropic, Gemini) |

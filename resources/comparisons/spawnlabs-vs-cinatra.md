@@ -6,7 +6,7 @@ Spawnlabs and Cinatra share a striking amount of surface area — both spawn aut
 
 | Dimension | Spawnlabs | Cinatra |
 |---|---|---|
-| **Category** | Cloud AI-agent platform — turn personal expertise into autonomous agents ("run without you, scale beyond you") | Self-hosted full-stack agent platform |
+| **Category** | Cloud AI-agent platform — turn personal expertise into autonomous agents ("run without you, scale beyond you") | The Open Source Agentic Teams Workspace (self-hosted, multi-agent) |
 | **Primary user** | Individuals and teams who want to delegate long-running business processes to autonomous agents without operating infrastructure | Teams building, running, and operating their own AI agent workflows on their own infrastructure |
 | **Agent runtime** | Spawnlabs' cloud — each agent gets "its own isolated runtime"; enterprise customers can run agents in their own virtual private cloud (VPC) or on-prem | WayFlow (Cinatra's Open Agent Specification (OAS) Flow agent runtime), a Python sidecar running on infrastructure you control |
 | **Large language model (LLM) access** | Managed inside the platform; the public site does not document a configurable model provider | Multi-provider through `@cinatra-ai/llm` (OpenAI, Anthropic, Gemini) |

@@ -4,7 +4,7 @@
 
 | Dimension | ChatGPT Workspace Agents | Cinatra |
 |---|---|---|
-| **Category** | Managed shared-agent feature inside ChatGPT for business plans | Self-hosted full-stack agent platform |
+| **Category** | Managed shared-agent feature inside ChatGPT for business plans | The Open Source Agentic Teams Workspace (self-hosted, multi-agent) |
 | **Primary user** | Teams running shared business workflows inside ChatGPT | Teams building, running, and operating their own AI agent workflows on their own infrastructure |
 | **Agent runtime** | Cloud, managed by OpenAI (Codex-powered) | WayFlow (Cinatra's OAS Flow agent runtime) (Open Agent Specification (OAS)-compliant Python runtime) running locally or on infrastructure you control |
 | **large language model (LLM) access** | OpenAI models only | Multi-provider through `@cinatra-ai/llm` (OpenAI, Anthropic, Gemini) |

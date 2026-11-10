@@ -6,7 +6,7 @@ TeamAI and Cinatra both want a team's AI work to stop happening in scattered, pe
 
 | Dimension | TeamAI | Cinatra |
 |---|---|---|
-| **Category** | Cloud-SaaS "collaborative multi-LLM AI platform" — a shared team workspace for multi-model chat, a document knowledge base, custom assistants, and automated workflows | Self-hosted full-stack agent platform |
+| **Category** | Cloud-SaaS "collaborative multi-LLM AI platform" — a shared team workspace for multi-model chat, a document knowledge base, custom assistants, and automated workflows | The Open Source Agentic Teams Workspace (self-hosted, multi-agent) |
 | **Primary user** | Teams that want one managed workspace across many LLM providers — from individuals up to enterprise departments (the site cites up to 1,000 users) | Teams building, running, and operating their own AI agent workflows on their own infrastructure |
 | **Agent runtime** | The vendor's cloud; custom assistants and automated workflows run inside the TeamAI workspace | WayFlow (Cinatra's Open Agent Specification (OAS) Flow agent runtime), a Python sidecar running on infrastructure you control |
 | **Large language model (LLM) access** | Multi-provider, switchable per conversation or workflow — OpenAI, Anthropic (Claude), Google (Gemini), Meta, and DeepSeek, per the site | Multi-provider through `@cinatra-ai/llm` (OpenAI, Anthropic, Gemini), on your own provider keys |
