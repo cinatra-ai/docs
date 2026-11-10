@@ -1,6 +1,6 @@
 # Spawnlabs vs. Cinatra
 
-Spawnlabs and Cinatra share a striking amount of surface area — both spawn autonomous, long-running agents that keep working after you close the tab, both run fleets of agents and sub-agents in parallel, both carry memory across sessions, and both reach a broad catalog of connected apps. The difference is not in the shape of what an agent does; it is in who owns the platform underneath. Spawnlabs is a proprietary cloud product where agents run, by default, in Spawnlabs' own infrastructure. Cinatra is an open source platform you self-host, where the runtime, the data, the connectors, and the agents themselves live on infrastructure you control.
+Spawnlabs and Cinatra share a striking amount of surface area — both spawn autonomous, long-running agents that keep working after you close the tab, both run fleets of agents and sub-agents in parallel, both carry memory across sessions, and both reach a broad catalog of connected apps. The difference is not in the shape of what an agent does; it is in who owns the platform underneath. Spawnlabs is a proprietary cloud product where agents run, by default, in Spawnlabs' own infrastructure. Cinatra is The Open Source Agentic Teams Workspace, self-hosted, where the runtime, the data, the connectors, and the agents themselves live on infrastructure you control.
 
 ## What They Are
 
@@ -105,7 +105,7 @@ The overlap is real and larger than with most products in this comparisons set. 
 
 ## TL;DR
 
-Spawnlabs and Cinatra reach for the same outcome — autonomous agents that run without you, in parallel, with memory and a wide reach into your tools — from opposite sides of the ownership question. Spawnlabs is a proprietary cloud product that makes spawning those agents fast and operationally hands-off, with a very broad integration catalog and agents that build their own tools; self-hosting exists, but on the enterprise tier. Cinatra is an open source, self-hosted platform where the runtime, the data, the connectors, and the agents are yours by default — readable, forkable, portable as OAS Flow files, and reachable over open protocols. If you want autonomous agents without operating anything, Spawnlabs is the shape of tool to evaluate. If you want the agents, the data, and the extension surface to be yours — open source, self-hosted, and portable — that is what Cinatra is for.
+Spawnlabs and Cinatra reach for the same outcome — autonomous agents that run without you, in parallel, with memory and a wide reach into your tools — from opposite sides of the ownership question. Spawnlabs is a proprietary cloud product that makes spawning those agents fast and operationally hands-off, with a very broad integration catalog and agents that build their own tools; self-hosting exists, but on the enterprise tier. Cinatra is The Open Source Agentic Teams Workspace, self-hosted, where the runtime, the data, the connectors, and the agents are yours by default — readable, forkable, portable as OAS Flow files, and reachable over open protocols. If you want autonomous agents without operating anything, Spawnlabs is the shape of tool to evaluate. If you want the agents, the data, and the extension surface to be yours — open source, self-hosted, and portable — that is what Cinatra is for.
 
 ## Notes on source
 

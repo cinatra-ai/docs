@@ -98,7 +98,7 @@ Both target team workflows that benefit from agents (outreach, reporting, conten
 
 ## TL;DR
 
-Workspace Agents are OpenAI's managed product for shared team agents inside ChatGPT — fast to enable, fully managed, OpenAI-only model stack, no portability outside ChatGPT. Cinatra is the open source platform you self-host when you want the same shape of value (shared business workflow agents, scheduling, HITL, connectors) without giving up control of the runtime, the model choice, the data, or the agent file format. The two are aimed at different buyers and largely do not compete: Workspace Agents replace the build-it-yourself decision with "use OpenAI's managed offering"; Cinatra is what you reach for when that build-it-yourself decision is intentional.
+Workspace Agents are OpenAI's managed product for shared team agents inside ChatGPT — fast to enable, fully managed, OpenAI-only model stack, no portability outside ChatGPT. Cinatra is The Open Source Agentic Teams Workspace, which you self-host when you want the same shape of value (shared business workflow agents, scheduling, HITL, connectors) without giving up control of the runtime, the model choice, the data, or the agent file format. The two are aimed at different buyers and largely do not compete: Workspace Agents replace the build-it-yourself decision with "use OpenAI's managed offering"; Cinatra is what you reach for when that build-it-yourself decision is intentional.
 
 ## Notes on source
 

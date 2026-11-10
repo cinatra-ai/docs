@@ -1,6 +1,6 @@
 # TeamAI vs. Cinatra
 
-TeamAI and Cinatra both want a team's AI work to stop happening in scattered, per-person chat windows and start compounding into shared capability — but they make opposite bets about where that capability lives. TeamAI is a hosted, cloud-SaaS multi-LLM workspace: one place where a team chats across many models, builds a citing knowledge base over its documents, stands up custom assistants, and wires in the tools it already uses, all run in the vendor's cloud. Cinatra is an open source, self-hosted platform that runs the agents itself, server-side, on infrastructure you control. One is a managed workspace you sign in to; the other is a runtime and platform you own and operate.
+TeamAI and Cinatra both want a team's AI work to stop happening in scattered, per-person chat windows and start compounding into shared capability — but they make opposite bets about where that capability lives. TeamAI is a hosted, cloud-SaaS multi-LLM workspace: one place where a team chats across many models, builds a citing knowledge base over its documents, stands up custom assistants, and wires in the tools it already uses, all run in the vendor's cloud. Cinatra is The Open Source Agentic Teams Workspace, self-hosted, and it runs the agents itself, server-side, on infrastructure you control. One is a managed workspace you sign in to; the other is a runtime and platform you own and operate.
 
 ## What They Are
 
@@ -101,7 +101,7 @@ The overlap is real. Both are **multi-provider** — several frontier LLMs behin
 
 ## TL;DR
 
-TeamAI bets that what a team needs is a managed multi-LLM workspace: chat across many models, a citing document knowledge base, custom assistants, a prompt library, and native integrations — all hosted, with workspace-based pricing and nothing to operate. Cinatra bets that teams ultimately want to *own* the agent layer: an open source, self-hosted platform with its own runtime, multi-provider LLM orchestration on your own keys, portable OAS agents, a cross-instance extension marketplace, declarative HITL surfaces, and an audit trail in your own database. If you want a ready-to-use collaborative AI workspace with broad managed model access and a turnkey knowledge base, TeamAI is the shape of tool to evaluate. If you want the agents, the data, and the extension surface to be yours — inspectable, portable, and self-hosted — that is what Cinatra is for.
+TeamAI bets that what a team needs is a managed multi-LLM workspace: chat across many models, a citing document knowledge base, custom assistants, a prompt library, and native integrations — all hosted, with workspace-based pricing and nothing to operate. Cinatra bets that teams ultimately want to *own* the agent layer: The Open Source Agentic Teams Workspace, self-hosted, with its own runtime, multi-provider LLM orchestration on your own keys, portable OAS agents, a cross-instance extension marketplace, declarative HITL surfaces, and an audit trail in your own database. If you want a ready-to-use collaborative AI workspace with broad managed model access and a turnkey knowledge base, TeamAI is the shape of tool to evaluate. If you want the agents, the data, and the extension surface to be yours — inspectable, portable, and self-hosted — that is what Cinatra is for.
 
 ## Notes on source
 
