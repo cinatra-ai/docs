@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
   <title>Cinatra — Application Design — Lifecycle cards in the conversation</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect x='8' y='8' width='496' height='496' rx='96' fill='%23ffffff' stroke='rgba(21,33,58,0.14)' stroke-width='16'/%3E%3Cg transform='translate(256 256) scale(1.04) translate(-256 -160)' fill='%23c79545'%3E%3Cpath d='M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z'/%3E%3Cpath d='M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect x='8' y='8' width='496' height='496' rx='96' fill='%23ffffff' stroke='rgba(21,33,58,0.14)' stroke-width='16'/%3E%3Cg transform='translate(256 256) scale(1.04) translate(-256 -160)' fill='%239c7434'%3E%3Cpath d='M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z'/%3E%3Cpath d='M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z'/%3E%3C/g%3E%3C/svg%3E" />
 
 <style>
 /* Archivo, Inter and JetBrains Mono, embedded. SIL Open Font License 1.1. */
@@ -63,7 +63,7 @@
     --muted:          #5a6477;
     --line:           rgba(21, 33, 58, 0.14);
     --line-strong:    #15213a;
-    --logo:           #c79545;
+    --logo:           #9c7434;
     --mustard-ink:    #7a5a1f;   /* darkened mustard: text/icon on warm mustard tints */
     --toolbar:        #dcddd5;   /* toolbar chrome ground */
     --toolbar-2:      #e3e4dc;   /* nested toolbar, level 2 */
@@ -120,8 +120,8 @@
   .bulbs { display: flex; gap: 9px; margin-top: 6px; }
   .bulbs .bulb {
     width: 5px; height: 5px; border-radius: 50%;
-    background: radial-gradient(circle at 32% 32%, #fff5d8 0%, #f0c878 32%, #c79545 78%, #8a5e1f 100%);
-    box-shadow: 0 0 3px rgba(236,202,126,0.85), 0 0 6px rgba(199,149,69,0.35);
+    background: radial-gradient(circle at 32% 32%, #fff5d8 0%, #c4a465 32%, #9c7434 78%, #62400f 100%);
+    box-shadow: 0 0 3px rgba(193,166,107,0.85), 0 0 6px rgba(156,116,52,0.35);
     animation: bulb-flicker 2.4s infinite ease-in-out;
   }
   .bulbs .bulb:nth-child(2)  { animation-delay: -0.35s; }
@@ -133,7 +133,7 @@
   .bulbs .bulb:nth-child(8)  { animation-delay: -0.55s; }
   .bulbs .bulb:nth-child(9)  { animation-delay: -0.90s; }
   .bulbs .bulb:nth-child(10) { animation-delay: -1.25s; }
-  @keyframes bulb-flicker { 48% { opacity: 0.55; box-shadow: 0 0 1.5px rgba(236,202,126,0.4); } }
+  @keyframes bulb-flicker { 48% { opacity: 0.55; box-shadow: 0 0 1.5px rgba(193,166,107,0.4); } }
 
   .kicker { font-size: 10.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
   /* Masthead headline for this reference document — bound to the app page-title lg token (28px), so the masthead rides the app page-title scale rather than a separate display size. Scoped to .mast so the generic h1 selector makes no independent page-title claim. */
@@ -246,7 +246,7 @@
   .pill.running .dot { background: var(--blue); }
   .pill.approved { background: rgba(63,110,107,0.12); color: var(--green); border-color: rgba(63,110,107,0.32); }
   .pill.approved .dot { background: var(--green); }
-  .pill.hold { background: rgba(199,149,69,0.16); color: var(--mustard-ink); border-color: rgba(199,149,69,0.42); }
+  .pill.hold { background: rgba(156,116,52,0.16); color: var(--mustard-ink); border-color: rgba(156,116,52,0.42); }
   .pill.hold .dot { background: var(--logo); }
   .pill.idle { background: transparent; color: var(--muted); border-color: var(--line-strong); }
   .pill.idle .dot { background: var(--muted); }
@@ -273,7 +273,7 @@
   .callout.info    .callout-label { color: var(--blue); }
   .callout.success { background: rgba(63,110,107,0.10); border-color: rgba(63,110,107,0.32); }
   .callout.success .callout-label { color: var(--green); }
-  .callout.warning { background: rgba(199,149,69,0.14); border-color: rgba(199,149,69,0.42); }
+  .callout.warning { background: rgba(156,116,52,0.14); border-color: rgba(156,116,52,0.42); }
   .callout.warning .callout-label { color: var(--mustard-ink); }
   .callout.danger  { background: rgba(166,56,79,0.09);  border-color: rgba(166,56,79,0.34); }
   .callout.danger  .callout-label { color: var(--red); }
@@ -290,7 +290,7 @@
   .matrix .verdict { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
   .v-aaa { background: rgba(63,110,107,0.18); color: var(--green); }
   .v-aa  { background: rgba(63,110,107,0.12); color: var(--green); }
-  .v-large { background: rgba(199,149,69,0.18); color: var(--mustard-ink); }
+  .v-large { background: rgba(156,116,52,0.18); color: var(--mustard-ink); }
   .v-fail { background: rgba(166,56,79,0.12); color: var(--red); }
   .matrix td.note { color: var(--muted); font-size: 12.5px; max-width: 320px; }
   .matrix .preview { padding: 4px 10px; font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 13px; border-radius: 4px; display: inline-block; }
@@ -351,7 +351,7 @@
   .from { margin: 8px 0 0; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
   .from a { color: var(--blue); text-decoration: none; }
   /* A region with no drawing anywhere in these pages says so, in the open. */
-  .newmark { display: inline-flex; align-items: center; gap: 6px; margin: 8px 0 0; padding: 3px 9px; border-radius: 9999px; background: rgba(199,149,69,0.14); border: 1px solid rgba(199,149,69,0.42); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mustard-ink); font-weight: 700; }
+  .newmark { display: inline-flex; align-items: center; gap: 6px; margin: 8px 0 0; padding: 3px 9px; border-radius: 9999px; background: rgba(156,116,52,0.14); border: 1px solid rgba(156,116,52,0.42); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mustard-ink); font-weight: 700; }
   .kick { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
   .note-line { margin: 8px 0 0; font-size: 11.5px; color: var(--muted); line-height: 1.5; max-width: 66ch; }
   .note-line b { color: var(--ink); font-weight: 600; }
@@ -398,7 +398,7 @@
   .rail .step.done { color: var(--ink); }
   .rail .step.done .glyph { color: var(--green); }
   .rail .step.history { color: var(--muted); }
-  .rail .step.active { color: var(--ink); font-weight: 600; background: rgba(199,149,69,0.12); box-shadow: inset 3px 0 0 var(--logo); }
+  .rail .step.active { color: var(--ink); font-weight: 600; background: rgba(156,116,52,0.12); box-shadow: inset 3px 0 0 var(--logo); }
   .rail .step.upcoming .glyph { opacity: 0.5; }
   .rail .step .kind { display: block; font-family: var(--font-mono); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mustard-ink); margin-top: 3px; }
   .rundetail { padding: 15px 16px; min-width: 0; }
@@ -423,17 +423,17 @@
      ACCEPTED and one press makes it DISMISSED. Dismissed is carried by the
      muted ground and the dashed edge alone — never by a strike, which would
      pile a second marker on a pill that is already marked. */
-  .sugg { display: grid; gap: 9px; border: 1px solid rgba(199,149,69,0.42); border-radius: 8px; background: rgba(199,149,69,0.07); padding: 11px 13px 13px; }
+  .sugg { display: grid; gap: 9px; border: 1px solid rgba(156,116,52,0.42); border-radius: 8px; background: rgba(156,116,52,0.07); padding: 11px 13px 13px; }
   .sugg.dismissed { border-style: dashed; border-color: var(--line-strong); background: transparent; }
   .sugg-head { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; }
-  .sgpill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 9999px; border: 1px solid rgba(199,149,69,0.55); background: rgba(199,149,69,0.28); color: var(--mustard-ink); font-family: var(--font-sans); font-size: 12px; font-weight: 600; cursor: pointer; }
+  .sgpill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 9999px; border: 1px solid rgba(156,116,52,0.55); background: rgba(156,116,52,0.28); color: var(--mustard-ink); font-family: var(--font-sans); font-size: 12px; font-weight: 600; cursor: pointer; }
   .sugg.dismissed .sgpill { border-style: dashed; border-color: var(--line-strong); background: transparent; color: var(--muted); }
   .sgpill svg { flex: none; width: 12px; height: 12px; }
   .sugg-class { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
   .ba { display: grid; grid-template-columns: 1fr 20px 1fr; gap: 9px; align-items: stretch; }
   @media (max-width: 620px) { .ba { grid-template-columns: 1fr; } .ba > .ba-arrow { display: none; } }
   .ba-col { min-width: 0; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); padding: 8px 10px 9px; }
-  .ba-col.after { border-color: rgba(199,149,69,0.42); background: var(--surface-strong); }
+  .ba-col.after { border-color: rgba(156,116,52,0.42); background: var(--surface-strong); }
   .sugg.dismissed .ba-col.after { border-color: var(--line); background: var(--surface); }
   .ba-k { font-family: var(--font-mono); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
   .ba-col p { margin: 0; font-size: 12px; line-height: 1.5; color: var(--ink); }
@@ -451,7 +451,7 @@
       <p class="lede">Four lifecycle cards — <b>review</b>, <b>recommendation</b>, <b>schedule proposal</b> and <b>verification</b> — drawn where a reader actually meets them: <b>inside the chat conversation</b>, between one message and the next. Each card is the surface that already carries its work on its own page, <b>composed into the thread</b> rather than redrawn for it; every section names the page its surface comes from. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.23.0</div>
+      <div>Version 0.24.0</div>
     </div>
   </div>
 
@@ -1612,7 +1612,7 @@
   <p class="lede-p"><b>Three outcomes.</b> <b>Verified</b>, <b>Out-of-scope drift</b> — a field changed that the review never covered, marked in place in the table — and <b>Findings not met</b>. The outcome pill is the only place the card carries state colour. <b>Disclosed</b> and <b>out of scope</b> are separate marks: a field may be disclosed to the analysis and still lie outside what the review covered, and the table says so on the row while the provenance says so in the list.</p>
 <div class="ex"><div class="cap">Example — the three outcomes</div><div class="body"><div style="display:grid;gap:14px;"><div data-conformance-id="verification-verified" data-lifecycle-card="verification_summary"><div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
   <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 14px;">
-    <span style="flex:none;width:26px;height:26px;border-radius:7px;background:rgba(199,149,69,0.15);color:var(--mustard-ink);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg></span>
+    <span style="flex:none;width:26px;height:26px;border-radius:7px;background:rgba(156,116,52,0.15);color:var(--mustard-ink);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg></span>
     <span style="font-family:var(--font-sans);font-weight:700;font-size:14px;color:var(--ink);">Core analysis</span>
     <span class="pill approved" style="font-size:11px;"><span class="dot"></span>Verified</span>
   </div>
@@ -1639,7 +1639,7 @@
   </div>
 </div></div><div data-conformance-id="verification-drift"><div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
   <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 14px;">
-    <span style="flex:none;width:26px;height:26px;border-radius:7px;background:rgba(199,149,69,0.15);color:var(--mustard-ink);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg></span>
+    <span style="flex:none;width:26px;height:26px;border-radius:7px;background:rgba(156,116,52,0.15);color:var(--mustard-ink);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg></span>
     <span style="font-family:var(--font-sans);font-weight:700;font-size:14px;color:var(--ink);">Core analysis</span>
     <span class="pill hold" style="font-size:11px;"><span class="dot"></span>Out-of-scope drift</span>
   </div>
@@ -1653,7 +1653,7 @@
           <th style="text-align:left;padding:7px 12px;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Before</th>
           <th style="text-align:left;padding:7px 12px;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">After</th>
         </tr></thead>
-        <tbody><tr><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:11px;color:var(--ink);">bcc <span style="font-family:var(--font-mono);font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mustard-ink);background:rgba(199,149,69,0.16);border:1px solid rgba(199,149,69,0.42);border-radius:3px;padding:1px 5px;">out of scope</span></td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);">&mdash;</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink);">legal@evil.test</td></tr><tr><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:11px;color:var(--ink);">body</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);text-decoration:line-through;">Old body copy that needed a rewrite.</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink);">Fresh re-engagement copy with a clear CTA.</td></tr><tr><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:11px;color:var(--ink);">subject</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);text-decoration:line-through;">Reengage Q3 churned cohort</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink);">Win back your Q3 favourites</td></tr></tbody>
+        <tbody><tr><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:11px;color:var(--ink);">bcc <span style="font-family:var(--font-mono);font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mustard-ink);background:rgba(156,116,52,0.16);border:1px solid rgba(156,116,52,0.42);border-radius:3px;padding:1px 5px;">out of scope</span></td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);">&mdash;</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink);">legal@evil.test</td></tr><tr><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:11px;color:var(--ink);">body</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);text-decoration:line-through;">Old body copy that needed a rewrite.</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink);">Fresh re-engagement copy with a clear CTA.</td></tr><tr><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:11px;color:var(--ink);">subject</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);text-decoration:line-through;">Reengage Q3 churned cohort</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink);">Win back your Q3 favourites</td></tr></tbody>
       </table>
     </div>
     <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;">
@@ -1666,7 +1666,7 @@
   </div>
 </div></div><div data-conformance-id="verification-findings-not-met"><div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
   <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 14px;">
-    <span style="flex:none;width:26px;height:26px;border-radius:7px;background:rgba(199,149,69,0.15);color:var(--mustard-ink);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg></span>
+    <span style="flex:none;width:26px;height:26px;border-radius:7px;background:rgba(156,116,52,0.15);color:var(--mustard-ink);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg></span>
     <span style="font-family:var(--font-sans);font-weight:700;font-size:14px;color:var(--ink);">Core analysis</span>
     <span class="pill failed" style="font-size:11px;"><span class="dot"></span>Findings not met</span>
   </div>
@@ -1698,7 +1698,7 @@
 <div class="ex"><div class="cap">Example — the verification card in the assistant turn</div><div class="body"><div class="thread"><div class="tbar">Chat<span class="sep">&rsaquo;</span><b>Q3 re-engagement</b></div><div class="stream"><div class="col"><div class="turn bot"><div class="who"><span class="av"><svg viewBox="0 0 512 512" fill="currentColor"><g transform="translate(256 256) scale(1.04) translate(-256 -160)"><path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/><path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/></g></svg></span><span>Cinatra</span></div><div class="prose" style="margin-bottom:2px;">I checked the repair against what you reviewed.</div><div class="slot" style="display:flex;flex-direction:column;gap:10px;"><div class="slot" data-conformance-id="verification-in-thread">
 <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
   <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 14px;">
-    <span style="flex:none;width:26px;height:26px;border-radius:7px;background:rgba(199,149,69,0.15);color:var(--mustard-ink);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg></span>
+    <span style="flex:none;width:26px;height:26px;border-radius:7px;background:rgba(156,116,52,0.15);color:var(--mustard-ink);display:grid;place-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg></span>
     <span style="font-family:var(--font-sans);font-weight:700;font-size:14px;color:var(--ink);">Core analysis</span>
     <span class="pill hold" style="font-size:11px;"><span class="dot"></span>Out-of-scope drift</span>
   </div>
@@ -1712,7 +1712,7 @@
           <th style="text-align:left;padding:7px 12px;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">Before</th>
           <th style="text-align:left;padding:7px 12px;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;">After</th>
         </tr></thead>
-        <tbody><tr><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:11px;color:var(--ink);">bcc <span style="font-family:var(--font-mono);font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mustard-ink);background:rgba(199,149,69,0.16);border:1px solid rgba(199,149,69,0.42);border-radius:3px;padding:1px 5px;">out of scope</span></td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);">&mdash;</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink);">legal@evil.test</td></tr><tr><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:11px;color:var(--ink);">subject</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);text-decoration:line-through;">Reengage Q3 churned cohort</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink);">Win back your Q3 favourites</td></tr></tbody>
+        <tbody><tr><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:11px;color:var(--ink);">bcc <span style="font-family:var(--font-mono);font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mustard-ink);background:rgba(156,116,52,0.16);border:1px solid rgba(156,116,52,0.42);border-radius:3px;padding:1px 5px;">out of scope</span></td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);">&mdash;</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink);">legal@evil.test</td></tr><tr><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:11px;color:var(--ink);">subject</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);text-decoration:line-through;">Reengage Q3 churned cohort</td><td style="padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink);">Win back your Q3 favourites</td></tr></tbody>
       </table>
     </div>
     <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;">
@@ -1919,7 +1919,7 @@
   <p class="note-line">The two cards share their frame, their button and their action; only the sentence differs. The <b>first sign-in card</b> is the card before any sign-in. The <b>sign-in-again card</b> is drawn once for all three causes: the maximum session lifetime, a sign-in ended elsewhere, and a refused renewal. Its button starts a new sign-in exactly as the first card&rsquo;s does.</p></div></div>
 
   <footer>
-    <span>Cinatra · Application Design — Lifecycle cards in the conversation v0.23.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Lifecycle cards in the conversation v0.24.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
