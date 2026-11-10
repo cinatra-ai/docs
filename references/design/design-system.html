@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
   <title>Cinatra — Application Design</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect x='8' y='8' width='496' height='496' rx='96' fill='%23ffffff' stroke='rgba(21,33,58,0.14)' stroke-width='16'/%3E%3Cg transform='translate(256 256) scale(1.04) translate(-256 -160)' fill='%23c79545'%3E%3Cpath d='M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z'/%3E%3Cpath d='M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect x='8' y='8' width='496' height='496' rx='96' fill='%23ffffff' stroke='rgba(21,33,58,0.14)' stroke-width='16'/%3E%3Cg transform='translate(256 256) scale(1.04) translate(-256 -160)' fill='%239c7434'%3E%3Cpath d='M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z'/%3E%3Cpath d='M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z'/%3E%3C/g%3E%3C/svg%3E" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -23,7 +23,7 @@
     --muted:          #5a6477;
     --line:           rgba(21, 33, 58, 0.14);
     --line-strong:    #15213a;
-    --logo:           #c79545;
+    --logo:           #9c7434;
     --mustard-ink:    #7a5a1f;   /* darkened mustard: text/icon on warm mustard tints */
     --toolbar:        #dcddd5;   /* toolbar chrome ground */
     --toolbar-2:      #e3e4dc;   /* nested toolbar, level 2 */
@@ -80,8 +80,8 @@
   .bulbs { display: flex; gap: 9px; margin-top: 6px; }
   .bulbs .bulb {
     width: 5px; height: 5px; border-radius: 50%;
-    background: radial-gradient(circle at 32% 32%, #fff5d8 0%, #f0c878 32%, #c79545 78%, #8a5e1f 100%);
-    box-shadow: 0 0 3px rgba(236,202,126,0.85), 0 0 6px rgba(199,149,69,0.35);
+    background: radial-gradient(circle at 32% 32%, #fff5d8 0%, #c4a465 32%, #9c7434 78%, #62400f 100%);
+    box-shadow: 0 0 3px rgba(193,166,107,0.85), 0 0 6px rgba(156,116,52,0.35);
     animation: bulb-flicker 2.4s infinite ease-in-out;
   }
   .bulbs .bulb:nth-child(2)  { animation-delay: -0.35s; }
@@ -93,7 +93,7 @@
   .bulbs .bulb:nth-child(8)  { animation-delay: -0.55s; }
   .bulbs .bulb:nth-child(9)  { animation-delay: -0.90s; }
   .bulbs .bulb:nth-child(10) { animation-delay: -1.25s; }
-  @keyframes bulb-flicker { 48% { opacity: 0.55; box-shadow: 0 0 1.5px rgba(236,202,126,0.4); } }
+  @keyframes bulb-flicker { 48% { opacity: 0.55; box-shadow: 0 0 1.5px rgba(193,166,107,0.4); } }
 
   .kicker { font-size: 10.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
   /* Masthead headline for this reference document — bound to the app page-title lg token (28px; see the Page header brief below), so the masthead rides the app page-title scale rather than a separate display size. Scoped to .mast so the generic h1 selector makes no independent page-title claim. */
@@ -224,7 +224,7 @@
   .pill.running .dot { background: var(--blue); }
   .pill.approved { background: rgba(63,110,107,0.12); color: var(--green); border-color: rgba(63,110,107,0.32); }
   .pill.approved .dot { background: var(--green); }
-  .pill.hold { background: rgba(199,149,69,0.16); color: var(--mustard-ink); border-color: rgba(199,149,69,0.42); }
+  .pill.hold { background: rgba(156,116,52,0.16); color: var(--mustard-ink); border-color: rgba(156,116,52,0.42); }
   .pill.hold .dot { background: var(--logo); }
   .pill.idle { background: transparent; color: var(--muted); border-color: var(--line-strong); }
   .pill.idle .dot { background: var(--muted); }
@@ -251,7 +251,7 @@
   .callout.info    .callout-label { color: var(--blue); }
   .callout.success { background: rgba(63,110,107,0.10); border-color: rgba(63,110,107,0.32); }
   .callout.success .callout-label { color: var(--green); }
-  .callout.warning { background: rgba(199,149,69,0.14); border-color: rgba(199,149,69,0.42); }
+  .callout.warning { background: rgba(156,116,52,0.14); border-color: rgba(156,116,52,0.42); }
   .callout.warning .callout-label { color: var(--mustard-ink); }
   .callout.danger  { background: rgba(166,56,79,0.09);  border-color: rgba(166,56,79,0.34); }
   .callout.danger  .callout-label { color: var(--red); }
@@ -268,7 +268,7 @@
   .matrix .verdict { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
   .v-aaa { background: rgba(63,110,107,0.18); color: var(--green); }
   .v-aa  { background: rgba(63,110,107,0.12); color: var(--green); }
-  .v-large { background: rgba(199,149,69,0.18); color: var(--mustard-ink); }
+  .v-large { background: rgba(156,116,52,0.18); color: var(--mustard-ink); }
   .v-fail { background: rgba(166,56,79,0.12); color: var(--red); }
   .matrix td.note { color: var(--muted); font-size: 12.5px; max-width: 320px; }
   .matrix .preview { padding: 4px 10px; font-family: var(--font-sans); font-style: italic; font-weight: 700; font-size: 13px; border-radius: 4px; display: inline-block; }
@@ -299,7 +299,7 @@
       </p>
     </div>
     <div class="meta">
-      <div>Version 0.14.0</div>
+      <div>Version 0.15.0</div>
     </div>
   </div>
 
@@ -430,7 +430,7 @@
 
   <div class="grid">
     <div class="swatch" style="--swatch: var(--logo);">
-      <div class="chip"><span class="hex" style="--label-color: var(--ink)">#C79545</span></div>
+      <div class="chip"><span class="hex" style="--label-color: var(--ink)">#9C7434</span></div>
       <div class="info">
         <div class="role">Mustard</div>
         <div class="token">--logo · --warning · brand mark · "needs you"</div>
@@ -542,7 +542,7 @@
         <tr>
           <td><span class="pair"><span class="a" style="background:var(--logo)"></span><span></span>Mustard</span></td>
           <td><code>#F7F7F3</code> surface</td>
-          <td class="ratio">2.5 : 1</td>
+          <td class="ratio">3.9 : 1</td>
           <td><span class="verdict v-large">LARGE ONLY</span></td>
           <td><span class="preview" style="background:var(--paper);color:var(--logo);font-size:22px;font-weight:800;font-style:italic;">Cinatra</span></td>
           <td class="note">Display-only. Reserve for the wordmark and the hold pill chip background. Never use for body or buttons.</td>
@@ -619,7 +619,7 @@
           <span class="pill failed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" style="width:10px;height:10px;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>Failed</span>
           <span class="pill approved" style="background:rgba(63,110,107,0.06);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><rect width="18" height="15" x="3" y="6" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/></svg>Scheduled</span>
           <span class="pill running" style="background:rgba(54,78,129,0.08);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Queued</span>
-          <span class="pill hold" style="background:rgba(199,149,69,0.10);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>Needs review</span>
+          <span class="pill hold" style="background:rgba(156,116,52,0.10);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>Needs review</span>
           <span class="pill idle" style="opacity:0.7;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/></svg>Archived</span>
           <span class="pill failed" style="background:rgba(166,56,79,0.85);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>Declined</span>
           <span class="pill idle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>Withdrawn</span>
@@ -1237,7 +1237,7 @@
   </div>
 
 <footer>
-    <span>Cinatra · Application Design v0.14.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design v0.15.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
