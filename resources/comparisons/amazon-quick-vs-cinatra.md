@@ -1,6 +1,6 @@
 # Amazon Quick vs. Cinatra
 
-Amazon Quick is AWS's managed, AWS-hosted AI assistant and agentic workspace for business teams. Cinatra is the open source, self-hosted agent platform you run on your own infrastructure. Both are agentic work platforms — they go beyond chat into scheduling, building deliverables, and acting on a user's behalf — and they make opposite bets on where that capability should live: inside AWS's cloud as a managed product, or on servers you control as software you own.
+Amazon Quick is AWS's managed, AWS-hosted AI assistant and agentic workspace for business teams. Cinatra is The Open Source Agentic Teams Workspace, which you run on your own infrastructure. Both are agentic work platforms — they go beyond chat into scheduling, building deliverables, and acting on a user's behalf — and they make opposite bets on where that capability should live: inside AWS's cloud as a managed product, or on servers you control as software you own.
 
 ## What They Are
 
