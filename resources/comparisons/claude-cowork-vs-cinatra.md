@@ -8,7 +8,7 @@ The shortest honest summary: Claude Cowork helps an individual delegate messy de
 
 | Dimension | Claude Cowork | Cinatra |
 |---|---|---|
-| **Category** | Anthropic's desktop agent for individual knowledge work | Self-hosted full-stack agent platform |
+| **Category** | Anthropic's desktop agent for individual knowledge work | The Open Source Agentic Teams Workspace (self-hosted, multi-agent) |
 | **Primary surface** | Claude desktop app (macOS, Windows) with local file and app access | Web workspace at your domain plus Model Context Protocol (MCP) and agent-to-agent (A2A) protocol endpoints |
 | **Primary user** | An individual knowledge worker; admins enabling them at team/enterprise scale | A team operating shared business workflows |
 | **Execution model** | Agent loop and conversation handling run natively on the user's device; code runs in a local isolated VM (Apple Virtualization.framework on macOS, Hyper-V on Windows); model inference is sent to Anthropic's API by default, or to a third-party endpoint when Cowork is deployed through Bedrock / Vertex AI / Foundry / a large language model (LLM) gateway | All execution is server-side on infrastructure you control — Next.js + PostgreSQL + Redis + WayFlow (Cinatra's OAS Flow agent runtime) Python sidecar |

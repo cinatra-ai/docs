@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifacts.html",
-  "contentHash": "sha256:c4aac5f31aa873714c63891d69ecd41d3b92e387a8b5161798390d7840ddd9b3",
+  "contentHash": "sha256:1029daa6d1568bc08fa1494d3da8915ffebd4a1fe44a9543adc0e41ec3505dce",
   "surfaces": [
     {
       "id": "artifacts-facet",
