@@ -1,12 +1,12 @@
 # Tasklet vs. Cinatra
 
-Tasklet and Cinatra both turn "an AI agent should just do this for me" into something a team can rely on, but they make opposite bets about where that agent lives. Tasklet is a cloud platform: you describe a task in plain English, and it builds an always-on automation that runs in the vendor's infrastructure, each agent inside its own sandboxed cloud machine. Cinatra is an open source, self-hosted platform that runs the agents itself, server-side, on infrastructure you control. One is a managed cloud you build agents inside; the other is a runtime and platform you own and operate.
+Tasklet and Cinatra both turn "an AI agent should just do this for me" into something a team can rely on, but they make opposite bets about where that agent lives. Tasklet is a cloud platform: you describe a task in plain English, and it builds an always-on automation that runs in the vendor's infrastructure, each agent inside its own sandboxed cloud machine. Cinatra is The Open Source Agentic Teams Workspace, self-hosted, and it runs the agents itself, server-side, on infrastructure you control. One is a managed cloud you build agents inside; the other is a runtime and platform you own and operate.
 
 ## What They Are
 
 | Dimension | Tasklet | Cinatra |
 |---|---|---|
-| **Category** | Cloud AI-agent platform — plain-English task authoring into always-on automations | Self-hosted full-stack agent platform |
+| **Category** | Cloud AI-agent platform — plain-English task authoring into always-on automations | The Open Source Agentic Teams Workspace (self-hosted, multi-agent) |
 | **Primary user** | Teams that want to describe work in sentences and have it run in the cloud without operating infrastructure | Teams building, running, and operating their own AI agent workflows on their own infrastructure |
 | **Agent runtime** | The vendor's cloud; each agent gets its own sandboxed cloud machine (isolated compute, code execution, browser automation) | WayFlow (Cinatra's Open Agent Specification (OAS) Flow agent runtime), a Python sidecar running on infrastructure you control |
 | **Large language model (LLM) access** | Multi-model — frontier models from Anthropic (Claude), OpenAI (GPT), and Google (Gemini) | Multi-provider through `@cinatra-ai/llm` (OpenAI, Anthropic, Gemini) |
@@ -102,7 +102,7 @@ The overlap is real and worth naming. Both are **MCP-native**, and both can conn
 
 ## TL;DR
 
-Tasklet bets that the friction is in *building* agents, and removes it with plain-English authoring, a per-agent cloud sandbox, a broad integration catalog, and always-on managed execution — you describe the work and the vendor runs it. Cinatra bets that teams ultimately want to *own* the agent layer: an open source, self-hosted platform with its own runtime, multi-provider LLM orchestration, portable OAS agents, a cross-instance extension marketplace, declarative HITL surfaces, and an audit trail in your own database. If you want the fastest path from a sentence to a running cloud automation, with isolated per-agent compute and a managed vendor, Tasklet is the shape of tool to evaluate. If you want the agents, the data, and the extension surface to be yours — inspectable, portable, and self-hosted — that is what Cinatra is for. Because both speak MCP, the two can even meet in the middle.
+Tasklet bets that the friction is in *building* agents, and removes it with plain-English authoring, a per-agent cloud sandbox, a broad integration catalog, and always-on managed execution — you describe the work and the vendor runs it. Cinatra bets that teams ultimately want to *own* the agent layer: The Open Source Agentic Teams Workspace, self-hosted, with its own runtime, multi-provider LLM orchestration, portable OAS agents, a cross-instance extension marketplace, declarative HITL surfaces, and an audit trail in your own database. If you want the fastest path from a sentence to a running cloud automation, with isolated per-agent compute and a managed vendor, Tasklet is the shape of tool to evaluate. If you want the agents, the data, and the extension surface to be yours — inspectable, portable, and self-hosted — that is what Cinatra is for. Because both speak MCP, the two can even meet in the middle.
 
 ## Notes on source
 
