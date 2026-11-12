@@ -1,6 +1,6 @@
 # Artifacts and files
 
-Cinatra is the open source AI workspace for teams, and a lot of the value of a
+Cinatra is The Open Source Agentic Teams Workspace, and a lot of the value of a
 workspace is the *stuff* — the documents, drafts, images, PDFs, and references
 that flow into and out of agent work. In Cinatra these are called **artifacts**.
 
