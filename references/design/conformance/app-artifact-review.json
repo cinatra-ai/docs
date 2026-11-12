@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:54d23e9cfae4ee2078901b8e64d60b9dab6ce82190e38ebdf745a86e730533ec",
+  "contentHash": "sha256:c7e8ba41ede870e3b4f0f39bbfc583b183c7b7655f3c31e5b1341867ff56775f",
   "surfaces": [
     {
       "id": "run-surface",
@@ -224,6 +224,22 @@
       "actions": [],
       "states": [
         "empty"
+      ]
+    },
+    {
+      "id": "run-list-step-loading",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "loading"
+      ]
+    },
+    {
+      "id": "run-list-step-error",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "error"
       ]
     },
     {
