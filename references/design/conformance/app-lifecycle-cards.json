@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-lifecycle-cards.html",
-  "contentHash": "sha256:234c532f2301b049026211df7b548903bc7eff7b67837a018e18c4195246574c",
+  "contentHash": "sha256:ba8786889b7c063927b75f829b5525fad793df380979f31c702b1321f50eb707",
   "surfaces": [
     {
       "id": "chat-thread",
@@ -1015,22 +1015,11 @@
     },
     {
       "id": "drupal-pointer-never-a-review-target",
-      "fields": [
-        {
-          "field": "target",
-          "source": "representation.node-id"
-        }
-      ],
-      "actions": [
-        {
-          "action": "open-in-cms",
-          "outcome": "cms-opened"
-        }
-      ],
+      "fields": [],
+      "actions": [],
       "states": [
         "error",
-        "kind:artifact",
-        "loading"
+        "kind:artifact"
       ]
     },
     {
