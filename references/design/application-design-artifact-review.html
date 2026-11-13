@@ -355,7 +355,7 @@
       <p class="lede">The <b>agent run surface</b> under <code>/agents</code> — the run's <b>steps</b> down a left rail, its <b>detail</b> on the right, and the <b>lifecycle-interception gates</b> that pause it, resolved <b>in place inside the run</b> rather than on any standalone page. Its central gate is the <b>generic artifact-review gate</b>: the type-agnostic surface on which a human <b>continues</b> with, <b>regenerates</b>, <b>comments</b> on, or — through the run's conversational prompt window — <b>requests changes to</b> an artifact the run produced. It is referenced by <b>Application Design — Artifacts</b> (§ Change review). This page specifies the <b>design</b> only — how the run engine implements the gate is specified with the engine, not here. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.28.0</div>
+      <div>Version 0.29.0</div>
     </div>
   </div>
 
@@ -931,7 +931,85 @@
             <span style="font-family:var(--font-sans);font-weight:700;font-size:14px;color:var(--ink);">The question the agent declared for this step</span>
             <span class="pill hold"><span class="dot"></span>Awaiting your picks</span>
           </div>
-          <p role="status" style="margin:0;font-size:12.5px;line-height:1.55;color:var(--ink);">There is nothing to pick from yet. Add an entry where this run reads from, then open this step again.</p>
+          <p role="status" style="margin:0;font-size:12.5px;line-height:1.55;color:var(--ink);">There is nothing to pick from yet. Add an entry where this run reads from, then open this step again.</p><span style="display:block;margin-top:5px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);">Empty-list message &middot; from the agent's declaration</span>
+          <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;">
+            <button type="button" class="btn primary" disabled style="padding:6px 14px;font-size:12.5px;opacity:0.5;cursor:default;border-color:var(--line-strong);">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="lede-p"><b>While the list is read, and when it cannot be.</b> Until the declared list has been read, the rows' place holds a <b>loading</b> skeleton that mirrors the rows it waits for (<a href="application-design-components.html" style="color:var(--blue);">Components</a> &middot; Skeleton / Spinner), and the Continue stays <b>unavailable</b>: there is nothing to pick yet. A read that <b>fails</b> is never drawn as an empty list. The agent reports only <b>that</b> its read failed, never why; in the empty message's place the host draws <b>its own one message</b> for a failed read, as an <b>alert</b> (<a href="application-design-components.html" style="color:var(--blue);">Components</a> &middot; Alert, destructive), and names no system. Where the step declares a value that asks for the list again, the host draws <b>Try again</b> in the alert, and the step reads the list again. The Continue stays unavailable. The failure's own error text never reaches the page, and no reading picks a row for the reader.</p>
+
+  <div class="ex" data-conformance-id="run-list-step-loading" data-state="loading">
+    <div class="cap">Example &mdash; the same step while its list is read: a skeleton in the rows' place, and Continue unavailable</div>
+    <div class="body">
+      <div class="runframe">
+        <div class="rail">
+          <div class="step"><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M20 6 9 17l-5-5"/></svg></span><span>Skills</span></div>
+          <div class="sep"></div>
+          <div class="step active"><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg></span><span>The list step</span></div>
+          <div class="sep"></div>
+          <div class="step upcoming"><span class="glyph">3</span><span>The step after</span></div>
+          <div class="sep"></div>
+          <div class="step upcoming"><span class="glyph">4</span><span>Review</span></div>
+        </div>
+        <div class="rundetail">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:10px;">
+            <span style="font-family:var(--font-sans);font-weight:700;font-size:14px;color:var(--ink);">The question the agent declared for this step</span>
+            <span class="pill hold"><span class="dot"></span>Awaiting your picks</span>
+          </div>
+          <div style="display:grid;gap:8px;margin-bottom:12px;">
+            <div style="display:flex;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:10px 12px;">
+              <span style="flex:none;width:14px;height:14px;margin-top:3px;border-radius:3px;background:var(--surface-muted);"></span>
+              <span style="flex:1;min-width:0;display:grid;gap:7px;padding-top:2px;">
+                <span style="display:block;height:9px;width:46%;background:var(--surface-muted);border-radius:4px;"></span>
+                <span style="display:block;height:7px;width:62%;background:var(--surface-muted);border-radius:4px;"></span>
+              </span>
+            </div>
+            <div style="display:flex;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:10px 12px;">
+              <span style="flex:none;width:14px;height:14px;margin-top:3px;border-radius:3px;background:var(--surface-muted);"></span>
+              <span style="flex:1;min-width:0;display:grid;gap:7px;padding-top:2px;">
+                <span style="display:block;height:9px;width:46%;background:var(--surface-muted);border-radius:4px;"></span>
+                <span style="display:block;height:7px;width:62%;background:var(--surface-muted);border-radius:4px;"></span>
+              </span>
+            </div>
+            <div style="display:flex;gap:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:10px 12px;">
+              <span style="flex:none;width:14px;height:14px;margin-top:3px;border-radius:3px;background:var(--surface-muted);"></span>
+              <span style="flex:1;min-width:0;display:grid;gap:7px;padding-top:2px;">
+                <span style="display:block;height:9px;width:46%;background:var(--surface-muted);border-radius:4px;"></span>
+                <span style="display:block;height:7px;width:62%;background:var(--surface-muted);border-radius:4px;"></span>
+              </span>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--line);">
+            <button type="button" class="btn primary" disabled style="padding:6px 14px;font-size:12.5px;opacity:0.5;cursor:default;border-color:var(--line-strong);">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-conformance-id="run-list-step-error" data-state="error">
+    <div class="cap">Example &mdash; the same step when its list cannot be read: the host's one message in the empty message's place, as an alert, with Try again, and Continue unavailable</div>
+    <div class="body">
+      <div class="runframe">
+        <div class="rail">
+          <div class="step"><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M20 6 9 17l-5-5"/></svg></span><span>Skills</span></div>
+          <div class="sep"></div>
+          <div class="step active"><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg></span><span>The list step</span></div>
+          <div class="sep"></div>
+          <div class="step upcoming"><span class="glyph">3</span><span>The step after</span></div>
+          <div class="sep"></div>
+          <div class="step upcoming"><span class="glyph">4</span><span>Review</span></div>
+        </div>
+        <div class="rundetail">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:10px;">
+            <span style="font-family:var(--font-sans);font-weight:700;font-size:14px;color:var(--ink);">The question the agent declared for this step</span>
+            <span class="pill hold"><span class="dot"></span>Awaiting your picks</span>
+          </div>
+          <div role="alert" style="display:flex;gap:10px;align-items:flex-start;border:1px solid var(--red);background:var(--surface-strong);border-radius:8px;padding:12px 14px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;color:var(--red);flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span style="display:block;flex:1;min-width:0;"><p style="margin:0;font-size:12.5px;line-height:1.55;color:var(--ink);">This list could not be read.</p><span style="display:block;margin-top:5px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);">Failed read &middot; the host's own message</span></span><button type="button" class="btn" style="padding:5px 12px;font-size:12px;flex:none;">Try again</button></div>
           <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;">
             <button type="button" class="btn primary" disabled style="padding:6px 14px;font-size:12.5px;opacity:0.5;cursor:default;border-color:var(--line-strong);">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
           </div>
@@ -1876,7 +1954,7 @@ Are you open to a short call next week?</textarea></div></div><div><button class
   <p class="lede-p"><b>A LinkedIn post draft has no display of its own.</b> It is stored as markdown and is drawn by the display of that content type &mdash; the <b>markdown display</b> (&sect;V.1), with its <b>Code</b> and <b>Preview</b> tabs &mdash; on the artifact&rsquo;s own page and wherever it is read, exactly as any other markdown. On a review target it is that display, <b>pinned and read only</b>, and the floor beneath it is the surface&rsquo;s (&sect;VI); sending the post is the publish step&rsquo;s (&sect;I.4), never the display&rsquo;s.</p>
 
   <footer>
-    <span>Cinatra · Application Design — Agent run &amp; review v0.28.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Agent run &amp; review v0.29.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
