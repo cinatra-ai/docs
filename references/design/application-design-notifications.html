@@ -367,7 +367,7 @@
       <p class="lede">The unified <code>/notifications</code> surface — <b>one chronological list</b> that holds notifications and pending approvals together, filtered (not clustered), reached from a badge-only bell. It replaces the approvals inbox and the bell flyout. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.2.0</div>
+      <div>Version 0.2.1</div>
     </div>
   </div>
 
@@ -492,6 +492,7 @@
   </div>
   <p class="lede-p" style="margin-top:-8px;"><b>Href-less approvals opt out of the whole card.</b> That fourth species carries no stretched overlay at all — the card itself does nothing on click; only its inline decide controls (when the viewer is eligible) are live. The exemption is <b>species-driven</b>, not a fixed list of approval kinds — whichever approval kinds happen to be href-less on a given instance are exempt, and whichever carry an <code>href</code> get the stretched link.</p>
   <p class="lede-p"><b>The read/unread toggle — one envelope, two states.</b> Every notification card carries a small icon button in the trailing slot, sitting above the overlay: <b>unread</b> shows a <b>closed envelope</b> (the action marks it read); <b>read</b> shows an <b>opened envelope</b> (the action marks it unread). One glyph pair, two states — the same method as the joined-plug connected/disconnected pair (Application Design — Connectors). Approval cards never carry this control.</p>
+  <p class="lede-p"><b>A refused decision shows the server's reason.</b> When the server refuses an approval's decision — Approve or Decline, from the row's inline action or from the decision's dialog — the decision's error line shows the server's reason <b>in the server's own words</b>: the dialog's destructive alert and the row's inline error line carry that reason as the server gave it, never replaced by a generic sentence. The reason is what tells the viewer what to fix before deciding again; the one fixed sentence of §VI belongs to degraded sources only, never to a refused decision.</p>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
     <div class="ex" data-conformance-id="notification-row" data-state="loading" style="margin-bottom:0;">
@@ -679,7 +680,7 @@
   </div>
 
   <footer>
-    <span>Cinatra · Application Design — Notifications v0.2.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Notifications v0.2.1</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
