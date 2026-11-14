@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:40c15f97d30bcbb8a0ec32476e564c38c60e2b8e6f176b807f3329663e35e1cc",
+  "contentHash": "sha256:1ab8f7739088b1ce78a171144f0d30d91ec2e9ad950bc863ed12df39d2bd07c8",
   "surfaces": [
     {
       "id": "run-surface",
@@ -227,6 +227,22 @@
       ]
     },
     {
+      "id": "run-list-step-loading",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "loading"
+      ]
+    },
+    {
+      "id": "run-list-step-error",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "error"
+      ]
+    },
+    {
       "id": "run-outputs-list",
       "fields": [
         {
@@ -293,62 +309,6 @@
         "error",
         "kind:artifact",
         "loading"
-      ]
-    },
-    {
-      "id": "run-linkedin-publish-step",
-      "fields": [
-        {
-          "field": "copy",
-          "source": "representation.pinned-revision"
-        }
-      ],
-      "actions": [
-        {
-          "action": "continue",
-          "outcome": "answer-sent"
-        }
-      ],
-      "states": [
-        "kind:artifact",
-        "loading"
-      ]
-    },
-    {
-      "id": "run-wordpress-publish-step",
-      "fields": [
-        {
-          "field": "title",
-          "source": "representation.first-heading"
-        }
-      ],
-      "actions": [
-        {
-          "action": "continue",
-          "outcome": "answer-sent"
-        }
-      ],
-      "states": [
-        "kind:artifact",
-        "loading"
-      ]
-    },
-    {
-      "id": "run-wordpress-publish-step-no-site",
-      "fields": [
-        {
-          "field": "title",
-          "source": "representation.first-heading"
-        }
-      ],
-      "actions": [
-        {
-          "action": "continue",
-          "outcome": "answer-sent"
-        }
-      ],
-      "states": [
-        "kind:artifact"
       ]
     },
     {
