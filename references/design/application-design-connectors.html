@@ -312,7 +312,7 @@
       <p class="lede">How connectors surface in the Cinatra app — the connector toolbar, the responsive card grid, and the connected / disconnected state language. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.10.1</div>
+      <div>Version 0.11.0</div>
     </div>
   </div>
 
@@ -495,7 +495,19 @@
         <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;"><div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Connected</div><button type="button" class="btn destructive" style="cursor: pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="m19 5 3-3"/><path d="m2 22 3-3"/><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="m12 6 6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z"/></svg>Disconnect</button></div>
         <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;"><div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Not connected</div><button type="button" class="btn destructive" disabled aria-disabled="true" style="opacity: 0.45; cursor: not-allowed;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="m19 5 3-3"/><path d="m2 22 3-3"/><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="m12 6 6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z"/></svg>Disconnect</button></div>
       </div>
-      <p style="max-width: 66ch; font-size: 12.5px; color: var(--muted); margin: 14px 0 0; line-height: 1.5;">There is nothing to disconnect until the connector is connected, so <b style="color:var(--ink);font-weight:600;">Disconnect</b> stays disabled — greyed and non-interactive — until then. <b style="color:var(--ink);font-weight:600;">Connect</b> is always available.</p>
+      <p style="max-width: 66ch; font-size: 12.5px; color: var(--muted); margin: 14px 0 0; line-height: 1.5;">There is nothing to disconnect until the connector is connected, so <b style="color:var(--ink);font-weight:600;">Disconnect</b> stays disabled — greyed and non-interactive — until then. <b style="color:var(--ink);font-weight:600;">Connect</b> is available unless the connector needs a prerequisite that is not yet configured (see <em>Connect · prerequisite</em> below).</p>
+    </div>
+  </div>
+
+  <!-- Example — Connect · prerequisite unconfigured vs configured -->
+  <div style="border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; margin: 0 0 12px;">
+    <div style="padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 700;">Example — Connect · prerequisite unconfigured vs configured</div>
+    <div style="padding: 18px 20px;">
+      <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;">
+        <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start; flex: 1 1 320px; max-width: 440px;"><div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Prerequisite unconfigured</div><div style="display: flex; flex-direction: column; gap: 24px; align-self: stretch;"><section style="border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 20px;"><p style="margin: 0; font-family: var(--font-body); font-size: 13px; line-height: 1.6; color: var(--muted);">Connecting requires shared <a href="#" style="color: var(--muted); text-decoration: underline; text-underline-offset: 4px;">Google OAuth credentials</a>.</p></section><div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px;"><button type="button" class="btn primary" disabled aria-disabled="true" style="opacity: 0.45; cursor: not-allowed;">Connect</button></div></div></div>
+        <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;"><div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;">Prerequisite configured</div><button type="button" class="btn primary" style="cursor: pointer;">Connect</button></div>
+      </div>
+      <p style="max-width: 66ch; font-size: 12.5px; color: var(--muted); margin: 14px 0 0; line-height: 1.5;">Some connectors can connect only once something else is configured — for example, a connector that signs in through the shared Google OAuth client can require that client's ID and secret to be saved first. While that prerequisite is unconfigured, <b style="color:var(--ink);font-weight:600;">Connect</b> is disabled — greyed and non-interactive — so no one is sent into a sign-in that cannot succeed, and, until the connector is connected, a soft panel above the actions names the prerequisite and links to the page that configures it. Once the prerequisite is configured the panel is gone and Connect is live.</p>
     </div>
   </div>
 
@@ -941,7 +953,7 @@
   <p style="max-width: 66ch; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 12px 0 6px;">The error line is the setup surface's own error state and the whole of the Setup tab: no form, no <b style="color:var(--ink);font-weight:600;">Connection status</b> card and no action. The two rebuild states read the same line; only the package it names changes.</p>
 
 <footer>
-    <span>Cinatra · Application Design — Connectors v0.10.1</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Connectors v0.11.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
