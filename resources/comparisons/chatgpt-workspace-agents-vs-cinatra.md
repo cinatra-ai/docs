@@ -4,7 +4,7 @@
 
 | Dimension | ChatGPT Workspace Agents | Cinatra |
 |---|---|---|
-| **Category** | Managed shared-agent feature inside ChatGPT for business plans | Self-hosted full-stack agent platform |
+| **Category** | Managed shared-agent feature inside ChatGPT for business plans | The Open Source Agentic Teams Workspace (self-hosted, multi-agent) |
 | **Primary user** | Teams running shared business workflows inside ChatGPT | Teams building, running, and operating their own AI agent workflows on their own infrastructure |
 | **Agent runtime** | Cloud, managed by OpenAI (Codex-powered) | WayFlow (Cinatra's OAS Flow agent runtime) (Open Agent Specification (OAS)-compliant Python runtime) running locally or on infrastructure you control |
 | **large language model (LLM) access** | OpenAI models only | Multi-provider through `@cinatra-ai/llm` (OpenAI, Anthropic, Gemini) |
@@ -98,7 +98,7 @@ Both target team workflows that benefit from agents (outreach, reporting, conten
 
 ## TL;DR
 
-Workspace Agents are OpenAI's managed product for shared team agents inside ChatGPT — fast to enable, fully managed, OpenAI-only model stack, no portability outside ChatGPT. Cinatra is the open source platform you self-host when you want the same shape of value (shared business workflow agents, scheduling, HITL, connectors) without giving up control of the runtime, the model choice, the data, or the agent file format. The two are aimed at different buyers and largely do not compete: Workspace Agents replace the build-it-yourself decision with "use OpenAI's managed offering"; Cinatra is what you reach for when that build-it-yourself decision is intentional.
+Workspace Agents are OpenAI's managed product for shared team agents inside ChatGPT — fast to enable, fully managed, OpenAI-only model stack, no portability outside ChatGPT. Cinatra is The Open Source Agentic Teams Workspace, which you self-host when you want the same shape of value (shared business workflow agents, scheduling, HITL, connectors) without giving up control of the runtime, the model choice, the data, or the agent file format. The two are aimed at different buyers and largely do not compete: Workspace Agents replace the build-it-yourself decision with "use OpenAI's managed offering"; Cinatra is what you reach for when that build-it-yourself decision is intentional.
 
 ## Notes on source
 

@@ -6,7 +6,7 @@ This page compares Cinatra with Anthropic's developer-facing **Managed Agents** 
 
 | Dimension | Claude Managed Agents | Cinatra |
 |---|---|---|
-| **Category** | Managed API infrastructure (Anthropic-hosted) | Self-hosted agent platform / Model Context Protocol (MCP) application framework |
+| **Category** | Managed API infrastructure (Anthropic-hosted) | The Open Source Agentic Teams Workspace (self-hosted; Model Context Protocol (MCP) application framework) |
 | **Primary user** | Developers building products on Claude | Teams using AI collaboratively via a browser UI |
 | **Model lock-in** | Claude only | OpenAI, Anthropic, Gemini — provider-agnostic |
 | **Hosting** | Anthropic's cloud | Your own infrastructure (PostgreSQL + Redis + Node.js) |

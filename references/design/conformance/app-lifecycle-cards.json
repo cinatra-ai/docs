@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-lifecycle-cards.html",
-  "contentHash": "sha256:fb19470b23a6a25936583f5f8585a64453b42ffca6030f8a2759fba025eb0842",
+  "contentHash": "sha256:e031684e9001d307872ba65ece2e6c5127b439c0065dbfa2ea80583596afc5d9",
   "surfaces": [
     {
       "id": "chat-thread",
@@ -252,6 +252,53 @@
       "actions": [],
       "states": [
         "empty"
+      ]
+    },
+    {
+      "id": "publish-state-matrix",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "publish-state-loading",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "loading"
+      ]
+    },
+    {
+      "id": "publish-state-restricted",
+      "fields": [
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        },
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "loading"
+      ]
+    },
+    {
+      "id": "publish-state-no-longer-open",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "error"
       ]
     },
     {
@@ -1073,22 +1120,11 @@
     },
     {
       "id": "drupal-pointer-never-a-review-target",
-      "fields": [
-        {
-          "field": "target",
-          "source": "representation.node-id"
-        }
-      ],
-      "actions": [
-        {
-          "action": "open-in-cms",
-          "outcome": "cms-opened"
-        }
-      ],
+      "fields": [],
+      "actions": [],
       "states": [
         "error",
-        "kind:artifact",
-        "loading"
+        "kind:artifact"
       ]
     },
     {
@@ -1111,6 +1147,120 @@
           "outcome": "sign-in-window-opened"
         }
       ],
+      "states": []
+    },
+    {
+      "id": "publish-card",
+      "fields": [
+        {
+          "field": "agent",
+          "source": "manifest.displayName"
+        },
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        },
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        }
+      ],
+      "actions": [
+        {
+          "action": "decline-publish",
+          "outcome": "declined"
+        },
+        {
+          "action": "approve-publish",
+          "outcome": "released"
+        }
+      ],
+      "states": [
+        "error",
+        "loading"
+      ]
+    },
+    {
+      "id": "publish-card-readings",
+      "fields": [],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "publish-card-approved",
+      "fields": [
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        },
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        }
+      ],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "publish-card-declined",
+      "fields": [
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        },
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        }
+      ],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "publish-card-expired",
+      "fields": [
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        },
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        }
+      ],
+      "actions": [],
       "states": []
     }
   ]

@@ -1,6 +1,6 @@
 # Marketplace and extensions
 
-Cinatra is the open source AI workspace for teams, and most of what you can do in it arrives as an **extension**. Extensions add new things Cinatra can do: agents, connectors, skills, artifacts, and workflows. After an admin installs an extension, its approved features appear in the right places on the running workspace — the Agents area, connector setup screens, or skills matched into agent runs — without waiting for a rebuild or redeploy. If an admin archives it, normal access stops while past work remains available.
+Cinatra is The Open Source Agentic Teams Workspace, and most of what you can do in it arrives as an **extension**. Extensions add new things Cinatra can do: agents, connectors, skills, artifacts, and workflows. After an admin installs an extension, its approved features appear in the right places on the running workspace — the Agents area, connector setup screens, or skills matched into agent runs — without waiting for a rebuild or redeploy. If an admin archives it, normal access stops while past work remains available.
 
 This page is for the people using the workspace day to day. It explains what extensions add, where their features show up, and why a feature you expect might not be there for you. Installing, approving, and visibility are admin decisions — see the [Admin Guide: marketplace](../admin/marketplace.md) for that side.
 

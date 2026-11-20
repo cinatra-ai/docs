@@ -2,7 +2,7 @@
 
 Background, positioning, and evaluation material — the "why Cinatra, and how does it compare" reading. For how-to docs see [Guides](../guides/README.md); for specs and architecture see [References](../references/README.md).
 
-- [Why Cinatra](why-cinatra.md) — what an open, standards-based AI workspace unlocks, and the problems it solves
+- [Why Cinatra](why-cinatra.md) — what The Open Source Agentic Teams Workspace unlocks, and the problems it solves
 - [Comparisons](comparisons/README.md) — how Cinatra compares to other agent platforms:
   - [ChatGPT Workspace Agents vs Cinatra](comparisons/chatgpt-workspace-agents-vs-cinatra.md)
   - [Claude Cowork vs Cinatra](comparisons/claude-cowork-vs-cinatra.md)

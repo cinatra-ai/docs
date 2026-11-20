@@ -1,6 +1,6 @@
 # Why Cinatra
 
-Cinatra is the AI workspace teams run *together*. Instead of each person prompting a chatbot alone, a whole team runs AI agents inside shared projects, teams, and organizations — and works with the results together: reviewing what agents produce, approving the next step, and building on each other's runs. It is the open source AI workspace for teams — on data you control, for as long as the work takes, with a paper trail you can audit. This page gathers the concrete benefits the workspace unlocks over isolated chat tools, managed-agent products, and one-off SDK integrations.
+Cinatra is The Open Source Agentic Teams Workspace: the AI workspace teams run *together*. Instead of each person prompting a chatbot alone, a whole team runs AI agents inside shared projects, teams, and organizations — and works with the results together: reviewing what agents produce, approving the next step, and building on each other's runs. It runs on data you control, for as long as the work takes, with a paper trail you can audit. This page gathers the concrete benefits the workspace unlocks over isolated chat tools, managed-agent products, and one-off SDK integrations.
 
 For the comparisons against specific alternatives, see the [comparisons section](comparisons/).
 

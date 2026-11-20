@@ -1,12 +1,12 @@
 # Amazon Quick vs. Cinatra
 
-Amazon Quick is AWS's managed, AWS-hosted AI assistant and agentic workspace for business teams. Cinatra is the open source, self-hosted agent platform you run on your own infrastructure. Both are agentic work platforms — they go beyond chat into scheduling, building deliverables, and acting on a user's behalf — and they make opposite bets on where that capability should live: inside AWS's cloud as a managed product, or on servers you control as software you own.
+Amazon Quick is AWS's managed, AWS-hosted AI assistant and agentic workspace for business teams. Cinatra is The Open Source Agentic Teams Workspace, which you run on your own infrastructure. Both are agentic work platforms — they go beyond chat into scheduling, building deliverables, and acting on a user's behalf — and they make opposite bets on where that capability should live: inside AWS's cloud as a managed product, or on servers you control as software you own.
 
 ## What They Are
 
 | Dimension | Amazon Quick | Cinatra |
 |---|---|---|
-| **Category** | Managed agentic AI assistant / workspace (AWS-hosted SaaS) | Self-hosted full-stack agent platform |
+| **Category** | Managed agentic AI assistant / workspace (AWS-hosted SaaS) | The Open Source Agentic Teams Workspace (self-hosted, multi-agent) |
 | **Primary user** | Business teams — sales, marketing, IT, operations, finance, legal — from a free individual tier up to enterprise | Teams building, running, and operating their own AI agent workflows on their own infrastructure |
 | **Agent runtime** | AWS-managed cloud, plus a native desktop app (macOS, Windows) that runs scheduled background agents | WayFlow (Cinatra's Open Agent Specification (OAS) Flow agent runtime), a Python sidecar running on infrastructure you control |
 | **Large language model (LLM) access** | Underlying models are not disclosed on AWS's product pages | Multi-provider through `@cinatra-ai/llm` (OpenAI, Anthropic, Gemini) |
@@ -110,7 +110,7 @@ Both target business teams that want agents, not just chat: scheduled and backgr
 
 ## TL;DR
 
-Amazon Quick is AWS's managed agentic workspace: a polished product family (Spaces, Custom Agents, Quick Flows, Quick Automate, Quick Sight, Quick Research, Quick Index) with a desktop app, a curated connector catalog, first-class remote-MCP support, and enterprise compliance attestations — all hosted by AWS, priced per user plus metered agent hours, with no self-host option and no portable agent format. Cinatra is the open source platform for teams that want the same shape of value — shared agents, scheduled background work, research, dashboards, HITL — as software they run, extend, and audit themselves: multi-provider LLMs, OAS-portable agents, a self-published extension marketplace, and an MCP server other tools can drive. Choose Quick when a managed AWS product is the point; choose Cinatra when owning the runtime, the data, and the extension surface is the point.
+Amazon Quick is AWS's managed agentic workspace: a polished product family (Spaces, Custom Agents, Quick Flows, Quick Automate, Quick Sight, Quick Research, Quick Index) with a desktop app, a curated connector catalog, first-class remote-MCP support, and enterprise compliance attestations — all hosted by AWS, priced per user plus metered agent hours, with no self-host option and no portable agent format. Cinatra is The Open Source Agentic Teams Workspace for teams that want the same shape of value — shared agents, scheduled background work, research, dashboards, HITL — as software they run, extend, and audit themselves: multi-provider LLMs, OAS-portable agents, a self-published extension marketplace, and an MCP server other tools can drive. Choose Quick when a managed AWS product is the point; choose Cinatra when owning the runtime, the data, and the extension surface is the point.
 
 ## Notes on source
 

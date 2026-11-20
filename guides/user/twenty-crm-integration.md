@@ -1,6 +1,6 @@
 # Twenty CRM integration
 
-Cinatra is the open source AI workspace for teams, and for customer data it
+Cinatra is The Open Source Agentic Teams Workspace, and for customer data it
 connects to **Twenty**, an open source CRM. Twenty is the system of record for
 your People, Companies, Opportunities, custom objects, and Lists. Cinatra's
 agents read and write those records during their work, and the full CRM browse

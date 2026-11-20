@@ -1,6 +1,6 @@
 # Projects and ownership
 
-Cinatra is the open source AI workspace for teams. As soon as more than one
+Cinatra is The Open Source Agentic Teams Workspace. As soon as more than one
 person shares it, two questions matter: *who can see and change a thing*, and
 *how is related work kept together*. Cinatra answers the first with **ownership
 tiers** and the second with **Projects**. They are separate ideas, and this page

@@ -1,6 +1,6 @@
 # Data and objects
 
-Cinatra is the open source AI workspace for teams, and a workspace needs a place
+Cinatra is The Open Source Agentic Teams Workspace, and a workspace needs a place
 where the *records* live — the contacts, accounts, campaigns, transcripts, and
 lists that agents read from and write back to. In Cinatra that place is the
 **Data** surface, and the records are called **objects**.

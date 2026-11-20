@@ -1,12 +1,12 @@
 # Runwork vs. Cinatra
 
-Runwork and Cinatra answer the same complaint — every person on the team uses AI alone, and nothing accumulates — with different architectures. Runwork is a cloud SaaS coordination layer that sits *across* the AI tools a team already uses (Claude, Cursor, and other Model Context Protocol (MCP)-compatible agents), giving them shared skills, automations, and adoption visibility. Cinatra is an open source, self-hosted platform that *runs the agents itself*, server-side, on infrastructure you control. One coordinates agents that live elsewhere; the other is the place the agents live.
+Runwork and Cinatra answer the same complaint — every person on the team uses AI alone, and nothing accumulates — with different architectures. Runwork is a cloud SaaS coordination layer that sits *across* the AI tools a team already uses (Claude, Cursor, and other Model Context Protocol (MCP)-compatible agents), giving them shared skills, automations, and adoption visibility. Cinatra is The Open Source Agentic Teams Workspace, self-hosted, and it *runs the agents itself*, server-side, on infrastructure you control. One coordinates agents that live elsewhere; the other is the place the agents live.
 
 ## What They Are
 
 | Dimension | Runwork | Cinatra |
 |---|---|---|
-| **Category** | Cloud SaaS "AI-native team workspace" — a coordination layer across multiple AI agents | Self-hosted full-stack agent platform |
+| **Category** | Cloud SaaS "AI-native team workspace" — a coordination layer across multiple AI agents | The Open Source Agentic Teams Workspace (self-hosted, multi-agent) |
 | **Primary user** | Teams already using several AI tools without shared context; department leads who want adoption visibility; non-technical operators building team apps | Teams building, running, and operating their own AI agent workflows on their own infrastructure |
 | **Agent runtime** | The team's existing agents (Claude/Claude Desktop and Cursor are concretely documented; any MCP-compatible tool can connect) plus Runwork's own cloud automations | WayFlow (Cinatra's Open Agent Specification (OAS) Flow agent runtime), a Python sidecar running on infrastructure you control |
 | **Large language model (LLM) access** | Indirect — through whichever AI tools the team connects; platform credits cover AI usage in Runwork's own features | Multi-provider through `@cinatra-ai/llm` (OpenAI, Anthropic, Gemini) |
@@ -107,7 +107,7 @@ The overlap is real and larger than with most products in this comparisons set: 
 
 ## TL;DR
 
-Runwork bets that the agents your team already uses are fine — what is missing is the layer that coordinates them: shared skills, automations, team apps, and adoption metrics, delivered as a managed cloud workspace with MCP running in both directions. Cinatra bets that teams ultimately want to *own* the agent layer: an open source, self-hosted platform with its own runtime, multi-provider LLM orchestration, portable OAS agents, a cross-instance extension marketplace, declarative HITL surfaces, and an audit trail in your own database. If your team's AI life happens inside Claude and Cursor and you want it coordinated without operating anything, Runwork is the shape of tool to evaluate. If you want the agents, the data, and the extension surface to be yours — inspectable, portable, and self-hosted — that is what Cinatra is for. Thanks to MCP, the two can even meet in the middle.
+Runwork bets that the agents your team already uses are fine — what is missing is the layer that coordinates them: shared skills, automations, team apps, and adoption metrics, delivered as a managed cloud workspace with MCP running in both directions. Cinatra bets that teams ultimately want to *own* the agent layer: The Open Source Agentic Teams Workspace, self-hosted, with its own runtime, multi-provider LLM orchestration, portable OAS agents, a cross-instance extension marketplace, declarative HITL surfaces, and an audit trail in your own database. If your team's AI life happens inside Claude and Cursor and you want it coordinated without operating anything, Runwork is the shape of tool to evaluate. If you want the agents, the data, and the extension surface to be yours — inspectable, portable, and self-hosted — that is what Cinatra is for. Thanks to MCP, the two can even meet in the middle.
 
 ## Notes on source
 

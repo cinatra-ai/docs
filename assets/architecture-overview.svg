@@ -1,6 +1,6 @@
 <svg width="1200" height="980" viewBox="0 0 1200 980" fill="none" xmlns="http://www.w3.org/2000/svg">
   <title>Cinatra Architecture Overview</title>
-  <desc>Architectural diagram of Cinatra, the open source AI workspace for teams, featuring a unified workspace, protocol gateways, virtual runtime, and durable multi-tier storage.</desc>
+  <desc>Architectural diagram of Cinatra, The Open Source Agentic Teams Workspace, featuring a unified workspace, protocol gateways, virtual runtime, and durable multi-tier storage.</desc>
 
   <!-- Background -->
   <rect width="1200" height="980" rx="28" fill="#F8FAFC"/>

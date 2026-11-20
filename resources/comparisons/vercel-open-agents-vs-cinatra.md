@@ -4,7 +4,7 @@
 
 | Dimension | Vercel Open Agents | Cinatra |
 |---|---|---|
-| **Category** | Open source reference app for coding agents | Self-hosted multi-agent business automation platform |
+| **Category** | Open source reference app for coding agents | The Open Source Agentic Teams Workspace (self-hosted, multi-agent) |
 | **Primary user** | Developers building / running coding agents on Vercel | Teams automating business workflows via a browser UI |
 | **Agent types** | One (coding / repo work) | Many — email outreach, blog publishing, CRM enrichment, content review, web research, and any extension-defined custom agents |
 | **Hosting** | Vercel-native (Workflow + Sandbox) | Your own infrastructure (PostgreSQL + Redis + Node.js) |
@@ -76,4 +76,4 @@
 
 Vercel Open Agents is a focused, well-scoped reference implementation for one thing: running a coding agent on Vercel infrastructure. It is a strong starting point if you want to deploy a git-aware coding assistant without building the scaffolding yourself — but it is Vercel-native and covers a single agent type.
 
-Cinatra is a different category: a multi-agent business automation platform that uses several LLM providers as its intelligence layer while providing the product layer on top — connectors, domain workflows, a skills catalog, an MCP server, and a full admin UI. They do not compete directly. The coding-agent pattern from Open Agents (durable workflow + sandbox VM) would map cleanly onto a future Cinatra agent type if sandboxed code execution becomes a requirement.
+Cinatra is a different category: The Open Source Agentic Teams Workspace, which uses several LLM providers as its intelligence layer while providing the product layer on top — connectors, domain workflows, a skills catalog, an MCP server, and a full admin UI. They do not compete directly. The coding-agent pattern from Open Agents (durable workflow + sandbox VM) would map cleanly onto a future Cinatra agent type if sandboxed code execution becomes a requirement.
