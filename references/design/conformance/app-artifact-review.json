@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:1ab8f7739088b1ce78a171144f0d30d91ec2e9ad950bc863ed12df39d2bd07c8",
+  "contentHash": "sha256:112e92db3f3036dc25fd780cd7bae133aaf48a723541bff964672a6fe6368ac6",
   "surfaces": [
     {
       "id": "run-surface",
@@ -950,6 +950,20 @@
         "error",
         "kind:artifact",
         "loading"
+      ]
+    },
+    {
+      "id": "cms-fields-display",
+      "fields": [
+        {
+          "field": "fields",
+          "source": "representation.cms-fields"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "error",
+        "kind:artifact"
       ]
     }
   ]
