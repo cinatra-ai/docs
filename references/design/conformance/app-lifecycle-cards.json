@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-lifecycle-cards.html",
-  "contentHash": "sha256:e031684e9001d307872ba65ece2e6c5127b439c0065dbfa2ea80583596afc5d9",
+  "contentHash": "sha256:952aa6017d58d398bbd7c9767b9961793c76f64774e3f4dd30be66d3f613c185",
   "surfaces": [
     {
       "id": "chat-thread",
@@ -1262,6 +1262,138 @@
       ],
       "actions": [],
       "states": []
+    },
+    {
+      "id": "publish-card-rows",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "error",
+        "loading"
+      ]
+    },
+    {
+      "id": "publish-row-text",
+      "fields": [
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        }
+      ],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "publish-row-list",
+      "fields": [
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-column",
+          "source": "declaration.row.columns.label"
+        },
+        {
+          "field": "row-column",
+          "source": "declaration.row.columns.label"
+        },
+        {
+          "field": "row-column",
+          "source": "declaration.row.columns.label"
+        },
+        {
+          "field": "row-cell",
+          "source": "declaration.row.columns.field"
+        },
+        {
+          "field": "row-cell",
+          "source": "declaration.row.columns.field"
+        },
+        {
+          "field": "row-cell",
+          "source": "declaration.row.columns.field"
+        },
+        {
+          "field": "row-cell",
+          "source": "declaration.row.columns.field"
+        },
+        {
+          "field": "row-cell",
+          "source": "declaration.row.columns.field"
+        },
+        {
+          "field": "row-cell",
+          "source": "declaration.row.columns.field"
+        },
+        {
+          "field": "row-cell",
+          "source": "declaration.row.columns.field"
+        },
+        {
+          "field": "row-cell",
+          "source": "declaration.row.columns.field"
+        },
+        {
+          "field": "row-cell",
+          "source": "declaration.row.columns.field"
+        },
+        {
+          "field": "row-more",
+          "source": "declaration.row.total"
+        }
+      ],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "publish-row-items",
+      "fields": [
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-items",
+          "source": "declaration.row.input"
+        }
+      ],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "publish-row-items-refused",
+      "fields": [
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "error"
+      ]
+    },
+    {
+      "id": "publish-row-items-empty",
+      "fields": [
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-items",
+          "source": "declaration.row.input"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "empty"
+      ]
     }
   ]
 }
