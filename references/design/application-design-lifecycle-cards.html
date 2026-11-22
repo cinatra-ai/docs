@@ -451,7 +451,7 @@
       <p class="lede">Five lifecycle cards — <b>review</b>, <b>recommendation</b>, <b>schedule proposal</b>, <b>verification</b> and <b>publish</b> — drawn where a reader actually meets them: <b>inside the chat conversation</b>, between one message and the next. Each card is the surface that already carries its work on its own page, <b>composed into the thread</b> rather than redrawn for it; every section names the page its surface comes from. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.28.0</div>
+      <div>Version 0.29.0</div>
     </div>
   </div>
 
@@ -2045,6 +2045,7 @@
   <!-- ── XV. The publish card ── -->
   <div class="sect"><h2>XV. The publish card</h2><div class="rule"></div><div class="source">the external-write moment &middot; its own card kind &middot; Allow &middot; Do not allow &middot; declined &middot; expired</div></div>
   <p class="lede-p"><b>Nothing changes outside Cinatra before a person says so.</b> When a run reaches a step that its agent <b>declares as an external write</b>, a step that creates, changes or deletes data in a system outside Cinatra, the run <b>stops directly in front of that step</b>, at one confirmation that the application owns. Like the review card (&sect;II), the recommendation card (&sect;V) and the schedule card (&sect;VI), the publish card holds the run at a recorded moment until a person answers. It is its <b>own card kind</b> and the <b>same card for every external write</b>: no agent draws a confirmation of its own, and the card names no agent, site or service in its own words. Publishing a post, sending an email and saving a record in a connected CRM meet the <b>same question</b>; the agent&rsquo;s rows say what changes.</p>
+  <p class="lede-p"><b>A publish card opens only after an approved review.</b> An approved review card (&sect;II) must come earlier in the same run, before any publish card opens. The review does not stand in for the publish card, and the publish card does not stand in for the review. They are two answers, and a different team member may give each one: one member reviews, and another member may answer the publish card. If a run reaches an external write and no approved review came before it, no publish card opens. The run <b>ends without writing</b>, nothing changes outside Cinatra, and the run records why.</p>
   <p class="lede-p"><b>The card shows what the agent declares.</b> Under its question, the card draws the agent&rsquo;s <b>display name</b> and the <b>rows the declaring agent supplies</b> for this step, in the generic read-only view of label over value, one to four rows of the kinds drawn at &sect;XV.1. The labels and the values are the agent&rsquo;s words, so this drawing shows placeholders for them; the card adds only its question, its note field and its two controls. An agent adds <b>no preview</b> of its own. A row holds what a reader can judge, never an internal identifier. The rows are <b>read only</b>: this card decides <b>whether</b> the change is made, never what it holds. The rows are the agent&rsquo;s own words, and the agent makes the change itself. The application does not check them against what the agent writes.</p>
   <p class="lede-p"><b>Two controls, and each one is the answer.</b> <b>Allow</b> releases the run, and the agent&rsquo;s <b>own step</b> runs, exactly as it would without the card. <b>Do not allow</b> ends the run: nothing changes outside Cinatra, that step and the steps after it do not run, the run&rsquo;s status is <b>stopped</b>, the run page reads <b>Not allowed</b>, and the run records <b>who declined</b>, <b>when</b>, and the <b>reason</b> if one was written in the note field. There is <b>no Continue</b> beneath them and no third control, so a decline never travels the road an approval takes.</p>
   <p class="lede-p"><b>Three settled readings, and the card keeps its place.</b> Once settled, the controls and the note field leave it, its rows stay on screen read-only, and a marker below the whole card says what happened: <b>Allowed</b>, <b>Not allowed</b> or <b>Expired</b>. A request that no one answers within <b>24 hours</b> <b>expires</b>, and an expired request is a decline: nothing changes outside Cinatra and the run ends. The expired marker says that <b>no person decided</b>, so a reader is never told that someone declined.</p>
@@ -2167,7 +2168,7 @@
     </div></div></div>
   <p class="note-line">The panel keeps its frame and draws nothing in it: not the run&rsquo;s items, and not the item it did not make. The rest of the card is as above.</p>
   <footer>
-    <span>Cinatra · Application Design — Lifecycle cards in the conversation v0.28.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Lifecycle cards in the conversation v0.29.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
