@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:9f7552e08a316aa40226bdca40f4c0df83d7d0fd46aeca1a6bc57cfb0e8fdd66",
+  "contentHash": "sha256:112e92db3f3036dc25fd780cd7bae133aaf48a723541bff964672a6fe6368ac6",
   "surfaces": [
     {
       "id": "run-surface",
@@ -816,10 +816,19 @@
     },
     {
       "id": "drupal-pointer-display",
+      "fields": [],
+      "actions": [],
+      "states": [
+        "error",
+        "kind:artifact"
+      ]
+    },
+    {
+      "id": "drupal-page-display",
       "fields": [
         {
-          "field": "target",
-          "source": "representation.node-id"
+          "field": "excerpts",
+          "source": "representation.changed-excerpts"
         }
       ],
       "actions": [
@@ -835,7 +844,7 @@
       ]
     },
     {
-      "id": "drupal-pointer-continued-reading",
+      "id": "drupal-page-continued-reading",
       "fields": [
         {
           "field": "reading",
@@ -941,6 +950,20 @@
         "error",
         "kind:artifact",
         "loading"
+      ]
+    },
+    {
+      "id": "cms-fields-display",
+      "fields": [
+        {
+          "field": "fields",
+          "source": "representation.cms-fields"
+        }
+      ],
+      "actions": [],
+      "states": [
+        "error",
+        "kind:artifact"
       ]
     }
   ]

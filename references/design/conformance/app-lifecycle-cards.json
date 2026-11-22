@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-lifecycle-cards.html",
-  "contentHash": "sha256:a8aa9a8a0cbd930d5005d4461c0ba68ac4b1071eef65d7d695c84ac7c32a960d",
+  "contentHash": "sha256:952aa6017d58d398bbd7c9767b9961793c76f64774e3f4dd30be66d3f613c185",
   "surfaces": [
     {
       "id": "chat-thread",
@@ -446,6 +446,64 @@
       "id": "hitl-screen-fields",
       "fields": [],
       "actions": [],
+      "states": []
+    },
+    {
+      "id": "hitl-declared-facts",
+      "fields": [
+        {
+          "field": "fact-label",
+          "source": "schema.title"
+        },
+        {
+          "field": "fact-value",
+          "source": "values.fact"
+        }
+      ],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "hitl-declared-rows",
+      "fields": [
+        {
+          "field": "rows-label",
+          "source": "schema.title"
+        },
+        {
+          "field": "column-title",
+          "source": "schema.items.properties.title"
+        },
+        {
+          "field": "row-value",
+          "source": "values.rows"
+        }
+      ],
+      "actions": [],
+      "states": []
+    },
+    {
+      "id": "hitl-declared-decision",
+      "fields": [
+        {
+          "field": "decision-label",
+          "source": "schema.title"
+        },
+        {
+          "field": "answer-value",
+          "source": "schema.enum"
+        },
+        {
+          "field": "answer-label",
+          "source": "schema.x-enum-titles"
+        }
+      ],
+      "actions": [
+        {
+          "action": "choose-answer",
+          "outcome": "answer-chosen"
+        }
+      ],
       "states": []
     },
     {
@@ -1062,22 +1120,11 @@
     },
     {
       "id": "drupal-pointer-never-a-review-target",
-      "fields": [
-        {
-          "field": "target",
-          "source": "representation.node-id"
-        }
-      ],
-      "actions": [
-        {
-          "action": "open-in-cms",
-          "outcome": "cms-opened"
-        }
-      ],
+      "fields": [],
+      "actions": [],
       "states": [
         "error",
-        "kind:artifact",
-        "loading"
+        "kind:artifact"
       ]
     },
     {
