@@ -451,7 +451,7 @@
       <p class="lede">Five lifecycle cards — <b>review</b>, <b>recommendation</b>, <b>schedule proposal</b>, <b>verification</b> and <b>publish</b> — drawn where a reader actually meets them: <b>inside the chat conversation</b>, between one message and the next. Each card is the surface that already carries its work on its own page, <b>composed into the thread</b> rather than redrawn for it; every section names the page its surface comes from. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.29.0</div>
+      <div>Version 0.30.0</div>
     </div>
   </div>
 
@@ -2102,6 +2102,23 @@
       </div>
     </div></div></div>
   <p class="note-line">The marker is the only thing that differs between the three readings. A declined card and an expired card both say that <b>nothing changed outside Cinatra</b>. A settled card names whoever decided: the approved and declined cards name that person, and the expired card names no one, because no one decided.</p>
+  <p class="lede-p"><b>Allowed, but the run did not go on.</b> When a person allowed the change and the run still waits at the same step, the card asks once more. It keeps its question, the agent&rsquo;s name and its rows, and draws one <b>Allow</b> with a line that says the run did not go on. It draws <b>no note field</b> and <b>no Do not allow</b>: the change was already allowed, so the one answer left is to let the run go on. <b>Allow</b> releases the run, as above.</p>
+  <div class="ex" data-conformance-id="publish-card-allow-again"><div class="cap">Example &mdash; the change was allowed, but the run did not go on</div><div class="body"><div style="max-width:620px;">
+      <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+        <div style="padding:11px 14px;border-bottom:1px solid var(--line);">
+          <span style="font-family:var(--font-sans);font-weight:700;font-size:13.5px;color:var(--ink);">Allow this change outside Cinatra?</span>
+          <p style="margin:4px 0 0;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);"><span data-field="agent=manifest.displayName">Agent display name</span> &middot; nothing outside Cinatra has changed yet</p>
+        </div>
+        <div style="padding:12px 14px;display:grid;gap:9px;">
+          <div><div class="kick" data-field="row-label=declaration.row.label" style="font-size:9px;margin-bottom:2px;">First label</div><div data-field="row-value=declaration.row.value" style="font-size:12.5px;color:var(--ink);">Value from the agent&rsquo;s declaration</div></div>
+          <div><div class="kick" data-field="row-label=declaration.row.label" style="font-size:9px;margin-bottom:2px;">Second label</div><div data-field="row-value=declaration.row.value" style="font-size:12.5px;color:var(--ink);">Value from the agent&rsquo;s declaration</div></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px;padding:0 14px 0;">
+          <button type="button" class="btn primary" data-action="approve-publish -> released" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Allow</button>
+        </div>
+        <p style="margin:10px 0 0;padding:0 14px 13px;font-size:11.5px;color:var(--muted);line-height:1.5;">This change was allowed, but the run did not go on. Allow again to let it go on.</p>
+      </div>
+    </div></div></div>
   <p class="lede-p"><b>The same card on every host, and the same states.</b> The publish card appears in the chat thread, the site widget, the run card and the page gate region (&sect;IX). Its loading, restricted and no-longer-open readings are drawn at &sect;IV.1. Where a message is bound to it (&sect;X), the message can work only these two controls. <b>A run that no person started</b> waits at the same card until a member who may approve the run decides on the run page, or until the request expires.</p>
 
   <h3 style="font-family:var(--font-sans);font-style:italic;font-weight:700;font-size:16px;color:var(--ink);margin:22px 0 8px;">XV.1 &middot; The card&rsquo;s rows &mdash; text, list and items</h3>
@@ -2168,7 +2185,7 @@
     </div></div></div>
   <p class="note-line">The panel keeps its frame and draws nothing in it: not the run&rsquo;s items, and not the item it did not make. The rest of the card is as above.</p>
   <footer>
-    <span>Cinatra · Application Design — Lifecycle cards in the conversation v0.29.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Lifecycle cards in the conversation v0.30.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
