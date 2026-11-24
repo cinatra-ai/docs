@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-lifecycle-cards.html",
-  "contentHash": "sha256:870eaa090faec1dfdaab9e680f209a8f353d5cf216f8af196ac88bc4f10b91ca",
+  "contentHash": "sha256:a1f81fd59bea79a897402661b918dbaab89aab5bcfd83403c1cb85391a6bb325",
   "surfaces": [
     {
       "id": "chat-thread",
@@ -1261,6 +1261,38 @@
         }
       ],
       "actions": [],
+      "states": []
+    },
+    {
+      "id": "publish-card-allow-again",
+      "fields": [
+        {
+          "field": "agent",
+          "source": "manifest.displayName"
+        },
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        },
+        {
+          "field": "row-label",
+          "source": "declaration.row.label"
+        },
+        {
+          "field": "row-value",
+          "source": "declaration.row.value"
+        }
+      ],
+      "actions": [
+        {
+          "action": "approve-publish",
+          "outcome": "released"
+        }
+      ],
       "states": []
     },
     {
