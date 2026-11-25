@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-lifecycle-cards.html",
-  "contentHash": "sha256:edeb24fde7ee98299aa2383bf5a240e8f5bfc6cf71cbf7c11fce0fd1f636ed16",
+  "contentHash": "sha256:e376b881381b046a5f925472e9aec46446f18fa1b35f27137317ece58b12cdf1",
   "surfaces": [
     {
       "id": "chat-thread",
