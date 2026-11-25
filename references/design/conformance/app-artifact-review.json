@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-artifact-review.html",
-  "contentHash": "sha256:95abd27045db77eba3f0010b661c8e744b0dce8d389194bec9493dfe7cbf61dd",
+  "contentHash": "sha256:1be0979cc445fc4a3b363d47b95050171c17282be36c9a81bfa63b0825f84eeb",
   "surfaces": [
     {
       "id": "run-surface",
@@ -672,7 +672,12 @@
           "source": "representation.content-form"
         }
       ],
-      "actions": [],
+      "actions": [
+        {
+          "action": "download-artifact",
+          "outcome": "file-downloaded"
+        }
+      ],
       "states": [
         "error",
         "kind:artifact",
@@ -697,7 +702,12 @@
     {
       "id": "slide-deck-display",
       "fields": [],
-      "actions": [],
+      "actions": [
+        {
+          "action": "download-artifact",
+          "outcome": "file-downloaded"
+        }
+      ],
       "states": [
         "error",
         "kind:artifact",
