@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "spec": "specs/app-lifecycle-cards.html",
-  "contentHash": "sha256:acd2a18767a42f267f76e8278ea023ed2d6e4df74905a683effcba91dbc950f2",
+  "contentHash": "sha256:edeb24fde7ee98299aa2383bf5a240e8f5bfc6cf71cbf7c11fce0fd1f636ed16",
   "surfaces": [
     {
       "id": "chat-thread",
@@ -1015,6 +1015,10 @@
         {
           "action": "continue-review",
           "outcome": "resolved"
+        },
+        {
+          "action": "download-artifact",
+          "outcome": "file-downloaded"
         }
       ],
       "states": [
@@ -1050,6 +1054,10 @@
         {
           "action": "continue-review",
           "outcome": "resolved"
+        },
+        {
+          "action": "download-artifact",
+          "outcome": "file-downloaded"
         }
       ],
       "states": [
