@@ -451,7 +451,7 @@
       <p class="lede">Five lifecycle cards — <b>review</b>, <b>recommendation</b>, <b>schedule proposal</b>, <b>verification</b> and <b>publish</b> — drawn where a reader actually meets them: <b>inside the chat conversation</b>, between one message and the next. Each card is the surface that already carries its work on its own page, <b>composed into the thread</b> rather than redrawn for it; every section names the page its surface comes from. Part of Cinatra Application Design; match it exactly.</p>
     </div>
     <div class="meta">
-      <div>Version 0.32.0</div>
+      <div>Version 0.33.0</div>
     </div>
   </div>
 
@@ -733,6 +733,7 @@
       <thead><tr><th>State</th><th>What the publish card draws</th></tr></thead>
       <tbody>
         <tr><td style="font-size:12.5px;color:var(--ink);">Pending</td><td style="font-size:12px;color:var(--ink);">Question, the agent&rsquo;s rows, the note field, Do not allow and Allow live (&sect;XV)</td></tr>
+        <tr><td style="font-size:12.5px;color:var(--ink);">Waiting for its items</td><td style="font-size:12px;color:var(--ink);">Question and rows; Allow disabled until every item of an items row is drawn, Do not allow and the note field live (&sect;XV.1)</td></tr>
         <tr><td style="font-size:12.5px;color:var(--ink);">Loading</td><td style="font-size:12px;color:var(--ink);">The card frame and placeholder lines; no control drawn</td></tr>
         <tr><td style="font-size:12.5px;color:var(--ink);">Restricted</td><td style="font-size:12px;color:var(--muted);">Question and rows; Do not allow and Allow disabled, the reason shown</td></tr>
         <tr><td style="font-size:12.5px;color:var(--ink);">No longer open</td><td style="font-size:12px;color:var(--muted);">This request is no longer open, with Refresh; no decision can be sent</td></tr>
@@ -2046,7 +2047,7 @@
   <div class="sect"><h2>XV. The publish card</h2><div class="rule"></div><div class="source">the external-write moment &middot; its own card kind &middot; Allow &middot; Do not allow &middot; declined &middot; expired</div></div>
   <p class="lede-p"><b>Nothing changes outside Cinatra before a person says so.</b> When a run reaches a step that its agent <b>declares as an external write</b>, a step that creates, changes or deletes data in a system outside Cinatra, the run <b>stops directly in front of that step</b>, at one confirmation that the application owns. Like the review card (&sect;II), the recommendation card (&sect;V) and the schedule card (&sect;VI), the publish card holds the run at a recorded moment until a person answers. It is its <b>own card kind</b> and the <b>same card for every external write</b>: no agent draws a confirmation of its own, and the card names no agent, site or service in its own words. Publishing a post, sending an email and saving a record in a connected CRM meet the <b>same question</b>; the agent&rsquo;s rows say what changes.</p>
   <p class="lede-p"><b>A publish card opens only after an approved review.</b> An approved review card (&sect;II) must come earlier in the same run, before any publish card opens. The review does not stand in for the publish card, and the publish card does not stand in for the review. They are two answers, and a different team member may give each one: one member reviews, and another member may answer the publish card. If a run reaches an external write and no approved review came before it, no publish card opens. The run <b>ends without writing</b>, nothing changes outside Cinatra, and the run records why.</p>
-  <p class="lede-p"><b>The card shows what the agent declares.</b> Under its question, the card draws the agent&rsquo;s <b>display name</b> and the <b>rows the declaring agent supplies</b> for this step, in the generic read-only view of label over value, one to four rows of the kinds drawn at &sect;XV.1. The labels and the values are the agent&rsquo;s words, so this drawing shows placeholders for them; the card adds only its question, its note field and its two controls. An agent adds <b>no preview</b> of its own. A row holds what a reader can judge, never an internal identifier. The rows are <b>read only</b>: this card decides <b>whether</b> the change is made, never what it holds. The rows are the agent&rsquo;s own words, and the agent makes the change itself. The application does not check them against what the agent writes.</p>
+  <p class="lede-p"><b>The card shows what the agent declares.</b> Under its question, the card draws the agent&rsquo;s <b>display name</b> and the <b>rows the declaring agent supplies</b> for this step, in the generic read-only view of label over value, one to four rows of the kinds drawn at &sect;XV.1. The labels and the values are the agent&rsquo;s words, so this drawing shows placeholders for them; the card adds only its question, its note field, its two controls and the line that says <b>Allow</b> waits for the items (&sect;XV.1). An agent adds <b>no preview</b> of its own. A row holds what a reader can judge, never an internal identifier. The rows are <b>read only</b>: this card decides <b>whether</b> the change is made, never what it holds. The rows are the agent&rsquo;s own words, and the agent makes the change itself. The application does not check them against what the agent writes.</p>
   <p class="lede-p"><b>Two controls, and each one is the answer.</b> <b>Allow</b> releases the run, and the agent&rsquo;s <b>own step</b> runs, exactly as it would without the card. <b>Do not allow</b> ends the run: nothing changes outside Cinatra, that step and the steps after it do not run, the run&rsquo;s status is <b>stopped</b>, the run page reads <b>Not allowed</b>, and the run records <b>who declined</b>, <b>when</b>, and the <b>reason</b> if one was written in the note field. There is <b>no Continue</b> beneath them and no third control, so a decline never travels the road an approval takes.</p>
   <p class="lede-p"><b>Three settled readings, and the card keeps its place.</b> Once settled, the controls and the note field leave it, its rows stay on screen read-only, and a marker below the whole card says what happened: <b>Allowed</b>, <b>Not allowed</b> or <b>Expired</b>. A request that no one answers within <b>24 hours</b> <b>expires</b>, and an expired request is a decline: nothing changes outside Cinatra and the run ends. The expired marker says that <b>no person decided</b>, so a reader is never told that someone declined.</p>
 <div class="ex"><div class="cap">Example &mdash; the publish card in the assistant turn, waiting for a decision</div><div class="body"><div class="thread"><div class="tbar">Chat<span class="sep">&rsaquo;</span><b>A conversation</b></div><div class="stream"><div class="col"><div class="turn user"><div class="who"><span>Dana Okafor</span><span class="av">DO</span></div><div class="bubble">Run the agent.</div><div class="acts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div></div></div><div class="col"><div class="turn bot"><div class="who"><span class="av"><svg viewBox="0 0 512 512" fill="currentColor"><g transform="translate(256 256) scale(1.04) translate(-256 -160)"><path d="M72 214 C 72 200 96 190 130 188 C 168 186 196 200 256 210 C 316 220 358 214 400 200 C 426 192 440 196 440 208 C 440 222 420 234 388 242 C 340 254 288 256 256 256 C 202 256 132 248 100 238 C 80 232 72 224 72 214 Z"/><path d="M146 188 C 150 130 176 86 212 72 C 226 66 240 64 252 64 C 262 64 270 70 268 80 L 264 100 C 272 88 288 82 300 82 C 332 82 356 118 362 188 Z"/></g></svg></span><span>Cinatra</span></div><div class="prose" style="margin-bottom:2px;">The run is ready to make a change outside Cinatra. Nothing changes until you decide.</div><div class="slot" data-conformance-id="publish-card" data-state="loading error">
@@ -2126,7 +2127,9 @@
   <p class="lede-p"><b>One to four rows, in the order the agent declares them.</b> A row is one of <b>three kinds</b>, and every kind is a label over its value. A <b>text</b> row draws one value. A <b>list</b> row draws a compact table: <b>one to four columns</b> under their labels, one line per record, every cell plain text, an empty cell where a record has no value. The card draws at most <b>50 records</b> of a list, and a line under the table says how many more there are. An <b>items</b> row shows the items the run made, in the same target panel the review card draws (&sect;II), with that panel&rsquo;s loading and retry readings; each item shows as that reader&rsquo;s access lets them see it. A row of any other kind draws <b>nothing</b>.</p>
   <p class="lede-p"><b>An items row never vanishes.</b> When the agent&rsquo;s value is not a set of items the card can read or open, the row says <b>These items could not be shown.</b> under its label. The panel shows the run&rsquo;s own items only: when one of the items was not made by this run, it shows <b>none of them</b> and stays empty. No item the run did not make is drawn as if it were the run&rsquo;s.</p>
   <p class="lede-p"><b>The rows keep their kind in every state.</b> A restricted card and the three settled readings draw the same rows, read only. A table wider than the card scrolls inside its own frame, never the page.</p>
-<div class="ex" data-conformance-id="publish-card-rows" data-state="loading error"><div class="cap">Example &mdash; the card waiting for a decision, with a text row, a list row and an items row</div><div class="body"><div style="max-width:620px;">
+  <p class="lede-p"><b>Allow waits for the items.</b> The items of an items row are the same pinned revisions the person reviewed earlier in the run, so the panel normally draws them at once and the wait is brief. Until every item is drawn, <b>Allow</b> is shown but <b>disabled</b>, so nothing is released that was not on screen; <b>Do not allow</b> and the note field stay live, and a person can decline at any time. Once every item is drawn, <b>Allow</b> is live. When the panel does not load, stays empty, or the row says that its items could not be shown, <b>Allow</b> stays disabled and a line under the controls says <b>Allow waits until the items are shown.</b> A panel that did not load draws its own <b>Try again</b>, which loads it again; the card adds no control of its own. A row whose items could not be shown, and a panel that stays empty, have nothing to load again, so <b>Do not allow</b> is the answer left. The rule holds for every <b>Allow</b> on a card with an items row, Allow again included. A card without an items row is unchanged.</p>
+  <p class="lede-p"><b>The wait is announced with its reason.</b> The disabled <b>Allow</b> takes the restricted reading&rsquo;s pattern (&sect;IV): a disabled control with its reason on screen, and no tooltip. The reason line is the button&rsquo;s description, so the button is announced as unavailable together with that line. While the panel loads, the line is not drawn; the same sentence is the button&rsquo;s description, read and not shown.</p>
+<div class="ex" data-conformance-id="publish-card-rows" data-state="loading error"><div class="cap">Example &mdash; the card waiting for a decision, with a text row, a list row and an items row that is still loading: Allow waits</div><div class="body"><div style="max-width:620px;">
       <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
         <div style="padding:11px 14px;border-bottom:1px solid var(--line);">
           <span style="font-family:var(--font-sans);font-weight:700;font-size:13.5px;color:var(--ink);">Allow this change outside Cinatra?</span>
@@ -2155,12 +2158,53 @@
         </div>
         <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px;padding:0 14px 13px;">
           <button type="button" class="btn outline" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Do not allow</button>
+          <button type="button" class="btn primary" disabled style="padding:6px 14px;font-size:12.5px;cursor:not-allowed;">Allow</button>
+        </div>
+      </div>
+    </div></div></div>
+  <p class="note-line">Three rows of the four a card may carry. The table is shortened to three records; the card draws up to 50 and names the rest in the line beneath it. The items panel is shown while it loads, and <b>Allow</b> is disabled until it has drawn every item; <b>Do not allow</b> stays live. Once loaded, the panel draws each item as the review card&rsquo;s target panel does (&sect;II, &sect;III). The note field is drawn at &sect;XV and is left out here.</p>
+<div class="ex" data-conformance-id="publish-card-items-shown"><div class="cap">Example &mdash; the same items row once every item is drawn: Allow is live</div><div class="body"><div style="max-width:620px;">
+      <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+        <div style="padding:11px 14px;border-bottom:1px solid var(--line);">
+          <span style="font-family:var(--font-sans);font-weight:700;font-size:13.5px;color:var(--ink);">Allow this change outside Cinatra?</span>
+          <p style="margin:4px 0 0;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);">Agent display name &middot; nothing outside Cinatra has changed yet</p>
+        </div>
+        <div style="padding:12px 14px;display:grid;gap:9px;">
+          <div><div class="kick" data-field="row-label=declaration.row.label" style="font-size:9px;margin-bottom:2px;">Items label</div>
+            <div data-field="row-items=declaration.row.input" style="margin-top:4px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+              <div style="padding:10px 12px;display:grid;gap:8px;"><div><p style="margin:0;font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">First item</p><p style="margin:2px 0 0;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);">the revision you reviewed</p></div><div><p style="margin:0;font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">Second item</p><p style="margin:2px 0 0;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);">the revision you reviewed</p></div></div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px;padding:0 14px 13px;">
+          <button type="button" class="btn outline" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Do not allow</button>
           <button type="button" class="btn primary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Allow</button>
         </div>
       </div>
     </div></div></div>
-  <p class="note-line">Three rows of the four a card may carry. The table is shortened to three records; the card draws up to 50 and names the rest in the line beneath it. The items panel is shown while it loads; once loaded it draws each item as the review card&rsquo;s target panel does (&sect;II, &sect;III). The note field is drawn at &sect;XV and is left out here.</p>
-<div class="ex" data-conformance-id="publish-row-items-refused" data-state="error"><div class="cap">Example &mdash; an items row whose items could not be shown</div><div class="body"><div style="max-width:620px;">
+  <p class="note-line">The panel has drawn both items, each at the revision the person reviewed, and <b>Allow</b> is live. The items stand in the panel as the review card&rsquo;s target panel draws them (&sect;II, &sect;III).</p>
+<div class="ex" data-conformance-id="publish-card-items-failed" data-state="error"><div class="cap">Example &mdash; an items panel that did not load: Allow waits, with the reason, and the panel&rsquo;s own Try again</div><div class="body"><div style="max-width:620px;">
+      <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+        <div style="padding:11px 14px;border-bottom:1px solid var(--line);">
+          <span style="font-family:var(--font-sans);font-weight:700;font-size:13.5px;color:var(--ink);">Allow this change outside Cinatra?</span>
+          <p style="margin:4px 0 0;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;color:var(--muted);">Agent display name &middot; nothing outside Cinatra has changed yet</p>
+        </div>
+        <div style="padding:12px 14px;display:grid;gap:9px;">
+          <div><div class="kick" data-field="row-label=declaration.row.label" style="font-size:9px;margin-bottom:2px;">Items label</div>
+            <div data-field="row-items=declaration.row.input" style="margin-top:4px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+              <div style="padding:14px 12px;display:grid;place-items:center;text-align:center;gap:4px;"><p style="margin:0;font-family:var(--font-sans);font-weight:600;font-size:12.5px;color:var(--ink);">The preview did not load</p><button type="button" class="btn link" data-action="retry-review-target-island -> reload" style="padding:0;font-size:12px;cursor:pointer;">Try again</button></div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px;padding:0 14px 13px;">
+          <button type="button" class="btn outline" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Do not allow</button>
+          <button type="button" class="btn primary" disabled aria-describedby="publish-allow-waits-failed" style="padding:6px 14px;font-size:12.5px;cursor:not-allowed;">Allow</button>
+        </div>
+        <p id="publish-allow-waits-failed" data-conformance-id="publish-allow-waits-failed" style="margin:0;padding:0 14px 13px;font-size:11.5px;color:var(--muted);line-height:1.5;text-align:right;">Allow waits until the items are shown.</p>
+      </div>
+    </div></div></div>
+  <p class="note-line"><b>Try again</b> belongs to the panel and loads it again; once every item is drawn, the line leaves and <b>Allow</b> is live. <b>Do not allow</b> stays live throughout.</p>
+<div class="ex" data-conformance-id="publish-row-items-refused" data-state="error"><div class="cap">Example &mdash; an items row whose items could not be shown: Allow waits, with the reason</div><div class="body"><div style="max-width:620px;">
       <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
         <div style="padding:11px 14px;border-bottom:1px solid var(--line);">
           <span style="font-family:var(--font-sans);font-weight:700;font-size:13.5px;color:var(--ink);">Allow this change outside Cinatra?</span>
@@ -2171,21 +2215,29 @@
         </div>
         <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px;padding:0 14px 13px;">
           <button type="button" class="btn outline" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Do not allow</button>
-          <button type="button" class="btn primary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Allow</button>
+          <button type="button" class="btn primary" disabled aria-describedby="publish-allow-waits-refused" style="padding:6px 14px;font-size:12.5px;cursor:not-allowed;">Allow</button>
         </div>
+        <p id="publish-allow-waits-refused" data-conformance-id="publish-allow-waits-refused" style="margin:0;padding:0 14px 13px;font-size:11.5px;color:var(--muted);line-height:1.5;text-align:right;">Allow waits until the items are shown.</p>
       </div>
     </div></div></div>
-  <p class="note-line">The row keeps its label and draws no panel, so the card never draws items it cannot show; the person still decides with that line in view.</p>
-<div class="ex" data-conformance-id="publish-row-items-empty" data-state="empty"><div class="cap">Example &mdash; an items row with an item the run did not make: the panel stays empty</div><div class="body"><div style="max-width:620px;">
-      <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);padding:12px 14px;">
-        <div><div class="kick" data-field="row-label=declaration.row.label" style="font-size:9px;margin-bottom:2px;">Items label</div>
-          <div data-field="row-items=declaration.row.input" style="margin-top:4px;height:36px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);"></div>
+  <p class="note-line">The row keeps its label and draws no panel, so the card never draws items it cannot show. There is no panel to load again, so <b>Allow</b> stays disabled and <b>Do not allow</b> is the answer left, with both lines in view.</p>
+<div class="ex" data-conformance-id="publish-row-items-empty" data-state="empty"><div class="cap">Example &mdash; an items row with an item the run did not make: the panel stays empty, and Allow waits</div><div class="body"><div style="max-width:620px;">
+      <div style="border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);overflow:hidden;">
+        <div style="padding:12px 14px;">
+          <div><div class="kick" data-field="row-label=declaration.row.label" style="font-size:9px;margin-bottom:2px;">Items label</div>
+            <div data-field="row-items=declaration.row.input" style="margin-top:4px;height:36px;border:1px solid var(--line);border-radius:8px;background:var(--surface-strong);"></div>
+          </div>
         </div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px;padding:0 14px 13px;">
+          <button type="button" class="btn outline" style="padding:6px 14px;font-size:12.5px;cursor:pointer;">Do not allow</button>
+          <button type="button" class="btn primary" disabled aria-describedby="publish-allow-waits-empty" style="padding:6px 14px;font-size:12.5px;cursor:not-allowed;">Allow</button>
+        </div>
+        <p id="publish-allow-waits-empty" data-conformance-id="publish-allow-waits-empty" style="margin:0;padding:0 14px 13px;font-size:11.5px;color:var(--muted);line-height:1.5;text-align:right;">Allow waits until the items are shown.</p>
       </div>
     </div></div></div>
-  <p class="note-line">The panel keeps its frame and draws nothing in it: not the run&rsquo;s items, and not the item it did not make. The rest of the card is as above.</p>
+  <p class="note-line">The panel keeps its frame and draws nothing in it: not the run&rsquo;s items, and not the item it did not make. Nothing was drawn, so <b>Allow</b> stays disabled with the line beneath it. The question and the rest of the card are as above.</p>
   <footer>
-    <span>Cinatra · Application Design — Lifecycle cards in the conversation v0.32.0</span><!-- source-leak-allow -->
+    <span>Cinatra · Application Design — Lifecycle cards in the conversation v0.33.0</span><!-- source-leak-allow -->
     <span>Set in Archivo · Set on cream</span>
   </footer>
 </div>
